@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/transaction_record.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script th:src="@{js/jquery-1.12.4.js}"></script>
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
+    
+</head>
+<body>
+<!--成交记录-->
+<div class="rightarea clearfix">
+    <div class="mainarea clearfix">
+        <div class="mainhead">
+            <span class="title">成交记录</span>
+
+            <div class="list search">
+                <input class="inputtext" type="text" placeholder="查找">
+                <a href="javascript:;" class="search-btn"></a>
+            </div>
+            <div class="list">
+                <input type="date" class="form-control">
+            </div>
+            <div class="list">
+                -
+            </div>
+            <div class="list">
+                <input type="date" class="form-control">
+            </div>
+            <div class="list">
+                <input type="checkbox">按商品
+            </div>
+            <div class="list">
+                <input type="checkbox">按订单
+            </div>
+        </div>
+        <div class="mainbody">
+            <table class="settable table table-striped">
+                <thead>
+                    <tr>
+                        <th width="8%">序号</th>
+                        <th width="18%">订单号</th>
+                        <th width="12%">姓名</th>
+                        <th width="12%">手机</th>
+                        <th width="10%">数量</th>
+                        <th width="12%">金额</th>
+                        <th width="10%">支付方式</th>
+                        <th width="18%">日期</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        1
+                    </td>
+                    <td >
+                        1
+                    </td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5">合计</td>
+                    <td class="order_nums">67</td>
+                    <td class="order_amounts">15,056.00</td>
+                    <td>-</td>
+<!--
+                    <td>-</td>
+-->
+                </tr>
+                </tfoot>
+            </table>
+            <!--分页按钮-->
+            <div class="pagebar">
+                <div class="pagetion">
+                    <div class="page">
+                        <ul class="pagination">
+                            <li>
+                                <a href="javascript:;">
+                                    首页
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    &laquo;
+                                </a>
+                            </li>
+                            <li>
+                                <span style="font-size: 14px;">1/5</span>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    &raquo;
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    尾页
+                                </a>
+                            </li>
+                            <li style="margin-left: 20px; float:left;">
+                                <input type="text" class="form-control" style="width: 100px;">
+                            </li>
+                            <li style="margin-left: 15px; float:left;">
+                                <a href="javascript:;" class="btn btn-default">
+                                    跳转
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

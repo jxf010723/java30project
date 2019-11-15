@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.StaffMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Staff" >
+    <id column="staffID" property="staffid" jdbcType="INTEGER" />
+    <result column="shopID" property="shopid" jdbcType="INTEGER" />
+    <result column="shopName" property="shopname" jdbcType="VARCHAR" />
+    <result column="roleID" property="roleid" jdbcType="INTEGER" />
+    <result column="jobNumber" property="jobnumber" jdbcType="VARCHAR" />
+    <result column="employeeName" property="employeename" jdbcType="VARCHAR" />
+    <result column="passWord" property="password" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    staffID, shopID, shopName, roleID, jobNumber, employeeName, passWord
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.StaffExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from staff
+    where staffID = #{staffid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from staff
+    where staffID = #{staffid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.StaffExample" >
+    delete from staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Staff" >
+    insert into staff (staffID, shopID, shopName, 
+      roleID, jobNumber, employeeName, 
+      passWord)
+    values (#{staffid,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{shopname,jdbcType=VARCHAR}, 
+      #{roleid,jdbcType=INTEGER}, #{jobnumber,jdbcType=VARCHAR}, #{employeename,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Staff" >
+    insert into staff
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="staffid != null" >
+        staffID,
+      </if>
+      <if test="shopid != null" >
+        shopID,
+      </if>
+      <if test="shopname != null" >
+        shopName,
+      </if>
+      <if test="roleid != null" >
+        roleID,
+      </if>
+      <if test="jobnumber != null" >
+        jobNumber,
+      </if>
+      <if test="employeename != null" >
+        employeeName,
+      </if>
+      <if test="password != null" >
+        passWord,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="staffid != null" >
+        #{staffid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="shopname != null" >
+        #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="jobnumber != null" >
+        #{jobnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="employeename != null" >
+        #{employeename,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.StaffExample" resultType="java.lang.Integer" >
+    select count(*) from staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update staff
+    <set >
+      <if test="record.staffid != null" >
+        staffID = #{record.staffid,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        shopID = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopname != null" >
+        shopName = #{record.shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleid != null" >
+        roleID = #{record.roleid,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobnumber != null" >
+        jobNumber = #{record.jobnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeename != null" >
+        employeeName = #{record.employeename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        passWord = #{record.password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update staff
+    set staffID = #{record.staffid,jdbcType=INTEGER},
+      shopID = #{record.shopid,jdbcType=INTEGER},
+      shopName = #{record.shopname,jdbcType=VARCHAR},
+      roleID = #{record.roleid,jdbcType=INTEGER},
+      jobNumber = #{record.jobnumber,jdbcType=VARCHAR},
+      employeeName = #{record.employeename,jdbcType=VARCHAR},
+      passWord = #{record.password,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Staff" >
+    update staff
+    <set >
+      <if test="shopid != null" >
+        shopID = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="shopname != null" >
+        shopName = #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        roleID = #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="jobnumber != null" >
+        jobNumber = #{jobnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="employeename != null" >
+        employeeName = #{employeename,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        passWord = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where staffID = #{staffid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Staff" >
+    update staff
+    set shopID = #{shopid,jdbcType=INTEGER},
+      shopName = #{shopname,jdbcType=VARCHAR},
+      roleID = #{roleid,jdbcType=INTEGER},
+      jobNumber = #{jobnumber,jdbcType=VARCHAR},
+      employeeName = #{employeename,jdbcType=VARCHAR},
+      passWord = #{password,jdbcType=VARCHAR}
+    where staffID = #{staffid,jdbcType=INTEGER}
+  </update>
+</mapper>

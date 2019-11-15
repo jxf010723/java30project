@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/store_management.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
+    <style>
+    	.modal-backdrop {
+		  /* opacity: 0 !important;
+		  filter: alpha(opacity=0) !important;//解决背景颜色加深问题 */
+		}
+    </style>
+</head>
+<body>
+        <div class="rightarea clearfix" id="content">
+            <div class="mainarea clearfix" id="querystore">
+                <div class="user_list_main clearfix">
+                    <div class="user_list_body clearfix">
+                        <div class="sub_title">门店列表</div>
+                        
+                        <!-- Button trigger modal -->
+                        
+						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" style="float: right;position: relative;top: -23px;">
+						  添加门店
+						</button>
+						
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Save changes</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+                        
+                        <!-- <div class="btn btn-warning" style="float: right;position: relative;top: -23px;">添加门店</div> -->
+                        <table class="clearfix settable">
+                            <thead>
+                                <tr>
+                                    <th width="4%">序号</th>
+                                    <th width="14%">账号</th>
+                                    <th width="14%">店名</th>
+                                    <th width="5%">员工</th>
+                                    <th width="10%">联系人</th>
+                                    <th width="10%">手机</th>
+                                    <th width="10%">电话</th>
+                                    <th width="*">地址</th>
+                                    <th width="8%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in page.list">
+                                    <td>{{item.shopid}}</td>
+                                    <td>{{item.shopuser}}</td>
+                                    <td>{{item.shopname}}</td>
+                                    <td>{{item.shopname}}</td>
+                                    <td>{{item.contacts}}</td>
+                                    <td>{{item.phonenumber}}</td>
+                                    <td>{{item.phone}}</td>
+                                    <td>{{item.address}}</td>
+                                    <td>
+                                        <a href="javascript:;" @click="updateStore(item.shopid)">编辑</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="prompt">注：可添加多家门店，系统自动分配订单到附近门店。</p>
+                    </div>
+                    
+                    <!--分页按钮-->
+                	<!-- <div class="pagebar" style="text-align: center">
+	                    <div class="pagetion">
+	                       <div class="page">
+                               <ul class="pagination">
+                                   <li>
+                                       <a @click="getPage(1)" href="javascript:;">首页</a>
+                                   </li>
+                                   <li>
+                                       <a @click="getPage(page.prePage)" href="javascript:;">&laquo;</a>
+                                   </li>
+                                   <li>
+                                       <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
+                                       <span v-for="a in page.pages">{{a}}</span>
+                                   </li>
+                                   <li>
+                                       <a @click="getPage(page.nextPage)" href="javascript:;">&raquo;</a>
+                                   </li>
+                                   <li>
+                                       <a @click="getPage(page.pages)" href="javascript:;">尾页</a>
+                                   </li>
+                                   <li style="margin-left: 20px; float:left;">
+                                       <input name="tz" type="text" class="form-control" style="width: 100px;">
+                                   </li>
+                                   <li style="margin-left: 15px; float:left;">
+                                       <a @click="tz" href="javascript:;" class="btn btn-default">跳转</a>
+                                   </li>
+                               </ul>
+	                       </div>
+	                    </div>
+
+                	</div> -->
+                </div>
+            </div>
+            
+            <div id="noneUpdate">
+            	编辑门店
+            	<button @click="blockStore">返回</button>
+            	<button @click="storeUpdate()">确定</button>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+        	$(function(){
+        		$("#querystore").show();
+        		$("#noneUpdate").hide();
+        	})
+        	
+        	
+        </script>
+        <script type="text/javascript">
+        	var storeVue = new Vue({
+        		el:"#content",
+        		data(){
+        			return {
+        				page:{
+        					list:[]
+        				}
+        			}
+        		},
+        		methods:{
+        			updateStore:function(shopid){
+        				$("#querystore").hide();
+        				$("#noneUpdate").show();
+        			},
+        			blockStore:function(){
+        				$("#noneUpdate").hide();
+        				$("#querystore").show();
+        			},
+        			getPage:function(pageNum){
+        				var that = this;
+            			$.ajax({
+            				url:"[[@{shop/queryShopList}]]",
+            				data:"pageNum="+pageNum+"&pageSize=1",
+            				success:function(result){
+            					console.log(result);
+            					that.page = result;
+            				}
+            			});
+        			}
+        		},
+        		created:function(){
+        			this.getPage(1);
+        		}
+        	});
+        </script>
+</body>
+</html>
