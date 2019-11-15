@@ -32,6 +32,7 @@ public class ShopController {
 		if(user!=null) {
 			HttpSession session=request.getSession();//获取session并将userName存入session对象
 			session.setAttribute("user", user);
+			System.out.println(111);
 		}
 		return user;
 		
