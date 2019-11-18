@@ -3,6 +3,8 @@ package com.accp.domain;
 public class Goods {
     private Integer goodsid;
 
+    private Integer shopid;
+
     private Integer typeid;
 
     private Integer supplierid;
@@ -31,6 +33,14 @@ public class Goods {
 
     public void setGoodsid(Integer goodsid) {
         this.goodsid = goodsid;
+    }
+
+    public Integer getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(Integer shopid) {
+        this.shopid = shopid;
     }
 
     public Integer getTypeid() {

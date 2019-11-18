@@ -1,15 +1,11 @@
 package com.accp.domain;
 
-import java.util.Date;
-
 public class Shop {
     private Integer shopid;
 
     private Integer shopuser;
 
     private String shopname;
-
-    private Integer staffid;
 
     private String contacts;
 
@@ -19,9 +15,9 @@ public class Shop {
 
     private String address;
 
-    private Date starttime;
+    private String starttime;
 
-    private Date endtime;
+    private String endtime;
 
     private String province;
 
@@ -29,20 +25,13 @@ public class Shop {
 
     private String region;
 
+    private String detailaddress;
+
     private String introduction;
 
     private String shopimg;
-    
 
-    public Integer getStaffid() {
-		return staffid;
-	}
-
-	public void setStaffid(Integer staffid) {
-		this.staffid = staffid;
-	}
-
-	public Integer getShopid() {
+    public Integer getShopid() {
         return shopid;
     }
 
@@ -98,19 +87,19 @@ public class Shop {
         this.address = address;
     }
 
-    public Date getStarttime() {
+    public String getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Date starttime) {
+    public void setStarttime(String starttime) {
         this.starttime = starttime;
     }
 
-    public Date getEndtime() {
+    public String getEndtime() {
         return endtime;
     }
 
-    public void setEndtime(Date endtime) {
+    public void setEndtime(String endtime) {
         this.endtime = endtime;
     }
 
@@ -136,6 +125,14 @@ public class Shop {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getDetailaddress() {
+        return detailaddress;
+    }
+
+    public void setDetailaddress(String detailaddress) {
+        this.detailaddress = detailaddress;
     }
 
     public String getIntroduction() {

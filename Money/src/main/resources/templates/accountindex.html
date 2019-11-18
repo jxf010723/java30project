@@ -3,13 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/accountindex.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <script th:src="@{js/jquery-1.12.4.js}"></script>
-    <script th:src="@{js/bootstrap.js}"></script>
-    <script type="text/javascript" th:src="@{js/vue.js}"></script>
     
 </head>
 <body>
@@ -17,7 +11,7 @@
     <div class="area clearfix content-in">
         <!--左边导航-->
         <div class="navlist">
-            <ul class=" nav nav-tabs">
+            <ul class=" nav nav-tabs account">
                 <li class="navindex current" data-id="accountinfo">
                     <a href="javascript:;">账户信息</a>
                 </li>
@@ -37,27 +31,38 @@
         </div>
     </div>
     <script type="text/javascript">
-        $(function () {
+        	$(function () {
                 var newDiv = $(`<div data-id="accountinfo"  class="tab-pane active">`);
-                newDiv.load("accountinfo.html");
-                $(".tab-content").append(newDiv)
+                $.ajax({
+                	type:"post",
+                	url:"/money",
+                	data:{dataid:"accountinfo"},
+                	dataType:"html",
+                	success:function(res){
+                		newDiv.append(res);
+                		 $(".accountcontent").append(newDiv);
+                	}
+                });
+                
             });
-        $(".navlist li ").click(function () {
-
-            $(".navlist li").click(function () {
-
-                let dataid=$(this).attr("data-id");
-
-                $(".navlist li").removeClass("active");
-                $(this).addClass("active");
-
-                $(".tab-content div").removeClass("active");
-                var newDiv = $(`<div data-id="${dataid}"  class="tab-pane active">`);
-                newDiv.load(dataid+".html");
-                $(".tab-content").append(newDiv)
-
+        
+        $(".account li").click(function () {
+            $(".accountcontent>div").remove();
+            let dataid=$(this).attr("data-id");
+            
+            var newDiv = $(`<div data-id="${dataid}"  class="tab-pane active">`);
+            $.ajax({
+            	type:"post",
+            	url:"/money",
+            	data:{dataid:dataid},
+            	dataType:"html",
+            	success:function(res){
+            		newDiv.append(res);
+            		 $(".accountcontent").append(newDiv);
+            	}
             });
         });
+   
     </script>
 </body>
 </html>

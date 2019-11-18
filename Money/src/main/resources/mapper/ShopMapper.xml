@@ -5,16 +5,16 @@
     <id column="shopid" property="shopid" jdbcType="INTEGER" />
     <result column="shopUser" property="shopuser" jdbcType="INTEGER" />
     <result column="shopName" property="shopname" jdbcType="VARCHAR" />
-    <result column="userid" property="userid" jdbcType="INTEGER" />
     <result column="contacts" property="contacts" jdbcType="VARCHAR" />
     <result column="phoneNumber" property="phonenumber" jdbcType="INTEGER" />
     <result column="phone" property="phone" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="startTime" property="starttime" jdbcType="DATE" />
-    <result column="endTime" property="endtime" jdbcType="DATE" />
+    <result column="startTime" property="starttime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endtime" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="detailAddress" property="detailaddress" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="shopImg" property="shopimg" jdbcType="VARCHAR" />
   </resultMap>
@@ -77,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    shopid, shopUser, shopName, userid, contacts, phoneNumber, phone, address, startTime, 
-    endTime, province, city, region, introduction, shopImg
+    shopid, shopUser, shopName, contacts, phoneNumber, phone, address, startTime, endTime, 
+    province, city, region, detailAddress, introduction, shopImg
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.ShopExample" >
     select
@@ -112,16 +112,16 @@
   </delete>
   <insert id="insert" parameterType="com.accp.domain.Shop" >
     insert into shop (shopid, shopUser, shopName, 
-      userid, contacts, phoneNumber, 
-      phone, address, startTime, 
-      endTime, province, city, 
-      region, introduction, shopImg
+      contacts, phoneNumber, phone, 
+      address, startTime, endTime, 
+      province, city, region, 
+      detailAddress, introduction, shopImg
       )
     values (#{shopid,jdbcType=INTEGER}, #{shopuser,jdbcType=INTEGER}, #{shopname,jdbcType=VARCHAR}, 
-      #{userid,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR}, #{phonenumber,jdbcType=INTEGER}, 
-      #{phone,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{starttime,jdbcType=DATE}, 
-      #{endtime,jdbcType=DATE}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{region,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{shopimg,jdbcType=VARCHAR}
+      #{contacts,jdbcType=VARCHAR}, #{phonenumber,jdbcType=INTEGER}, #{phone,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{starttime,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
+      #{detailaddress,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{shopimg,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.Shop" >
@@ -135,9 +135,6 @@
       </if>
       <if test="shopname != null" >
         shopName,
-      </if>
-      <if test="userid != null" >
-        userid,
       </if>
       <if test="contacts != null" >
         contacts,
@@ -166,6 +163,9 @@
       <if test="region != null" >
         region,
       </if>
+      <if test="detailaddress != null" >
+        detailAddress,
+      </if>
       <if test="introduction != null" >
         introduction,
       </if>
@@ -183,9 +183,6 @@
       <if test="shopname != null" >
         #{shopname,jdbcType=VARCHAR},
       </if>
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
-      </if>
       <if test="contacts != null" >
         #{contacts,jdbcType=VARCHAR},
       </if>
@@ -199,10 +196,10 @@
         #{address,jdbcType=VARCHAR},
       </if>
       <if test="starttime != null" >
-        #{starttime,jdbcType=DATE},
+        #{starttime,jdbcType=VARCHAR},
       </if>
       <if test="endtime != null" >
-        #{endtime,jdbcType=DATE},
+        #{endtime,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         #{province,jdbcType=VARCHAR},
@@ -212,6 +209,9 @@
       </if>
       <if test="region != null" >
         #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="detailaddress != null" >
+        #{detailaddress,jdbcType=VARCHAR},
       </if>
       <if test="introduction != null" >
         #{introduction,jdbcType=VARCHAR},
@@ -239,9 +239,6 @@
       <if test="record.shopname != null" >
         shopName = #{record.shopname,jdbcType=VARCHAR},
       </if>
-      <if test="record.userid != null" >
-        userid = #{record.userid,jdbcType=INTEGER},
-      </if>
       <if test="record.contacts != null" >
         contacts = #{record.contacts,jdbcType=VARCHAR},
       </if>
@@ -255,10 +252,10 @@
         address = #{record.address,jdbcType=VARCHAR},
       </if>
       <if test="record.starttime != null" >
-        startTime = #{record.starttime,jdbcType=DATE},
+        startTime = #{record.starttime,jdbcType=VARCHAR},
       </if>
       <if test="record.endtime != null" >
-        endTime = #{record.endtime,jdbcType=DATE},
+        endTime = #{record.endtime,jdbcType=VARCHAR},
       </if>
       <if test="record.province != null" >
         province = #{record.province,jdbcType=VARCHAR},
@@ -268,6 +265,9 @@
       </if>
       <if test="record.region != null" >
         region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailaddress != null" >
+        detailAddress = #{record.detailaddress,jdbcType=VARCHAR},
       </if>
       <if test="record.introduction != null" >
         introduction = #{record.introduction,jdbcType=VARCHAR},
@@ -285,16 +285,16 @@
     set shopid = #{record.shopid,jdbcType=INTEGER},
       shopUser = #{record.shopuser,jdbcType=INTEGER},
       shopName = #{record.shopname,jdbcType=VARCHAR},
-      userid = #{record.userid,jdbcType=INTEGER},
       contacts = #{record.contacts,jdbcType=VARCHAR},
       phoneNumber = #{record.phonenumber,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
-      startTime = #{record.starttime,jdbcType=DATE},
-      endTime = #{record.endtime,jdbcType=DATE},
+      startTime = #{record.starttime,jdbcType=VARCHAR},
+      endTime = #{record.endtime,jdbcType=VARCHAR},
       province = #{record.province,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       region = #{record.region,jdbcType=VARCHAR},
+      detailAddress = #{record.detailaddress,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=VARCHAR},
       shopImg = #{record.shopimg,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -310,9 +310,6 @@
       <if test="shopname != null" >
         shopName = #{shopname,jdbcType=VARCHAR},
       </if>
-      <if test="userid != null" >
-        userid = #{userid,jdbcType=INTEGER},
-      </if>
       <if test="contacts != null" >
         contacts = #{contacts,jdbcType=VARCHAR},
       </if>
@@ -326,10 +323,10 @@
         address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="starttime != null" >
-        startTime = #{starttime,jdbcType=DATE},
+        startTime = #{starttime,jdbcType=VARCHAR},
       </if>
       <if test="endtime != null" >
-        endTime = #{endtime,jdbcType=DATE},
+        endTime = #{endtime,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         province = #{province,jdbcType=VARCHAR},
@@ -339,6 +336,9 @@
       </if>
       <if test="region != null" >
         region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="detailaddress != null" >
+        detailAddress = #{detailaddress,jdbcType=VARCHAR},
       </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=VARCHAR},
@@ -353,16 +353,16 @@
     update shop
     set shopUser = #{shopuser,jdbcType=INTEGER},
       shopName = #{shopname,jdbcType=VARCHAR},
-      userid = #{userid,jdbcType=INTEGER},
       contacts = #{contacts,jdbcType=VARCHAR},
       phoneNumber = #{phonenumber,jdbcType=INTEGER},
       phone = #{phone,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
-      startTime = #{starttime,jdbcType=DATE},
-      endTime = #{endtime,jdbcType=DATE},
+      startTime = #{starttime,jdbcType=VARCHAR},
+      endTime = #{endtime,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       region = #{region,jdbcType=VARCHAR},
+      detailAddress = #{detailaddress,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=VARCHAR},
       shopImg = #{shopimg,jdbcType=VARCHAR}
     where shopid = #{shopid,jdbcType=INTEGER}

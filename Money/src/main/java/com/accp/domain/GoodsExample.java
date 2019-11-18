@@ -164,6 +164,66 @@ public class GoodsExample {
             return (Criteria) this;
         }
 
+        public Criteria andShopidIsNull() {
+            addCriterion("shopid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidIsNotNull() {
+            addCriterion("shopid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidEqualTo(Integer value) {
+            addCriterion("shopid =", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidNotEqualTo(Integer value) {
+            addCriterion("shopid <>", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidGreaterThan(Integer value) {
+            addCriterion("shopid >", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("shopid >=", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidLessThan(Integer value) {
+            addCriterion("shopid <", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidLessThanOrEqualTo(Integer value) {
+            addCriterion("shopid <=", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidIn(List<Integer> values) {
+            addCriterion("shopid in", values, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidNotIn(List<Integer> values) {
+            addCriterion("shopid not in", values, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidBetween(Integer value1, Integer value2) {
+            addCriterion("shopid between", value1, value2, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidNotBetween(Integer value1, Integer value2) {
+            addCriterion("shopid not between", value1, value2, "shopid");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeidIsNull() {
             addCriterion("typeid is null");
             return (Criteria) this;

@@ -1,10 +1,12 @@
 package com.accp.mapper;
 
-import com.accp.domain.User;
-import com.accp.domain.UserExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import com.accp.domain.User;
+import com.accp.domain.UserExample;
 
 public interface UserMapper {
 	//查找是否有根据用户名和密码查找到的用户

@@ -3,6 +3,10 @@ package com.accp.domain;
 import java.util.Date;
 
 public class All {
+	private int staffcount;
+
+    private String tname;
+	
 	private Integer uid;
 
     private String trade;
@@ -33,9 +37,9 @@ public class All {
 
     private String address;
 
-    private Date starttime;
+    private String starttime;
 
-    private Date endtime;
+    private String endtime;
 
     private String province;
 
@@ -55,6 +59,34 @@ public class All {
 
     private String password;
     
+    private String detailaddress;
+    
+
+	public int getStaffcount() {
+		return staffcount;
+	}
+
+	public void setStaffcount(int staffcount) {
+		this.staffcount = staffcount;
+	}
+
+	public String getTname() {
+		return tname;
+	}
+
+	public void setTname(String tname) {
+		this.tname = tname;
+	}
+
+	
+
+	public String getDetailaddress() {
+		return detailaddress;
+	}
+
+	public void setDetailaddress(String detailaddress) {
+		this.detailaddress = detailaddress;
+	}
 
 	public Integer getUid() {
 		return uid;
@@ -176,19 +208,21 @@ public class All {
 		this.address = address;
 	}
 
-	public Date getStarttime() {
+	
+
+	public String getStarttime() {
 		return starttime;
 	}
 
-	public void setStarttime(Date starttime) {
+	public void setStarttime(String starttime) {
 		this.starttime = starttime;
 	}
 
-	public Date getEndtime() {
+	public String getEndtime() {
 		return endtime;
 	}
 
-	public void setEndtime(Date endtime) {
+	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
 

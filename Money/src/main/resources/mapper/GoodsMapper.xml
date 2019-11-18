@@ -3,6 +3,7 @@
 <mapper namespace="com.accp.mapper.GoodsMapper" >
   <resultMap id="BaseResultMap" type="com.accp.domain.Goods" >
     <id column="goodsid" property="goodsid" jdbcType="INTEGER" />
+    <result column="shopid" property="shopid" jdbcType="INTEGER" />
     <result column="typeid" property="typeid" jdbcType="INTEGER" />
     <result column="supplierid" property="supplierid" jdbcType="INTEGER" />
     <result column="goodsbrand" property="goodsbrand" jdbcType="VARCHAR" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    goodsid, typeid, supplierid, goodsbrand, goodsname, goodsphoto, numbers, specification, 
-    stock, salesprice, costprice, agio
+    goodsid, shopid, typeid, supplierid, goodsbrand, goodsname, goodsphoto, numbers, 
+    specification, stock, salesprice, costprice, agio
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.GoodsExample" >
     select
@@ -108,22 +109,25 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.Goods" >
-    insert into goods (goodsid, typeid, supplierid, 
-      goodsbrand, goodsname, goodsphoto, 
-      numbers, specification, stock, 
-      salesprice, costprice, agio
-      )
-    values (#{goodsid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{supplierid,jdbcType=INTEGER}, 
-      #{goodsbrand,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsphoto,jdbcType=VARCHAR}, 
-      #{numbers,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, 
-      #{salesprice,jdbcType=REAL}, #{costprice,jdbcType=REAL}, #{agio,jdbcType=INTEGER}
-      )
+    insert into goods (goodsid, shopid, typeid, 
+      supplierid, goodsbrand, goodsname, 
+      goodsphoto, numbers, specification, 
+      stock, salesprice, costprice, 
+      agio)
+    values (#{goodsid,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, 
+      #{supplierid,jdbcType=INTEGER}, #{goodsbrand,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, 
+      #{goodsphoto,jdbcType=VARCHAR}, #{numbers,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, 
+      #{stock,jdbcType=INTEGER}, #{salesprice,jdbcType=REAL}, #{costprice,jdbcType=REAL}, 
+      #{agio,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.Goods" >
     insert into goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="goodsid != null" >
         goodsid,
+      </if>
+      <if test="shopid != null" >
+        shopid,
       </if>
       <if test="typeid != null" >
         typeid,
@@ -162,6 +166,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="goodsid != null" >
         #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
       </if>
       <if test="typeid != null" >
         #{typeid,jdbcType=INTEGER},
@@ -210,6 +217,9 @@
       <if test="record.goodsid != null" >
         goodsid = #{record.goodsid,jdbcType=INTEGER},
       </if>
+      <if test="record.shopid != null" >
+        shopid = #{record.shopid,jdbcType=INTEGER},
+      </if>
       <if test="record.typeid != null" >
         typeid = #{record.typeid,jdbcType=INTEGER},
       </if>
@@ -251,6 +261,7 @@
   <update id="updateByExample" parameterType="map" >
     update goods
     set goodsid = #{record.goodsid,jdbcType=INTEGER},
+      shopid = #{record.shopid,jdbcType=INTEGER},
       typeid = #{record.typeid,jdbcType=INTEGER},
       supplierid = #{record.supplierid,jdbcType=INTEGER},
       goodsbrand = #{record.goodsbrand,jdbcType=VARCHAR},
@@ -269,6 +280,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Goods" >
     update goods
     <set >
+      <if test="shopid != null" >
+        shopid = #{shopid,jdbcType=INTEGER},
+      </if>
       <if test="typeid != null" >
         typeid = #{typeid,jdbcType=INTEGER},
       </if>
@@ -307,7 +321,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.accp.domain.Goods" >
     update goods
-    set typeid = #{typeid,jdbcType=INTEGER},
+    set shopid = #{shopid,jdbcType=INTEGER},
+      typeid = #{typeid,jdbcType=INTEGER},
       supplierid = #{supplierid,jdbcType=INTEGER},
       goodsbrand = #{goodsbrand,jdbcType=VARCHAR},
       goodsname = #{goodsname,jdbcType=VARCHAR},

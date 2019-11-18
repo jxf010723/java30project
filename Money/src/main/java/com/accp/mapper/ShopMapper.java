@@ -1,17 +1,15 @@
 package com.accp.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
 import com.accp.domain.All;
 import com.accp.domain.Shop;
 import com.accp.domain.ShopExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface ShopMapper {
-	//查询店铺管理里的门店列表
-	@Select("SELECT * FROM `shop` s INNER JOIN `staff` f ON(f.staffID=s.staffid)")
+	@Select("SELECT s.shopid,s.shopuser,s.shopname,f.employeename,s.contacts,s.phonenumber,s.phone,s.address,COUNT(f.staffid) staffcount "
+			+ " FROM `shop` s INNER JOIN `staff` f ON(f.shopid=s.shopid) GROUP BY f.shopid")
 	List<All> queryShopList();
 	
     int countByExample(ShopExample example);

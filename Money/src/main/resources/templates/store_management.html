@@ -3,52 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/store_management.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <script th:src="@{js/bootstrap.js}"></script>
-    <script type="text/javascript" th:src="@{js/vue.js}"></script>
+    
+    <!-- 以下是编辑门店要用到的 -->
+    <style type="text/css">
+		.demo{width:350px; margin:100px auto 10px auto;}
+		#g1,#g2{margin-top:50px}
+		
+		</style>
+
+		
+    
+    
     <style>
     	.modal-backdrop {
 		  /* opacity: 0 !important;
 		  filter: alpha(opacity=0) !important;//解决背景颜色加深问题 */
 		}
     </style>
+    <style>
+    	.addUserDialog .dialog_bd {
+		    padding-left: 74px;
+		    padding-top: 50px;
+		    padding-right: 0;
+		    padding-bottom: 50px;
+		}
+		.addUserDialog .list {
+		    float: left;
+		    margin-bottom: 14px;
+		    width: 340px;
+		}
+		.addUserDialog .list span {
+		    float: left;
+		    width: 50px;
+		    padding-top: 6px;
+		    position: relative;
+		}
+		.dropDownBox {
+		    cursor: pointer;
+		    float: left;
+		    height: 34px;
+		    position: relative;
+		    background-color: #FFF;
+		    border: 1px solid #e7e7eb;
+		}
+		.dropDownBox .comboxText {
+		    background-color: #FFF;
+		    margin-top: 7px;
+		    padding-left: 8px;
+		    padding-right: 26px;
+		    border: 0 none;
+		    cursor: pointer;
+		    float: left;
+		    height: 18px;
+		    line-height: 18px;
+		}
+		.dropDownBox .comboxArrow {
+		    background: url(http://www.poso2o.com/ECSHOP/style/img/mark.gif) 0 -58px no-repeat;
+		    width: 18px;
+		    height: 18px;
+		    cursor: pointer;
+		    opacity: .8;
+		    filter: alpha(opacity=80);
+		    position: absolute;
+		    right: 2px;
+		    top: 7px;
+		    border-left: none;
+		}
+		.dropDownBox .pannel {
+		    position: absolute;
+		    background: #fff;
+		    border: 1px #44b549 solid;
+		    overflow: hidden;
+		    z-index: 100;
+		}
+		.dropDownBox .pannel {
+		    top: 34px;
+		    max-height: 210px;
+		    left: -1px;
+		}
+		.dropDownBox .pannel a {
+		    display: block;
+		    height: 32px;
+		    line-height: 30px;
+		    padding: 0 0 0 8px;
+		    cursor: pointer;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		}
+		.addUserDialog .list {
+		    float: left;
+		    margin-bottom: 14px;
+		    width: 340px;
+		}
+		.dropDownBox {
+		    cursor: pointer;
+		    float: left;
+		    height: 34px;
+		    position: relative;
+		    background-color: #FFF;
+		    border: 1px solid #e7e7eb;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		.addUserDialog input,select{
+			height:30px;
+		}
+		.addUserDialog select{
+			width:175px;
+		}
+    </style>
 </head>
 <body>
         <div class="rightarea clearfix" id="content">
+        	<form id="insertForm" name="form"  method="post" enctype="multipart/form-data">
             <div class="mainarea clearfix" id="querystore">
                 <div class="user_list_main clearfix">
                     <div class="user_list_body clearfix">
                         <div class="sub_title">门店列表</div>
                         
-                        <!-- Button trigger modal -->
                         
+                        <div class="btn-div addUserDialog dialog">
+	                    <!-- 添加员工的模态框 -->
+	                    <!-- Button trigger modal -->
 						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" style="float: right;position: relative;top: -23px;">
 						  添加门店
 						</button>
 						
-						<!-- Modal -->
-						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-						  <div class="modal-dialog" role="document">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-						      </div>
-						      <div class="modal-body">
-						        ...
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Save changes</button>
-						      </div>
-						    </div>
-						  </div>
-						</div>
+						<!-- <form id="insertForm" name="form"  method="post" enctype="multipart/form-data"> -->
+							<!-- Modal -->
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+							  <div class="modal-dialog" role="document"  style="width:1100px;">
+							    <div class="modal-content">
+							      <div class="modal-header" style="background-color: #f4f5f9;">
+							        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+							        <h4 class="modal-title" id="myModalspan">添加门店</h4>
+							      </div>
+							      <div class="modal-body"  style="height:720px;">
+							      
+							      	<!-- 新增门店的内容 -->
+					            	<div style="height: 515px;width: 240px;">
+									<div class="ibox-content" style="width: 26%;">
+										<div class="row">
+											<div id="crop-avatar" class="col-md-6" data-toggle="modal" data-target="#storeUpdateModal" >
+												<div class="avatar-view" title="添加图片">
+													<label for="avatarInput">图片上传</label>
+													<div id="headupload">
+														<input name="insertFiles" class="avatar-input" id="avatarInput" type="file">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<label for="exampleInputName2" style="font-size: 15px;margin-top: 10px;">店铺名称:</label>
+									<input v-model="shop.shopname" name="shopname" type="text" class="form-control" minlength="1" maxlength="12" id="shopInput" placeholder="请填写店名" style="width:93%;" oncontextmenu="return false;">
+									<label for="exampleInputName2" style="font-size: 6px;color: grey;">格式：最长由12个中文、字母或数字组成</label>
+									<div>
+										<textarea name="introduction" rows="9" style="resize:none;width: 93%;margin-top:10px;font-size: 12px;" placeholder="店铺简介" v-model="shop.introduction"></textarea>
+									<div>
+									<div>
+										<label for="exampleInputName2" style="font-size: 10px;color: grey;">格式：最长由100个中文、字母或数字组成</label>
+									</div>
+								</div>
+								
+								<div style="position: absolute;margin-left:260px;margin-top:-513px;width:800px;border: 1px solid gainsboro;">
+									<form class="form-inline">
+									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
+									    <label for="exampleInputName2">联&nbsp&nbsp系&nbsp&nbsp人&nbsp&nbsp</label>
+									    <input name="contacts" type="text" v-model="shop.contacts" class="form-control" id="exampleInputName2" placeholder="联系人姓名" style="width: 60%;">
+									  </div>
+									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+									    <label for="exampleInputEmail2">手&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp机&nbsp&nbsp</label>
+									    <input name="phonenumber" type="text" v-model="shop.phonenumber" class="form-control" id="exampleInputEmail2" placeholder="手机号码" style="width: 60%;">
+									  </div>
+									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+									    <label for="exampleInputEmail2">固&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp话&nbsp&nbsp</label>
+									    <input name="phone" type="text" v-model="shop.phone" class="form-control" id="exampleInputEmail2" placeholder="固定电话" style="width: 60%;">
+									  </div>
+									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+									    <label for="exampleInputEmail2">营业时间&nbsp&nbsp&nbsp</label>
+										<div style="margin-top: -21%;margin-left: -13%;">
+											<div class="demo" onmouseup="mouseup()">
+												<input class="range-slider" type="hidden" value="480,1320"/>
+											</div>
+										</div>
+									  </div>
+									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+									    <input name="starttime" class="col-md-6" type="text" readonly="readonly" id="one1" style="width: 100px;margin-left: 20%;"/>
+									  	<input name="endtime" class="col-md-6" type="text" readonly="readonly" id="two2" style="width: 100px;margin-left: 10%;"/>
+									  </div>
+									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+									    <label for="exampleInputEmail2">地&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp址&nbsp</label>
+										  <div class="form-group" data-toggle="distpicker">
+											<select name="province" v-model="shop.province" data-province="---- 选择省 ----" style="margin-right:5px;margin-left:5px;border: 1px solid gainsboro;"><option>选择省</option></select>
+											<span>-</span><select name="city" v-model="shop.city" data-city="---- 选择市 ----" style="margin-right:5px;margin-left:10px;border: 1px solid gainsboro;"><option>选择市</option></select>
+											<span>-</span><select name="region" v-model="shop.region" data-district="---- 选择区 ----" style="margin-left:10px;border: 1px solid gainsboro;"><option>选择区</option></select>
+										  </div>
+									  </div>
+									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 3%;margin-bottom: 2%;">
+									    <input name="detailaddress" type="text" v-model="shop.detailaddress" class="form-control" id="exampleInputName2" placeholder="详细地址" style="width: 60%;margin-left: 12.5%;">
+									  </div>
+									</form>
+								</div>
+								
+								
+						        	<!-- 描述：模态框 -->
+						       
+								<!-- <div class="modal fade" id="storeUpdateModal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+									<div class="modal-dialog" style="width:100%;">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button class="close" data-dismiss="modal" type="button">&times;</button>
+												<h4 class="modal-title" id="avatar-modal-label">Change Logo Picture</h4>
+											</div>
+											<div class="modal-body">
+												<div class="avatar-body">
+													<div class="avatar-upload">
+														<input class="avatar-src" name="avatar_src" type="hidden">
+														<input class="avatar-data" name="avatar_data" type="hidden">
+														<label for="avatarInput">图片上传</label>
+														<input name="files" class="avatar-input" id="avatarInput" type="file">
+													</div>
+													<div class="row">
+														<div class="col-md-9">
+															<div class="avatar-wrapper"></div>
+														</div>
+														<div class="col-md-3">
+															<div class="avatar-preview preview-lg"></div>
+															<div class="avatar-preview preview-md"></div>
+															<div class="avatar-preview preview-sm"></div>
+														</div>
+													</div>
+													<div class="row avatar-btns">
+														<div class="col-md-9">
+															<div class="btn-group">
+																<button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
+															</div>
+															<div class="btn-group">
+																<button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
+															</div>
+														</div>
+														<div class="col-md-3">
+															<button class="btn btn-success btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+														</div>
+													</div> 
+												</div>
+											</div>
+								  	</div>
+								  </div>
+								</div> -->
+						
+								<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+					
+					            	
+					            </div>
+					        </div>
+									
+							      </div>
+							      <div class="modal-footer" style="background-color: #f4f5f9;text-align: center">
+								        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								        <button type="button" class="btn btn-primary" @click="insertshop">确定</button>
+								  </div>
+							    </div>
+							  </div>
+							</div>
+						<!-- </form> --> 
+							
+	                </div>
+	                </div>
                         
-                        <!-- <div class="btn btn-warning" style="float: right;position: relative;top: -23px;">添加门店</div> -->
                         <table class="clearfix settable">
                             <thead>
                                 <tr>
@@ -67,14 +291,15 @@
                                 <tr v-for="item in page.list">
                                     <td>{{item.shopid}}</td>
                                     <td>{{item.shopuser}}</td>
-                                    <td>{{item.shopname}}</td>
-                                    <td>{{item.shopname}}</td>
+                                    <td>{{item.staffcount}}</td>
+                                    <td>{{item.staffcount}}</td>
                                     <td>{{item.contacts}}</td>
                                     <td>{{item.phonenumber}}</td>
                                     <td>{{item.phone}}</td>
                                     <td>{{item.address}}</td>
                                     <td>
                                         <a href="javascript:;" @click="updateStore(item.shopid)">编辑</a>
+                                        <a href="javascript:;" @click="delStore(item.shopid)">删除</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -82,8 +307,9 @@
                         <p class="prompt">注：可添加多家门店，系统自动分配订单到附近门店。</p>
                     </div>
                     
-                    <!--分页按钮-->
-                	<!-- <div class="pagebar" style="text-align: center">
+                    
+                    <!-- 分页按钮 -->
+                	<div class="pagebar" style="text-align: center">
 	                    <div class="pagetion">
 	                       <div class="page">
                                <ul class="pagination">
@@ -95,7 +321,7 @@
                                    </li>
                                    <li>
                                        <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
-                                       <span v-for="a in page.pages">{{a}}</span>
+                                       <span v-for="a in page.pages" @click="getPage(a)">{{a}}</span>
                                    </li>
                                    <li>
                                        <a @click="getPage(page.nextPage)" href="javascript:;">&raquo;</a>
@@ -104,32 +330,171 @@
                                        <a @click="getPage(page.pages)" href="javascript:;">尾页</a>
                                    </li>
                                    <li style="margin-left: 20px; float:left;">
-                                       <input name="tz" type="text" class="form-control" style="width: 100px;">
+                                       <input name="tz" type="text" class="form-control" style="width: 100px;" id="inputPages">
                                    </li>
                                    <li style="margin-left: 15px; float:left;">
                                        <a @click="tz" href="javascript:;" class="btn btn-default">跳转</a>
                                    </li>
                                </ul>
-	                       </div>
+	                       </div> 
 	                    </div>
-
-                	</div> -->
+                	</div> 
+                	
                 </div>
+         
+         
+            <div id="noneUpdate" style="position:relative;bottom:0px;left:0px;">
+            	<!-- 编辑门店的内容 -->
+            	<input type="hidden" name="shopid" id="shopid"/>
+            	<div style="height: 515px;width: 240px;">
+				<div class="ibox-content" style="width: 26%;">
+					<div class="row">
+						<!-- <div class="avatar-view" title="添加图片">
+							<label for="avatarInput">图片上传</label>
+							<div id="headupload">
+								<input name="insertFiles" class="avatar-input" id="avatarInput" type="file">
+							</div>
+						</div> -->
+						<div id="crop-avatar" class="col-md-6">
+							<div class="avatar-view" title="添加图片">
+								<input name="updateFiles" class="avatar-input" id="avatarInput" type="file">
+								<img id="shopimg" alt="Logo" width="100px" height="220px">
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<label for="exampleInputName2" style="font-size: 15px;margin-top: 10px;">店铺名称:</label>
+				<input name="shopname" v-model="shop.shopname" type="text" class="form-control" minlength="1" maxlength="12" id="shopInput" placeholder="请填写店名" style="width:93%;" oncontextmenu="return false;">
+				<label for="exampleInputName2" style="font-size: 6px;color: grey;">格式：最长由12个中文、字母或数字组成</label>
+				
+        		</div>
+        		<div>
+					<textarea  rows="9" style="resize:none;width: 93%;margin-top:10px;font-size: 12px;" placeholder="店铺简介">{{shop.introduction}}</textarea>
+				<div>
+				<div>
+					<label for="exampleInputName2" style="font-size: 10px;color: grey;">格式：最长由100个中文、字母或数字组成</label>
+				</div>
+			</div>
+			
+			<div style="position: absolute;margin-left:260px;margin-top:-700px;width:600px;border: 1px solid gainsboro;">
+				<form class="form-inline">
+				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
+				    <label for="exampleInputName2">联&nbsp&nbsp系&nbsp&nbsp人&nbsp&nbsp</label>
+				    <input name="contacts"  v-model="shop.contacts" type="text" class="form-control" id="exampleInputName2" placeholder="联系人姓名" style="width: 60%;">
+				  </div>
+				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+				    <label for="exampleInputEmail2">手&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp机&nbsp&nbsp</label>
+				    <input name="phonenumber"  v-model="shop.phonenumber" type="text" class="form-control" id="exampleInputEmail2" placeholder="手机号码" style="width: 60%;">
+				  </div>
+				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+				    <label for="exampleInputEmail2">固&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp话&nbsp&nbsp</label>
+				    <input name="phone" v-model="shop.phone" type="text" class="form-control" id="exampleInputEmail2" placeholder="固定电话" style="width: 60%;">
+				  </div>
+				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+				    <label for="exampleInputEmail2">营业时间&nbsp&nbsp&nbsp</label>
+					<div style="margin-top: -21%;margin-left: -13%;">
+						<div class="demo" onmouseup="mouseup()">
+							<input class="range-slider" type="hidden" value="480,1320"/>
+						</div>
+					</div>
+				  </div>
+				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+				    <input name="starttime" class="col-md-6" type="text" readonly="readonly" id="one1" style="width: 100px;margin-left: 20%;"/>
+				  	<input name="endtime"  class="col-md-6" type="text" readonly="readonly" id="two2" style="width: 100px;margin-left: 10%;"/>
+				  </div>
+				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
+				    <label for="exampleInputEmail2">地&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp址&nbsp</label>
+					  <div class="form-group" data-toggle="distpicker">
+						<select name="province"  v-model="shop.province" data-province="---- 选择省 ----" style="margin-right:5px;margin-left:5px;border: 1px solid gainsboro;"></select>
+						<span>-</span><select name="city" v-model="shop.city" data-city="---- 选择市 ----" style="margin-right:5px;margin-left:10px;border: 1px solid gainsboro;"></select>
+						<span>-</span><select name="region" v-model="shop.region" data-district="---- 选择区 ----" style="margin-left:10px;border: 1px solid gainsboro;"></select>
+					  </div>
+				  </div>
+				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 3%;margin-bottom: 2%;">
+				    <input name="detailaddress" v-model="shop.detailaddress" type="text" class="form-control" id="exampleInputName2" placeholder="详细地址" style="width: 60%;margin-left: 12.5%;">
+				  </div>
+				  	<button type="button" class="btn btn-default col-md-3" style="margin-left: 22.5%;margin-bottom: 2%;margin-top: 1%;" id="returnInsert">返回</button>
+				    <button type="button" class="btn btn-success col-md-3" style="margin-left: 2.5%;margin-bottom: 2%;margin-top: 1%;" @click="updateStoreById">确定</button>
+				</form>
+			</div>
+			
+			
+	        	<!-- 描述：模态框 -->
+	       
+			<div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+				<div class="modal-dialog" style="width:100%;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button class="close" data-dismiss="modal" type="button">&times;</button>
+							<h4 class="modal-title" id="avatar-modal-label">Change Logo Picture</h4>
+						</div>
+						<div class="modal-body">
+							<div class="avatar-body">
+								<div class="avatar-upload">
+									<input class="avatar-src" name="avatar_src" type="hidden">
+									<input class="avatar-data" name="avatar_data" type="hidden">
+									<label for="avatarInput">图片上传</label>
+									<input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+								</div>
+								<div class="row">
+									<div class="col-md-9">
+										<div class="avatar-wrapper"></div>
+									</div>
+									<div class="col-md-3">
+										<div class="avatar-preview preview-lg"></div>
+										<div class="avatar-preview preview-md"></div>
+										<div class="avatar-preview preview-sm"></div>
+									</div>
+								</div>
+								<div class="row avatar-btns">
+									<div class="col-md-9">
+										<div class="btn-group">
+											<button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
+										</div>
+										<div class="btn-group">
+											<button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<button class="btn btn-success btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+									</div>
+								</div>
+							</div>
+						</div>
+			  	</div>
+			  </div>
+			</div>
+	
+			<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+
+            	
             </div>
-            
-            <div id="noneUpdate">
-            	编辑门店
-            	<button @click="blockStore">返回</button>
-            	<button @click="storeUpdate()">确定</button>
-            </div>
-        </div>
-        
+        </div> 
+        </form>
+      </div>
+     <!-- <script src="../js2/main.js"></script> -->
+      <script src="../js2/distpicker.data.js"></script>
+	  <script src="../js2/distpicker.js"></script> 
+	  
+      <!-- 时间的js -->
+      <script type="text/javascript" src="../js2/jquery.range.js"></script>
+      
         <script type="text/javascript">
         	$(function(){
         		$("#querystore").show();
         		$("#noneUpdate").hide();
+        		
+        		$("#returnInsert").click(function(){
+        			$("#querystore").show();
+            		$("#noneUpdate").hide();
+        		})
         	})
         	
+        </script>
+        <script type="text/javascript">
+        	$(function(){
+        	})
         	
         </script>
         <script type="text/javascript">
@@ -139,13 +504,82 @@
         			return {
         				page:{
         					list:[]
+        				},
+        				shop:{
+        					
         				}
         			}
         		},
         		methods:{
+        			delStore:function(shopid){
+        				var t = this;
+        				$.ajax({
+    						url:"shop/delStoreById",
+    						data:{shopid:shopid},
+    						type:"post",
+    						success:function(result){
+    							alert("删除成功");
+    							t.getPage(1);
+    						}
+    					})
+        			},
+        			updateStoreById:function(){
+						var formData = new FormData($('[name=form]')[0]);
+        				
+        				console.log(formData.get("shopid"));
+        				console.log(formData.get("shopimg"));
+        				$.ajax({
+        					url:"shop/updateStoreById",
+        					data:formData,
+        					type:"post",
+        					processData:false,
+        					contentType:false,
+        					success:function(result){
+        						console.log(result);
+        						$("#querystore").show();
+    		            		$("#noneUpdate").hide();
+        						storeVue.getPage(1);
+        					}
+        				});
+        			},
+        			insertshop:function(){
+        				var formData = new FormData($('form')[0]);
+        				
+        				//console.log(formData.get("detailaddress"));
+        				$.ajax({
+        					url:"[[@{/shop/uploadAjax}]]",
+        					data:formData,
+        					type:"post",
+        					processData:false,
+        					contentType:false,
+        					success:function(result){
+        						console.log(result);
+        						$('#myModal').modal('hide');
+        						document.getElementById("insertForm").reset();
+        						storeVue.getPage(1);
+        					}
+        				});
+        			},
+        			tz:function(){
+        				var pageNum = $("#inputPages").val();
+        				storeVue.getPage(pageNum);
+        			},
         			updateStore:function(shopid){
+        				$("#shopid").val(shopid);
         				$("#querystore").hide();
         				$("#noneUpdate").show();
+        				//点击编辑根据店铺id修改店铺
+        				var t = this;
+        				$.ajax({
+        					url:"shop/selectByShopid",
+        					data:{shopid:shopid},
+        					success:function(result){
+        						t.shop = result;
+        						$("#shopimg").attr("src",t.shop.shopimg);
+        						$("[name=updateStarttime]").val(t.shop.starttime);
+        						$("[name=updateEndtime]").val(t.shop.endtime);
+        					}
+        				})
         			},
         			blockStore:function(){
         				$("#noneUpdate").hide();
@@ -155,7 +589,7 @@
         				var that = this;
             			$.ajax({
             				url:"[[@{shop/queryShopList}]]",
-            				data:"pageNum="+pageNum+"&pageSize=1",
+            				data:"pageNum="+pageNum+"&pageSize=5",
             				success:function(result){
             					console.log(result);
             					that.page = result;
@@ -168,5 +602,50 @@
         		}
         	});
         </script>
+        
+        
+		
+
+		<script type="text/javascript">
+			$(function(){
+				onkey();		//键盘监听
+				rangeSlider();	//选取时间
+				g2Click();		//获取时间范围
+				loading();		//加载事件
+			});
+			
+			function loading(){
+				$("#one1").val($(".pointer-label:eq(0)").html());
+				$("#two2").val($(".pointer-label:eq(1)").html());
+			}
+			
+			function mouseup(event){  //设置鼠标松开时的颜色
+				$("#one1").val($(".pointer-label:eq(0)").html());
+				$("#two2").val($(".pointer-label:eq(1)").html());
+			}
+			
+			function rangeSlider(){
+				$('.range-slider').jRange({
+					from: 0, to: 1440, step:30,
+					scale: ['00:00','04:00','08:00','12:00','16:00','20:00','24:00'],
+					format: '%s',
+					width: 400,
+					showLabels: true,
+					isRange : true
+				});
+			}
+			
+			function g2Click(){
+				$("#g2").click(function(){
+					var aa = $(".range-slider").val();
+					alert(aa);
+				});
+			}
+			
+			function onkey(){
+				$("#shopInput").attr("onkeyup", "if(this.value.length>12){alert(1);}");
+			}
+		</script>
+        
 </body>
 </html>

@@ -10,6 +10,22 @@
     <result column="employeeName" property="employeename" jdbcType="VARCHAR" />
     <result column="passWord" property="password" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <select id="queryStaff" resultType="com.accp.domain.All">
+  	SELECT * FROM `shop` s 
+	INNER JOIN `staff` f ON(f.shopID=s.shopid)
+	INNER JOIN `jurisdictiontype` j ON(j.tid=f.roleID) where 1=1
+	<if test="shopname!=null and shopname != '' and shopname !='全部店铺'">
+	   and s.shopname like concat('%',#{shopname},'%')
+	</if>
+	<if test="tname!=null and tname!='全部职位'">
+		and j.tname like concat('%',#{tname},'%')
+	</if>
+	<if test="employeename!=null">
+		and f.employeename like concat('%',#{employeename},'%')
+	</if>
+  </select>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

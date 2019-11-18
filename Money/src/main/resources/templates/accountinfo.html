@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>账户信息-日进斗金</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/accountinfo.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <script th:src="js/jquery-1.12.4.js"></script>
-    <script th:src="js/bootstrap.js"></script>
-    <script type="text/javascript" th:src="@{js/vue.js}"></script>
-    
+    <style>
+   		label{
+   			font-weight: normal;
+   		} 
+    </style>
 </head>
 <body>
     <div class="area-right">
@@ -27,7 +25,7 @@
                     <div class="userimg">
                             <div class="hdimg">
                                 <div class="imgd">
-                                    <img th:src="" alt="" style="background:#666;">
+                                    <img src="" alt="" style="background:#666;">
                                 </div>
                                 <a href="javascript:;" class="upload">上传头像</a>  <!--上传头像按钮-->
                                 <input type="file" name="file" class="uploaduserimg">
@@ -40,24 +38,25 @@
                         </div>
                         <div class="list">
                             <label>行业:</label>
-                            <select class="form-control" style="float: left;width: 190px">
+                            <input type="text" class="input-text" name="trade" value="服饰" readonly="readonly">
+                            <!-- <select class="form-control" style="float: left;width: 190px" readonly="readonly">
                                 <option value="服饰">服饰</option>
                                 <option value="餐饮">餐饮</option>
                                 <option value="其他">其他</option>
-                            </select>
+                            </select> -->
                         </div>
                         <div class="list">
                             <label>账号:</label>
-                            <input type="text" class="input-text" name="userid">
+                            <input type="text" class="input-text" name="userid"  value="1234567890" readonly="readonly">
                         </div>
                         <div class="list">
                             <label>手机:</label>
-                            <input type="text" class="input-text" name="phone">
+                            <input type="text" class="input-text" name="phone"  value="1234567890" readonly="readonly">
                             <span>已经/未绑定</span>
                         </div>
                         <div class="list">
                             <label>密码:</label>
-                            <input type="password" class="input-text" name="pwd">
+                            <input type="password" class="input-text" name="pwd" value="123456" readonly="readonly">
                             <a class="btn btn-success" href="javascript:;" style="margin-left: 5px;">修改</a>
                         </div>
                     </div>
