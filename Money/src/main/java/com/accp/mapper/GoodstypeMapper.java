@@ -12,7 +12,7 @@ public interface GoodstypeMapper {
 
     int deleteByPrimaryKey(Integer typeid);
 
-    int insert(Goodstype record);
+    int insert(String record);
 
     int insertSelective(Goodstype record);
 
@@ -26,5 +26,5 @@ public interface GoodstypeMapper {
 
     int updateByPrimaryKeySelective(Goodstype record);
 
-    int updateByPrimaryKey(Goodstype record);
+    int updateByPrimaryKey(String record,String name);
 }

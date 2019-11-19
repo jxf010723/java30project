@@ -37,18 +37,18 @@ public class GoodsService {
 	 * @param typename
 	 * @return
 	 */
-//	public int goodstypeinsert(String typename) {
-//		return goodstype.insert(typename);
-//	}
+	public int goodstypeinsert(String typename) {
+		return goodstype.insert(typename);
+	}
 	/**
 	 * 商品类型修改
 	 * @param name
 	 * @param id
 	 * @return
 	 */
-//	public int goodstypeupdate(String name,String id) {
-//		return goodstype.updateByPrimaryKey(name, id);
-//	}
+	public int goodstypeupdate(String name,String id) {
+		return goodstype.updateByPrimaryKey(name, id);
+	}
 	/**
 	 * 商品类型删除
 	 * @param typeid

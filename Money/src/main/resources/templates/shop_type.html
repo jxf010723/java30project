@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/base.css}">
+    <link rel="stylesheet" th:href="@{css/reset.css}">
     <link rel="stylesheet" href="css/shop_type.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
 </head>
-<body>
-<div class="rightarea clearfix">
+<body >
+<div class="rightarea clearfix" id="gotvue">
     <div class="mainarea clearfix">
         <div class="user_list_main clearfix">
             <div class="user_list_body clearfix">
                 <div class="sub_title">商品类别</div>
-                <div class="btn btn-success" style="float: right;position: relative;top: -23px;">添加类别</div>
+                <div class="btn btn-success" style="float: right;position: relative;top: -23px;" @click="openModal">添加类别</div>
                 <table class="clearfix settable">
                     <thead>
                         <tr>
@@ -22,43 +26,184 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
+                        <tr v-for="item,index in page.list">
+                            <td>{{index+1}}</td>
+                            <td>{{item.typename}}</td>
                             <td>
-                                <a href="javascript:;">修改</a>
-                                <a href="javascript:;">删除</a>
+                                <a href="javascript:;" @click="upd(item)">修 改</a>
+                                <a href="javascript:;" @click="dele(item.typeid)">删除</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>
-                                <a href="javascript:;">修改</a>
-                                <a href="javascript:;">删除</a>
-                            </td>
-                        </tr>  <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>
-                                <a href="javascript:;">修改</a>
-                                <a href="javascript:;">删除</a>
-                            </td>
-                        </tr>  <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>
-                                <a href="javascript:;">修改</a>
-                                <a href="javascript:;">删除</a>
-                            </td>
-                        </tr>
-
-
+                        
                     </tbody>
+								
                 </table>
+                <table>
+                <tr>
+									<td colspan="5">
+										<ul class="pager">
+											<li>
+												<a href="javascript:void(0)" @click="shou">首页</a>
+											</li>
+											<li class="abled" >
+												<a href="javascript:void(0)" @click="shang">上一页</a>
+											</li>
+											<li class="abled"  >
+												<a href="javascript:void(0)" @click="xia">下一页</a>
+											</li>
+											<li>
+												<a href="javascript:void(0)" @click="wei">末页</a>
+											</li>
+											<li class="disabled">
+												<a href="javascript:void(0)" style="margin-left: 50px;">第<b id="num">{{page.pageNum}}</b>页/ 共<b id="pages">{{page.pages}}</b>页  &nbsp; &nbsp;  共<b id="size">{{page.total}}</b>条记录</a>
+											</li>
+										</ul>
+									</td>
+				</tr>
+				</table>			
             </div>
         </div>
     </div>
+     
+    <!-- 模态框（Modal） -->
+		<div class="modal fade" id="shopTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">添加类别</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<form class="form-horizontal">
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">名&nbsp;称</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="recipient-name">
+						    </div>
+						  </div>
+						</form>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;" id="quxiao">取消</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;" @click="insert">确认</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
 </div>
 </body>
 </html>
+<script type="text/javascript">
+//我来判断是新增还是修改
+var bool=0;
+/*模态框*/
+$('#exampleModal').on('show.bs.modal', function (event) {
+	  var button = $(event.relatedTarget) // Button that triggered the modal
+	  var recipient = button.data('whatever') // Extract info from data-* attributes
+	  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	  var modal = $(this)
+	  modal.find('.modal-title').text(recipient)
+	  modal.find('.modal-body input').val(recipient)
+ })  
+ 
+ 
+	var shoptypevue=new Vue({
+		el:"#gotvue",
+		data(){
+			return{
+				page:{
+					list:[]
+				}
+			}
+		},
+		methods:{
+			upd:function(item){//修改
+				 //alert(1)
+				 $('#shopTypeModal').modal('show');
+					  var button = $(event.relatedTarget) // 触发模式的按钮
+					  var recipient = button.data('whatever') // 从数据中提取信息-*属性
+					  // 如果需要，可以在这里启动AJAX请求（然后在回调中进行更新）。
+					  // 更新模态的内容。我们将在这里使用jQuery，但是您可以使用数据绑定库或其他方法。
+					  $('#exampleModalLabel').html("修改类别")
+					  $('#exampleModal').find('.modal-body input').val(item.typename)
+					 $("#recipient-name").val(item.typename)
+					  bool=item.typeid;
+			 },
+			dele:function(typeid){
+				if (confirm("您确认要删除改类别吗？")) {
+				$.ajax({
+					data:{typeid:typeid},
+					url:"[[@{goods/goodstypedelete}]]",
+					type:"post",
+					success:function(res){
+						
+					}
+				});
+				this.pages(1);
+				 }
+				
+			 },
+			openModal:function(){
+				$("#shopTypeModal").modal("show")
+			},
+			pages:function(dqy){
+				var th=this;
+				$.ajax({
+					data:{pageNum:dqy},
+					url:"[[@{goods/goodstypepage}]]",
+					type:"post",
+					success:function(res){
+						console.log(res);
+						th.page=res;
+					}
+				});
+			},
+			xia:function(){
+				if(this.page.hasNextPage) {
+					this.pages(this.page.nextPage);
+				}
+				
+			},
+			shang:function(){
+				if(this.page.hasPreviousPage) {
+					this.pages(this.page.prePage);
+				}
+			},
+			wei: function() {
+				this.pages(this.page.pages);
+			},
+			shou: function() {
+				this.pages(1);
+			},
+			insert:function(){
+				if(bool==0){
+				$.ajax({
+					data:{typename:$("#recipient-name").val()},
+					url:"[[@{goods/goodstypeinsert}]]",
+					type:"post",
+					success:function(res){
+					}
+				});
+				this.pages(1);
+				$("#shopTypeModal").modal('hide');  
+			}else{
+				$.ajax({
+					data:{typename:$("#recipient-name").val(),id:bool},
+					url:"[[@{goods/goodstypeupdate}]]",
+					type:"post",
+					success:function(res){
+					}
+				});
+				bool=0;
+				$("#shopTypeModal").modal('hide');
+				this.pages(1);
+			}
+			}
+		},
+		mounted:function(){
+			this.pages(1);
+		}
+	
+	});
+</script> 

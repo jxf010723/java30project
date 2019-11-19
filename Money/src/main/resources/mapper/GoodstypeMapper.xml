@@ -96,7 +96,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.accp.domain.Goodstype" >
+  <insert id="insert" parameterType="String" >
     insert into goodstype (typeid, typename)
     values (#{typeid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR})
   </insert>
@@ -156,7 +156,7 @@
     </set>
     where typeid = #{typeid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Goodstype" >
+  <update id="updateByPrimaryKey" parameterType="String" >
     update goodstype
     set typename = #{typename,jdbcType=VARCHAR}
     where typeid = #{typeid,jdbcType=INTEGER}
