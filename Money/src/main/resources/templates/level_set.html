@@ -3,45 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/level_set.css">
-    
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script th:src="@{js/jquery-1.12.4.js}"></script>
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
+    <style>
+		body, button, input, select, textarea {
+		    font: 14px/1.5 "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","黑体",Arial,sans-serif;
+		    color: #222;
+		    background-color: #fff;
+		}
+		label {
+		   font-weight: 400; 
+		}
+		.radio, .checkbox {
+			display: inline-block;
+		}
+		.modal-body{
+		 	height:277px;
+		}
+    	.userGroupDialog .topDiv .list {
+		    float: left;
+		    margin-bottom: 14px;
+		    width: 340px;
+		}
+		.userGroupDialog .topDiv .list label {
+		    float: left;
+		    width: 60px;
+		    padding-top: 10px;
+		    position: relative;
+		}
+		.userGroupDialog .topDiv .list em {
+		    float: left;
+		    color: #f17e3f;
+		    font-size: 14px;
+		    font-style: normal;
+		    font-weight: normal;
+		    position: absolute;
+		    top: 8px;
+		    left: -10px;
+		}
+		.userGroupDialog .topDiv .list .inputText {
+		    background-color: #FFF;
+		    border: 1px solid #c7c7c7;
+		    float: left;
+		    height: 38px;
+		    line-height: 16px;
+		    padding-bottom: 10px;
+		    padding-left: 6px;
+		    padding-top: 10px;
+		    width: 220px;
+		}
+		.userGroupDialog .otherDiv {
+		    background-color: #FFF;
+		    border: 1px solid #C7C7C7;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		    clear: both;
+		    float: left;
+		    margin-left: 60px;
+		    width: 566px;
+		}
+		.userGroupDialog .otherDiv .inputText {
+		    background-color: #FFF;
+		    border: 1px solid #c7c7c7;
+		    float: left;
+		    height: 28px;
+		    line-height: 16px;
+		    padding-bottom: 6px;
+		    padding-left: 6px;
+		    padding-top: 6px;
+		    margin-left: 4px;
+		    margin-right: 4px;
+		    width: 60px;
+		}
+		.userGroupDialog .otherDiv .head {
+		    float: left;
+		    width: 100%;
+		    height: 36px;
+		}
+		.userGroupDialog .otherDiv .head span {
+		    float: left;
+		    line-height: 36px;
+		    padding-left: 10px;
+		}
+		.userGroupDialog .otherDiv .btnX {
+		    float: right;
+		    background-color: #FFF;
+		    border: 1px solid #44b549;
+		    line-height: 22px;
+		    margin-top: 6px;
+		    margin-right: 6px;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		.userGroupDialog .otherDiv .openBtnX .x {
+		    background-color: #44b549;
+		    color: #FFF;
+		}
+		.userGroupDialog .otherDiv .openBtnX .xx {
+		    background-color: #FFF;
+		    color: #FFF;
+		}
+		.userGroupDialog .otherDiv .btnX em {
+		    float: left;
+		    width: 42px;
+		    text-align: center;
+		    background-color: #FFF;
+		}
+		.userGroupDialog .otherDiv .bodyDiv {
+		    clear: both;
+		    float: left;
+		    width: 100%;
+		    padding-bottom: 20px;
+		    padding-top: 4px;
+		    border-top: 1px solid #C7C7C7;
+		}
+		.userGroupDialog .otherDiv .bodyDiv .list {
+		    float: left;
+		    width: 90%;
+		    clear: both;
+		    padding-top: 16px;
+		    padding-left: 10px;
+		}
+		.userGroupDialog .otherDiv label {
+		    float: left;
+		    padding-top: 6px;
+		}
+		.userGroupDialog .otherDiv .checkbox {
+		    float: left;
+		    margin-top: 8px;
+		    margin-left: 8px;
+		    margin-right: 4px;
+		}
+		
+    </style>
 </head>
 <body>
-<div class="rightarea clearfix">
-    <div class="mainarea clearfix">
-        <div class="user_list_main clearfix">
-            <div class="user_list_body clearfix">
-                <div class="sub_title">等级设置</div>
-                <div class="btn btn-success" style="float: right;position: relative;top: -23px;">添加等级</div>
-                <table class="clearfix settable">
-                    <thead>
-                        <tr>
-                            <th width="10%">序号</th>
-                            <th width="20%">会员等级</th>
-                            <th width="20%">折扣</th>
-                            <th width="*">升级规则</th>
-                            <th width="10%">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
-                            <a href="javascript:;">删除</a>
-                            <a href="javascript:;">修改</a>
-                        </td>
-                    </tr>
+<div id="content">
+	<div class="rightarea clearfix">
+	    <div class="mainarea clearfix">
+	        <div class="user_list_main clearfix">
+	            <div class="user_list_body clearfix">
+	                <div class="sub_title">等级设置</div>
+	                <div class="btn btn-success" style="float: right;position: relative;top: -23px;" data-toggle="modal" data-target="#userGroupDialog">添加等级</div>
+	                <table class="clearfix settable">
+	                    <thead>
+	                        <tr>
+	                            <th width="10%">序号</th>
+	                            <th width="20%">会员等级</th>
+	                            <th width="20%">折扣</th>
+	                            <th width="*">升级规则</th>
+	                            <th width="10%">操作</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    <tr v-for="item,index in vipType">
+	                        <td>{{item.viptypeId}}</td>
+	                        <td>{{item.viptypeName}}</td>
+	                        <td>{{item.viptypeDiscount}}</td>
+	                        <td v-if="item.moneylv!=null">消费金额达到{{item.moneylv}}元</td>
+	                        <td v-else>向商家申请</td>
+	                        <td>
+	                            <a href="javascript:;" @click="del(index,item.viptypeId)">删除</a>
+	                            <a href="javascript:;" data-toggle="modal" data-target="#vipUpdateDialog" @click="update(item.viptypeId)">修改</a>
+	                        </td>
+	                    </tr>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade userGroupDialog dialog " id="userGroupDialog" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+	  <div class="modal-dialog" role="document" style="width:750px;">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color: #f4f5f9;">
+	        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title" id="myModalspan">添加等级</h3>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="dialog_bd clearfix">
 
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+				<div class="topDiv">
+				<div class="list"><label><em>*</em>等级名称</label><input type="text" maxlength="12" value="" class="inputText" name="viptypeName"></div>
+				<div class="list"><label><em>*</em>优惠折扣</label><input type="text" maxlength="7" value="" class="inputText" name="viptypeDiscount" style="width:220px;"><label style="width:120px;color:#f05b23;padding-left: 10px; display:none;">(8.5折填写85)</label></div>
+				</div>
+				
+				<div class="otherDiv">
+				<div class="head" style="margin: 0px;">
+				<span>自动升级</span>
+				<a href="javascript:void(0);" class="btnX openBtnX"><em class="x">开启</em><em class="xx">关闭</em></a>
+				</div>
+				
+				<div class="bodyDiv">
+				<div class="list"><label>1、当会员消费达到</label><input type="text" maxlength="12" value="" class="inputText" name="moneylv"><label>元时，自动升级到该等级。</label></div>
+				<div class="list" style="margin-top:-4px;"><label>2、该等级有效期：</label><input type="radio" checked="checked" id="autoupdateRadio" name="autoupdate_type" value="0" class="checkbox"><label for="autoupdateRadio">永久</label><input type="radio" id="autoupdateRadio2" name="autoupdate_type" value="1" class="checkbox"><label for="autoupdateRadio2">1年</label></div>
+				<div class="list">3、自动升级，将在消费达到要求后的第二天生效。</div>
+				</div>
+				
+				</div>
+				
+				</div>
+	      </div>
+	      <div class="modal-footer" style="text-align: center;background-color: #f4f5f9;">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="add">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade userGroupDialog dialog " id="vipUpdateDialog" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+	  <div class="modal-dialog" role="document" style="width:750px;">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color: #f4f5f9;">
+	        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title" id="myModalspan">修改等级</h3>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="dialog_bd clearfix">
+				<input type="hidden" name="viptypeId2" :value="vipType2.viptypeId">
+				<div class="topDiv">
+				<div class="list"><label><em>*</em>等级名称</label><input type="text" maxlength="12" :value="vipType2.viptypeName" class="inputText" name="viptypeName2"></div>
+				<div class="list"><label><em>*</em>优惠折扣</label><input type="text" maxlength="7" :value="vipType2.viptypeDiscount" class="inputText" name="viptypeDiscount2" style="width:220px;"><label style="width:120px;color:#f05b23;padding-left: 10px; display:none;">(8.5折填写85)</label></div>
+				</div>
+				
+				<div class="otherDiv">
+				<div class="head" style="margin: 0px;">
+				<span>自动升级</span>
+				<a href="javascript:void(0);" class="btnX openBtnX"><em class="x">开启</em><em class="xx">关闭</em></a>
+				</div>
+				
+				<div class="bodyDiv">
+				<div class="list"><label>1、当会员消费达到</label><input type="text" maxlength="12" :value="vipType2.moneylv" class="inputText" name="moneylv2"><label>元时，自动升级到该等级。</label></div>
+				<div class="list" style="margin-top:-4px;"><label>2、该等级有效期：</label><input type="radio" checked="checked" id="autoupdateRadio" name="autoupdate_type" value="0" class="checkbox"><label for="autoupdateRadio">永久</label><input type="radio" id="autoupdateRadio2" name="autoupdate_type" value="1" class="checkbox"><label for="autoupdateRadio2">1年</label></div>
+				<div class="list">3、自动升级，将在消费达到要求后的第二天生效。</div>
+				</div>
+				
+				</div>
+				
+				</div>
+	      </div>
+	      <div class="modal-footer" style="text-align: center;background-color: #f4f5f9;">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="toupdate">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>
+	<script type="text/javascript">
+		var level_setvue = new Vue({
+			el:"#content",
+			data(){
+				return {
+					vipType:[],
+					vipType2:{}
+				}
+			},
+			methods:{
+				add:function(){
+					var viptypeName=$("[name=viptypeName]").val()
+					var viptypeDiscount=$("[name=viptypeDiscount]").val()
+					if((i+1)%2!=0){
+						var moneylv=$("[name=moneylv]").val()
+						$.ajax({
+							url:"[[@{member/addVipType}]]",
+							data:{viptypeName:viptypeName,viptypeDiscount:viptypeDiscount,moneylv:moneylv},
+							success:function(result){
+								level_setvue.queryVipType()
+							}
+						}); 
+					}else{
+						$.ajax({
+							url:"[[@{member/addVipType}]]",
+							data:{viptypeName:viptypeName,viptypeDiscount:viptypeDiscount},
+							success:function(result){
+								level_setvue.queryVipType()
+							}
+						}); 
+					}
+					
+				},
+				toupdate:function(){
+					var viptypeId=$("[name=viptypeId2]").val()
+					var viptypeName=$("[name=viptypeName2]").val()
+					var viptypeDiscount=$("[name=viptypeDiscount2]").val()
+					if((i+1)%2!=0){
+						var moneylv=$("[name=moneylv2]").val()
+						$.ajax({
+							url:"[[@{member/updateVipType}]]",
+							data:{viptypeId:viptypeId,viptypeName:viptypeName,viptypeDiscount:viptypeDiscount,moneylv:moneylv},
+							success:function(result){
+								level_setvue.queryVipType()
+							}
+						}); 
+					}else{
+						$.ajax({
+							url:"[[@{member/updateVipType}]]",
+							data:{viptypeId:viptypeId,viptypeName:viptypeName,viptypeDiscount:viptypeDiscount},
+							success:function(result){
+								level_setvue.queryVipType()
+							}
+						}); 
+					}
+					
+				},
+				queryVipType:function(){
+					$.ajax({
+						url:"[[@{member/queryVipType}]]",
+						success:function(result){
+							level_setvue.vipType = result;
+						}
+					});
+				},
+				del:function(index,viptypeId){
+					$.ajax({
+						url:"[[@{member/delVipType}]]",
+						data:{viptypeId:viptypeId},
+						success:function(result){
+							level_setvue.vipType.splice(index,1)
+							level_setvue.queryVipType()
+						}
+					}); 
+				},
+				update:function(viptypeId){
+					$.ajax({
+						url:"[[@{member/queryVipTypeByid}]]",
+						data:{viptypeId:viptypeId},
+						success:function(result){
+							level_setvue.vipType2=result
+							console.log(result)
+							if(result.moneylv==null){
+								$(".x").css({"background-color": "#FFF","color": "#FFF"});
+								$(".xx").css({"background-color": "#9E9E9E","color": "#FFF"});
+								$(".bodyDiv").hide()
+								$(".modal-body").css("height","130px")
+							}else{
+								$(".x").css({"background-color": "#44b549","color": "#FFF"});
+								$(".xx").css({"background-color": "#FFF","color": "#FFF"});
+								$(".bodyDiv").show()
+								$(".modal-body").css("height","277px")
+							}
+						}
+					}); 
+				}
+				
+			},
+			created:function(){
+				var that = this;
+				that.queryVipType()
+			}
+		});
+	
+		var i=0
+		$(".openBtnX").click(function(){
+			if(i%2!=0){
+				$(".x").css({"background-color": "#44b549","color": "#FFF"});
+				$(".xx").css({"background-color": "#FFF","color": "#FFF"});
+				$(".bodyDiv").show()
+				$(".modal-body").css("height","277px")
+			}else{
+				$(".x").css({"background-color": "#FFF","color": "#FFF"});
+				$(".xx").css({"background-color": "#9E9E9E","color": "#FFF"});
+				$(".bodyDiv").hide()
+				$(".modal-body").css("height","130px")
+			}
+			i++
+		})
+			
+		
+	</script>
 </body>
 </html>

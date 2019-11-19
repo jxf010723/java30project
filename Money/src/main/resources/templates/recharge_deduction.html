@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/recharge_deduction.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script th:src="@{js/jquery-1.12.4.js}"></script>
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
     
 </head>
 <body>
+<div id="content">
 <!--充值抵扣-->
 <div class="rightarea clearfix">
     <div class="mainarea clearfix">
@@ -21,17 +28,17 @@
             </div>
 
             <div class="list search">
-                <input class="inputtext" type="text" placeholder="查找">
-                <a href="javascript:;" class="search-btn"></a>
+                <input class="inputtext" type="text" placeholder="查找" name="name">
+                <a href="javascript:;" class="search-btn" @click="queryRechargeDeductions"></a>
             </div>
             <div class="list">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" name="afterDate">
             </div>
             <div class="list">
                 -
             </div>
             <div class="list">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" name="preDate">
             </div>
         </div>
         <div class="mainbody">
@@ -51,22 +58,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-for="item,index in list">
                     <td>
-                        1
+                        {{item.rdid}}
                     </td>
-                    <td>1
+                    <td>{{item.rdDate}}
                     </td>
-                    <td>1
+                    <td>{{item.rdVxid}}
                     </td>
-                    <td >1
+                    <td >{{item.rdName}}
                     </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td>{{item.rdPhone}}</td>
+                    <td>{{item.rdRecharge}}</td>
+                    <td>{{item.rdPresentation}}</td>
+                    <td>{{item.rdExpenditure}}</td>
+                    <td>{{item.rdBalance}}</td>
+                    <td>{{item.rdRemark}}</td>
                 </tr>
                 </tbody>
                 <tfoot>
@@ -83,5 +90,45 @@
         </div>
     </div>
 </div>
+</div>
+<script type="text/javascript">
+   		var recharge_deductionvue = new Vue({
+			el:"#content",
+			data(){
+				return {
+					list:[]
+				}
+			},
+			methods:{
+				queryRechargeDeductions:function(){
+					var preDate=$("[name=preDate]").val()
+					var afterDate=$("[name=afterDate]").val()
+					var name=$("[name=name]").val()
+					$.ajax({
+						url:"[[@{member/queryRechargeDeductions}]]",
+						data:{preDate:preDate,afterDate:afterDate,name:name},
+						success:function(result){
+							recharge_deductionvue.list=result;
+						}
+					});
+				}
+				/*del:function(id,index){
+					$.ajax({
+						url:"[[@{delete}]]",
+						data:"id="+id,
+						success:function(result){
+							alert("删除成功");
+							vue.list.splice(index,1);
+							location.href="query";
+						}
+					});
+				}*/
+			},
+			created:function(){
+				var that = this;
+				that.queryRechargeDeductions()
+			}
+		});
+   </script>
 </body>
 </html>

@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/integer_set.css">
-    
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script th:src="@{js/jquery-1.12.4.js}"></script>
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
+    <style type="text/css">
+    	.integerarea {
+		    padding-top: 160px;
+		}
+    	.overlayX {
+			display:none;
+			float: left;
+		    width: 584px;
+		    height: 388px;
+		    position: absolute;
+		    left: -14px;
+		    top: 15px;
+		    z-index: 9;
+		    BACKGROUND: #CCCCCC;
+		    FILTER: alpha(opacity:50);
+		    opacity: 0.5;
+		}
+    </style>
 </head>
 <body>
 <div class="rightarea clearfix">
@@ -17,6 +40,7 @@
                     <em class="xx">关闭</em>
                 </a>
                <div class="integerarea">
+               		<div class="overlayX"></div>
                     <div class="list clearfix">
                         <div class="title">积分抵扣</div>
                         <div class="cont">
@@ -27,7 +51,7 @@
                             <label >元</label>
                         </div>
                     </div>
-                   <div class="clearfix"></div>
+                   <div class="clearfix a"></div>
                    <div class="fr" style="margin-right: 100px">
                        <a href="javascript:;" class="btn btn-success" style="color: #fff !important;width: 100px;">确定</a>
                    </div>
@@ -36,5 +60,23 @@
         </div>
     </div>
 </div>
+	<script type="text/javascript">
+		$(function(){
+			var i=0
+			$(".btnx").click(function(){
+				if(i%2!=0){
+					$(".x").css({"background-color": "#44b549","color": "#FFF"});
+					$(".xx").css({"background-color": "#FFF","color": "#FFF"});
+					$(".overlayX").css("display", "none")
+				}else{
+					$(".x").css({"background-color": "#FFF","color": "#FFF"});
+					$(".xx").css({"background-color": "#9E9E9E","color": "#FFF"});
+					$(".overlayX").css("display", "block")
+				}
+				i++
+			})
+			
+		})
+	</script>
 </body>
 </html>

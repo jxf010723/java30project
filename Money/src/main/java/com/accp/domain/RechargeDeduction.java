@@ -2,9 +2,14 @@ package com.accp.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class RechargeDeduction {
     private Integer rdid;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date rdDate;
 
     private String rdVxid;

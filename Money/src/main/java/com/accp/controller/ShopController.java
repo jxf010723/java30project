@@ -29,7 +29,7 @@ public class ShopController {
 	ShopService service;
 	
 	/**
-	 * É¾³ýÔ±¹¤
+	 * É¾ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/delEmployee")
 	@ResponseBody
@@ -38,7 +38,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ÐÞ¸ÄÔ±¹¤ÐÅÏ¢
+	 * ï¿½Þ¸ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	@RequestMapping("/updatestaff")
 	@ResponseBody
@@ -47,7 +47,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ÐÂÔöÔ±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/insertstaff")
 	@ResponseBody
@@ -57,7 +57,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾ÝÔ±¹¤id²éÑ¯¶ÔÓ¦Ô±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/selectBystaffid")
 	@ResponseBody
@@ -66,7 +66,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿µêÆÌ
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/queryShop")
 	@ResponseBody
@@ -75,7 +75,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿Ö°Î»
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½Ö°Î»
 	 */
 	@RequestMapping("/queryJurisdictiontype")
 	@ResponseBody
@@ -84,7 +84,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * Ô±¹¤¹ÜÀíµÄ²éÑ¯
+	 * Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½Ñ¯
 	 */
 	@RequestMapping("/queryStaff")
 	@ResponseBody
@@ -101,7 +101,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾ÝµêÆÌidÉ¾³ý¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½idÉ¾ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping("/delStoreById")
@@ -111,7 +111,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾ÝµêÆÌidÐÞ¸Ä¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½idï¿½Þ¸Ä¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/updateStoreById")
 	@ResponseBody
@@ -132,7 +132,7 @@ public class ShopController {
 				System.out.println(l.getOriginalFilename()+"hhh");
 				shop.setShopimg(l.getOriginalFilename());
 			}
-			System.out.println("to³É¹¦ÁË");
+			System.out.println("toï¿½É¹ï¿½ï¿½ï¿½");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -143,7 +143,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾ÝµêÆÌid²éÑ¯Ïà¹ØµêÆÌ
+	 * ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Øµï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/selectByShopid")
 	@ResponseBody
@@ -152,7 +152,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ÐÂÔöµêÆÌ¹ÜÀíµÄµêÆÌ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/insertShop")
 	@ResponseBody
@@ -160,7 +160,7 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		service.insertShop(shop);
-		System.out.println("½øÀ´ÁË");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		return "success";
 	}
 	
@@ -183,7 +183,7 @@ public class ShopController {
 				System.out.println(l.getOriginalFilename());
 				shop.setShopimg(l.getOriginalFilename());
 			}
-			System.out.println("to³É¹¦ÁË");
+			System.out.println("toï¿½É¹ï¿½ï¿½ï¿½");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -195,7 +195,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÕÒÊÇ·ñÓÐ¸ù¾ÝÓÃ»§ÃûºÍÃÜÂë²éÕÒµ½µÄÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param user
 	 * @return
 	 */
@@ -205,7 +205,7 @@ public class ShopController {
 		//System.out.println(user.getUname()+"---"+user.getUpwd());
 		user = service.login(user);
 		if(user!=null) {
-			HttpSession session=request.getSession();//»ñÈ¡session²¢½«userName´æÈësession¶ÔÏó
+			HttpSession session=request.getSession();//ï¿½ï¿½È¡sessionï¿½ï¿½ï¿½ï¿½userNameï¿½ï¿½ï¿½ï¿½sessionï¿½ï¿½ï¿½ï¿½
 			session.setAttribute("user", user);
 			System.out.println(111);
 		}
@@ -214,7 +214,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯µêÆÌ¹ÜÀíÀïµÄÃÅµêÁÐ±í
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½Ð±ï¿½
 	 * @return
 	 */
 	@RequestMapping("/queryShopList")
