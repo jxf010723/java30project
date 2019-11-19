@@ -96,7 +96,7 @@ public class ShopController {
 			pageSize = 5;
 		}
 		PageInfo<All> page = service.queryStaff(pageNum,pageSize, shopname, tname, employeename);
-		System.out.println(shopname+tname+ employeename);
+		System.out.println(shopname+tname+ employeename+"111");
 		return page;
 	}
 	
