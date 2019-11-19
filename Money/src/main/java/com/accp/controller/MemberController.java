@@ -1,9 +1,15 @@
 package com.accp.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +27,7 @@ public class MemberController {
 	private MemberService service;
 	
 	/*
-	 * 会员信息分页查询
+	 * 锟斤拷员锟斤拷息锟斤拷页锟斤拷询
 	 */
 	@RequestMapping("/queryMember")
 	@ResponseBody
@@ -30,7 +36,7 @@ public class MemberController {
 	}
 	
 	/*
-	 * 查询会员等级
+	 * 锟斤拷询锟斤拷员锟饺硷拷
 	 */
 	@RequestMapping("/queryVipType")
 	@ResponseBody
@@ -39,7 +45,7 @@ public class MemberController {
 	}
 	
 	/*
-	 *根据id查询会员等级
+	 *锟斤拷锟斤拷id锟斤拷询锟斤拷员锟饺硷拷
 	 */
 	@RequestMapping("/queryVipTypeByid")
 	@ResponseBody
@@ -48,7 +54,7 @@ public class MemberController {
 	}
 	
 	/*
-	 * 新增会员等级
+	 * 锟斤拷锟斤拷锟斤拷员锟饺硷拷
 	 */
 	@RequestMapping("/addVipType")
 	@ResponseBody
@@ -57,7 +63,7 @@ public class MemberController {
 	}
 	
 	/*
-	 * 修改会员等级
+	 * 锟睫改伙拷员锟饺硷拷
 	 */
 	@RequestMapping("/updateVipType")
 	@ResponseBody
@@ -66,7 +72,7 @@ public class MemberController {
 	}
 	
 	/*
-	 * 删除新增会员等级
+	 * 删锟斤拷锟斤拷锟斤拷锟斤拷员锟饺硷拷
 	 */
 	@RequestMapping("/delVipType")
 	@ResponseBody
@@ -75,11 +81,39 @@ public class MemberController {
 	}
 	
 	/*
-	 *查询会员充值抵扣信息
+	 *锟斤拷询锟斤拷员锟斤拷值锟街匡拷锟斤拷息
 	 */
 	@RequestMapping("/queryRechargeDeductions")
 	@ResponseBody
 	public List<RechargeDeduction> queryRechargeDeductions(String preDate,String afterDate,String name) {
 		return service.queryRechargeDeductions(preDate,afterDate,name);
 	}
+	
+	/*@RequestMapping("downloadExcel")
+	public ResponseEntity<byte[]> downloadExcel(){
+		Workbook wb=new XSSFWorkbook();
+		Sheet sheet = wb.createSheet();
+		Row titleRow = sheet.createRow(0);
+		titleRow.createCell(0).setCellValue("瀛︾敓濮撳悕");
+		titleRow.createCell(1).setCellValue("瀛︾敓骞撮緞");
+		titleRow.createCell(2).setCellValue("瀛︾敓鐢熸棩");
+		Row row = sheet.createRow(1);
+		Cell nameCell = row.createCell(0);
+		nameCell.setCellValue("1");
+		Cell ageCell = row.createCell(1);
+		ageCell.setCellValue("2");
+		Cell birtydayCell = row.createCell(2);
+		birtydayCell.setCellValue("3");
+		HttpHeaders headers = new HttpHeaders();
+		ByteArrayOutputStream bot = new ByteArrayOutputStream();
+		try {
+			wb.write(bot);
+			headers.setContentDispositionFormData("attachment", new String("vip淇℃伅瀵煎叆妯℃澘.xlsx".getBytes("utf-8"),"iso-8859-1"));
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
+	}*/
 }
