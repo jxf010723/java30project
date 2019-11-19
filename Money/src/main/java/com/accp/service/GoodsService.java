@@ -8,8 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.accp.domain.Goodstype;
 import com.accp.domain.Shop;
+import com.accp.domain.Supplier;
+import com.accp.domain.SupplierExample;
 import com.accp.mapper.GoodstypeMapper;
 import com.accp.mapper.ShopMapper;
+import com.accp.mapper.SupplierMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -20,6 +23,8 @@ public class GoodsService {
 	GoodstypeMapper goodstype;
 	@Autowired
 	ShopMapper shop;
+	@Autowired
+	SupplierMapper supplier;
 	
 	/**
 	 * 商品类型查询分页
@@ -60,5 +65,12 @@ public class GoodsService {
 	
 	public List<Shop> queryshop(){
 		return shop.selectByExample(null);
+	}
+	
+	public PageInfo<Supplier> supplierpage(int pageNum, Supplier example){
+		PageHelper.startPage(pageNum, 5);
+		List<Supplier> list=supplier.selectAll(example);
+		PageInfo<Supplier> page=new PageInfo<Supplier>(list);
+		return page;
 	}
 }

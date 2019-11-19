@@ -18,5 +18,6 @@ public interface SupplierMapper {
 
     int updateByExampleSelective(@Param("record") Supplier record, @Param("example") SupplierExample example);
 
+    List<Supplier> selectAll(Supplier example);
     int updateByExample(@Param("record") Supplier record, @Param("example") SupplierExample example);
 }

@@ -243,4 +243,29 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
+  
+  
+  
+  
+  <!-- 动态查询 -->
+	<select id="selectAll" resultMap="BaseResultMap" parameterType="com.accp.domain.SupplierExample">
+		select 
+    		*
+    	from supplier
+		<where>
+				1=1 
+			<if test="province!='' ">
+		      and  province like concat('%',#{province},'%')
+		      </if>
+		      <if test="city !='' ">
+		      and  city like concat('%',#{city},'%')
+		      </if>		      		      		     		         		      
+		      <if test="suppliername!='' ">
+		      and  suppliername like concat('%',#{suppliername},'%') or cohr like concat('%',#{suppliername},'%') or 
+		      contact like concat('%',#{suppliername},'%') or phone like concat('%',#{suppliername},'%')
+		      </if>
+		      
+		</where>
+	</select>
 </mapper>

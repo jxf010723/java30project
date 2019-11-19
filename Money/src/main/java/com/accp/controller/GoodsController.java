@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.accp.domain.Goodstype;
 import com.accp.domain.Shop;
+import com.accp.domain.Supplier;
+import com.accp.domain.SupplierExample;
 import com.accp.service.GoodsService;
 import com.github.pagehelper.PageInfo;
 
@@ -69,4 +71,20 @@ public class GoodsController {
 	public List<Shop> queryshop(){
 		return goods.queryshop();
 	}
+	
+	@RequestMapping("/goodssupplierpage")
+	@ResponseBody
+	public PageInfo<Supplier> goodssupplierpage(int pageNum,String sheng,String shi,String ming){
+		
+		
+		Supplier supp=new Supplier(ming,sheng,shi);
+		System.out.println("进入"+sheng);
+		PageInfo<Supplier> page=goods.supplierpage(pageNum, supp);
+		for (Supplier list : page.getList()) {
+			System.out.println("ss"+list);
+			
+		}
+		return page;
+	}
+	
 }

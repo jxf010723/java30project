@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/supplier.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
+    <script src="js/distpicker.data.js"></script>
+	  <script src="js/distpicker.js"></script>
+	  <script src="js/main.js"></script>
+    
 </head>
 <body>
-<div class="rightarea clearfix">
-    <div class="mainarea clearfix">
+<div class="rightarea clearfix" >
+    <div class="mainarea clearfix" id="suppvue">
         <div class="mainhead">
             <span class="title">供应商</span>
             <div class="searchArea">
                 <div class="btn-div">
-                    <a href="javascript:;" class="btn btn-success">
+                    <a href="" class="btn btn-success" data-toggle="modal" data-target="#supplierModal">
                         添加供应商
                     </a>
                 </div>
@@ -20,26 +29,22 @@
 
             <div class="list search">
                 <input class="inputtext" type="text" placeholder="查找">
-                <a href="javascript:;" class="search-btn"></a>
+                <a href="" class="search-btn"></a>
             </div>
             <div class="list">
-                <select name="" id="" class="form-control">
-                    <option value="请选择城市">请选择城市</option>
-                </select>
-            </div>
-            <div class="list">
-                -
-            </div>
-            <div class="list">
-                <select name="" id="" class="form-control">
-                    <option value="请选择省份">请选择省份</option>
-                </select>
-            </div>
-
-            <div class="list">
+            
+           <div data-toggle="distpicker">
+        <div class="form-group" style="display: inline-block;">
+          
+          <select class="form-control" id="province7" @change="shengpage()"></select>
+        </div>
+        
+      </div>
+           
+        </div>
+         <div class="list">
                 <span style="position: relative;top: 10px;">地&nbsp;&nbsp;&nbsp;&nbsp;区</span>
             </div>
-        </div>
         <div class="mainbody">
             <table class="settable table table-striped">
                 <thead>
@@ -56,23 +61,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-for="tiem,index in page.list">
                     <td>
-                      1
+                      {{index+1}}
                     </td>
-                    <td>1
+                    <td>{{tiem.cohr}}
                     </td>
-                    <td>1
+                    <td>{{tiem.suppliername}}
                     </td>
-                    <td >1
+                    <td >{{tiem.contact}}
                     </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td>{{tiem.phone}}</td>
+                    <td>{{tiem.telephone}}</td>
+                    <td>{{tiem.email}}</td>
+                    <td>-</td>
                     <td>
-                        <a href="javascript:;">删除</a>
-                        <a href="javascript:;">编辑</a>
+                        <a href="">删除</a>
+                        <a href="">编辑</a>
                     </td>
                 </tr>
                 </tbody>
@@ -80,5 +85,116 @@
         </div>
     </div>
 </div>
+
+<!-- 模态框（Modal） -->
+		<div class="modal fade" id="supplierModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div style="width: 76.66%;"  class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">添加供应商</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<form class="form-horizontal">
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control">
+						    </div>
+						    
+						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>公司简称</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control">
+						    </div>
+						  </div>
+						  
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;&nbsp;系  人</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control">
+						    </div>
+						    
+						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control">
+						    </div>
+						  </div>
+						  
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control">
+						    </div>
+						    
+						     <label for="inputEmail3" class="col-sm-2 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control">
+						    </div>
+						  </div>
+						  
+						   <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+						    <div class="col-sm-10">
+						      
+						    <div class="address_edit"><select class="form-control" id="s_province" name="s_province" style="width: 25%;display: inline-block;"></select>  
+                            <select class="form-control" id="s_city" name="s_city" style="width: 25%;display: inline-block;"></select>  
+                            <select class="form-control" id="s_county" name="s_county" style="width: 25%;display: inline-block;"></select>
+                            <script type="text/javascript">_init_area();</script></div>
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">街&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道</label>
+						    <div class="col-sm-8">
+						      <input type="text" class="form-control">
+						    </div>
+						  </div>
+						</form>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;">确认</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+	</div>
 </body>
 </html>
+
+<script type="text/javascript">
+
+	
+	var supplier=new Vue({
+		el:"#suppvue",
+		data(){
+			return{
+				page:{
+					list:[]
+				}
+			}
+		},
+		methods:{
+			pages:function(dqy,sheng,shi,ming){
+				var th=this;
+				$.ajax({
+					data:{pageNum:dqy,sheng:sheng,shi:shi,ming:ming},
+					url:"[[@{goods/goodssupplierpage}]]",
+					type:"post",
+					success:function(res){
+						console.log(res);
+						th.page=res;						
+					}
+				});
+			},
+			shengpage:function(){
+				var sheng= $("#province7").val();
+				alert(sheng);
+				this.pages(1,sheng,"","","");
+			}
+		},
+		mounted:function(){
+			this.pages(1,null,null,null,null);
+		}
+		
+	});
+</script>
