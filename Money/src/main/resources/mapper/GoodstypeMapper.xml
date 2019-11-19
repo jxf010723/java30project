@@ -97,8 +97,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="String" >
-    insert into goodstype (typeid, typename)
-    values (#{typeid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR})
+    insert into goodstype (typename)
+    values ( #{typename,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.Goodstype" >
     insert into goodstype
