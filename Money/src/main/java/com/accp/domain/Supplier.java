@@ -8,6 +8,7 @@ public class Supplier {
     private String cohr;
 
     private String contact;
+    
 
     private String phone;
 

@@ -96,6 +96,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
+  <delete id="deleteBysuppiler" parameterType="String">
+    delete from supplier
+    where supplierid=#{0}
+  </delete>
+  
   <insert id="insert" parameterType="com.accp.domain.Supplier" >
     insert into supplier (supplierid, suppliername, cohr, 
       contact, phone, email, 
@@ -226,6 +232,48 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
+  <update id="updateBysupplier"  parameterType="com.accp.domain.Supplier" >
+    update supplier
+    <set >
+      
+      <if test="suppliername != null" >
+        suppliername = #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="cohr != null" >
+        cohr = #{cohr,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        street = #{street,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  supplierid = #{supplierid,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
   <update id="updateByExample" parameterType="map" >
     update supplier
     set supplierid = #{record.supplierid,jdbcType=INTEGER},

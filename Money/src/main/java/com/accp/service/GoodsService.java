@@ -73,4 +73,16 @@ public class GoodsService {
 		PageInfo<Supplier> page=new PageInfo<Supplier>(list);
 		return page;
 	}
+	
+	public int supplierinsert(Supplier supp) {
+		return supplier.insertSelective(supp);
+	}
+	
+	public int supplierupdate(Supplier supp) {
+		return supplier.updateBysupplier(supp);
+	}
+	public int supplierdelete(String id) {
+		return supplier.deleteBysuppiler(id);
+	}
+	
 }

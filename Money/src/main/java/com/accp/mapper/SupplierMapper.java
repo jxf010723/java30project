@@ -14,6 +14,10 @@ public interface SupplierMapper {
 
     int insertSelective(Supplier record);
 
+    int updateBysupplier(Supplier record);
+    
+    int deleteBysuppiler(String id);
+    
     List<Supplier> selectByExample(SupplierExample example);
 
     int updateByExampleSelective(@Param("record") Supplier record, @Param("example") SupplierExample example);

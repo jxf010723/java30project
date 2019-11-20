@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -86,5 +87,25 @@ public class GoodsController {
 		}
 		return page;
 	}
+	@RequestMapping("/supplierinsert")
+	@ResponseBody
+	public int supplierinsert(@RequestBody Supplier supplier) {
+		System.out.println("新增");
+		System.out.println(supplier);
+		return goods.supplierinsert(supplier);
+	}
 	
+	@RequestMapping("/supplierupdate")
+	@ResponseBody
+	public int supplierupdate(@RequestBody Supplier supplier) {
+		System.out.println("修改");
+		System.out.println(supplier);
+		return goods.supplierupdate(supplier);
+	}
+	
+	@RequestMapping("/supplierdelete")
+	@ResponseBody
+	public int supplierupdate(String id) {
+		return goods.supplierdelete(id);
+	}
 }
