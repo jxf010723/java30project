@@ -81,7 +81,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from "recharge_ deduction"
+    from `recharge_deduction`
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,21 +92,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from "recharge_ deduction"
+    from "recharge_deduction"
     where rdid = #{rdid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from "recharge_ deduction"
+    delete from "recharge_deduction"
     where rdid = #{rdid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.accp.domain.RechargeDeductionExample" >
-    delete from "recharge_ deduction"
+    delete from "recharge_deduction"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.RechargeDeduction" >
-    insert into "recharge_ deduction" (rdid, rd_date, rd_vxid, 
+    insert into "recharge_deduction" (rdid, rd_date, rd_vxid, 
       rd_name, rd_phone, rd_recharge, 
       rd_presentation, rd_expenditure, rd_balance, 
       rd_remark)
@@ -116,7 +116,7 @@
       #{rdRemark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.RechargeDeduction" >
-    insert into "recharge_ deduction"
+    insert into "recharge_deduction"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="rdid != null" >
         rdid,
@@ -183,13 +183,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.accp.domain.RechargeDeductionExample" resultType="java.lang.Integer" >
-    select count(*) from "recharge_ deduction"
+    select count(*) from "recharge_deduction"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update "recharge_ deduction"
+    update "recharge_deduction"
     <set >
       <if test="record.rdid != null" >
         rdid = #{record.rdid,jdbcType=INTEGER},
@@ -227,7 +227,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update "recharge_ deduction"
+    update "recharge_deduction"
     set rdid = #{record.rdid,jdbcType=INTEGER},
       rd_date = #{record.rdDate,jdbcType=DATE},
       rd_vxid = #{record.rdVxid,jdbcType=VARCHAR},
@@ -243,7 +243,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.RechargeDeduction" >
-    update "recharge_ deduction"
+    update "recharge_deduction"
     <set >
       <if test="rdDate != null" >
         rd_date = #{rdDate,jdbcType=DATE},
@@ -276,7 +276,7 @@
     where rdid = #{rdid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.accp.domain.RechargeDeduction" >
-    update "recharge_ deduction"
+    update "recharge_deduction"
     set rd_date = #{rdDate,jdbcType=DATE},
       rd_vxid = #{rdVxid,jdbcType=VARCHAR},
       rd_name = #{rdName,jdbcType=VARCHAR},

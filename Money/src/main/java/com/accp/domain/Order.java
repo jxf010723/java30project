@@ -2,8 +2,10 @@ package com.accp.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Order {
-    private Integer orderId;
+    private String orderId;
 
     private Integer userId;
 
@@ -21,15 +23,16 @@ public class Order {
 
     private String orderPayment;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date orderDate;
 
     private Integer integral;
 
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

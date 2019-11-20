@@ -7,6 +7,7 @@
     
 </head>
 <body>
+<div id="content">
 <!--成交记录-->
 <div class="rightarea clearfix">
     <div class="mainarea clearfix">
@@ -14,23 +15,23 @@
             <span class="title">成交记录</span>
 
             <div class="list search">
-                <input class="inputtext" type="text" placeholder="查找">
-                <a href="javascript:;" class="search-btn"></a>
+                <input class="inputtext" type="text" placeholder="查找" name="name">
+                <a href="javascript:;" class="search-btn" @click="cz"></a>
             </div>
             <div class="list">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" name="afterDate">
             </div>
             <div class="list">
                 -
             </div>
             <div class="list">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" name="preDate">
             </div>
             <div class="list">
-                <input type="checkbox">按商品
+                <input type="checkbox" name="sp">按商品
             </div>
             <div class="list">
-                <input type="checkbox">按订单
+                <input type="checkbox" name="dd">按订单
             </div>
         </div>
         <div class="mainbody">
@@ -48,22 +49,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        1
-                    </td>
-                    <td >
-                        1
-                    </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
+	                <template name="dd1">
+		                <tr v-for="item,index in page.list">
+		                    <td>
+		                        {{index+1}}
+		                    </td>
+		                    <td>
+		                        {{item.orderId}}
+		                    </td>
+		                    <td >
+		                        {{item.orderName}}
+		                    </td>
+		                    <td>{{item.orderPhone}}</td>
+		                    <td>{{item.orderCount}}</td>
+		                    <td>{{item.orderSfmoney}}</td>
+		                    <td>{{item.orderPayment}}</td>
+		                    <td>{{item.orderDate}}</td>
+		                </tr>
+	                </template>
+	                <template name="sp1">
+		                <tr v-for="item2,index2 in page2.list2">
+			                    <td width="8%">
+			                    {{item2.orderDetailsId}}
+			                </td>
+			                <td width="50%">
+			                    {{item2.goodsName}}
+			                </td>
+			                <td width="10%">
+			                    {{item2.goodsCount}}
+			                </td>
+			                <td width="14%">{{item2.goodsPrice}}</td>
+			                <td width="18%">{{item2.orderDate}}</td>
+			            </tr>
+	                </template> 
                 </tbody>
                 <tfoot>
                 <tr>
@@ -83,33 +101,33 @@
                     <div class="page">
                         <ul class="pagination">
                             <li>
-                                <a href="javascript:;">
+                                <a href="javascript:;"  @click="queryBydd(1)">
                                     首页
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="javascript:;" @click="queryBydd(page.prePage)">
                                     &laquo;
                                 </a>
                             </li>
                             <li>
-                                <span style="font-size: 14px;">1/5</span>
+                                <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="javascript:;"  @click="queryBydd(page.nextPage)">
                                     &raquo;
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="javascript:;"  @click="queryBydd(page.lastPage)">
                                     尾页
                                 </a>
                             </li>
                             <li style="margin-left: 20px; float:left;">
-                                <input type="text" class="form-control" style="width: 100px;">
+                                <input type="text" class="form-control" style="width: 100px;" name="tz">
                             </li>
                             <li style="margin-left: 15px; float:left;">
-                                <a href="javascript:;" class="btn btn-default">
+                                <a href="javascript:;" class="btn btn-default" @click="tz">
                                     跳转
                                 </a>
                             </li>
@@ -122,5 +140,111 @@
         </div>
     </div>
 </div>
+</div>
+<script type="text/javascript">
+   		var transaction_recordvue = new Vue({
+			el:"#content",
+			data(){
+				return {
+					page:{//dd
+						list:[]
+					},
+					page2:{//sp
+						list2:[]
+					}
+				}
+			},
+			methods:{
+				queryBydd:function(pageNum){
+					if(pageNum==0){
+						return;
+					}
+					var preDate=$("[name=preDate]").val()
+					var afterDate=$("[name=afterDate]").val()
+					var name=$("[name=name]").val()
+					$.ajax({
+						url:"[[@{member/queryBydd}]]",
+						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name},
+						success:function(result){
+							transaction_recordvue.page=result;
+						}
+					});
+				},
+				queryBysp:function(pageNum){
+					if(pageNum==0){
+						return;
+					}
+					var preDate=$("[name=preDate]").val()
+					var afterDate=$("[name=afterDate]").val()
+					var name=$("[name=name]").val()
+					$.ajax({
+						url:"[[@{member/queryBysp}]]",
+						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name},
+						success:function(result){
+							console.log(result)
+							transaction_recordvue.page2=result;
+						}
+					});
+				},
+				tz:function(){
+					var tz=$("[name=tz]").val()
+					this.queryBydd(tz)
+				},
+				cz:function(){
+					this.queryBydd(1)
+				}
+			},
+			created:function(){
+				var that = this;
+				that.queryBydd(1)
+				that.queryBysp(1)
+			}
+		});
+   		$("[name=dd]").attr("checked",true);
+   		//$("[name=sp1]").hide();
+   		var name="dd";
+   		$(':checkbox').each(function(){ //遍历页面中所有的checkbox
+			$(this).click(function(){//为页面中每一个checkbox设置点击事件
+				if($(this).attr("name")==name){
+					$(this).prop("checked",true);
+					return;
+				}
+				if($(this).is(':checked')){ //如果有checkbox状态为选中
+					$(':checkbox').removeAttr('checked'); //移除checked属性，改变checkbox状态为未选中(为页面中所有checkbox复选框添加设置)
+					//$(':checkbox').attr('disabled','disabled'); //或者直接设置checkbox复选框为禁用(为页面中所有checkbox复选框添加设置)
+					$(this).prop("checked",true); //为当前点击选中的checkbox复选框添加checked属性
+					name=$(this).attr("name");
+				}
+			});
+		});
+		$("[name=dd]").click(function(){
+			$("thead").html(`<tr>
+                    <th width="8%">序号</th>
+                    <th width="18%">订单号</th>
+                    <th width="12%">姓名</th>
+                    <th width="12%">手机</th>
+                    <th width="10%">数量</th>
+                    <th width="12%">金额</th>
+                    <th width="10%">支付方式</th>
+                    <th width="18%">日期</th>
+                </tr>`)
+            $("[name=dd1]").show();
+			$("[name=sp1]").hide();
+		})
+		$("[name=sp]").click(function(){
+			$("thead").html(`<tr>
+					<th width="8%">序号</th>
+					<th width="50%">商品</th>
+
+					<th width="10%">数量</th>
+					<th width="14%">金额</th>
+					<th width="18%">日期</th>
+					</tr>`)
+			$("[name=dd1]").hide();
+			$("[name=sp1]").show();
+		})
+		
+		
+   </script>	
 </body>
 </html>

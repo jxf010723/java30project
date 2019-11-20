@@ -354,7 +354,7 @@
 	      	<div class="dialog_bd clearfix" style="">
 				<label for="excelFile" class="btn addExcelBtn">Excel导入</label>
 				<input type="file" name="file" class="file excelFile" id="excelFile">
-				<a href="poso2o_batch_upload_user.xls" class="downExcl" @click="downloadExcel">下载范本</a>
+				<a href="javascript:void(0)" class="downExcl" @click="downloadExcel" data-dismiss="modal">下载范本</a>
 			</div>
 	      </div>
 	    </div>
@@ -395,7 +395,7 @@
 					this.queryMember(tz)
 				},
 				downloadExcel:function(){
-					window.location.href="[[@{downloadExcel}]]"
+					window.location.href="[[@{member/downloadExcel}]]"
 				}
 				/*del:function(id,index){
 					$.ajax({

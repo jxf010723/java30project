@@ -2,9 +2,15 @@ package com.accp.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.accp.domain.Order;
 import com.accp.domain.RechargeDeduction;
 import com.accp.domain.Viptype;
 import com.accp.service.MemberService;
@@ -85,25 +92,42 @@ public class MemberController {
 	 */
 	@RequestMapping("/queryRechargeDeductions")
 	@ResponseBody
-	public List<RechargeDeduction> queryRechargeDeductions(String preDate,String afterDate,String name) {
+	public List<RechargeDeduction> queryRechargeDeductions(String preDate,String afterDate,String name) throws ParseException {
 		return service.queryRechargeDeductions(preDate,afterDate,name);
 	}
 	
-	/*@RequestMapping("downloadExcel")
-	public ResponseEntity<byte[]> downloadExcel(){
-		Workbook wb=new XSSFWorkbook();
+	@RequestMapping("/queryBydd")
+	@ResponseBody
+	public PageInfo queryBydd(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException {
+		return service.queryBydd(pageNum,pageSize,preDate,afterDate,name);
+	}
+	
+	@RequestMapping("/queryBysp")
+	@ResponseBody
+	public PageInfo queryBysp(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException {
+		return service.queryBysp(pageNum,pageSize,preDate,afterDate,name);
+	}
+	
+	@RequestMapping("/downloadExcel")
+	public ResponseEntity<byte []> exportExcel(){
+		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet();
+		
 		Row titleRow = sheet.createRow(0);
+		
 		titleRow.createCell(0).setCellValue("学生姓名");
 		titleRow.createCell(1).setCellValue("学生年龄");
 		titleRow.createCell(2).setCellValue("学生生日");
+		
 		Row row = sheet.createRow(1);
+		
 		Cell nameCell = row.createCell(0);
 		nameCell.setCellValue("1");
 		Cell ageCell = row.createCell(1);
 		ageCell.setCellValue("2");
 		Cell birtydayCell = row.createCell(2);
 		birtydayCell.setCellValue("3");
+		
 		HttpHeaders headers = new HttpHeaders();
 		ByteArrayOutputStream bot = new ByteArrayOutputStream();
 		try {
@@ -115,5 +139,5 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
-	}*/
+	}
 }

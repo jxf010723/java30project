@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.accp.mapper.OrderMapper" >
   <resultMap id="BaseResultMap" type="com.accp.domain.Order" >
-    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="order_name" property="orderName" jdbcType="VARCHAR" />
     <result column="order_phone" property="orderPhone" jdbcType="VARCHAR" />
@@ -74,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     order_id, user_id, order_name, order_phone, order_count, order_totalMoney, order_sfMoney, 
-    "Integral_ deductionMoney", order_payment, order_date, integral
+    Integral_deductionMoney, order_payment, order_date, integral
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.OrderExample" >
     select
@@ -82,7 +82,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
