@@ -3,7 +3,7 @@ package com.accp.domain;
 import java.util.Date;
 
 public class Order {
-    private Integer orderId;
+    private String orderId;
 
     private Integer userId;
 
@@ -25,11 +25,11 @@ public class Order {
 
     private Integer integral;
 
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

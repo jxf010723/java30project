@@ -1,8 +1,21 @@
 package com.accp.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class All {
+	private List<Goods> glist;
+	
+	public List<Goods> getGlist() {
+		return glist;
+	}
+
+	public void setGlist(List<Goods> glist) {
+		this.glist = glist;
+	}
+
+	private int gcount;
+	
 	private int staffcount;
 
     private String tname;
@@ -61,6 +74,306 @@ public class All {
     
     private String detailaddress;
     
+    private Integer goodsid;
+
+    private Integer typeid;
+
+    private Integer supplierid;
+
+    private String goodsbrand;
+
+    private String goodsname;
+
+    private String goodsphoto;
+
+    private String numbers;
+
+    private String specification;
+
+    private Integer stock;
+
+    private Float salesprice;
+
+    private Float costprice;
+
+    private Integer agio;
+    
+    private String typename;
+    
+    private String orderId;
+
+    private Integer userId;
+
+    private String orderName;
+
+    private String orderPhone;
+
+    private Integer orderCount;
+
+    private Double orderTotalmoney;
+
+    private Double orderSfmoney;
+
+    private Double integralDeductionmoney;
+
+    private String orderPayment;
+
+    private Date orderDate;
+
+    private Integer integral;
+    
+    private Integer orderDetailsId;
+
+    private Integer goodsId;
+
+    private String goodsName;
+
+    private Double goodsPrice;
+
+    private Integer goodsCount;
+
+    private Double orderDetailsDiscount;
+    
+
+	public Integer getGoodsid() {
+		return goodsid;
+	}
+
+	public void setGoodsid(Integer goodsid) {
+		this.goodsid = goodsid;
+	}
+
+	public Integer getTypeid() {
+		return typeid;
+	}
+
+	public void setTypeid(Integer typeid) {
+		this.typeid = typeid;
+	}
+
+	public Integer getSupplierid() {
+		return supplierid;
+	}
+
+	public void setSupplierid(Integer supplierid) {
+		this.supplierid = supplierid;
+	}
+
+	public String getGoodsbrand() {
+		return goodsbrand;
+	}
+
+	public void setGoodsbrand(String goodsbrand) {
+		this.goodsbrand = goodsbrand;
+	}
+
+	public String getGoodsname() {
+		return goodsname;
+	}
+
+	public void setGoodsname(String goodsname) {
+		this.goodsname = goodsname;
+	}
+
+	public String getGoodsphoto() {
+		return goodsphoto;
+	}
+
+	public void setGoodsphoto(String goodsphoto) {
+		this.goodsphoto = goodsphoto;
+	}
+
+	public String getNumbers() {
+		return numbers;
+	}
+
+	public void setNumbers(String numbers) {
+		this.numbers = numbers;
+	}
+
+	public String getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
+	public Float getSalesprice() {
+		return salesprice;
+	}
+
+	public void setSalesprice(Float salesprice) {
+		this.salesprice = salesprice;
+	}
+
+	public Float getCostprice() {
+		return costprice;
+	}
+
+	public void setCostprice(Float costprice) {
+		this.costprice = costprice;
+	}
+
+	public Integer getAgio() {
+		return agio;
+	}
+
+	public void setAgio(Integer agio) {
+		this.agio = agio;
+	}
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getOrderName() {
+		return orderName;
+	}
+
+	public void setOrderName(String orderName) {
+		this.orderName = orderName;
+	}
+
+	public String getOrderPhone() {
+		return orderPhone;
+	}
+
+	public void setOrderPhone(String orderPhone) {
+		this.orderPhone = orderPhone;
+	}
+
+	public Integer getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(Integer orderCount) {
+		this.orderCount = orderCount;
+	}
+
+	public Double getOrderTotalmoney() {
+		return orderTotalmoney;
+	}
+
+	public void setOrderTotalmoney(Double orderTotalmoney) {
+		this.orderTotalmoney = orderTotalmoney;
+	}
+
+	public Double getOrderSfmoney() {
+		return orderSfmoney;
+	}
+
+	public void setOrderSfmoney(Double orderSfmoney) {
+		this.orderSfmoney = orderSfmoney;
+	}
+
+	public Double getIntegralDeductionmoney() {
+		return integralDeductionmoney;
+	}
+
+	public void setIntegralDeductionmoney(Double integralDeductionmoney) {
+		this.integralDeductionmoney = integralDeductionmoney;
+	}
+
+	public String getOrderPayment() {
+		return orderPayment;
+	}
+
+	public void setOrderPayment(String orderPayment) {
+		this.orderPayment = orderPayment;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public Integer getIntegral() {
+		return integral;
+	}
+
+	public void setIntegral(Integer integral) {
+		this.integral = integral;
+	}
+
+	public Integer getOrderDetailsId() {
+		return orderDetailsId;
+	}
+
+	public void setOrderDetailsId(Integer orderDetailsId) {
+		this.orderDetailsId = orderDetailsId;
+	}
+
+	public Integer getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(Integer goodsId) {
+		this.goodsId = goodsId;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public Double getGoodsPrice() {
+		return goodsPrice;
+	}
+
+	public void setGoodsPrice(Double goodsPrice) {
+		this.goodsPrice = goodsPrice;
+	}
+
+	public Integer getGoodsCount() {
+		return goodsCount;
+	}
+
+	public void setGoodsCount(Integer goodsCount) {
+		this.goodsCount = goodsCount;
+	}
+
+	public Double getOrderDetailsDiscount() {
+		return orderDetailsDiscount;
+	}
+
+	public void setOrderDetailsDiscount(Double orderDetailsDiscount) {
+		this.orderDetailsDiscount = orderDetailsDiscount;
+	}
 
 	public int getStaffcount() {
 		return staffcount;
@@ -297,6 +610,13 @@ public class All {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	    
+
+	public int getGcount() {
+		return gcount;
+	}
+
+	public void setGcount(int gcount) {
+		this.gcount = gcount;
+	}
 	    
 }

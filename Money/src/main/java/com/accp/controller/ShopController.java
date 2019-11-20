@@ -29,6 +29,42 @@ public class ShopController {
 	ShopService service;
 	
 	/**
+	 * 查询有商品的商品类型
+	 */
+	@RequestMapping("/queryGoodstype")
+	@ResponseBody
+	public List<All> queryGoodstype(){
+		return service.queryGoodstype();
+	}
+	
+	/**
+	 * 查询订单表中前十条卖的最好的商品(订单中的商品数量)
+	 */
+	@RequestMapping("/queryTenGoods")
+	@ResponseBody
+	public List<All> queryTenGoods(){
+		return service.queryTenGoods();
+	}
+	
+	/**
+	 * 账户的修改
+	 */
+	@RequestMapping("/updateUser")
+	@ResponseBody
+	public int updateUser(User user) {
+		return service.updateUser(user);
+	}
+	
+	/**
+	 * 账户的查询
+	 */
+	@RequestMapping("/queryUser")
+	@ResponseBody
+	public User queryUser(Integer uid) {
+		return service.queryUser(uid);
+	}
+	
+	/**
 	 * 删除员工
 	 */
 	@RequestMapping("/delEmployee")
@@ -119,13 +155,13 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file");
+		File directory = new File("/E:/Y2/文件/项目资料/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : updateFiles) {
-				String url = "/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file/";
+				String url = "/E:/Y2/文件/项目资料/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
@@ -170,13 +206,13 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file");
+		File directory = new File("//E:/Y2/文件/项目资料/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : insertFiles) {
-				String url = "/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file/";
+				String url = "//E:/Y2/文件/项目资料/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
