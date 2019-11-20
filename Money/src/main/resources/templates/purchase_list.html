@@ -59,20 +59,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-for="item,index in page.list">
                     <td>
-                        1
+                        {{index+1}}
                     </td>
-                    <td>1
+                    <td>
+                    	{{item.shenghe}}
                     </td>
-                    <td>1
+                    <td>
+						{{item.deliverytime}}
                     </td>
-                    <td >1
+                    <td >{{item.odd}}
                     </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td>{{item.odd}}</td>
+                    <td>{{item.odd}}</td>
+                    <td>{{item.odd}}</td>
+                    <td>{{item.odd}}</td>
                     <td>
                         <a href="javascript:;">删除</a>
                         <a href="javascript:;">编辑</a>
@@ -86,6 +88,37 @@
 </body>
 </html>
 <script type="text/javascript">
+	var purchasevue=new Vue({
+		el:"#add",
+		data(){
+			return{
+				page:{
+					list:[]
+				}
+			}
+		},
+		methods:{
+			pages:function(dqy){
+				var th=this;
+				$.ajax({
+					data:{pageNum:dqy},
+					url:"[[@{goods/goodspurchasepage}]]",
+					type:"post",
+					success:function(res){
+						console.log(res);
+						th.page=res;
+					}
+				});
+			}
+		},
+		mounted:function(){
+			this.pages(1);
+		}
+	});
+
+
+
+
 	$(function(){
 		$("#ssa").click(function(){
 			 $.ajax({
@@ -102,3 +135,4 @@
 		 
 	});
 </script>
+

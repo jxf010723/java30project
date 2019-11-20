@@ -9,6 +9,7 @@
     <result column="userid" property="userid" jdbcType="INTEGER" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="grossmoney" property="grossmoney" jdbcType="REAL" />
+     <result column="shenghe" property="shenghe" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -240,4 +241,14 @@
       grossmoney = #{grossmoney,jdbcType=REAL}
     where purchaseid = #{purchaseid,jdbcType=INTEGER}
   </update>
+  
+  
+  <select id="selectAll" resultType="com.accp.domain.Purchase">
+  	SELECT p.*,COUNT(*) sl FROM `purchase` p JOIN  `purchasedetails` ps  ON p.purchaseid=ps.purchaseid 
+  	<where>
+				1=1 
+			
+		      
+		</where> 
+  </select>
 </mapper>

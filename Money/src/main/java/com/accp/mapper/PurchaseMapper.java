@@ -1,9 +1,11 @@
 package com.accp.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.accp.domain.Purchase;
 import com.accp.domain.PurchaseExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface PurchaseMapper {
     int countByExample(PurchaseExample example);
@@ -27,4 +29,6 @@ public interface PurchaseMapper {
     int updateByPrimaryKeySelective(Purchase record);
 
     int updateByPrimaryKey(Purchase record);
+    
+    List<Purchase> selectAll();
 }

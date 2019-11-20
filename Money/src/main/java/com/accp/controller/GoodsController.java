@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.accp.domain.Goodstype;
+import com.accp.domain.Purchase;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
-import com.accp.domain.SupplierExample;
 import com.accp.service.GoodsService;
 import com.github.pagehelper.PageInfo;
 
@@ -108,4 +108,16 @@ public class GoodsController {
 	public int supplierupdate(String id) {
 		return goods.supplierdelete(id);
 	}
+	@RequestMapping("/goodspurchasepage")
+	@ResponseBody
+	public PageInfo<Purchase> goodspurchasepage(int pageNum){
+	System.out.println(pageNum);
+		PageInfo<Purchase> page=goods.purchasepage(pageNum);
+		for (Purchase list : page.getList()) {
+			System.out.println("ss"+list);
+			
+		}
+		return page;
+	}
+	
 }
