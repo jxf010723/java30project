@@ -176,14 +176,14 @@
                 </div>
                 <div class="list search">
                     <input class="inputtext" type="text" placeholder="查找">
-                    <a @click="cz" href="javascript:;" class="search-btn"></a>
+                    <a onclick="queryMember(1)" href="javascript:;" class="search-btn"></a>
                 </div>
                 <div class="list">
-                    <select name="viptypeid" id="" class="form-control" @change="queryMember(1)">
+                    <select name="viptypeid" id="" class="form-control" onchange="queryMember(1)">
                         <option value="全部等级" selected="selected">全部等级</option>
-                       	 <template v-for="item in vipType">
+                       	 <!-- <template v-for="item in vipType">
                         	<option :value="item.viptypeId">{{item.viptypeName}}</option>
-                        </template>
+                        </template> -->
                     </select>
                 </div>
             </div>
@@ -204,7 +204,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item,index in page.list">
+                    <!-- <tr v-for="item,index in page.list">
                         <td>
                             {{item.vipId}}
                         </td>
@@ -224,7 +224,7 @@
                         <td>
                             <a href="javascript:;" data-toggle="modal" data-target="#updateUserDialog">编辑</a>
                         </td>
-                    </tr>
+                    </tr> -->
                     </tbody>
                     <tfoot>
                     <tr>
@@ -243,25 +243,25 @@
                        <div class="page">
                                <ul class="pagination">
                                    <li>
-                                       <a @click="queryMember(1)" href="javascript:;">
+                                       <a onclick="queryMember(1)" href="javascript:;">
                                            首页
                                        </a>
                                    </li>
                                    <li>
-                                       <a @click="queryMember(page.prePage)" href="javascript:;">
+                                       <a name="s" onclick="s()" href="javascript:;">
                                            &laquo;
                                        </a>
                                    </li>
                                    <li>
-                                       <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
+                                       <span style="font-size: 14px;" name="ye"></span>
                                    </li>
                                    <li>
-                                       <a @click="queryMember(page.nextPage)" href="javascript:;">
+                                       <a name="x" onclick="x()" href="javascript:;">
                                            &raquo;
                                        </a>
                                    </li>
                                    <li>
-                                       <a @click="queryMember(page.lastPage)" href="javascript:;">
+                                       <a name="w" onclick="w()" href="javascript:;">
                                            尾页
                                        </a>
                                    </li>
@@ -269,7 +269,7 @@
                                        <input name="tz" type="text" class="form-control" style="width: 100px;">
                                    </li>
                                    <li style="margin-left: 15px; float:left;">
-                                       <a @click="tz" href="javascript:;" class="btn btn-default">
+                                       <a onclick="tz()" href="javascript:;" class="btn btn-default">
                                            跳转
                                        </a>
                                    </li>
@@ -432,7 +432,7 @@
 	</div>
 </div>
    <script type="text/javascript">
-   		var member_infovue = new Vue({
+   		/*var member_infovue = new Vue({
 			el:"#content",
 			data(){
 				return {
@@ -467,17 +467,6 @@
 				downloadExcel:function(){
 					window.location.href="[[@{member/downloadExcel}]]"
 				}
-				/*del:function(id,index){
-					$.ajax({
-						url:"[[@{delete}]]",
-						data:"id="+id,
-						success:function(result){
-							alert("删除成功");
-							vue.list.splice(index,1);
-							location.href="query";
-						}
-					});
-				}*/
 			},
 			created:function(){
 				var that = this;
@@ -489,7 +478,71 @@
 					}
 				});
 			}
-		});
+		});*/
+		queryMember(1)
+		function queryMember(pageNum){
+			if(pageNum==0){
+				return;
+			}
+			$("tbody").empty()
+			var viptypeid=$("[name=viptypeid]").val()
+			var searchname=$("[placeholder=查找]").val()
+			$.ajax({
+				url:"[[@{member/queryMember}]]",
+				data:{pageNum:pageNum,pageSize:2,viptypeid:viptypeid,searchname:searchname},
+				success:function(result){
+					$("[name=s]").attr("prePage",result.prePage)
+					$("[name=x]").attr("nextPage",result.nextPage)
+					$("[name=w]").attr("lastPage",result.lastPage)
+					$("[name=ye]").text(`${result.pageNum}/${result.pages}`)
+					$(result.list).each(function(i,obj){
+						$("tbody").append(`<tr>
+		                        <td>
+	                            ${this.vipId}
+	                        </td>
+	                        <td>
+	                            ${this.vipName}
+	                        </td>
+	                        <td class="nametd">
+	                           ${this.vipPhone}
+	                        </td>
+	                        <td>${this.viptypeName}</td>
+	                        <td>${this.vipTurnover}</td>
+	                        <td>${this.price}</td>
+	                        <td>${this.balance}</td>
+	                        <td>${this.integral}</td>
+	                        <td>${this.zjcj!=null?this.zjcj:0}</td>
+	                        <td>
+	                            <a href="javascript:;" data-toggle="modal" data-target="#updateUserDialog">编辑</a>
+	                        </td>
+	                    </tr>`)
+					})
+				}
+			});
+		}
+		function s(){
+			queryMember($("[name=s]").attr("prePage"))
+		}
+		function x(){
+			queryMember($("[name=x]").attr("nextPage"))
+		}
+		function w(){
+			queryMember($("[name=w]").attr("lastPage"))
+		}
+		function tz(){
+			queryMember($("[name=tz]").val())
+		}
+		viptype()
+		function viptype(){
+			$.ajax({
+				url:"[[@{member/queryVipType}]]",
+				success:function(result){
+					$(result).each(function(i,obj){
+						$("[name=viptypeid]").append(`<option value="${this.viptypeId}">${this.viptypeName}</option>`)
+					})
+				}
+			});
+		}
    </script> 
 </body>
 </html>

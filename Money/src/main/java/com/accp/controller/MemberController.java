@@ -155,4 +155,5 @@ public class MemberController {
 		return service.updateintegral(record);
 	}
 	
+	
 }
