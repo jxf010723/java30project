@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.accp.domain.Integral;
+import com.accp.domain.IntegralExample;
 import com.accp.domain.Order;
 import com.accp.domain.OrderDetailsBysp;
 import com.accp.domain.OrderExample;
@@ -18,6 +20,7 @@ import com.accp.domain.RechargeDeduction;
 import com.accp.domain.RechargeDeductionExample;
 import com.accp.domain.Viptype;
 import com.accp.domain.memberInfo;
+import com.accp.mapper.IntegralMapper;
 import com.accp.mapper.OrderMapper;
 import com.accp.mapper.RechargeDeductionMapper;
 import com.accp.mapper.VipMapper;
@@ -41,6 +44,9 @@ public class MemberService {
 	
 	@Autowired
 	private OrderMapper orderMapper;
+	
+	@Autowired
+	private IntegralMapper integralMapper;
 	
 	/*
 	 * 会员信息分页查询方法
@@ -132,8 +138,8 @@ public class MemberService {
 		}
 		return list;
 	}
-	public PageInfo queryBydd(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException{
-		Page page = PageHelper.startPage(pageNum, pageSize);
+	public PageInfo<Order> queryBydd(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException{
+		Page<Order> page = PageHelper.startPage(pageNum, pageSize);
 		List<Order>list=null;
 		if(!preDate.equals("") && !afterDate.equals("") || !name.equals("")){
 			if(!preDate.equals("") && !afterDate.equals("") && !name.equals("")) {
@@ -164,8 +170,8 @@ public class MemberService {
 		}
 		return page.toPageInfo();
 	}
-	public PageInfo queryBysp(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException{
-		Page page = PageHelper.startPage(pageNum, pageSize);
+	public PageInfo<OrderDetailsBysp> queryBysp(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException{
+		Page<OrderDetailsBysp> page = PageHelper.startPage(pageNum, pageSize);
 		List<OrderDetailsBysp>list=null;
 		if(!preDate.equals("") && !afterDate.equals("") || !name.equals("")){
 			if(!preDate.equals("") && !afterDate.equals("") && !name.equals("")) {
@@ -178,6 +184,17 @@ public class MemberService {
 		}else {
 			list=orderMapper.selectBysp();
 		}
+		for (OrderDetailsBysp orderDetailsBysp : page.toPageInfo().getList()) {
+			System.out.println(orderDetailsBysp.getGoodsName());
+		}
 		return page.toPageInfo();
+	}
+	
+	public int updateintegral(Integral record) {
+		return integralMapper.update(record);
+	}
+	
+	public Integral selectIntegral() {
+		return integralMapper.selectIntegral();
 	}
 }

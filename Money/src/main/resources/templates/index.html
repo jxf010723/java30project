@@ -8,18 +8,40 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link href="../sitelogo/sitelogo.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css2/jquery.range.css">
+    
     <script th:src="@{js/jquery-1.12.4.js}"></script>
     <script  type="text/javascript" th:src="@{js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{js/vue.js}"></script>
     
-    <!-- 编辑和新增用到的js和css -->
-    <!-- <script src="../js2/distpicker.data.js"></script>
-	<script src="../js2/distpicker.js"></script>
-	<script src="../js2/main.js"></script>
-
-	<script type="text/javascript" src="../js2/jquery.min2.js"></script>
-	<script type="text/javascript" src="../js2/jquery.range.js"></script> -->
+    <!-- 收银的 -->
+    <!-- 引入组件库 -->
+	  <script th:src="@{js/index.js}"></script>
+	  <!-- 引入axios -->
+ 	 <!-- <script th:src="@{js/axios.min.js}"></script> -->
+    
+    <!-- 图片滑动 -->
+    <script type="text/javascript" src="js/jigsaw.js"></script>
+    
+    <!-- 富文本编辑器 -->
+     <script type="text/javascript" th:src="@{js/wangEditor.js}"></script>
+     
+	<!-- 三级联动 -->
+ 	<!-- <script type="text/javascript" th:src="@{js/area.js}"></script> -->
+ 	
+	
+	<!-- range.css是营业时间 -->
+    <link rel="stylesheet" href="../css2/jquery.range.css">
+    
+    <!-- 账户文件上传的 -->
+    <script type="text/javascript" th:src="@{js/cropbox.js}"></script>
+    
+    <!-- 发ajax跳页面的js -->
+    <!-- <script type="text/javascript" th:src="@{js/ajaxIndex.js}"></script> -->
+    
+    <!-- 三级联动 -->
+   <script type="text/javascript" th:src="@{js/distpicker.data.js}"></script>
+    <script type="text/javascript" th:src="@{js/distpicker.js}"></script>
+    <script type="text/javascript" th:src="@{js/main.js}"></script>
     <style>
     </style>
 </head>
@@ -28,6 +50,8 @@
     <div class="header clearfix">
         <div class="top">
             <div class="divUser" style="position:relative;left:-50px;">
+            	
+				<div th:text="${session.userName}"></div> <!--获取session中的userName -->
                 <a href="javascript:;" class="logout" style="top:0px;">退出</a>
                 <a href="javascript:;" class="head">
                     <p class="type">
@@ -124,5 +148,9 @@
                     
             });
     </script>
+    <!-- 时间的js -->
+     
+		
+		
 </body>
 </html>

@@ -23,7 +23,7 @@ public class Order {
 
     private String orderPayment;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date orderDate;
 
     private Integer integral;

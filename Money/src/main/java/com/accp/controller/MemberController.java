@@ -20,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.accp.domain.Integral;
 import com.accp.domain.Order;
+import com.accp.domain.OrderDetailsBysp;
 import com.accp.domain.RechargeDeduction;
 import com.accp.domain.Viptype;
 import com.accp.service.MemberService;
@@ -98,13 +100,13 @@ public class MemberController {
 	
 	@RequestMapping("/queryBydd")
 	@ResponseBody
-	public PageInfo queryBydd(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException {
+	public PageInfo<Order> queryBydd(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException {
 		return service.queryBydd(pageNum,pageSize,preDate,afterDate,name);
 	}
 	
 	@RequestMapping("/queryBysp")
 	@ResponseBody
-	public PageInfo queryBysp(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException {
+	public PageInfo<OrderDetailsBysp> queryBysp(Integer pageNum,Integer pageSize,String preDate,String afterDate,String name) throws ParseException {
 		return service.queryBysp(pageNum,pageSize,preDate,afterDate,name);
 	}
 	
@@ -140,4 +142,17 @@ public class MemberController {
 		}
 		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
 	}
+	
+	@RequestMapping("/selectintegral")
+	@ResponseBody
+	public Integral selectintegral() {
+		return service.selectIntegral();
+	}
+	
+	@RequestMapping("/updateintegral")
+	@ResponseBody
+	public int updateintegral(Integral record) {
+		return service.updateintegral(record);
+	}
+	
 }

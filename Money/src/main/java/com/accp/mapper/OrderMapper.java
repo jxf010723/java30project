@@ -31,27 +31,27 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
     
-    @Select("SELECT `order_details_id`,`goods_name`,`goods_count`,`goods_price`,`order_date`\r\n" + 
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
     		"FROM `order_details` od\r\n" + 
     		"INNER JOIN `order`\r\n" + 
-    		"ON `order`.`order_id`=od.`order_id`\r\n")
+    		"ON `order`.`order_id`=od.`order_id`")
     List<OrderDetailsBysp> selectBysp();
     
-    @Select("SELECT `order_details_id`,`goods_name`,`goods_count`,`goods_price`,`order_date`\r\n" + 
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
     		"FROM `order_details` od\r\n" + 
     		"INNER JOIN `order`\r\n" + 
     		"ON `order`.`order_id`=od.`order_id`\r\n" + 
     		"WHERE `order`.`order_date` BETWEEN #{preDate} AND #{afterDate} AND od.`goods_name` LIKE'%${name}%'")
     List<OrderDetailsBysp> selectByspByAll(@Param("preDate") String preDate,@Param("afterDate") String afterDate,@Param("name") String name);
     
-    @Select("SELECT `order_details_id`,`goods_name`,`goods_count`,`goods_price`,`order_date`\r\n" + 
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
     		"FROM `order_details` od\r\n" + 
     		"INNER JOIN `order`\r\n" + 
     		"ON `order`.`order_id`=od.`order_id`\r\n" + 
     		"WHERE `order`.`order_date` BETWEEN #{preDate} AND #{afterDate}")
     List<OrderDetailsBysp> selectByspBydate(@Param("preDate") String preDate,@Param("afterDate") String afterDate);
     
-    @Select("SELECT `order_details_id`,`goods_name`,`goods_count`,`goods_price`,`order_date`\r\n" + 
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
     		"FROM `order_details` od\r\n" + 
     		"INNER JOIN `order`\r\n" + 
     		"ON `order`.`order_id`=od.`order_id`\r\n" + 

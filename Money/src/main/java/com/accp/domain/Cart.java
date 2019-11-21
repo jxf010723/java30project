@@ -5,15 +5,9 @@ import java.util.Date;
 public class Cart {
     private Integer cid;
 
-    private Integer gid;
-
     private Integer gdid;
 
     private Integer userid;
-
-    private String orderName;
-
-    private String orderPhone;
 
     private Integer orderCount;
 
@@ -23,11 +17,7 @@ public class Cart {
 
     private Double integralDeductionmoney;
 
-    private String orderPayment;
-
     private Date orderDate;
-
-    private Integer integral;
 
     private Integer status;
 
@@ -39,19 +29,11 @@ public class Cart {
         this.cid = cid;
     }
 
-    public Integer getGid() {
-        return gid;
-    }
-
-    public void setGid(Integer gid) {
-        this.gid = gid;
-    }
-
-    public Integer getGdid() {
+    public Integer getgdid() {
         return gdid;
     }
 
-    public void setGdid(Integer gdid) {
+    public void setgdid(Integer gdid) {
         this.gdid = gdid;
     }
 
@@ -61,22 +43,6 @@ public class Cart {
 
     public void setUserid(Integer userid) {
         this.userid = userid;
-    }
-
-    public String getOrderName() {
-        return orderName;
-    }
-
-    public void setOrderName(String orderName) {
-        this.orderName = orderName;
-    }
-
-    public String getOrderPhone() {
-        return orderPhone;
-    }
-
-    public void setOrderPhone(String orderPhone) {
-        this.orderPhone = orderPhone;
     }
 
     public Integer getOrderCount() {
@@ -111,28 +77,12 @@ public class Cart {
         this.integralDeductionmoney = integralDeductionmoney;
     }
 
-    public String getOrderPayment() {
-        return orderPayment;
-    }
-
-    public void setOrderPayment(String orderPayment) {
-        this.orderPayment = orderPayment;
-    }
-
     public Date getOrderDate() {
         return orderDate;
     }
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
-    }
-
-    public Integer getIntegral() {
-        return integral;
-    }
-
-    public void setIntegral(Integer integral) {
-        this.integral = integral;
     }
 
     public Integer getStatus() {

@@ -16,7 +16,8 @@
 
             <div class="list search">
                 <input class="inputtext" type="text" placeholder="查找" name="name">
-                <a href="javascript:;" class="search-btn" @click="cz"></a>
+                <a v-if="view==1" href="javascript:;" class="search-btn" @click="cz"></a>
+                <a v-if="view==2" href="javascript:;" class="search-btn" @click="cz2"></a>
             </div>
             <div class="list">
                 <input type="date" class="form-control" name="afterDate">
@@ -28,13 +29,14 @@
                 <input type="date" class="form-control" name="preDate">
             </div>
             <div class="list">
-                <input type="checkbox" name="sp">按商品
+                <input type="checkbox" name="sp" @click="b">按商品
             </div>
             <div class="list">
-                <input type="checkbox" name="dd">按订单
+                <input type="checkbox" name="dd" @click="a">按订单
             </div>
         </div>
         <div class="mainbody">
+        	<div v-if="view==1">
             <table class="settable table table-striped">
                 <thead>
                     <tr>
@@ -49,8 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-	                <template name="dd1">
-		                <tr v-for="item,index in page.list">
+		                <tr v-for="item,index in page.list" name="dd1">
 		                    <td>
 		                        {{index+1}}
 		                    </td>
@@ -66,32 +67,17 @@
 		                    <td>{{item.orderPayment}}</td>
 		                    <td>{{item.orderDate}}</td>
 		                </tr>
-	                </template>
-	                <template name="sp1">
-		                <tr v-for="item2,index2 in page2.list2">
-			                    <td width="8%">
-			                    {{item2.orderDetailsId}}
-			                </td>
-			                <td width="50%">
-			                    {{item2.goodsName}}
-			                </td>
-			                <td width="10%">
-			                    {{item2.goodsCount}}
-			                </td>
-			                <td width="14%">{{item2.goodsPrice}}</td>
-			                <td width="18%">{{item2.orderDate}}</td>
-			            </tr>
-	                </template> 
+	                </div>
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="5">合计</td>
-                    <td class="order_nums">67</td>
-                    <td class="order_amounts">15,056.00</td>
+                    <td colspan="4">合计</td>
+                    <td class="order_nums">-</td>
+                    <td class="order_amounts">-</td>
                     <td>-</td>
-<!--
+
                     <td>-</td>
--->
+
                 </tr>
                 </tfoot>
             </table>
@@ -136,7 +122,89 @@
                 </div>
 
             </div>
+            </div>
+            <div v-if="view==2">
+            <table v-if="view==2" class="settable table table-striped">
+                <thead>
+                    <tr>
+					<th width="8%">序号</th>
+					<th width="50%">商品</th>
 
+					<th width="10%">数量</th>
+					<th width="14%">金额</th>
+					<th width="18%">日期</th>
+					</tr>
+                </thead>
+                <tbody>
+		                <tr v-for="item2,index2 in page2.list"  name="sp1">
+			                    <td width="8%">
+			                    {{item2.orderDetailsId}}
+			                </td>
+			                <td width="50%">
+			                    {{item2.goodsName}}
+			                </td>
+			                <td width="10%">
+			                    {{item2.goodsCount}}
+			                </td>
+			                <td width="14%">{{item2.goodsPrice}}</td>
+			                <td width="18%">{{item2.orderDate}}</td>
+			            </tr>
+	                </div>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="2">合计</td>
+                    <td class="order_nums2">-</td>
+                    <td class="order_amounts2">-</td>
+                    <td>-</td>
+<!--
+                    <td>-</td>
+-->
+                </tr>
+                </tfoot>
+            </table>
+            <!--分页按钮-->
+            <div class="pagebar">
+                <div class="pagetion">
+                    <div class="page">
+                        <ul class="pagination">
+                            <li>
+                                <a href="javascript:;"  @click="queryBysp(1)">
+                                    首页
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" @click="queryBysp(page2.prePage)">
+                                    &laquo;
+                                </a>
+                            </li>
+                            <li>
+                                <span style="font-size: 14px;">{{page2.pageNum}}/{{page2.pages}}</span>
+                            </li>
+                            <li>
+                                <a href="javascript:;"  @click="queryBysp(page2.nextPage)">
+                                    &raquo;
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;"  @click="queryBysp(page2.lastPage)">
+                                    尾页
+                                </a>
+                            </li>
+                            <li style="margin-left: 20px; float:left;">
+                                <input type="text" class="form-control" style="width: 100px;" name="tz2">
+                            </li>
+                            <li style="margin-left: 15px; float:left;">
+                                <a href="javascript:;" class="btn btn-default" @click="tz2">
+                                    跳转
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+			</div>
         </div>
     </div>
 </div>
@@ -150,8 +218,9 @@
 						list:[]
 					},
 					page2:{//sp
-						list2:[]
-					}
+						list:[]
+					},
+					view:1
 				}
 			},
 			methods:{
@@ -167,6 +236,14 @@
 						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name},
 						success:function(result){
 							transaction_recordvue.page=result;
+							order_nums=0
+							order_amounts=0
+							$(result.list).each(function(i,obj){
+								order_nums+=parseInt(obj.orderCount)
+								order_amounts+=parseInt(obj.orderSfmoney)
+							})
+							$("[class=order_nums]").text(order_nums)
+							$("[class=order_amounts]").text(order_amounts)
 						}
 					});
 				},
@@ -180,18 +257,40 @@
 					$.ajax({
 						url:"[[@{member/queryBysp}]]",
 						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name},
-						success:function(result){
-							console.log(result)
-							transaction_recordvue.page2=result;
+						success:function(result2){
+							transaction_recordvue.page2=result2;
+							order_nums2=0
+							order_amounts2=0
+							$(result2.list).each(function(i,obj2){
+								order_nums2+=parseInt(obj2.goodsCount)
+								order_amounts2+=parseInt(obj2.goodsPrice)
+							})
+							$("[class=order_nums2]").text(order_nums2)
+							$("[class=order_amounts2]").text(order_amounts2)
 						}
 					});
 				},
 				tz:function(){
 					var tz=$("[name=tz]").val()
-					this.queryBydd(tz)
+					transaction_recordvue.queryBydd(tz)
+				},
+				tz2:function(){
+					var tz=$("[name=tz2]").val()
+					transaction_recordvue.queryBysp(tz)
 				},
 				cz:function(){
-					this.queryBydd(1)
+					transaction_recordvue.queryBydd(1)
+				},
+				cz2:function(){
+					transaction_recordvue.queryBysp(1)
+				},
+				a:function(){
+					transaction_recordvue.view=1
+					transaction_recordvue.queryBydd(1)
+				},
+				b:function(){
+					transaction_recordvue.view=2
+					transaction_recordvue.queryBysp(1)
 				}
 			},
 			created:function(){
@@ -200,8 +299,12 @@
 				that.queryBysp(1)
 			}
 		});
+   		var order_nums=0
+   		var order_amounts=0
+   		var order_nums2=0
+   		var order_amounts2=0
    		$("[name=dd]").attr("checked",true);
-   		//$("[name=sp1]").hide();
+   		$("[name=sp1]").hide();
    		var name="dd";
    		$(':checkbox').each(function(){ //遍历页面中所有的checkbox
 			$(this).click(function(){//为页面中每一个checkbox设置点击事件
@@ -217,34 +320,6 @@
 				}
 			});
 		});
-		$("[name=dd]").click(function(){
-			$("thead").html(`<tr>
-                    <th width="8%">序号</th>
-                    <th width="18%">订单号</th>
-                    <th width="12%">姓名</th>
-                    <th width="12%">手机</th>
-                    <th width="10%">数量</th>
-                    <th width="12%">金额</th>
-                    <th width="10%">支付方式</th>
-                    <th width="18%">日期</th>
-                </tr>`)
-            $("[name=dd1]").show();
-			$("[name=sp1]").hide();
-		})
-		$("[name=sp]").click(function(){
-			$("thead").html(`<tr>
-					<th width="8%">序号</th>
-					<th width="50%">商品</th>
-
-					<th width="10%">数量</th>
-					<th width="14%">金额</th>
-					<th width="18%">日期</th>
-					</tr>`)
-			$("[name=dd1]").hide();
-			$("[name=sp1]").show();
-		})
-		
-		
    </script>	
 </body>
 </html>

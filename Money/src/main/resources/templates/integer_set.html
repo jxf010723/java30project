@@ -45,7 +45,7 @@
                         <div class="title">积分抵扣</div>
                         <div class="cont">
                             <label>使用积分</label>
-                            <input type="text" class="form-control" style="width: 110px;float: left;margin: 0 5px ">
+                            <input type="text" class="form-control" style="width: 110px;float: left;margin: 0 5px " name="integral">
                             <label >可抵扣</label>
                             <span style="color: rgb(240, 91, 35); float: left; padding-left: 10px; padding-right: 10px; font-size: 16px; padding-top: 8px;">1.00</span>
                             <label >元</label>
@@ -53,7 +53,7 @@
                     </div>
                    <div class="clearfix a"></div>
                    <div class="fr" style="margin-right: 100px">
-                       <a href="javascript:;" class="btn btn-success" style="color: #fff !important;width: 100px;">确定</a>
+                       <a href="javascript:;" class="btn btn-success" style="color: #fff !important;width: 100px;" name="qd">确定</a>
                    </div>
                </div>
             </div>
@@ -62,20 +62,64 @@
 </div>
 	<script type="text/javascript">
 		$(function(){
-			var i=0
+			var flag=0;
+			var i=1
+			
 			$(".btnx").click(function(){
 				if(i%2!=0){
 					$(".x").css({"background-color": "#44b549","color": "#FFF"});
 					$(".xx").css({"background-color": "#FFF","color": "#FFF"});
 					$(".overlayX").css("display", "none")
+					flag=0;
+					var integral=$("[name=integral]").val()
+					$.ajax({
+						url:"[[@{member/updateintegral}]]",
+						data:{sw:flag,integral:integral},
+						success:function(result){
+							alert("打开成功！")
+						}
+					});
 				}else{
 					$(".x").css({"background-color": "#FFF","color": "#FFF"});
 					$(".xx").css({"background-color": "#9E9E9E","color": "#FFF"});
 					$(".overlayX").css("display", "block")
+					flag=1;
+					var integral=$("[name=integral]").val()
+					$.ajax({
+						url:"[[@{member/updateintegral}]]",
+						data:{sw:flag,integral:integral},
+						success:function(result){
+							alert("关闭成功！")
+						}
+					})
 				}
 				i++
 			})
-			
+			$.ajax({
+					url:"[[@{member/selectintegral}]]",
+					success:function(result2){
+						if(result2.sw==0){
+							$(".x").css({"background-color": "#44b549","color": "#FFF"});
+							$(".xx").css({"background-color": "#FFF","color": "#FFF"});
+							$(".overlayX").css("display", "none")
+						}else{
+							$(".x").css({"background-color": "#FFF","color": "#FFF"});
+							$(".xx").css({"background-color": "#9E9E9E","color": "#FFF"});
+							$(".overlayX").css("display", "block")
+						}
+						$("[name=integral]").val(result2.integral)
+					}
+				});
+			$("[name=qd]").click(function(){
+				var integral=$("[name=integral]").val()
+				$.ajax({
+					url:"[[@{member/updateintegral}]]",
+					data:{sw:flag,integral:integral},
+					success:function(result){
+						alert("设置成功！")
+					}
+				});
+			})
 		})
 	</script>
 </body>

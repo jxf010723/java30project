@@ -109,26 +109,29 @@
 						data:{preDate:preDate,afterDate:afterDate,name:name},
 						success:function(result){
 							recharge_deductionvue.list=result;
+							total_add_amounts=0
+					   		zengsong_amount=0
+					   		total_del_amounts=0
+							$(result).each(function(i,obj){
+								total_add_amounts+=parseInt(obj.rdRecharge)
+								zengsong_amount+=parseInt(obj.rdPresentation)
+								total_del_amounts+=parseInt(obj.rdExpenditure)
+							})
+							$("[class=total_add_amounts]").text(total_add_amounts)
+							$("[class=zengsong_amount]").text(zengsong_amount)
+							$("[class=total_del_amounts]").text(total_del_amounts)
 						}
 					});
 				}
-				/*del:function(id,index){
-					$.ajax({
-						url:"[[@{delete}]]",
-						data:"id="+id,
-						success:function(result){
-							alert("删除成功");
-							vue.list.splice(index,1);
-							location.href="query";
-						}
-					});
-				}*/
 			},
 			created:function(){
 				var that = this;
 				that.queryRechargeDeductions()
 			}
 		});
+   		var total_add_amounts=0
+   		var zengsong_amount=0
+   		var total_del_amounts=0
    </script>
 </body>
 </html>
