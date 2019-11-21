@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.accp.domain.Purchase;
 import com.accp.domain.PurchaseExample;
+import com.accp.domain.purchrvo;
 
 public interface PurchaseMapper {
     int countByExample(PurchaseExample example);
@@ -30,5 +31,5 @@ public interface PurchaseMapper {
 
     int updateByPrimaryKey(Purchase record);
     
-    List<Purchase> selectAll();
+    List<purchrvo> selectAll(purchrvo purchr);
 }

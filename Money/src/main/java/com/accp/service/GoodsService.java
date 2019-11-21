@@ -10,6 +10,7 @@ import com.accp.domain.Goodstype;
 import com.accp.domain.Purchase;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
+import com.accp.domain.purchrvo;
 import com.accp.mapper.GoodstypeMapper;
 import com.accp.mapper.PurchaseMapper;
 import com.accp.mapper.ShopMapper;
@@ -105,10 +106,10 @@ public class GoodsService {
 		return supplier.deleteBysuppiler(id);
 	}
 	
-	public PageInfo<Purchase> purchasepage(int pageNum){
+	public PageInfo<purchrvo> purchasepage(int pageNum,purchrvo purchr){
 		PageHelper.startPage(pageNum, 5);
-		List<Purchase> list=purchase.selectAll();
-		PageInfo<Purchase> page=new PageInfo<Purchase>(list);
+		List<purchrvo> list=purchase.selectAll(purchr);
+		PageInfo<purchrvo> page=new PageInfo<purchrvo>(list);
 		return page;
 	}
 	

@@ -7,11 +7,13 @@ public class purchrvo {
 
     private String odd;
 
-    private Date deliverytime;
+    private String deliverytime;
+    
+    private String detime;
 
     private String suppliername;
 
-    private Integer userid;
+    private String userid;
 
     private String remarks;
 
@@ -37,11 +39,11 @@ public class purchrvo {
 		this.odd = odd;
 	}
 
-	public Date getDeliverytime() {
+	public String getDeliverytime() {
 		return deliverytime;
 	}
 
-	public void setDeliverytime(Date deliverytime) {
+	public void setDeliverytime(String deliverytime) {
 		this.deliverytime = deliverytime;
 	}
 
@@ -53,11 +55,11 @@ public class purchrvo {
 		this.suppliername = suppliername;
 	}
 
-	public Integer getUserid() {
+	public String getUserid() {
 		return userid;
 	}
 
-	public void setUserid(Integer userid) {
+	public void setUserid(String userid) {
 		this.userid = userid;
 	}
 
@@ -91,6 +93,33 @@ public class purchrvo {
 
 	public void setSl(Integer sl) {
 		this.sl = sl;
+	}
+
+	public String getDetime() {
+		return detime;
+	}
+
+	public void setDetime(String detime) {
+		this.detime = detime;
+	}
+
+	public purchrvo(String odd, String deliverytime, String detime) {
+		super();
+		this.odd = odd;
+		this.deliverytime = deliverytime;
+		this.detime = detime;
+	}
+
+	public purchrvo(String odd, String deliverytime, String detime, String userid) {
+		super();
+		this.odd = odd;
+		this.deliverytime = deliverytime;
+		this.detime = detime;
+		this.userid = userid;
+	}
+
+	public purchrvo() {
+		super();
 	}
     
 }

@@ -243,12 +243,23 @@
   </update>
   
   
-  <select id="selectAll" resultType="com.accp.domain.Purchase">
-  	SELECT p.*,COUNT(*) sl FROM `purchase` p JOIN  `purchasedetails` ps  ON p.purchaseid=ps.purchaseid 
+  <select id="selectAll" resultType="com.accp.domain.purchrvo">
+  	SELECT p.purchaseid,p.odd,p.deliverytime,s.suppliername,p.userid,p.remarks,p.grossmoney,p.shenghe,COUNT(*) sl FROM `purchase` p INNER  JOIN  `purchasedetails` ps  ON p.purchaseid=ps.purchaseid INNER  JOIN  `supplier` s ON p.supplierid=s.supplierid
   	<where>
-				1=1 
-			
-		      
+		1=1 
+		<if test="deliverytime = '' ">
+		 and deliverytime &gt; deliverytime
+		</if>	
+		 <if test="detime = '' ">
+		 and deliverytime &lt;  detime
+		</if>
+		<if test="userid ='' ">
+		 and userid =  userid
+		</if>
+		<if test="odd = '' ">
+		 and odd like  concat('%',#{odd},'%')  or s.suppliername like  concat('%',#{odd},'%')
+		</if>
+		
 		</where> 
   </select>
 </mapper>

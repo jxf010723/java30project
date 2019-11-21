@@ -98,10 +98,10 @@
 			}
 		},
 		methods:{
-			pages:function(dqy){
+			pages:function(dqy,kstime,jstime,ming,supp){
 				var th=this;
 				$.ajax({
-					data:{pageNum:dqy},
+					data:{pageNum:dqy,kstime:kstime,jstime:jstime,ming:ming,supp:supp},
 					url:"[[@{goods/goodspurchasepage}]]",
 					type:"post",
 					success:function(res){
@@ -112,7 +112,7 @@
 			}
 		},
 		mounted:function(){
-			this.pages(1);
+			this.pages(1,null,null,null,null);
 		}
 	});
 

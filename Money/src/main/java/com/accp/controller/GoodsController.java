@@ -1,5 +1,6 @@
 package com.accp.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.accp.domain.Goodstype;
-import com.accp.domain.Purchase;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
+import com.accp.domain.purchrvo;
 import com.accp.service.GoodsService;
 import com.github.pagehelper.PageInfo;
 
@@ -110,10 +111,10 @@ public class GoodsController {
 	}
 	@RequestMapping("/goodspurchasepage")
 	@ResponseBody
-	public PageInfo<Purchase> goodspurchasepage(int pageNum){
-	System.out.println(pageNum);
-		PageInfo<Purchase> page=goods.purchasepage(pageNum);
-		for (Purchase list : page.getList()) {
+	public PageInfo<purchrvo> goodspurchasepage(int pageNum,String kstime,String jstime,String ming,String supp){
+		purchrvo pur=new purchrvo(ming,kstime,jstime,supp);
+		PageInfo<purchrvo> page=goods.purchasepage(pageNum,pur);
+		for (purchrvo list : page.getList()) {
 			System.out.println("ss"+list);
 			
 		}
