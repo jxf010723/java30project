@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.accp.domain.Goodstype;
-import com.accp.domain.Purchase;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
 import com.accp.domain.purchrvo;
@@ -105,6 +104,11 @@ public class GoodsService {
 	public int supplierdelete(String id) {
 		return supplier.deleteBysuppiler(id);
 	}
+	
+	public Supplier supplierByid(String suppid) {
+		return  supplier.selectByid(suppid);
+	}
+	
 	
 	public PageInfo<purchrvo> purchasepage(int pageNum,purchrvo purchr){
 		PageHelper.startPage(pageNum, 5);

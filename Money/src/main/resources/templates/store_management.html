@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/store_management.css">
+    <!-- <script type="text/javascript">_init_area();</script> -->
     
-   
     <!-- 以下是编辑门店要用到的 -->
     <style type="text/css">
 		.demo{width:350px; margin:100px auto 10px auto;}
@@ -115,10 +115,14 @@
 			width:175px;
 		}
     </style>
+    
+<!-- 三级联动 -->
+ 	<script type="text/javascript" th:src="@{js/area.js}"></script>
+ 	<script type="text/javascript">_init_area();</script>
 </head>
 <body>
         <div class="rightarea clearfix" id="content">
-        	<form id="insertForm" name="form"  method="post" enctype="multipart/form-data">
+        	<!-- <form id="insertForm" name="form"  method="post" enctype="multipart/form-data"> -->
             <div class="mainarea clearfix" id="querystore">
                 <div class="user_list_main clearfix">
                     <div class="user_list_body clearfix">
@@ -128,11 +132,11 @@
                         <div class="btn-div addUserDialog dialog">
 	                    <!-- 添加员工的模态框 -->
 	                    <!-- Button trigger modal -->
-						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" style="float: right;position: relative;top: -23px;">
+						<button  type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" style="float: right;position: relative;top: -23px;">
 						  添加门店
 						</button>
 						
-						<!-- <form id="insertForm" name="form"  method="post" enctype="multipart/form-data"> -->
+						<form id="insertForm" name="form"  method="post" enctype="multipart/form-data"> 
 							<!-- Modal -->
 							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
 							  <div class="modal-dialog" role="document"  style="width:1100px;">
@@ -158,7 +162,8 @@
 										</div>
 									</div>
 									<label for="exampleInputName2" style="font-size: 15px;margin-top: 10px;">店铺名称:</label>
-									<input v-model="shop.shopname" name="shopname" type="text" class="form-control" minlength="1" maxlength="12" id="shopInput" placeholder="请填写店名" style="width:93%;" oncontextmenu="return false;">
+									
+									<input name="shopname" type="text" class="form-control" minlength="1" maxlength="12" id="shopInput" placeholder="请填写店名" style="width:93%;" oncontextmenu="return false;">
 									<label for="exampleInputName2" style="font-size: 6px;color: grey;">格式：最长由12个中文、字母或数字组成</label>
 									<div>
 										<textarea name="introduction" rows="9" style="resize:none;width: 93%;margin-top:10px;font-size: 12px;" placeholder="店铺简介" v-model="shop.introduction"></textarea>
@@ -169,7 +174,6 @@
 								</div>
 								
 								<div style="position: absolute;margin-left:260px;margin-top:-513px;width:800px;border: 1px solid gainsboro;">
-									<form class="form-inline">
 									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
 									    <label for="exampleInputName2">联&nbsp&nbsp系&nbsp&nbsp人&nbsp&nbsp</label>
 									    <input name="contacts" type="text" v-model="shop.contacts" class="form-control" id="exampleInputName2" placeholder="联系人姓名" style="width: 60%;">
@@ -207,11 +211,27 @@
 				                            <select class="form-control" id="s_county" name="s_county" style="width: 25%;display: inline-block;"></select>
 										  </div>
 										  </div>
+									    	
+									      <!-- <div class="address_edit">
+									      	<select class="form-control" id="s_province" name="s_province" style="width: 25%;display: inline-block;"></select>  
+				                            <select class="form-control" id="s_city" name="s_city" style="width: 25%;display: inline-block;"></select>
+				                            <select class="form-control" id="s_county" name="s_county" style="width: 25%;display: inline-block;"></select>
+										  </div> -->
+										 <div id="distpicker1">
+					                        <select  name="province" id="" class="form-control" style="width: 150px;float: left;">
+					                        </select>
+					                        <span style="float:left;margin: 0 5px">-</span>
+					                        <select  name="city" id="" class="form-control" style="width: 150px;float: left;">
+					                        </select>
+					                        <span style="float:left;margin: 0 5px">-</span>
+					                        <select  name="region" id="" class="form-control" style="width: 150px;float: left;">
+					                        </select>
+				                       </div>
+											
 									  </div>
 									  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 3%;margin-bottom: 2%;">
 									    <input name="detailaddress" type="text" v-model="shop.detailaddress" class="form-control" id="exampleInputName2" placeholder="详细地址" style="width: 60%;margin-left: 12.5%;">
 									  </div>
-									</form>
 								</div>
 								
 								
@@ -225,12 +245,12 @@
 							      </div>
 							      <div class="modal-footer" style="background-color: #f4f5f9;text-align: center">
 								        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-								        <button type="button" class="btn btn-primary" @click="insertshop">确定</button>
+								        <button type="button" class="btn btn-primary" onclick="insertshop()">确定</button>
 								  </div>
 							    </div>
 							  </div>
 							</div>
-						<!-- </form> --> 
+						 </form>
 							
 	                </div>
 	                </div>
@@ -250,10 +270,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in page.list">
+                                <!-- <tr v-for="item in page.list">
                                     <td>{{item.shopid}}</td>
                                     <td>{{item.shopuser}}</td>
-                                    <td>{{item.staffcount}}</td>
+                                    <td>{{item.shopname}}</td>
                                     <td>{{item.staffcount}}</td>
                                     <td>{{item.contacts}}</td>
                                     <td>{{item.phonenumber}}</td>
@@ -263,7 +283,7 @@
                                         <a href="javascript:;" @click="updateStore(item.shopid)">编辑</a>
                                         <a href="javascript:;" @click="delStore(item.shopid)">删除</a>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                         <p class="prompt">注：可添加多家门店，系统自动分配订单到附近门店。</p>
@@ -276,26 +296,17 @@
 	                       <div class="page">
                                <ul class="pagination">
                                    <li>
-                                       <a @click="getPage(1)" href="javascript:;">首页</a>
-                                   </li>
-                                   <li>
-                                       <a @click="getPage(page.prePage)" href="javascript:;">&laquo;</a>
-                                   </li>
-                                   <li>
-                                       <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
-                                       <span v-for="a in page.pages" @click="getPage(a)">{{a}}</span>
-                                   </li>
-                                   <li>
-                                       <a @click="getPage(page.nextPage)" href="javascript:;">&raquo;</a>
-                                   </li>
-                                   <li>
-                                       <a @click="getPage(page.pages)" href="javascript:;">尾页</a>
+                                       <a onclick="getPage(1)" href="javascript:;">首页</a>
                                    </li>
                                    <li style="margin-left: 20px; float:left;">
                                        <input name="tz" type="text" class="form-control" style="width: 100px;" id="inputPages">
                                    </li>
+                                   <li>
+                                       <a id="wei" style="margin-left:20px;" onclick="wei()" href="javascript:;">尾页</a>
+                                   </li>
+                                   
                                    <li style="margin-left: 15px; float:left;">
-                                       <a @click="tz" href="javascript:;" class="btn btn-default">跳转</a>
+                                       <a onclick="tz()" href="javascript:;" class="btn btn-default">跳转</a>
                                    </li>
                                </ul>
 	                       </div> 
@@ -304,19 +315,13 @@
                 	
                 </div>
          
-         
+         <form id="updateForm"  method="post" enctype="multipart/form-data">
             <div id="noneUpdate" style="position:relative;bottom:0px;left:0px;">
             	<!-- 编辑门店的内容 -->
-            	<input type="hidden" name="shopid" id="shopid"/>
             	<div style="height: 515px;width: 240px;">
 				<div class="ibox-content" style="width: 26%;">
 					<div class="row">
-						<!-- <div class="avatar-view" title="添加图片">
-							<label for="avatarInput">图片上传</label>
-							<div id="headupload">
-								<input name="insertFiles" class="avatar-input" id="avatarInput" type="file">
-							</div>
-						</div> -->
+					
 						<div id="crop-avatar" class="col-md-6">
 							<div class="avatar-view" title="添加图片">
 								<input name="updateFiles" class="avatar-input" id="avatarInput" type="file">
@@ -327,12 +332,13 @@
 					</div>
 				</div>
 				<label for="exampleInputName2" style="font-size: 15px;margin-top: 10px;">店铺名称:</label>
+				<input type="hidden" name="shopid" id="shopid"/>
 				<input name="shopname" v-model="shop.shopname" type="text" class="form-control" minlength="1" maxlength="12" id="shopInput" placeholder="请填写店名" style="width:93%;" oncontextmenu="return false;">
 				<label for="exampleInputName2" style="font-size: 6px;color: grey;">格式：最长由12个中文、字母或数字组成</label>
 				
         		</div>
         		<div>
-					<textarea  rows="9" style="resize:none;width: 93%;margin-top:10px;font-size: 12px;" placeholder="店铺简介">{{shop.introduction}}</textarea>
+					<textarea name="introduction" rows="9" cols="35" style="resize:none;margin-top:10px;font-size: 12px;" placeholder="店铺简介"></textarea>
 				<div>
 				<div>
 					<label for="exampleInputName2" style="font-size: 10px;color: grey;">格式：最长由100个中文、字母或数字组成</label>
@@ -340,7 +346,6 @@
 			</div>
 			
 			<div style="position: absolute;margin-left:260px;margin-top:-700px;width:600px;border: 1px solid gainsboro;">
-				<form class="form-inline">
 				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
 				    <label for="exampleInputName2">联&nbsp&nbsp系&nbsp&nbsp人&nbsp&nbsp</label>
 				    <input name="contacts"  v-model="shop.contacts" type="text" class="form-control" id="exampleInputName2" placeholder="联系人姓名" style="width: 60%;">
@@ -362,23 +367,22 @@
 					</div>
 				  </div>
 				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
-				    <input name="starttime" class="col-md-6" type="text" readonly="readonly" id="one1" style="width: 100px;margin-left: 20%;"/>
-				  	<input name="endtime"  class="col-md-6" type="text" readonly="readonly" id="two2" style="width: 100px;margin-left: 10%;"/>
+				    <input v-model="shop.starttime" name="updateStarttime" class="col-md-6" type="text" readonly="readonly" id="one1" style="width: 100px;margin-left: 20%;"/>
+				  	<input v-model="shop.endtime" name="updateEndtime"  class="col-md-6" type="text" readonly="readonly" id="two2" style="width: 100px;margin-left: 10%;"/>
 				  </div>
 				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 7%;">
 				    <label for="exampleInputEmail2">地&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp址&nbsp</label>
-					  <div class="form-group" data-toggle="distpicker">
-						<select name="province"  v-model="shop.province" data-province="---- 选择省 ----" style="margin-right:5px;margin-left:5px;border: 1px solid gainsboro;"></select>
-						<span>-</span><select name="city" v-model="shop.city" data-city="---- 选择市 ----" style="margin-right:5px;margin-left:10px;border: 1px solid gainsboro;"></select>
-						<span>-</span><select name="region" v-model="shop.region" data-district="---- 选择区 ----" style="margin-left:10px;border: 1px solid gainsboro;"></select>
-					  </div>
+					  <div class="address_edit">
+					  		<select class="form-control" id="s_province" name="province" style="width: 25%;display: inline-block;"></select>
+                            <select class="form-control" id="s_city" name="city" style="width: 25%;display: inline-block;"></select>
+                            <select class="form-control" id="s_county" name="region" style="width: 25%;display: inline-block;"></select>
+                      </div>
 				  </div>
 				  <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 3%;margin-bottom: 2%;">
 				    <input name="detailaddress" v-model="shop.detailaddress" type="text" class="form-control" id="exampleInputName2" placeholder="详细地址" style="width: 60%;margin-left: 12.5%;">
 				  </div>
 				  	<button type="button" class="btn btn-default col-md-3" style="margin-left: 22.5%;margin-bottom: 2%;margin-top: 1%;" id="returnInsert">返回</button>
-				    <button type="button" class="btn btn-success col-md-3" style="margin-left: 2.5%;margin-bottom: 2%;margin-top: 1%;" @click="updateStoreById">确定</button>
-				</form>
+				    <button type="button" class="btn btn-success col-md-3" style="margin-left: 2.5%;margin-bottom: 2%;margin-top: 1%;" onclick="updateStoreById()">确定</button>
 			</div>
 			
 			
@@ -408,12 +412,135 @@
         	})
         	
         </script>
+    <script type="text/javascript" th:src="@{js/main.js}"></script>
         <script type="text/javascript">
         	$(function(){
+        		//alert(555);
+        		getPage(1);
+        		
         	})
+        	function tz(){
+       			var page = $("[name=tz]").val();
+       			getPage(page);
+        	}
         	
+        	function wei(){
+        		var pages = $("#wei").attr("pages");
+        		getPage(pages);
+        	}
+        	
+        	function getPage(pageNum){
+        		$("tbody").empty();
+        		$.ajax({
+    				url:"[[@{shop/queryShopList}]]",
+    				data:"pageNum="+pageNum+"&pageSize=5",
+    				success:function(result){
+    					console.log(result);
+    					$("#wei").attr("pages",result.pages);
+    					$.each(result.list,function(i,obj){
+    						var tr = $("<tr>"+
+                                    "<td>"+obj.shopid+"</td>"+
+                                    "<td>"+obj.shopuser+"</td>"+
+                                    "<td>"+obj.shopname+"</td>"+
+                                    "<td>"+obj.staffcount+"</td>"+
+                                    "<td>"+obj.contacts+"</td>"+
+                                    "<td>"+obj.phonenumber+"</td>"+
+                                    "<td>"+obj.phone+"</td>"+
+                                    "<td>"+obj.address+"</td>"+
+                                    "<td>"+
+                                    "<a href='javascript:;' onclick='updateStore("+obj.shopid+")'>编辑</a>"+
+                                    "<a href='javascript:;' onclick='delStore("+obj.shopid+")'>删除</a>"+
+                                    "</td>"+
+                             "</tr>");
+    						$("tbody").append(tr);
+    					})
+    						
+    					
+    				}
+    			});
+        	}
+        	
+        	function insertshop(){
+        		var formData = new FormData($('#insertForm')[0]);
+				
+				console.log(formData.get("city"));
+				$.ajax({
+					url:"[[@{/shop/uploadAjax}]]",
+					data:formData,
+					type:"post",
+					processData:false,
+					contentType:false,
+					success:function(result){
+						console.log(result);
+						$('#myModal').modal('hide');
+						document.getElementById("insertForm").reset();
+						getPage(1);
+					}
+				});
+        	}
+        	
+        	function updateStoreById(){
+        		var formData = new FormData($('#updateForm')[0]);
+				console.log($('form').html())
+				console.log(formData.get("shopname"));
+				//console.log(formData.get("shopimg"));
+				$.ajax({
+					url:"shop/updateStoreById",
+					data:formData,
+					type:"post",
+					processData:false,
+					contentType:false,
+					success:function(result){
+						console.log(result);
+						$("#querystore").show();
+	            		$("#noneUpdate").hide();
+						storeVue.getPage(1);
+					}
+				});
+        	}
+        	
+        	function delStore(shopid){
+        		$.ajax({
+					url:"shop/delStoreById",
+					data:{shopid:shopid},
+					type:"post",
+					success:function(result){
+						alert("删除成功");
+						getPage(1);
+					}
+				})
+        	}
+        	
+        	function updateStore(shopid){
+        		$("#shopid").val(shopid);
+				$("#querystore").hide();
+				$("#noneUpdate").show();
+				//点击编辑根据店铺id修改店铺
+				var t = this;
+				$.ajax({
+					url:"shop/selectByShopid",
+					data:{shopid:shopid},
+					success:function(result){
+						console.log(result);
+						$("#shopimg").attr("src",result.shopimg);
+						$("[name=contacts]").val(result.contacts);
+						$("[name=detailaddress]").val(result.detailaddress);
+						$("[name=introduction]").html(result.introduction);
+						$("[name=phone]").val(result.phone);
+						$("[name=phonenumber]").val(result.phonenumber);
+						$("[name=shopname]").val(result.shopname);
+						$("[name=shopuser]").val(result.shopuser);
+						/* $("[name=province]").val(result.province);
+						$("[name=city]").val(result.city);
+						$("[name=region]").val(result.region); */
+						$("[name=updateStarttime]").val(result.starttime);
+						$("[name=updateEndtime]").val(result.endtime);
+						getPage(1);
+					}
+				})
+        	}
         </script>
-        <script type="text/javascript">
+       <!-- <script type="text/javascript">
         	var storeVue = new Vue({
         		el:"#content",
         		data(){
@@ -440,10 +567,10 @@
     					})
         			},
         			updateStoreById:function(){
-						var formData = new FormData($('[name=form]')[0]);
-        				
-        				console.log(formData.get("shopid"));
-        				console.log(formData.get("shopimg"));
+						var formData = new FormData($('#updateForm')[0]);
+        				console.log($('form').html())
+        				console.log(formData.get("shopname"));
+        				//console.log(formData.get("shopimg"));
         				$.ajax({
         					url:"shop/updateStoreById",
         					data:formData,
@@ -456,12 +583,12 @@
     		            		$("#noneUpdate").hide();
         						storeVue.getPage(1);
         					}
-        				});
+        				}); 
         			},
         			insertshop:function(){
-        				var formData = new FormData($('form')[0]);
+        				var formData = new FormData($('#insertForm')[0]);
         				
-        				//console.log(formData.get("detailaddress"));
+        				console.log(formData.get("city"));
         				$.ajax({
         					url:"[[@{/shop/uploadAjax}]]",
         					data:formData,
@@ -517,11 +644,12 @@
         			this.getPage(1);
         		}
         	});
-        </script>
+        </script>  -->
         
         
-		
-
+		<!-- 时间 -->
+        <!-- <script type="text/javascript" th:src="@{js/jquery.min2.js}"></script> -->
+    <script type="text/javascript" th:src="@{js/jquery.range.js}"></script>
 		<script type="text/javascript">
 			$(function(){
 				onkey();		//键盘监听
@@ -561,7 +689,6 @@
 			function onkey(){
 				$("#shopInput").attr("onkeyup", "if(this.value.length>12){alert(1);}");
 			}
-		</script>
-        
+		</script> 
 </body>
 </html>

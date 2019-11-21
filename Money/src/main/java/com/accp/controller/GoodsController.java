@@ -55,8 +55,9 @@ public class GoodsController {
 	@RequestMapping("/goodstypeupdate")
 	@ResponseBody
 	public int goodstypeupdate(String typename,String id) {
+		System.out.println(typename);
 		System.out.println(id);
-		return goods.goodstypeupdate(typename, id);
+		return goods.goodstypeupdate(typename,id);
 	}
 	/**
 	 * 商品类型删除
@@ -103,6 +104,12 @@ public class GoodsController {
 		System.out.println(supplier);
 		return goods.supplierupdate(supplier);
 	}
+	@RequestMapping("/goodssupplierByid")
+	@ResponseBody
+	public Supplier goodssupplierByid(String suppid) {
+		return goods.supplierByid(suppid);
+	}
+	
 	
 	@RequestMapping("/supplierdelete")
 	@ResponseBody

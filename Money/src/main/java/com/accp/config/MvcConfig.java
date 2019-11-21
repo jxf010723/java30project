@@ -23,7 +23,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/")
-				.addResourceLocations("file:C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file/");
+				.addResourceLocations("file:E:/Y2/文件/项目资料/images/");
 		super.addResourceHandlers(registry);
 	}
 
