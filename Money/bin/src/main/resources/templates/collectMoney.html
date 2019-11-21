@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>POS点餐系统V1.0</title>
+  
+  <link rel="stylesheet" href="fonts/iconfont.css">
+  
+  <link rel="stylesheet" href="css/element-ui.css">
+  <link rel="stylesheet" href="css/pos.css">
+  <style>
+  	.contentarea {
+	    margin: 0 auto;
+	    width: 1240px;
+	    min-height: 450px;
+	    position: relative;
+	    border: 1px solid #e7e7eb;
+	    margin-bottom: 20px;
+	}
+	.title {
+	    padding: 5px;
+	}
+	.pos-order{
+		position: relative;
+		margin-left: -60px;
+	}
+	.orange{
+		color:orange;
+	}
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <!-- 左侧菜单 -->
+     <ul class="left-nav" id="leftCollect">
+      <li data-id="collectMember">
+        <i class="icon iconfont">&#xe8a0;</i>
+        <span>会员</span>
+      </li>
+      <li data-id="collectGoods">
+        <i class="icon iconfont">&#xe8a6;</i>
+        <span>商品</span>
+      </li>
+    </ul> 
+    <!-- 收银台 -->
+    <div class="pos contentarea">
+      <el-row>
+        <el-col :span="6" class="pos-order">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="收银" name="orderIng">
+              <el-table :data="tableData" border>
+                <el-table-column prop="goodsName" label="商品名称"></el-table-column>
+                <el-table-column prop="count" label="数量" width="70"></el-table-column>
+                <el-table-column prop="price" label="金额" width="70"></el-table-column>
+                  <!-- scope 是模板的作用域，通过scope.row把这一行数据传递到addOrderList()中去 -->
+                  <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="delSingleGoods(scope.row)">删除</el-button>
+                    <el-button type="text" size="small" @click="addOrderList(scope.row)">增加</el-button>
+                  </template> 
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="挂单" name="entryOrders">挂单</el-tab-pane>
+            <!-- <el-tab-pane label="外卖" name="takeOut">外卖</el-tab-pane> -->
+          </el-tabs>
+          <div class="foot-statistical">
+            <span><small>数量：</small><span class="orange">{{totalCount}}</span></span>
+            <span><small>总金额：</small><span class="orange">{{totalMoney}}元</span></span><br/>
+            <span><small>折扣：</small><span class="orange">{{totalMoney}}元</span></span>
+            <span><small>实收：</small><span class="orange">{{totalMoney}}元</span></span>
+          </div>
+          <div class="foot-btn">
+            <el-button type="warning" >挂单</el-button>
+            <el-button type="danger" @click="delAllGoods">删除</el-button>
+            <el-button type="success" @click="checkout">结账</el-button>
+          </div>
+        </el-col>
+        <el-col :span="18" class="rightContent">
+         
+        </el-col>
+      </el-row>
+    </div>
+  </div>
+</body>
+  <!-- 先引入 Vue -->
+  <script th:src="@{js/vue.js}"></script>
+  <!-- 引入组件库 -->
+  <script th:src="@{js/index.js}"></script>
+  <!-- 引入axios -->
+  <script th:src="@{js/axios.min.js}"></script>
+	<script type="text/javascript" th:src="@{js/jquery-1.12.4.js}"></script>
+  	<script type="text/javascript">
+	      new Vue({
+	          el: '#app',
+	          data: function() {
+	            return { 
+	              activeName: 'orderIng',
+	              tableData: [],
+	              oftenGoods: [],
+	              type0Goods:[],
+	              type1Goods: [],
+	              type2Goods: [],
+	              type3Goods: [],
+	              totalCount: 0,
+	              totalMoney: 0
+	            }
+	          },
+	          methods: {
+	            // 点击右边商品，添加到左边
+	            addOrderList(goods){
+	              // 每次添加都清零，防止重复添加
+	              this.totalCount=0;
+	              this.totalMoney=0;
+	              // 定义isHave判断这个商品是否已经存在于订单列表
+	              let isHave=false;
+	              // tableData循环
+	              for (let i=0; i<this.tableData.length; i++){
+	                // console.log(this.tableData[i].goodsId);
+	                if(this.tableData[i].goodsId==goods.goodsId){
+	                  isHave=true;
+	                }
+	              }
+	              // 根据判断的值写业务逻辑
+	              if(isHave){
+	                // 改变列表中的商品数量
+	                // 通过filter过滤tableData
+	                let arr = this.tableData.filter(o=>o.goodsId == goods.goodsId);
+	                arr[0].count++;
+	              } else {
+	                // 构造一个newGoods
+	                let newGoods={goodsId:goods.goodsId,goodsName:goods.goodsName,price:goods.price,count:1}
+	                this.tableData.push(newGoods);
+	              }
+	              this.getAllMoney();
+	            },
+	            // 删除单个商品
+	            delSingleGoods(goods){
+	              // console.log(goods);
+	              this.tableData=this.tableData.filter(o => o.goodsId !=goods.goodsId);
+	              this.getAllMoney();
+	            },
+	            // 删除所有商品
+	            delAllGoods(){
+	              this.tableData=[];
+	              this.totalCount=0;
+	              this.totalMoney=0;
+	            },
+	            // 因为删除，增加后都要重新汇总，所以汇总方法要复用
+	            getAllMoney(){
+	              this.totalCount=0;
+	              this.totalMoney=0;
+	              // 订单列表有数据的时候才进行汇总
+	              if(this.tableData){
+	                // 进行数量和价格的汇总计算
+	                // element表示tableData中的单个元素
+	                this.tableData.forEach((element) => {
+	                  this.totalCount+=element.count;
+	                  this.totalMoney=this.totalMoney+(element.price*element.count);
+	                });
+	              }
+	            },
+	            // 结账
+	            checkout() {
+	              if (this.totalCount!=0) {
+	                this.tableData = [];
+	                this.totalCount = 0;
+	                this.totalMoney = 0;
+	                this.$alert('<div class="qr-code"><img src="images/code.png"><p>你也可以扫码结账!@^_^@</p></div>', '结账成功,觉得OK就打赏一下', {
+	                  dangerouslyUseHTMLString: true
+	                });
+	              } else {
+	                this.$message.error('你都没点餐，我要上空气给你吃吗？');
+	              }
+	            }
+	          },
+	          created(){
+	            // 抓取常用商品
+	            axios.get('json/hotGoods.json')
+	            .then(response=>{
+	              console.log(response);
+	              this.oftenGoods=response.data;
+	
+	            })
+	            .catch(error=>{
+	              console.log(error);
+	              alert('网络错误，不能访问');
+	            })
+	            
+	            // 抓取商品分类
+	            axios.get('json/inGoods.json')
+	            .then(response=>{
+	              console.log(response);
+	              // this.oftenGoods=response.data;
+	              this.type0Goods=response.data[0];
+	              this.type1Goods=response.data[1];
+	              this.type2Goods=response.data[2];
+	              this.type3Goods=response.data[3];
+	            })
+	            .catch(error=>{
+	              console.log(error);
+	              alert('网络错误，不能访问');
+	            })
+	          }
+	        })
+      </script>
+ 	<script>
+	   $(function () {
+	      var newDiv = $(`<div data-id="collectGoods">`);
+	      $.ajax({
+	      	type:"post",
+	      	url:"/money",
+	      	data:{dataid:"collectGoods"},
+	      	dataType:"html",
+	      	success:function(res){
+	      		newDiv.append(res);
+	      		 $(".rightContent").append(newDiv);
+	      	}
+	      });
+	  }); 
+  	
+	  $("#leftCollect li").click(function () {
+	        $(".rightContent>div").remove();
+	        let dataid=$(this).attr("data-id");
+	        //alert(dataid);
+
+	        var newDiv = $(`<div data-id="${dataid}">`);
+	        $.ajax({
+	        	type:"post",
+	        	url:"/money",
+	        	data:{dataid:dataid},
+	        	dataType:"html",
+	        	success:function(res){
+	        		newDiv.append(res);
+	        		 $(".rightContent").append(newDiv);
+	        	}
+	        });
+	        
+	    }); 
+  </script>
+</html>

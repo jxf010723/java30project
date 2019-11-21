@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.ColorMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Color" >
+    <id column="colorid" property="colorid" jdbcType="INTEGER" />
+    <result column="seriesid" property="seriesid" jdbcType="INTEGER" />
+    <result column="colorname" property="colorname" jdbcType="VARCHAR" />
+    <result column="colorphoto" property="colorphoto" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    colorid, seriesid, colorname, colorphoto
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.ColorExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from color
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from color
+    where colorid = #{colorid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from color
+    where colorid = #{colorid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.ColorExample" >
+    delete from color
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Color" >
+    insert into color (colorid, seriesid, colorname, 
+      colorphoto)
+    values (#{colorid,jdbcType=INTEGER}, #{seriesid,jdbcType=INTEGER}, #{colorname,jdbcType=VARCHAR}, 
+      #{colorphoto,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Color" >
+    insert into color
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="colorid != null" >
+        colorid,
+      </if>
+      <if test="seriesid != null" >
+        seriesid,
+      </if>
+      <if test="colorname != null" >
+        colorname,
+      </if>
+      <if test="colorphoto != null" >
+        colorphoto,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="colorid != null" >
+        #{colorid,jdbcType=INTEGER},
+      </if>
+      <if test="seriesid != null" >
+        #{seriesid,jdbcType=INTEGER},
+      </if>
+      <if test="colorname != null" >
+        #{colorname,jdbcType=VARCHAR},
+      </if>
+      <if test="colorphoto != null" >
+        #{colorphoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.ColorExample" resultType="java.lang.Integer" >
+    select count(*) from color
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update color
+    <set >
+      <if test="record.colorid != null" >
+        colorid = #{record.colorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.seriesid != null" >
+        seriesid = #{record.seriesid,jdbcType=INTEGER},
+      </if>
+      <if test="record.colorname != null" >
+        colorname = #{record.colorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.colorphoto != null" >
+        colorphoto = #{record.colorphoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update color
+    set colorid = #{record.colorid,jdbcType=INTEGER},
+      seriesid = #{record.seriesid,jdbcType=INTEGER},
+      colorname = #{record.colorname,jdbcType=VARCHAR},
+      colorphoto = #{record.colorphoto,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Color" >
+    update color
+    <set >
+      <if test="seriesid != null" >
+        seriesid = #{seriesid,jdbcType=INTEGER},
+      </if>
+      <if test="colorname != null" >
+        colorname = #{colorname,jdbcType=VARCHAR},
+      </if>
+      <if test="colorphoto != null" >
+        colorphoto = #{colorphoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where colorid = #{colorid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Color" >
+    update color
+    set seriesid = #{seriesid,jdbcType=INTEGER},
+      colorname = #{colorname,jdbcType=VARCHAR},
+      colorphoto = #{colorphoto,jdbcType=VARCHAR}
+    where colorid = #{colorid,jdbcType=INTEGER}
+  </update>
+</mapper>

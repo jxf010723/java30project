@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.CashregisterMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Cashregister" >
+    <id column="cashRegisterID" property="cashregisterid" jdbcType="INTEGER" />
+    <result column="commodityIMG" property="commodityimg" jdbcType="VARCHAR" />
+    <result column="commodityName" property="commodityname" jdbcType="VARCHAR" />
+    <result column="specifications" property="specifications" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="moneyamt" property="moneyamt" jdbcType="DOUBLE" />
+    <result column="shopID" property="shopid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="payCount" property="paycount" jdbcType="INTEGER" />
+    <result column="cashRegisterName" property="cashregistername" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cashRegisterID, commodityIMG, commodityName, specifications, price, count, moneyamt, 
+    shopID, userName, payCount, cashRegisterName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.CashregisterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cashregister
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cashregister
+    where cashRegisterID = #{cashregisterid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cashregister
+    where cashRegisterID = #{cashregisterid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.CashregisterExample" >
+    delete from cashregister
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Cashregister" >
+    insert into cashregister (cashRegisterID, commodityIMG, commodityName, 
+      specifications, price, count, 
+      moneyamt, shopID, userName, 
+      payCount, cashRegisterName)
+    values (#{cashregisterid,jdbcType=INTEGER}, #{commodityimg,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
+      #{specifications,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{count,jdbcType=INTEGER}, 
+      #{moneyamt,jdbcType=DOUBLE}, #{shopid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{paycount,jdbcType=INTEGER}, #{cashregistername,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Cashregister" >
+    insert into cashregister
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cashregisterid != null" >
+        cashRegisterID,
+      </if>
+      <if test="commodityimg != null" >
+        commodityIMG,
+      </if>
+      <if test="commodityname != null" >
+        commodityName,
+      </if>
+      <if test="specifications != null" >
+        specifications,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="moneyamt != null" >
+        moneyamt,
+      </if>
+      <if test="shopid != null" >
+        shopID,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="paycount != null" >
+        payCount,
+      </if>
+      <if test="cashregistername != null" >
+        cashRegisterName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cashregisterid != null" >
+        #{cashregisterid,jdbcType=INTEGER},
+      </if>
+      <if test="commodityimg != null" >
+        #{commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityname != null" >
+        #{commodityname,jdbcType=VARCHAR},
+      </if>
+      <if test="specifications != null" >
+        #{specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="moneyamt != null" >
+        #{moneyamt,jdbcType=DOUBLE},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="paycount != null" >
+        #{paycount,jdbcType=INTEGER},
+      </if>
+      <if test="cashregistername != null" >
+        #{cashregistername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.CashregisterExample" resultType="java.lang.Integer" >
+    select count(*) from cashregister
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cashregister
+    <set >
+      <if test="record.cashregisterid != null" >
+        cashRegisterID = #{record.cashregisterid,jdbcType=INTEGER},
+      </if>
+      <if test="record.commodityimg != null" >
+        commodityIMG = #{record.commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commodityname != null" >
+        commodityName = #{record.commodityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specifications != null" >
+        specifications = #{record.specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.count != null" >
+        count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyamt != null" >
+        moneyamt = #{record.moneyamt,jdbcType=DOUBLE},
+      </if>
+      <if test="record.shopid != null" >
+        shopID = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        userName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paycount != null" >
+        payCount = #{record.paycount,jdbcType=INTEGER},
+      </if>
+      <if test="record.cashregistername != null" >
+        cashRegisterName = #{record.cashregistername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cashregister
+    set cashRegisterID = #{record.cashregisterid,jdbcType=INTEGER},
+      commodityIMG = #{record.commodityimg,jdbcType=VARCHAR},
+      commodityName = #{record.commodityname,jdbcType=VARCHAR},
+      specifications = #{record.specifications,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      count = #{record.count,jdbcType=INTEGER},
+      moneyamt = #{record.moneyamt,jdbcType=DOUBLE},
+      shopID = #{record.shopid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR},
+      payCount = #{record.paycount,jdbcType=INTEGER},
+      cashRegisterName = #{record.cashregistername,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Cashregister" >
+    update cashregister
+    <set >
+      <if test="commodityimg != null" >
+        commodityIMG = #{commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityname != null" >
+        commodityName = #{commodityname,jdbcType=VARCHAR},
+      </if>
+      <if test="specifications != null" >
+        specifications = #{specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="moneyamt != null" >
+        moneyamt = #{moneyamt,jdbcType=DOUBLE},
+      </if>
+      <if test="shopid != null" >
+        shopID = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="paycount != null" >
+        payCount = #{paycount,jdbcType=INTEGER},
+      </if>
+      <if test="cashregistername != null" >
+        cashRegisterName = #{cashregistername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cashRegisterID = #{cashregisterid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Cashregister" >
+    update cashregister
+    set commodityIMG = #{commodityimg,jdbcType=VARCHAR},
+      commodityName = #{commodityname,jdbcType=VARCHAR},
+      specifications = #{specifications,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      count = #{count,jdbcType=INTEGER},
+      moneyamt = #{moneyamt,jdbcType=DOUBLE},
+      shopID = #{shopid,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR},
+      payCount = #{paycount,jdbcType=INTEGER},
+      cashRegisterName = #{cashregistername,jdbcType=VARCHAR}
+    where cashRegisterID = #{cashregisterid,jdbcType=INTEGER}
+  </update>
+</mapper>

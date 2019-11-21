@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Goods" >
+    <id column="goodsid" property="goodsid" jdbcType="INTEGER" />
+    <result column="shopid" property="shopid" jdbcType="INTEGER" />
+    <result column="typeid" property="typeid" jdbcType="INTEGER" />
+    <result column="supplierid" property="supplierid" jdbcType="INTEGER" />
+    <result column="goodsbrand" property="goodsbrand" jdbcType="VARCHAR" />
+    <result column="goodsname" property="goodsname" jdbcType="VARCHAR" />
+    <result column="goodsphoto" property="goodsphoto" jdbcType="VARCHAR" />
+    <result column="numbers" property="numbers" jdbcType="VARCHAR" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="salesprice" property="salesprice" jdbcType="REAL" />
+    <result column="costprice" property="costprice" jdbcType="REAL" />
+    <result column="agio" property="agio" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    goodsid, shopid, typeid, supplierid, goodsbrand, goodsname, goodsphoto, numbers, 
+    specification, stock, salesprice, costprice, agio
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.GoodsExample" >
+    delete from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Goods" >
+    insert into goods (goodsid, shopid, typeid, 
+      supplierid, goodsbrand, goodsname, 
+      goodsphoto, numbers, specification, 
+      stock, salesprice, costprice, 
+      agio)
+    values (#{goodsid,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, 
+      #{supplierid,jdbcType=INTEGER}, #{goodsbrand,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, 
+      #{goodsphoto,jdbcType=VARCHAR}, #{numbers,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, 
+      #{stock,jdbcType=INTEGER}, #{salesprice,jdbcType=REAL}, #{costprice,jdbcType=REAL}, 
+      #{agio,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Goods" >
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        goodsid,
+      </if>
+      <if test="shopid != null" >
+        shopid,
+      </if>
+      <if test="typeid != null" >
+        typeid,
+      </if>
+      <if test="supplierid != null" >
+        supplierid,
+      </if>
+      <if test="goodsbrand != null" >
+        goodsbrand,
+      </if>
+      <if test="goodsname != null" >
+        goodsname,
+      </if>
+      <if test="goodsphoto != null" >
+        goodsphoto,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+      <if test="specification != null" >
+        specification,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="salesprice != null" >
+        salesprice,
+      </if>
+      <if test="costprice != null" >
+        costprice,
+      </if>
+      <if test="agio != null" >
+        agio,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="supplierid != null" >
+        #{supplierid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsbrand != null" >
+        #{goodsbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null" >
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsphoto != null" >
+        #{goodsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="salesprice != null" >
+        #{salesprice,jdbcType=REAL},
+      </if>
+      <if test="costprice != null" >
+        #{costprice,jdbcType=REAL},
+      </if>
+      <if test="agio != null" >
+        #{agio,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.GoodsExample" resultType="java.lang.Integer" >
+    select count(*) from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods
+    <set >
+      <if test="record.goodsid != null" >
+        goodsid = #{record.goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        shopid = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeid != null" >
+        typeid = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierid != null" >
+        supplierid = #{record.supplierid,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsbrand != null" >
+        goodsbrand = #{record.goodsbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsname != null" >
+        goodsname = #{record.goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsphoto != null" >
+        goodsphoto = #{record.goodsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numbers != null" >
+        numbers = #{record.numbers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specification != null" >
+        specification = #{record.specification,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=INTEGER},
+      </if>
+      <if test="record.salesprice != null" >
+        salesprice = #{record.salesprice,jdbcType=REAL},
+      </if>
+      <if test="record.costprice != null" >
+        costprice = #{record.costprice,jdbcType=REAL},
+      </if>
+      <if test="record.agio != null" >
+        agio = #{record.agio,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods
+    set goodsid = #{record.goodsid,jdbcType=INTEGER},
+      shopid = #{record.shopid,jdbcType=INTEGER},
+      typeid = #{record.typeid,jdbcType=INTEGER},
+      supplierid = #{record.supplierid,jdbcType=INTEGER},
+      goodsbrand = #{record.goodsbrand,jdbcType=VARCHAR},
+      goodsname = #{record.goodsname,jdbcType=VARCHAR},
+      goodsphoto = #{record.goodsphoto,jdbcType=VARCHAR},
+      numbers = #{record.numbers,jdbcType=VARCHAR},
+      specification = #{record.specification,jdbcType=VARCHAR},
+      stock = #{record.stock,jdbcType=INTEGER},
+      salesprice = #{record.salesprice,jdbcType=REAL},
+      costprice = #{record.costprice,jdbcType=REAL},
+      agio = #{record.agio,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Goods" >
+    update goods
+    <set >
+      <if test="shopid != null" >
+        shopid = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        typeid = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="supplierid != null" >
+        supplierid = #{supplierid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsbrand != null" >
+        goodsbrand = #{goodsbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null" >
+        goodsname = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsphoto != null" >
+        goodsphoto = #{goodsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="salesprice != null" >
+        salesprice = #{salesprice,jdbcType=REAL},
+      </if>
+      <if test="costprice != null" >
+        costprice = #{costprice,jdbcType=REAL},
+      </if>
+      <if test="agio != null" >
+        agio = #{agio,jdbcType=INTEGER},
+      </if>
+    </set>
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Goods" >
+    update goods
+    set shopid = #{shopid,jdbcType=INTEGER},
+      typeid = #{typeid,jdbcType=INTEGER},
+      supplierid = #{supplierid,jdbcType=INTEGER},
+      goodsbrand = #{goodsbrand,jdbcType=VARCHAR},
+      goodsname = #{goodsname,jdbcType=VARCHAR},
+      goodsphoto = #{goodsphoto,jdbcType=VARCHAR},
+      numbers = #{numbers,jdbcType=VARCHAR},
+      specification = #{specification,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      salesprice = #{salesprice,jdbcType=REAL},
+      costprice = #{costprice,jdbcType=REAL},
+      agio = #{agio,jdbcType=INTEGER}
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+</mapper>

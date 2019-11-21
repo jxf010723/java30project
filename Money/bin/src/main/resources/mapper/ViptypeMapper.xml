@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.ViptypeMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Viptype" >
+    <id column="vipType_id" property="viptypeId" jdbcType="INTEGER" />
+    <result column="vipType_name" property="viptypeName" jdbcType="VARCHAR" />
+    <result column="vipType_discount" property="viptypeDiscount" jdbcType="DOUBLE" />
+    <result column="moneyLv" property="moneylv" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    vipType_id, vipType_name, vipType_discount, moneyLv
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.ViptypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from viptype
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from viptype
+    where vipType_id = #{viptypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from viptype
+    where vipType_id = #{viptypeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.ViptypeExample" >
+    delete from viptype
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Viptype" >
+    insert into viptype (vipType_id, vipType_name, vipType_discount, 
+      moneyLv)
+    values (#{viptypeId,jdbcType=INTEGER}, #{viptypeName,jdbcType=VARCHAR}, #{viptypeDiscount,jdbcType=DOUBLE}, 
+      #{moneylv,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Viptype" >
+    insert into viptype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="viptypeId != null" >
+        vipType_id,
+      </if>
+      <if test="viptypeName != null" >
+        vipType_name,
+      </if>
+      <if test="viptypeDiscount != null" >
+        vipType_discount,
+      </if>
+      <if test="moneylv != null" >
+        moneyLv,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="viptypeId != null" >
+        #{viptypeId,jdbcType=INTEGER},
+      </if>
+      <if test="viptypeName != null" >
+        #{viptypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="viptypeDiscount != null" >
+        #{viptypeDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="moneylv != null" >
+        #{moneylv,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.ViptypeExample" resultType="java.lang.Integer" >
+    select count(*) from viptype
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update viptype
+    <set >
+      <if test="record.viptypeId != null" >
+        vipType_id = #{record.viptypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.viptypeName != null" >
+        vipType_name = #{record.viptypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.viptypeDiscount != null" >
+        vipType_discount = #{record.viptypeDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.moneylv != null" >
+        moneyLv = #{record.moneylv,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update viptype
+    set vipType_id = #{record.viptypeId,jdbcType=INTEGER},
+      vipType_name = #{record.viptypeName,jdbcType=VARCHAR},
+      vipType_discount = #{record.viptypeDiscount,jdbcType=DOUBLE},
+      moneyLv = #{record.moneylv,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Viptype" >
+    update viptype
+    <set >
+      <if test="viptypeName != null" >
+        vipType_name = #{viptypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="viptypeDiscount != null" >
+        vipType_discount = #{viptypeDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="moneylv != null" >
+        moneyLv = #{moneylv,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where vipType_id = #{viptypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Viptype" >
+    update viptype
+    set vipType_name = #{viptypeName,jdbcType=VARCHAR},
+      vipType_discount = #{viptypeDiscount,jdbcType=DOUBLE},
+      moneyLv = #{moneylv,jdbcType=DOUBLE}
+    where vipType_id = #{viptypeId,jdbcType=INTEGER}
+  </update>
+</mapper>
