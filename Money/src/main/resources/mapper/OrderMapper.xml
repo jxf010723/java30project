@@ -9,7 +9,7 @@
     <result column="order_count" property="orderCount" jdbcType="INTEGER" />
     <result column="order_totalMoney" property="orderTotalmoney" jdbcType="DOUBLE" />
     <result column="order_sfMoney" property="orderSfmoney" jdbcType="DOUBLE" />
-    <result column="Integral_ deductionMoney" property="integralDeductionmoney" jdbcType="DOUBLE" />
+    <result column="Integral_deductionMoney" property="integralDeductionmoney" jdbcType="DOUBLE" />
     <result column="order_payment" property="orderPayment" jdbcType="VARCHAR" />
     <result column="order_date" property="orderDate" jdbcType="DATE" />
     <result column="integral" property="integral" jdbcType="INTEGER" />
@@ -74,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     order_id, user_id, order_name, order_phone, order_count, order_totalMoney, order_sfMoney, 
-    "Integral_ deductionMoney", order_payment, order_date, integral
+    "Integral_deductionMoney", order_payment, order_date, integral
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.OrderExample" >
     select
@@ -107,9 +107,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.Order" >
-    insert into order (order_id, user_id, order_name, 
+    insert into `order` (order_id, user_id, order_name, 
       order_phone, order_count, order_totalMoney, 
-      order_sfMoney, "Integral_ deductionMoney", order_payment, 
+      order_sfMoney, Integral_deductionMoney, order_payment, 
       order_date, integral)
     values (#{orderId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderName,jdbcType=VARCHAR}, 
       #{orderPhone,jdbcType=VARCHAR}, #{orderCount,jdbcType=INTEGER}, #{orderTotalmoney,jdbcType=DOUBLE}, 
@@ -141,7 +141,7 @@
         order_sfMoney,
       </if>
       <if test="integralDeductionmoney != null" >
-        "Integral_ deductionMoney",
+        "Integral_deductionMoney",
       </if>
       <if test="orderPayment != null" >
         order_payment,
@@ -220,7 +220,7 @@
         order_sfMoney = #{record.orderSfmoney,jdbcType=DOUBLE},
       </if>
       <if test="record.integralDeductionmoney != null" >
-        "Integral_ deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
+        "Integral_deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
       </if>
       <if test="record.orderPayment != null" >
         order_payment = #{record.orderPayment,jdbcType=VARCHAR},
@@ -245,7 +245,7 @@
       order_count = #{record.orderCount,jdbcType=INTEGER},
       order_totalMoney = #{record.orderTotalmoney,jdbcType=DOUBLE},
       order_sfMoney = #{record.orderSfmoney,jdbcType=DOUBLE},
-      "Integral_ deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
+      "Integral_deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
       order_payment = #{record.orderPayment,jdbcType=VARCHAR},
       order_date = #{record.orderDate,jdbcType=DATE},
       integral = #{record.integral,jdbcType=INTEGER}
@@ -275,7 +275,7 @@
         order_sfMoney = #{orderSfmoney,jdbcType=DOUBLE},
       </if>
       <if test="integralDeductionmoney != null" >
-        "Integral_ deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
+        "Integral_deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
       </if>
       <if test="orderPayment != null" >
         order_payment = #{orderPayment,jdbcType=VARCHAR},
@@ -297,7 +297,7 @@
       order_count = #{orderCount,jdbcType=INTEGER},
       order_totalMoney = #{orderTotalmoney,jdbcType=DOUBLE},
       order_sfMoney = #{orderSfmoney,jdbcType=DOUBLE},
-      "Integral_ deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
+      "Integral_deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
       order_payment = #{orderPayment,jdbcType=VARCHAR},
       order_date = #{orderDate,jdbcType=DATE},
       integral = #{integral,jdbcType=INTEGER}

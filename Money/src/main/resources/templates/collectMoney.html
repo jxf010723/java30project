@@ -36,11 +36,11 @@
   <div id="app">
     <!-- 左侧菜单 -->
      <ul class="left-nav" id="leftCollect">
-      <li data-id="collectMember">
+      <li data-id="collectMember" @click="tabEl(1)">
         <i class="icon iconfont">&#xe8a0;</i>
         <span>会员</span>
       </li>
-      <li data-id="collectGoods">
+      <li data-id="collectGoods"@click="tabEl(0)">
         <i class="icon iconfont">&#xe8a6;</i>
         <span>商品</span>
       </li>
@@ -82,23 +82,28 @@
 			</el-tab-pane>
           </el-tabs>
          <div class="foot-statistical">
+         	<div>积分：<input name="integral"/><button @click="pointDiMoney">确定</button></div>
+         	<div>积分抵扣金额：{{pointMoney}}元</div>
             <span><small>数量：</small><span class="orange">{{totalCount}}</span></span>
             <span><small>总金额：</small><span class="orange">{{totalMoney}}元</span></span><br/>
-            <span><small>折扣：</small><span class="orange">{{discount}}元</span></span>
-            <span><small>实收：</small><span class="orange">{{shiMoney}}元</span></span>
+            <div>
+	            <span><small>折扣：</small><span class="orange">{{zhe}}</span></span>
+	            <span><small>折扣金额：</small><span class="orange">{{discount}}元</span></span>
+            </div>
+            <span style="color:red;">实收：<span class="orange">{{shiMoney}}元</span></span>
           </div>
           <div class="foot-btn">
             <el-button type="warning" @click="guadan">挂单</el-button>
             <el-button type="danger" @click="delAllGoods">删除</el-button>
             <!-- <el-button type="success" @click="checkout">结账</el-button> -->
-            <el-button type="success" @click="insertCart">结算</el-button>
+            <el-button type="success" @click="insertOrder">结算</el-button>
           </div>
         </el-col>
 
         <el-col :span="18" class="rightContent">
         
          	<!-- 收银的商品模块 -->
-			<div id="collectGoods">
+			<div id="collectGoods" v-if="isBlock==0">
 				<div class="often-goods">
 		        <div class="title">常买商品</div>
 		        <div class="often-goods-list">
@@ -129,24 +134,29 @@
 			</div>
 			
 			<!-- 收银的会员模块 -->
-			<div id="collectMember">
-				会员
-				<!-- <div class="goods-type">
+			<div id="collectMember" v-if="isBlock==1">
+				<div class="goods-type">
 		        <el-tabs >
-		          <el-tab-pane  v-for="(item,index) in goodstype" 
-				    :label="item.typename">
+		          <el-tab-pane  v-for="(item,index) in viptype" 
+				    :label="item.viptypeName">
 		            <ul class='cookList'>
-		              <li v-for="(g,index) in item.glist" @click="addOrderList(g)">
-		                <span class="foodImg"><img  :src="g.goodsphoto" width="100%" height="80px"></span>
-		                <div class="food-content">
-		                  <span class="foodName">{{g.goodsname}}</span>
-		                  <span class="foodPrice">￥{{g.salesprice}}元</span>
+		              <li v-for="(v,index) in item.vlist" @click="addDiscount(v,item)">
+		                <!-- <span class="foodImg"><img  src="images/huoperson.jpg" width="100%" height="80px"></span> -->
+		                <div class="food-content" style="background:url('images/huoperson.jpg')">
+		                  <span class="foodName">{{v.vipName}}({{v.vipPhone}})</span>
+		                  <span class="foodPrice">积分{{v.integral}}</span>
+		                  <span class="foodPrice">余额{{v.balance}}</span>
+		                  <span class="foodPrice">成交{{v.orderSfmoney}}元</span>
 		                </div> 
 		              </li>
 		            </ul>
 		          </el-tab-pane>
 		        </el-tabs>
-		      </div> -->
+		      </div> 
+			</div>
+			
+			<div v-if="isBlock==2">
+				结算……
 			</div>
 			
 			
@@ -162,23 +172,125 @@
 	          data: function() {
 	            return { 
 	             activeName: 'orderIng',
-	              tableData: [],
-	              danData:[],
-	              totalCount: 0,
-	              totalMoney: 0,
-	              discount:10,
-	              shiMoney:0,
-	              ofterGoods:[],
-    			  goodstype:[]
+	              tableData: [],	//左边商品数据
+	              danData:[],	//左边挂单数据
+	              totalCount: 0,	//总数量
+	              totalMoney: 0,	//总价格
+	              zhe:0.0,	//会员的折扣
+	              discount:0.0,	//折扣金额
+	              point:0,	//会员要用的积分
+	              havePoint:0,	//会员有的积分
+	              pointMoney:0,	//积分金额
+	              shiMoney:0,	//实收金额
+	              ofterGoods:[],	//常买商品
+    			  goodstype:[],	//查询到的商品类型和商品的数据
+    			  viptype:[],	//查询到的vip类型和对应会员的数据
+    			  cart:{},	//点击挂单新增购物车时的数据
+    			  integral:[],	//查询积分设置表是否允许使用积分
+    			  order:{},	//订单
+    			  orderDetails:[],
+    			  isBlock:0,	//是否显示
+    			  isOrder:0	//是否能结算
 	            }
 	          },
 	          methods: {
-	        	  insertCart:function(){
+	        	  pointDiMoney:function(){
+	        		  console.log(collectVue.integral);
+	        		  console.log(collectVue.goodstype);
+	        		  var point = $("[name=integral]").val();
+	        		  if(point>this.havePoint){
+	        			  alert("亲，你没有这么多积分哦");
+	        			  return;
+	        		  }
+	        		  //var diMoney = this.integral[0].integral;
+	        		  var diMoney = 100;
+	        		  //alert(point+"---"+diMoney+"---"+point/diMoney);
+	        		  this.pointMoney = point/diMoney;
+	        	  },
+	        	  insertOrder:function(){
+	        		  if(this.isOrder == 0){
+	        			  alert("你都没有商品结算个锤子啊，请去选个商品好嘛亲?");
+	        			  return;
+	        		  }
+	        		  
+	        		  //console.log(this.viptype);
+	        		  this.order.userId = this.viptype[0].vlist[0].uid;
+	        		  this.order.orderName = this.viptype[0].vlist[0].vipName;
+	        		  this.order.orderPhone = this.viptype[0].vlist[0].vipPhone;
+	        		  this.order.orderCount = this.totalCount;
+	        		  this.order.orderTotalmoney = this.totalMoney;
+	        		  this.order.orderSfmoney = this.shiMoney;
+	        		  this.order.integralDeductionmoney = this.pointMoney;
+	        		  this.order.orderPayment = "微信";
+	        		  this.order.integral = this.point; 
+	        		  console.log(this.order);
+	        		  $.ajax({
+	        			  url:"[[@{shop/insertOrder}]]",
+	        			  data:collectVue.order,
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        			  }
+	        		  }); 
+	        		  
+	        		  this.isBlock = 2;	//显示结算界面
 	        		  
 	        	  },
+	        	  queryIntegral:function(){
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryIntegral}]]",
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        				  this.integral = result;
+	        				  if(this.integral[0].sw!=0){
+	        					  $("[name=integral]").attr("disabled","disabled");
+	        				  }
+	        			  }
+	        		  }); 
+	        	  },
 	        	  guadan:function(){
+	        		  this.isOrder = 1;
+	        		  
 	        		  this.danData = this.tableData;
 	        		  this.tableData=[];
+	        		  
+	        		  for (let i=0; i<this.danData.length; i++){
+	        			  //console.log(this.danData[i].count+"---"+this.danData[i].price+"---"+this.danData[i].price*this.zhe);
+	        			  this.cart.orderCount = this.danData[i].count;
+		        		  this.cart.orderTotalmoney = this.danData[i].price;
+		        		  this.cart.orderSfmoney = this.danData[i].price*this.zhe;
+		        		  this.cart.gdid = this.danData[i].detailsid;
+		        		  
+		        		  this.cart.userid = this.viptype[0].vlist[0].uid;
+		        		  
+		        		  this.cart.status = 1;
+		        		  
+		        		  console.log(collectVue.cart);
+		        		  
+		        		  $.ajax({
+		        			  url:"[[@{shop/insertCart}]]",
+		        			  data:collectVue.cart,
+		        			  type:"post",
+		        			  dataType:"json",
+		        			  success:function(result){
+		        				  console.log(result);
+		        			  }
+		        		  }); 
+		        		  /* if(null == this.tableData || this.tableData.length ==0 ){
+		        			  this.cart.status = 1;
+		        		  }*/
+		        		  
+		                }
+	        		  
+	        		  //;
+	        		  
+	        		  
+	        		  //console.log(this.cart.status);
+	        		  //console.log(this.danData);
+	        		  //console.log(this.viptype);
+	        		  
+	        		  
 	        	  },
 	        	  queryOftenGoods:function(){
 	        		  var t = this;
@@ -203,8 +315,36 @@
 	        			  }
 	        		  });
 	        	  },
+	        	  queryViptype:function(){
+	        		  var t = this;
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryVip}]]",
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        				  t.viptype = result;
+	        			  }
+	        		  });
+	        	  },
+	        	  addDiscount(v,item){
+	        		  console.log(v);
+	        		  console.log(item);
+	        		  var zhePrice = (this.totalMoney * item.viptypeDiscount).toFixed(2);
+	        		  console.log(zhePrice);
+	        		  var zhe = (this.totalMoney-zhePrice).toFixed(2);
+	        		  console.log(zhe);
+	        		  
+	        		  this.shiMoney = zhePrice;
+	        		  this.zhe = item.viptypeDiscount;
+	        		  this.discount = zhe;
+	        		  
+	        		  //把点击该会员的积分赋值给havePoint
+	        		  console.log(v.integral);
+	        		  this.havePoint = v.integral;
+	        	  },
 	        	// 点击右边商品，添加到左边
 	              addOrderList(goods){
+	        		  this.isOrder = 1;
 	        		  console.log(goods);
 	                // 每次添加都清零，防止重复添加
 	                this.totalCount=0;
@@ -214,21 +354,21 @@
 	                // tableData循环
 	                for (let i=0; i<this.tableData.length; i++){
 	                	//alert("进循环了");
-	                   console.log(this.tableData[i].goodsid+"---"+goods.goodsid);
-	                  if(this.tableData[i].goodsid==goods.goodsid){
+	                   console.log(this.tableData[i].detailsid+"---"+goods.detailsid);
+	                  if(this.tableData[i].detailsid==goods.detailsid){
 	                    isHave=true;
 	                  }
 	                }
-	                alert(isHave);
+	                //alert(isHave);
 	                // 根据判断的值写业务逻辑
 	                if(isHave){
 	                  // 改变列表中的商品数量
 	                  // 通过filter过滤tableData
-	                  let arr = this.tableData.filter(o=>o.goodsid == goods.goodsid);
+	                  let arr = this.tableData.filter(o=>o.detailsid == goods.detailsid);
 	                  arr[0].count++;
 	                } else {
 	                  // 构造一个newGoods
-	                  let newGoods={goodsid:goods.goodsid,goodsName:goods.goodsname,price:goods.salesprice,count:1};
+	                  let newGoods={detailsid:goods.detailsid,goodsName:goods.goodsname,price:goods.salesprice,count:1};
 	                  console.log(newGoods);
 	                  this.tableData.push(newGoods);
 	                }
@@ -237,7 +377,7 @@
 	              // 删除单个商品
 	              delSingleGoods(goods){
 	                // console.log(goods);
-	                this.tableData=this.tableData.filter(o => o.goodsid !=goods.goodsid);
+	                this.tableData=this.tableData.filter(o => o.detailsid !=goods.detailsid);
 	                this.getAllMoney();
 	              },
 	              // 删除所有商品
@@ -273,12 +413,18 @@
 	              } else {
 	                this.$message.error('你都没选商品，我结空气给你吃吗？');
 	              }
+	            },
+	            tabEl:function(index){
+	    		  	//alert(index);
+	    		  	collectVue.isBlock = index;
 	            }
 
 	          },
 	          created(){
 	        	  this.queryOftenGoods();
 	      		  this.queryGoodstype();
+	      		  this.queryViptype();
+	      		  this.queryIntegral();
 	          }
 	        })
       </script>
@@ -296,18 +442,5 @@
 	      	}
 	      });
 	  });  */
-  		$(function(){
-  			$("#collectMember").hide();
-  			$("#collectGoods").show();
-  		})
-	  
-	  $("#leftCollect li").click(function () {
-		  	$("#collectMember").hide();
-	        $("#collectGoods").hide();
-	        let dataid=$(this).attr("data-id");
-	        //alert(dataid);
-	        
-  			$("#"+dataid+"").show();
-	    }); 
   </script>
 </html>

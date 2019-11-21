@@ -4,13 +4,277 @@ import java.util.Date;
 import java.util.List;
 
 public class All {
-	private List<Goods> glist;
+	//装会员的集合
+	private List<All> vlist;
 	
-	public List<Goods> getGlist() {
+	private Integer cid;
+
+    private Integer gid;
+
+    private Integer userid;
+
+    private Integer status;
+	
+    private Integer vipId;
+
+    private Integer viptypeId;
+
+    private String vipPhone;
+
+    private String vipName;
+
+    private String vipPwd;
+
+    private String vipProvince;
+
+    private String vipCity;
+
+    private String vipRegion;
+
+    private String vipStreet;
+
+    private Integer vipTurnover;
+
+    private Double transactionPrice;
+
+    private Double balance;
+
+    private String viptypeName;
+
+    private Double viptypeDiscount;
+
+    private Double moneylv;
+    
+    private Integer detailsid;
+
+    private String goodssize;
+
+    private String color;
+
+    private Integer goodsstock;
+
+    private String shapecode;
+
+    private Integer count;
+    
+    
+	
+	public List<All> getVlist() {
+		return vlist;
+	}
+
+	public void setVlist(List<All> vlist) {
+		this.vlist = vlist;
+	}
+
+	public Integer getCid() {
+		return cid;
+	}
+
+	public void setCid(Integer cid) {
+		this.cid = cid;
+	}
+
+	public Integer getGid() {
+		return gid;
+	}
+
+	public void setGid(Integer gid) {
+		this.gid = gid;
+	}
+
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getVipId() {
+		return vipId;
+	}
+
+	public void setVipId(Integer vipId) {
+		this.vipId = vipId;
+	}
+
+	public Integer getViptypeId() {
+		return viptypeId;
+	}
+
+	public void setViptypeId(Integer viptypeId) {
+		this.viptypeId = viptypeId;
+	}
+
+	public String getVipPhone() {
+		return vipPhone;
+	}
+
+	public void setVipPhone(String vipPhone) {
+		this.vipPhone = vipPhone;
+	}
+
+	public String getVipName() {
+		return vipName;
+	}
+
+	public void setVipName(String vipName) {
+		this.vipName = vipName;
+	}
+
+	public String getVipPwd() {
+		return vipPwd;
+	}
+
+	public void setVipPwd(String vipPwd) {
+		this.vipPwd = vipPwd;
+	}
+
+	public String getVipProvince() {
+		return vipProvince;
+	}
+
+	public void setVipProvince(String vipProvince) {
+		this.vipProvince = vipProvince;
+	}
+
+	public String getVipCity() {
+		return vipCity;
+	}
+
+	public void setVipCity(String vipCity) {
+		this.vipCity = vipCity;
+	}
+
+	public String getVipRegion() {
+		return vipRegion;
+	}
+
+	public void setVipRegion(String vipRegion) {
+		this.vipRegion = vipRegion;
+	}
+
+	public String getVipStreet() {
+		return vipStreet;
+	}
+
+	public void setVipStreet(String vipStreet) {
+		this.vipStreet = vipStreet;
+	}
+
+	public Integer getVipTurnover() {
+		return vipTurnover;
+	}
+
+	public void setVipTurnover(Integer vipTurnover) {
+		this.vipTurnover = vipTurnover;
+	}
+
+	public Double getTransactionPrice() {
+		return transactionPrice;
+	}
+
+	public void setTransactionPrice(Double transactionPrice) {
+		this.transactionPrice = transactionPrice;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+	public String getViptypeName() {
+		return viptypeName;
+	}
+
+	public void setViptypeName(String viptypeName) {
+		this.viptypeName = viptypeName;
+	}
+
+	public Double getViptypeDiscount() {
+		return viptypeDiscount;
+	}
+
+	public void setViptypeDiscount(Double viptypeDiscount) {
+		this.viptypeDiscount = viptypeDiscount;
+	}
+
+	public Double getMoneylv() {
+		return moneylv;
+	}
+
+	public void setMoneylv(Double moneylv) {
+		this.moneylv = moneylv;
+	}
+
+	public Integer getDetailsid() {
+		return detailsid;
+	}
+
+	public void setDetailsid(Integer detailsid) {
+		this.detailsid = detailsid;
+	}
+
+	public String getGoodssize() {
+		return goodssize;
+	}
+
+	public void setGoodssize(String goodssize) {
+		this.goodssize = goodssize;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Integer getGoodsstock() {
+		return goodsstock;
+	}
+
+	public void setGoodsstock(Integer goodsstock) {
+		this.goodsstock = goodsstock;
+	}
+
+	public String getShapecode() {
+		return shapecode;
+	}
+
+	public void setShapecode(String shapecode) {
+		this.shapecode = shapecode;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+	
+	//装商品的list
+	private List<All> glist;
+	
+	public List<All> getGlist() {
 		return glist;
 	}
 
-	public void setGlist(List<Goods> glist) {
+	public void setGlist(List<All> glist) {
 		this.glist = glist;
 	}
 

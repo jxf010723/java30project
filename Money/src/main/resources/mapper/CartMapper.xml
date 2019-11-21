@@ -3,18 +3,12 @@
 <mapper namespace="com.accp.mapper.CartMapper" >
   <resultMap id="BaseResultMap" type="com.accp.domain.Cart" >
     <id column="cid" property="cid" jdbcType="INTEGER" />
-    <result column="gid" property="gid" jdbcType="INTEGER" />
     <result column="gdid" property="gdid" jdbcType="INTEGER" />
     <result column="userid" property="userid" jdbcType="INTEGER" />
-    <result column="order_name" property="orderName" jdbcType="VARCHAR" />
-    <result column="order_phone" property="orderPhone" jdbcType="VARCHAR" />
     <result column="order_count" property="orderCount" jdbcType="INTEGER" />
     <result column="order_totalMoney" property="orderTotalmoney" jdbcType="DOUBLE" />
     <result column="order_sfMoney" property="orderSfmoney" jdbcType="DOUBLE" />
-    <result column="Integral_ deductionMoney" property="integralDeductionmoney" jdbcType="DOUBLE" />
-    <result column="order_payment" property="orderPayment" jdbcType="VARCHAR" />
     <result column="order_date" property="orderDate" jdbcType="DATE" />
-    <result column="integral" property="integral" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -76,8 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    cid, gid, gdid, userid, order_name, order_phone, order_count, order_totalMoney, order_sfMoney, 
-    "Integral_ deductionMoney", order_payment, order_date, integral, status
+    cid, gdid, userid, order_count, order_totalMoney, order_sfMoney, order_date, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.CartExample" >
     select
@@ -110,16 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.Cart" >
-    insert into cart (cid, gid, gdid, 
-      userid, order_name, order_phone, 
+    insert into cart (cid, gdid, userid, 
       order_count, order_totalMoney, order_sfMoney, 
-      "Integral_ deductionMoney", order_payment, order_date, 
-      integral, status)
-    values (#{cid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{gdid,jdbcType=INTEGER}, 
-      #{userid,jdbcType=INTEGER}, #{orderName,jdbcType=VARCHAR}, #{orderPhone,jdbcType=VARCHAR}, 
+      order_date, status)
+    values (#{cid,jdbcType=INTEGER}, #{gdid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
       #{orderCount,jdbcType=INTEGER}, #{orderTotalmoney,jdbcType=DOUBLE}, #{orderSfmoney,jdbcType=DOUBLE}, 
-      #{integralDeductionmoney,jdbcType=DOUBLE}, #{orderPayment,jdbcType=VARCHAR}, #{orderDate,jdbcType=DATE}, 
-      #{integral,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+      #{orderDate,jdbcType=DATE}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.Cart" >
     insert into cart
@@ -127,20 +116,11 @@
       <if test="cid != null" >
         cid,
       </if>
-      <if test="gid != null" >
-        gid,
-      </if>
       <if test="gdid != null" >
         gdid,
       </if>
       <if test="userid != null" >
         userid,
-      </if>
-      <if test="orderName != null" >
-        order_name,
-      </if>
-      <if test="orderPhone != null" >
-        order_phone,
       </if>
       <if test="orderCount != null" >
         order_count,
@@ -151,17 +131,8 @@
       <if test="orderSfmoney != null" >
         order_sfMoney,
       </if>
-      <if test="integralDeductionmoney != null" >
-        "Integral_ deductionMoney",
-      </if>
-      <if test="orderPayment != null" >
-        order_payment,
-      </if>
       <if test="orderDate != null" >
         order_date,
-      </if>
-      <if test="integral != null" >
-        integral,
       </if>
       <if test="status != null" >
         status,
@@ -171,20 +142,11 @@
       <if test="cid != null" >
         #{cid,jdbcType=INTEGER},
       </if>
-      <if test="gid != null" >
-        #{gid,jdbcType=INTEGER},
-      </if>
       <if test="gdid != null" >
         #{gdid,jdbcType=INTEGER},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="orderName != null" >
-        #{orderName,jdbcType=VARCHAR},
-      </if>
-      <if test="orderPhone != null" >
-        #{orderPhone,jdbcType=VARCHAR},
       </if>
       <if test="orderCount != null" >
         #{orderCount,jdbcType=INTEGER},
@@ -195,17 +157,8 @@
       <if test="orderSfmoney != null" >
         #{orderSfmoney,jdbcType=DOUBLE},
       </if>
-      <if test="integralDeductionmoney != null" >
-        #{integralDeductionmoney,jdbcType=DOUBLE},
-      </if>
-      <if test="orderPayment != null" >
-        #{orderPayment,jdbcType=VARCHAR},
-      </if>
       <if test="orderDate != null" >
         #{orderDate,jdbcType=DATE},
-      </if>
-      <if test="integral != null" >
-        #{integral,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -224,20 +177,11 @@
       <if test="record.cid != null" >
         cid = #{record.cid,jdbcType=INTEGER},
       </if>
-      <if test="record.gid != null" >
-        gid = #{record.gid,jdbcType=INTEGER},
-      </if>
       <if test="record.gdid != null" >
         gdid = #{record.gdid,jdbcType=INTEGER},
       </if>
       <if test="record.userid != null" >
         userid = #{record.userid,jdbcType=INTEGER},
-      </if>
-      <if test="record.orderName != null" >
-        order_name = #{record.orderName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.orderPhone != null" >
-        order_phone = #{record.orderPhone,jdbcType=VARCHAR},
       </if>
       <if test="record.orderCount != null" >
         order_count = #{record.orderCount,jdbcType=INTEGER},
@@ -248,17 +192,8 @@
       <if test="record.orderSfmoney != null" >
         order_sfMoney = #{record.orderSfmoney,jdbcType=DOUBLE},
       </if>
-      <if test="record.integralDeductionmoney != null" >
-        "Integral_ deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
-      </if>
-      <if test="record.orderPayment != null" >
-        order_payment = #{record.orderPayment,jdbcType=VARCHAR},
-      </if>
       <if test="record.orderDate != null" >
         order_date = #{record.orderDate,jdbcType=DATE},
-      </if>
-      <if test="record.integral != null" >
-        integral = #{record.integral,jdbcType=INTEGER},
       </if>
       <if test="record.status != null" >
         status = #{record.status,jdbcType=INTEGER},
@@ -271,18 +206,12 @@
   <update id="updateByExample" parameterType="map" >
     update cart
     set cid = #{record.cid,jdbcType=INTEGER},
-      gid = #{record.gid,jdbcType=INTEGER},
       gdid = #{record.gdid,jdbcType=INTEGER},
       userid = #{record.userid,jdbcType=INTEGER},
-      order_name = #{record.orderName,jdbcType=VARCHAR},
-      order_phone = #{record.orderPhone,jdbcType=VARCHAR},
       order_count = #{record.orderCount,jdbcType=INTEGER},
       order_totalMoney = #{record.orderTotalmoney,jdbcType=DOUBLE},
       order_sfMoney = #{record.orderSfmoney,jdbcType=DOUBLE},
-      "Integral_ deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
-      order_payment = #{record.orderPayment,jdbcType=VARCHAR},
       order_date = #{record.orderDate,jdbcType=DATE},
-      integral = #{record.integral,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -291,20 +220,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Cart" >
     update cart
     <set >
-      <if test="gid != null" >
-        gid = #{gid,jdbcType=INTEGER},
-      </if>
       <if test="gdid != null" >
         gdid = #{gdid,jdbcType=INTEGER},
       </if>
       <if test="userid != null" >
         userid = #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="orderName != null" >
-        order_name = #{orderName,jdbcType=VARCHAR},
-      </if>
-      <if test="orderPhone != null" >
-        order_phone = #{orderPhone,jdbcType=VARCHAR},
       </if>
       <if test="orderCount != null" >
         order_count = #{orderCount,jdbcType=INTEGER},
@@ -315,17 +235,8 @@
       <if test="orderSfmoney != null" >
         order_sfMoney = #{orderSfmoney,jdbcType=DOUBLE},
       </if>
-      <if test="integralDeductionmoney != null" >
-        "Integral_ deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
-      </if>
-      <if test="orderPayment != null" >
-        order_payment = #{orderPayment,jdbcType=VARCHAR},
-      </if>
       <if test="orderDate != null" >
         order_date = #{orderDate,jdbcType=DATE},
-      </if>
-      <if test="integral != null" >
-        integral = #{integral,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -335,18 +246,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.accp.domain.Cart" >
     update cart
-    set gid = #{gid,jdbcType=INTEGER},
-      gdid = #{gdid,jdbcType=INTEGER},
+    set gdid = #{gdid,jdbcType=INTEGER},
       userid = #{userid,jdbcType=INTEGER},
-      order_name = #{orderName,jdbcType=VARCHAR},
-      order_phone = #{orderPhone,jdbcType=VARCHAR},
       order_count = #{orderCount,jdbcType=INTEGER},
       order_totalMoney = #{orderTotalmoney,jdbcType=DOUBLE},
       order_sfMoney = #{orderSfmoney,jdbcType=DOUBLE},
-      "Integral_ deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
-      order_payment = #{orderPayment,jdbcType=VARCHAR},
       order_date = #{orderDate,jdbcType=DATE},
-      integral = #{integral,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where cid = #{cid,jdbcType=INTEGER}
   </update>

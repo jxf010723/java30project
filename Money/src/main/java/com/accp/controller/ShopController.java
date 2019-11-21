@@ -2,8 +2,12 @@ package com.accp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.accp.domain.All;
+import com.accp.domain.Cart;
+import com.accp.domain.Integral;
 import com.accp.domain.Jurisdictiontype;
+import com.accp.domain.Order;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
 import com.accp.domain.User;
@@ -29,7 +36,57 @@ public class ShopController {
 	ShopService service;
 	
 	/**
-	 * ²éÑ¯ÓĞÉÌÆ·µÄÉÌÆ·ÀàĞÍ
+	 * æ–°å¢è®¢å•
+	 */
+	@RequestMapping("/insertOrder")
+	@ResponseBody
+	public int insertOrder(Order order) {
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+		Calendar calendar = Calendar.getInstance();
+		String dateName = df.format(calendar.getTime());
+
+		Random ne=new Random();//å®ä¾‹åŒ–ä¸€ä¸ªrandomçš„å¯¹è±¡ne
+		int x = ne.nextInt(999-100+1)+100;//ä¸ºå˜é‡èµ‹éšæœºå€¼100-999
+		String random_order = String.valueOf(x);
+		String order_id = dateName+random_order;
+		order.setOrderId(order_id);
+		
+		Date date = new Date();
+		order.setOrderDate(date);
+		return service.insertOrder(order);
+	}
+	
+	/**
+	 * æŸ¥è¯¢ç§¯åˆ†è®¾ç½®è¡¨æ˜¯å¦å¯ä»¥ä½¿ç”¨ç§¯åˆ†
+	 */
+	@RequestMapping("/queryIntegral")
+	@ResponseBody
+	public List<Integral> queryIntegral() {
+		return service.queryIntegral();
+	}
+	
+	/**
+	 * æŸ¥è¯¢ä¼šå‘˜ç±»å‹å’Œå¯¹åº”çš„ä¼šå‘˜
+	 */
+	@RequestMapping("/queryVip")
+	@ResponseBody
+	public List<All> queryVip(){
+		return service.queryVip();
+	}
+	
+	/**
+	 * æ–°å¢è´­ç‰©è½¦
+	 */
+	@RequestMapping("/insertCart")
+	@ResponseBody
+	public int insertCart(Cart cart) {
+		Date date = new Date();
+		cart.setOrderDate(date);
+		return service.insertCart(cart);
+	}
+	
+	/**
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/queryGoodstype")
 	@ResponseBody
@@ -38,7 +95,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯¶©µ¥±íÖĞÇ°Ê®ÌõÂôµÄ×îºÃµÄÉÌÆ·(¶©µ¥ÖĞµÄÉÌÆ·ÊıÁ¿)
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Æ·(ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½)
 	 */
 	@RequestMapping("/queryTenGoods")
 	@ResponseBody
@@ -47,7 +104,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ÕË»§µÄĞŞ¸Ä
+	 * ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½
 	 */
 	@RequestMapping("/updateUser")
 	@ResponseBody
@@ -56,7 +113,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ÕË»§µÄ²éÑ¯
+	 * ï¿½Ë»ï¿½ï¿½Ä²ï¿½Ñ¯
 	 */
 	@RequestMapping("/queryUser")
 	@ResponseBody
@@ -65,7 +122,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * É¾³ıÔ±¹¤
+	 * É¾ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/delEmployee")
 	@ResponseBody
@@ -74,7 +131,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ĞŞ¸ÄÔ±¹¤ĞÅÏ¢
+	 * ï¿½Ş¸ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	@RequestMapping("/updatestaff")
 	@ResponseBody
@@ -83,7 +140,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ĞÂÔöÔ±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/insertstaff")
 	@ResponseBody
@@ -93,7 +150,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İÔ±¹¤id²éÑ¯¶ÔÓ¦Ô±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/selectBystaffid")
 	@ResponseBody
@@ -102,7 +159,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿µêÆÌ
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/queryShop")
 	@ResponseBody
@@ -111,7 +168,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿Ö°Î»
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½Ö°Î»
 	 */
 	@RequestMapping("/queryJurisdictiontype")
 	@ResponseBody
@@ -120,7 +177,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * Ô±¹¤¹ÜÀíµÄ²éÑ¯
+	 * Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½Ñ¯
 	 */
 	@RequestMapping("/queryStaff")
 	@ResponseBody
@@ -137,7 +194,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌidÉ¾³ı¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idÉ¾ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping("/delStoreById")
@@ -147,7 +204,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌidĞŞ¸Ä¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idï¿½Ş¸Ä¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/updateStoreById")
 	@ResponseBody
@@ -155,20 +212,20 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("/E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images");
+		File directory = new File("/E:/Y2/ï¿½Ä¼ï¿½/ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : updateFiles) {
-				String url = "/E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images/";
+				String url = "/E:/Y2/ï¿½Ä¼ï¿½/ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
 				System.out.println(l.getOriginalFilename()+"hhh");
 				shop.setShopimg(l.getOriginalFilename());
 			}
-			System.out.println("to³É¹¦ÁË");
+			System.out.println("toï¿½É¹ï¿½ï¿½ï¿½");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -179,7 +236,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌid²éÑ¯Ïà¹ØµêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Øµï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/selectByShopid")
 	@ResponseBody
@@ -188,7 +245,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ĞÂÔöµêÆÌ¹ÜÀíµÄµêÆÌ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/insertShop")
 	@ResponseBody
@@ -196,7 +253,7 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		service.insertShop(shop);
-		System.out.println("½øÀ´ÁË");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		return "success";
 	}
 	
@@ -206,20 +263,20 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("//E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images");
+		File directory = new File("//E:/Y2/ï¿½Ä¼ï¿½/ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : insertFiles) {
-				String url = "//E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images/";
+				String url = "//E:/Y2/ï¿½Ä¼ï¿½/ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
 				System.out.println(l.getOriginalFilename());
 				shop.setShopimg(l.getOriginalFilename());
 			}
-			System.out.println("to³É¹¦ÁË");
+			System.out.println("toï¿½É¹ï¿½ï¿½ï¿½");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -231,7 +288,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÕÒÊÇ·ñÓĞ¸ù¾İÓÃ»§ÃûºÍÃÜÂë²éÕÒµ½µÄÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ğ¸ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param user
 	 * @return
 	 */
@@ -241,7 +298,7 @@ public class ShopController {
 		//System.out.println(user.getUname()+"---"+user.getUpwd());
 		user = service.login(user);
 		if(user!=null) {
-			HttpSession session=request.getSession();//»ñÈ¡session²¢½«userName´æÈësession¶ÔÏó
+			HttpSession session=request.getSession();//ï¿½ï¿½È¡sessionï¿½ï¿½ï¿½ï¿½userNameï¿½ï¿½ï¿½ï¿½sessionï¿½ï¿½ï¿½ï¿½
 			session.setAttribute("user", user);
 			System.out.println(111);
 		}
@@ -250,7 +307,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯µêÆÌ¹ÜÀíÀïµÄÃÅµêÁĞ±í
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½Ğ±ï¿½
 	 * @return
 	 */
 	@RequestMapping("/queryShopList")
