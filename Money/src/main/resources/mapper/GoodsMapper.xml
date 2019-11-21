@@ -335,4 +335,10 @@
       agio = #{agio,jdbcType=INTEGER}
     where goodsid = #{goodsid,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectgoodsAll" resultType="com.accp.domain.Goods" parameterType="String">
+  	
+	SELECT g.* FROM `goods` g INNER JOIN `shop` s ON g.shopid=s.shopid INNER JOIN
+	 `user` u ON s.userid=u.uid WHERE u.uid=#{0}
+  </select>
 </mapper>

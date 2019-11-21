@@ -105,6 +105,11 @@ public class GoodsService {
 		return supplier.deleteBysuppiler(id);
 	}
 	
+	/**
+	 * 根据供应商id查询
+	 * @param suppid
+	 * @return
+	 */
 	public Supplier supplierByid(String suppid) {
 		return  supplier.selectByid(suppid);
 	}
@@ -116,5 +121,15 @@ public class GoodsService {
 		PageInfo<purchrvo> page=new PageInfo<purchrvo>(list);
 		return page;
 	}
+	/**
+	 * 查询全部商品类别
+	 * @return
+	 */
+	public List<Goodstype> goodstypeAll(){
+		return goodstype.selectByExample(null);
+	}
+	/**
+	 * 根据店长查询商品
+	 */
 	
 }

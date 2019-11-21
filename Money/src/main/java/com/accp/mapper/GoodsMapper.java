@@ -1,9 +1,11 @@
 package com.accp.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.accp.domain.Goods;
 import com.accp.domain.GoodsExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface GoodsMapper {
     int countByExample(GoodsExample example);
@@ -27,4 +29,6 @@ public interface GoodsMapper {
     int updateByPrimaryKeySelective(Goods record);
 
     int updateByPrimaryKey(Goods record);
+    
+    List<Goods> selectgoodsAll(String uid);
 }

@@ -127,5 +127,10 @@ public class GoodsController {
 		}
 		return page;
 	}
+	@RequestMapping("/goodstypeAll")
+	@ResponseBody
+	public List<Goodstype> goodstypeAll(){
+		return goods.goodstypeAll();
+	}
 	
 }

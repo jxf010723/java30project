@@ -7,10 +7,10 @@
 </head>
 <body>
 <div class="rightarea clearfix">
-    <div class="mainarea clearfix">
+    <div class="mainarea clearfix" id="managevue">
         <div class="mainhead">
             <span class="title">商品管理</span>
-            <div class="searchArea">
+            <div class="searchArea" >
                 <div class="btn-div">
                     <a href="javascript:;" class="btn btn-success">
                         添加员工
@@ -27,13 +27,14 @@
             </div>
             <div class="list">
                 <select name="" id="" class="form-control">
-                    <option value="全部职位">类别</option>
+                    <option value="0">全部类别</option>
+                    <option  v-for="item in typelist"  :value="item.typeid">{{item.typename}}</option>
                 </select>
 
             </div>
             <div class="list">
                 <select name="" id="" class="form-control">
-                    <option value="全部店铺">员工</option>
+                    <option value="全部店铺">全部店铺</option>
                 </select>
             </div>
         </div>
@@ -89,3 +90,27 @@
 </div>
 </body>
 </html>
+<script type="text/javascript">
+	var managevue=new Vue({
+		el:"#managevue",
+		data(){
+			return{
+				typelist:[]
+			}
+		},
+		methods:{
+			typequery:function(){
+				var th=this
+				$.ajax({
+					url:"[[@{goods/goodstypeAll}]]",
+					success:function(res){
+						th.typelist=res;
+					}
+				});
+			}
+		},
+		mounted:function(){
+			this.typequery();
+		}
+	});
+</script>
