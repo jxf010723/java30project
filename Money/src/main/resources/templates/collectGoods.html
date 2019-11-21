@@ -5,70 +5,131 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- 收银的商品模块 -->
+	<!-- <!-- 收银的商品模块 -->
 	<div id="content">
 		<div class="often-goods">
-        <div class="title">常用商品</div>
+        <div class="title">常买商品</div>
         <div class="often-goods-list">
           <ul>
-            <li v-for="goods in oftenGoods" @click="addOrderList(goods)">
-              <span>{{goods.goodsName}}</span>
-              <span class="o-price">￥{{goods.price}}元</span>
+            <li v-for="goods in ofterGoods">
+              <span>{{goods.goodsname}}</span>
+              <span class="o-price">￥{{goods.goodsPrice}}元</span>
             </li>
           </ul>
         </div>
       </div>
       <div class="goods-type">
-        <el-tabs>
-          <el-tab-pane label="蛋糕">
+        <el-tabs >
+          <el-tab-pane  v-for="(item,index) in goodstype" 
+		    :label="item.typename">
             <ul class='cookList'>
-              <li v-for="goods in type0Goods" @click="addOrderList(goods)">
-                <span class="foodImg"><img :src="goods.goodsImg" width="100%"></span>
+              <li v-for="(g,index) in item.glist" @click="addOrderList(g)">
+                <span class="foodImg"><img  :src="g.goodsphoto" width="100%" height="80px"></span>
                 <div class="food-content">
-                  <span class="foodName">{{goods.goodsName}}</span>
-                  <span class="foodPrice">￥{{goods.price}}元</span>
+                  <span class="foodName">{{g.goodsname}}</span>
+                  <span class="foodPrice">￥{{g.salesprice}}元</span>
                 </div> 
-              </li>
-            </ul>
-          </el-tab-pane>
-          <el-tab-pane label="小食">
-            <ul class='cookList'>
-              <li v-for="goods in type1Goods" @click="addOrderList(goods)">
-                <span class="foodImg"><img :src="goods.goodsImg" width="100%"></span>
-                <div class="food-content">
-                  <span class="foodName">{{goods.goodsName}}</span>
-                  <span class="foodPrice">￥{{goods.price}}元</span>
-                </div>
-              </li>
-            </ul>
-          </el-tab-pane>
-          <el-tab-pane label="饮料">
-            <ul class='cookList'>
-              <li v-for="goods in type2Goods" @click="addOrderList(goods)">
-                <span class="foodImg"><img :src="goods.goodsImg" width="100%"></span>
-                <div class="food-content">
-                  <span class="foodName">{{goods.goodsName}}</span>
-                  <span class="foodPrice">￥{{goods.price}}元</span>
-                </div>
-              </li>
-            </ul>
-          </el-tab-pane>
-          <el-tab-pane label="套餐">
-            <ul class='cookList'>
-              <li v-for="goods in type3Goods" @click="addOrderList(goods)">
-                <span class="foodImg"><img :src="goods.goodsImg" width="100%"></span>
-                <div class="food-content">
-                  <span class="foodName">{{goods.goodsName}}</span>
-                  <span class="foodPrice">￥{{goods.price}}元</span>
-                </div>
               </li>
             </ul>
           </el-tab-pane>
         </el-tabs>
       </div>
-	</div>
-      
+	</div> -->
       <script type="text/javascript">
+      	var collectGoodsVue = new Vue({
+      		el: '#content',
+      		data(){
+      			return {
+      				ofterGoods:[],
+      				goodstype:[]
+      			}
+      		},
+      		methods:{
+      			/* queryGoodsBytypeid:function(){
+      				var t = this;
+	        		  $.ajax({
+	        			  url:"[[@{shop/}]]",
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        				  t.goods = result;
+	        				  
+	        			  }
+	        		  });
+      			}, */
+      			queryOftenGoods:function(){
+	        		  var t = this;
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryTenGoods}]]",
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        				  t.ofterGoods = result;
+	        				  
+	        			  }
+	        		  });
+	        	  },
+	        	  queryGoodstype:function(){
+	        		  var t = this;
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryGoodstype}]]",
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        				  t.goodstype = result;
+	        			  }
+	        		  });
+	        	  },
+	        	// 点击右边商品，添加到左边
+	              addOrderList(goods){
+	        		  alert(111);
+	                /* // 每次添加都清零，防止重复添加
+	                this.totalCount=0;
+	                this.totalMoney=0;
+	                // 定义isHave判断这个商品是否已经存在于订单列表
+	                let isHave=false;
+	                // tableData循环
+	                for (let i=0; i<this.tableData.length; i++){
+	                  // console.log(this.tableData[i].goodsId);
+	                  if(this.tableData[i].goodsId==goods.goodsId){
+	                    isHave=true;
+	                  }
+	                }
+	                // 根据判断的值写业务逻辑
+	                if(isHave){
+	                  // 改变列表中的商品数量
+	                  // 通过filter过滤tableData
+	                  let arr = this.tableData.filter(o=>o.goodsId == goods.goodsId);
+	                  arr[0].count++;
+	                } else {
+	                  // 构造一个newGoods
+	                  let newGoods={goodsId:goods.goodsId,goodsName:goods.goodsName,price:goods.price,count:1}
+	                  this.tableData.push(newGoods);
+	                }
+	                this.getAllMoney(); */
+	              },
+	           // 因为删除，增加后都要重新汇总，所以汇总方法要复用
+	              getAllMoney(){
+	                this.totalCount=0;
+	                this.totalMoney=0;
+	                // 订单列表有数据的时候才进行汇总
+	                if(this.tableData){
+	                  // 进行数量和价格的汇总计算
+	                  // element表示tableData中的单个元素
+	                  this.tableData.forEach((element) => {
+	                    this.totalCount+=element.count;
+	                    this.totalMoney=this.totalMoney+(element.price*element.count);
+	                  });
+	                }
+	              }
+      		},
+      		created:function(){
+      			this.queryOftenGoods();
+      			this.queryGoodstype();
+      		}
+      	});
+      </script>
+      <!-- <script type="text/javascript">
 	      new Vue({
 	          el: '#content',
 	          data: function() {
@@ -181,6 +242,6 @@
 	            })
 	          }
 	        })
-      </script> 
+      </script>  -->
 </body>
 </html>

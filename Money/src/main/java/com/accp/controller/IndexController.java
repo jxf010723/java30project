@@ -13,7 +13,7 @@ public class IndexController {
 	
 	@RequestMapping("/money")
 	public String money(String dataid) {
-		//System.out.println("qqq"+dataid);
+		System.out.println("qqq"+dataid);
 		return dataid;
 	}
 }

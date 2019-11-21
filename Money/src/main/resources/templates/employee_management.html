@@ -175,16 +175,16 @@
 	                <a href="javascript:;" class="search-btn" onclick="changeEmployeeName()"></a>
 	            </div>
 	            <div class="list">
-	                <select name=""  @change="changetname" class="form-control">
+	                <select name="tname"  @change="changetname" class="form-control">
 	                    <option value="全部职位">全部职位</option>
-	                    <option name="tname" v-for="j in jurisdictionone">{{j.tname}}</option>
+	                    <option v-for="j in jurisdictionone">{{j.tname}}</option>
 	                </select>
 	
 	            </div>
 	            <div class="list">
-	                <select name=""  @change="changeshopname" class="form-control">
+	                <select name="shopname"  @change="changeshopname" class="form-control">
 	                    <option value="全部店铺">全部店铺</option>
-	                    <option name="shopname" v-for="s in shop">{{s.shopname}}</option>
+	                    <option v-for="s in shop">{{s.shopname}}</option>
 	                </select>
 	
 	            </div>
@@ -404,6 +404,7 @@
         			},
         			changetname:function(){
         				var tname = $("[name=tname]").val();
+        				//alert(tname);
         				employeeVue.getPage(1,null,tname,null);
         			},
         			changeshopname:function(){

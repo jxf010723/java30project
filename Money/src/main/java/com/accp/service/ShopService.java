@@ -1,11 +1,14 @@
 package com.accp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.accp.domain.All;
+import com.accp.domain.Goods;
+import com.accp.domain.Goodstype;
 import com.accp.domain.Jurisdictiontype;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
@@ -31,6 +34,49 @@ public class ShopService {
 	
 	@Autowired
 	JurisdictiontypeMapper jMapper;
+	
+	@Autowired
+	UserMapper uMapper;
+	
+	
+	/**
+	 * 查询有商品的商品类型和查询商品类型id对应的商品
+	 */
+	public List<All> queryGoodstype(){
+		List<All> zlist = new ArrayList<>();
+		
+		List<All> tlist = sMapper.queryGoodstype();
+		
+		for (All all : tlist) {
+			List<Goods> glist = sMapper.queryGoods(all.getTypeid());
+			All a = new All();
+			a.setGlist(glist);
+			a.setTypename(all.getTypename());
+			zlist.add(a);
+		}
+		return zlist;
+	}
+	
+	/**
+	 * 查询订单表中前十条卖的最好的商品(订单中的商品数量)
+	 */
+	public List<All> queryTenGoods(){
+		return sMapper.queryTenGoods();
+	}
+	
+	/**
+	 * 账户的修改
+	 */
+	public int updateUser(User user) {
+		return UMapper.updateByPrimaryKey(user);
+	}
+	
+	/**
+	 * 账户的查询
+	 */
+	public User queryUser(Integer uid) {
+		return uMapper.selectByPrimaryKey(uid);
+	}
 	
 	/**
 	 * 删除员工
