@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/purchase_list.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+   
     
 </head>
 <body>
-<div class="rightarea clearfix">
+<div class="rightarea clearfix" id="add">
     <div class="mainarea clearfix">
         <div class="mainhead">
             <span class="title">采购单</span>
             <div class="searchArea">
                 <div class="btn-div">
-                    <a href="javascript:;" class="btn btn-success">
+                    <a href="javascript:;" class="btn btn-success" id="ssa">
                        新建采购单
                     </a>
                 </div>
@@ -55,20 +59,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-for="item,index in page.list">
                     <td>
-                        1
+                        {{index+1}}
                     </td>
-                    <td>1
+                    <td>
+                    	{{item.shenghe}}
                     </td>
-                    <td>1
+                    <td>
+						{{item.deliverytime}}
                     </td>
-                    <td >1
+                    <td >{{item.odd}}
                     </td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td>{{item.odd}}</td>
+                    <td>{{item.odd}}</td>
+                    <td>{{item.odd}}</td>
+                    <td>{{item.odd}}</td>
                     <td>
                         <a href="javascript:;">删除</a>
                         <a href="javascript:;">编辑</a>
@@ -81,3 +87,52 @@
 </div>
 </body>
 </html>
+<script type="text/javascript">
+	var purchasevue=new Vue({
+		el:"#add",
+		data(){
+			return{
+				page:{
+					list:[]
+				}
+			}
+		},
+		methods:{
+			pages:function(dqy,kstime,jstime,ming,supp){
+				var th=this;
+				$.ajax({
+					data:{pageNum:dqy,kstime:kstime,jstime:jstime,ming:ming,supp:supp},
+					url:"[[@{goods/goodspurchasepage}]]",
+					type:"post",
+					success:function(res){
+						console.log(res);
+						th.page=res;
+					}
+				});
+			}
+		},
+		mounted:function(){
+			this.pages(1,null,null,null,null);
+		}
+	});
+
+
+
+
+	$(function(){
+		$("#ssa").click(function(){
+			 $.ajax({
+		        	type:"post",
+		        	url:"/money",
+		        	data:{dataid:"addPuchase"},
+		        	dataType:"html",
+		        	success:function(res){
+		        		$("#add").html("");
+		        		$("#add").append(res);
+		        	}
+		        });
+		})
+		 
+	});
+</script>
+

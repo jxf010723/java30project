@@ -16,12 +16,32 @@ public class Purchase {
     private String remarks;
 
     private Float grossmoney;
-
+    
+    private Integer shenghe;
+    
+    private Integer sl;
+    
     public Integer getPurchaseid() {
         return purchaseid;
     }
 
-    public void setPurchaseid(Integer purchaseid) {
+    public Integer getShenghe() {
+		return shenghe;
+	}
+
+	public void setShenghe(Integer shenghe) {
+		this.shenghe = shenghe;
+	}
+
+	public Integer getSl() {
+		return sl;
+	}
+
+	public void setSl(Integer sl) {
+		this.sl = sl;
+	}
+
+	public void setPurchaseid(Integer purchaseid) {
         this.purchaseid = purchaseid;
     }
 
