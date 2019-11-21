@@ -11,18 +11,17 @@ import com.accp.domain.Shop;
 import com.accp.domain.ShopExample;
 
 public interface ShopMapper {
-	//²éÑ¯ÉÌÆ·ÀàÐÍid¶ÔÓ¦µÄÉÌÆ·
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·
 	@Select("SELECT * FROM goods WHERE typeid = #{typeid}")
 	List<Goods> queryGoods(Integer typeid);
 	
-	//²éÑ¯ÓÐÉÌÆ·µÄÉÌÆ·ÀàÐÍ
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 	@Select("SELECT t.typeid,t.typename FROM goodstype t INNER JOIN goods g ON(t.typeid = g.typeid) GROUP BY t.typeid")
 	List<All> queryGoodstype();
 	
-	//²éÑ¯¶©µ¥±íÖÐÇ°Ê®ÌõÂôµÄ×îºÃµÄÉÌÆ·(¶©µ¥ÖÐµÄÉÌÆ·ÊýÁ¿)
-	@Select("#²éÑ¯¶©µ¥±íÖÐÇ°Ê®ÌõÂôµÄ×îºÃµÄÉÌÆ·(¶©µ¥ÖÐµÄÉÌÆ·ÊýÁ¿)\r\n" + 
-			"SELECT goods_id AS goodsid,goods_name AS goodsname, goods_price AS goodsPrice,\r\n" + 
-			"goods_count AS goodsCount,COUNT(*) FROM `order_details` GROUP BY goods_id LIMIT 0,10")
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Æ·(ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½)
+	@Select("SELECT gdid AS goodsid,goods_name AS goodsname, goods_price AS goodsPrice,\r\n" + 
+			"goods_count AS goodsCount,COUNT(*) FROM `order_details` GROUP BY gdid LIMIT 0,10")
 	List<All> queryTenGoods();
 	
 	@Select("SELECT s.*, ( SELECT COUNT(*) FROM staff AS r WHERE r.shopid=s.shopid\r\n" + 
