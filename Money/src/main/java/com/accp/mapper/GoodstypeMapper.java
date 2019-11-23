@@ -27,4 +27,6 @@ public interface GoodstypeMapper {
     int updateByPrimaryKeySelective(Goodstype record);
 
     int updateByPrimaryKey(String typename,String typeid);
+    
+    Goodstype selectBytypename(String typename);
 }

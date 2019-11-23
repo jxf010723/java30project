@@ -26,8 +26,46 @@ public class Goods {
     private Float costprice;
 
     private Integer agio;
+    
+    private String typename;
+    
+    private String colour;
+    private String bianhao;
+    
+    
+    public String getBianhao() {
+		return bianhao;
+	}
 
-    public Integer getGoodsid() {
+	public void setBianhao(String bianhao) {
+		this.bianhao = bianhao;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
+	@Override
+	public String toString() {
+		return "Goods [goodsid=" + goodsid + ", shopid=" + shopid + ", typeid=" + typeid + ", supplierid=" + supplierid
+				+ ", goodsbrand=" + goodsbrand + ", goodsname=" + goodsname + ", goodsphoto=" + goodsphoto
+				+ ", numbers=" + numbers + ", specification=" + specification + ", stock=" + stock + ", salesprice="
+				+ salesprice + ", costprice=" + costprice + ", agio=" + agio + ", typename=" + typename + "]";
+	}
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+	public Integer getGoodsid() {
         return goodsid;
     }
 

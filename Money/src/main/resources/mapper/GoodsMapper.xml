@@ -15,6 +15,7 @@
     <result column="salesprice" property="salesprice" jdbcType="REAL" />
     <result column="costprice" property="costprice" jdbcType="REAL" />
     <result column="agio" property="agio" jdbcType="INTEGER" />
+     <result column="colour" property="colour" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -337,8 +338,51 @@
   </update>
   
   <select id="selectgoodsAll" resultType="com.accp.domain.Goods" parameterType="String">
-  	
-	SELECT g.* FROM `goods` g INNER JOIN `shop` s ON g.shopid=s.shopid INNER JOIN
-	 `user` u ON s.userid=u.uid WHERE u.uid=#{0}
+  	SELECT g.bianhao,g.`colour`,g.`goodsid`,g.`typeid`,t.typename,g.`supplierid`,g.`shopid`,g.`goodsname`,g.`goodsphoto`,
+  	g.`numbers`,g.`specification`,g.`stock`,g.`salesprice`,g.`costprice`,g.`agio` FROM `goods` g INNER JOIN
+  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+	 <where>
+	 u.uid=#{uid}
+	 	<if test="typeid!= '' ">
+	 			AND g.typeid =#{typeid}
+	 	</if>
+	 <if test="numbers!= '' ">
+	 			AND  (numbers LIKE #{numbers} OR goodsname LIKE #{numbers})
+	 	</if>
+	 </where>
   </select>
+  
+  <select id="selectgoodsAlls" resultType="com.accp.domain.Goods" parameterType="String">
+  	SELECT g.bianhao,g.`colour`,g.`goodsid`,g.`typeid`,t.typename,g.`supplierid`,g.`shopid`,g.`goodsname`,g.`goodsphoto`,
+  	g.`numbers`,g.`specification`,g.`stock`,g.`salesprice`,g.`costprice`,g.`agio` FROM `goods` g INNER JOIN
+  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+	 <where>
+	 u.uid=#{uid}
+	 	<if test="typeid!= '' ">
+	 			AND g.typeid =#{typeid}
+	 	</if>
+	 <if test="numbers!= '' ">
+	 			AND  (numbers <![CDATA[like '%${numbers}%']]> OR goodsname <![CDATA[like '%${numbers}%']]>)
+	 	</if>
+	 	
+	 </where>
+  </select>
+  
+  <select id="selectByzongji" resultType="com.accp.domain.zongjivo" parameterType="String">
+  	SELECT SUM(stock) stock,SUM(salesprice) salesprice,SUM(costprice) costprice FROM `goods` g INNER JOIN
+  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+	 <where>
+	 u.uid=#{uid}
+	 	<if test="typeid!= '' ">
+	 			AND g.typeid =#{typeid}
+	 	</if>
+	 <if test="numbers!= '' ">
+	 			AND  (numbers LIKE #{numbers} OR goodsname LIKE #{numbers})
+	 	</if>
+	 </where>
+  
+  </select>
+  
+  
+  
 </mapper>

@@ -4,6 +4,87 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/shop_managerment.css">
+    <style type="text/css">
+		
+		
+		
+		.dropDownBox .pannel {
+		    position: absolute;
+		    /* display: none; */
+		    background: #fff;
+		    border: 1px #44b549 solid;
+		    overflow: hidden;
+		    z-index: 100;
+		}
+		.dropDownBox .pannel {
+		    top: 34px;
+		    max-height: 210px;
+		    left: -1px;
+		}
+		.addUserDialog .addressList .pannel ul {
+		    min-height: 180px;
+		}
+		.dropDownBox .pannel ul {
+		    overflow: auto;
+		    text-align: left;
+		}
+		.addUserDialog input,select{
+			height:35px;
+		}
+		.addUserDialog select{
+			width:130px;
+		}
+		
+		
+		
+		.batchImportDialog .dialog_bd {
+		    padding: 60px 90px;
+		}
+		.cf:after, .clearfix:after {
+		    clear: both;
+		    content: "";
+		    display: block;
+		    height: 0;
+		    overflow: hidden;
+		    visibility: hidden;
+		}
+		.batchImportDialog .addExcelBtn {
+		    float: left;
+		}
+		.batchImportDialog .btn {
+		    font-size: 14px;
+		    color: #5E5E5E;
+		    cursor: pointer;
+		    float: left;
+		    overflow: hidden;
+		    text-align: center;
+		    width: 130px;
+		    margin-left: 10px;
+		    text-align: center;
+		    text-decoration: none;
+		    height: 48px;
+		    line-height: 36px;
+		    border: 1px solid #B3B3B3;
+		    background-color: #f6f6f6;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		#excelFile {
+		    background: none repeat scroll 0 0 #FFFFFF;
+		    -moz-opacity: 0.0;
+		    -khtml-opacity: 0.0;
+		    opacity: 0.0;
+		    float: left;
+		    width: 10px;
+		}
+		.batchImportDialog .downExcl {
+		    float: left;
+		    padding-top: 12px;
+		    padding-left: 12px;
+		}
+		
+    </style>
 </head>
 <body>
 <div class="rightarea clearfix">
@@ -13,21 +94,21 @@
             <div class="searchArea" >
                 <div class="btn-div">
                     <a href="javascript:;" class="btn btn-success">
-                        添加员工
+                        商品上传
                     </a>
                 </div>
             </div>
             <div class="list">
-                <a href="javascript:;" class="btn btn-default">导出商品</a>
-                <a href="javascript:;" class="btn btn-default">批量导入</a>
+                <a href="javascript:void(0)" class="btn btn-default" onclick="exportExcel()">导出商品</a>
+                <a  class="btn btn-default" data-toggle="modal" data-target="#batchImportDialog">批量导入</a>
             </div>
             <div class="list search">
-                <input class="inputtext" type="text" placeholder="查找">
-                <a href="javascript:;" class="search-btn"></a>
+                <input class="inputtext" type="text" placeholder="查找" id="ming">
+                <a href="javascript:void(0)" class="search-btn" @click="mingzi"></a>
             </div>
             <div class="list">
-                <select name="" id="" class="form-control">
-                    <option value="0">全部类别</option>
+                <select name="" id="leibie" class="form-control" @change="type">
+                    <option value="">全部类别</option>
                     <option  v-for="item in typelist"  :value="item.typeid">{{item.typename}}</option>
                 </select>
 
@@ -56,38 +137,87 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr v-for="it,index in goodspage.list">
                         <td>
                             <input type="checkbox">
                         </td>
                         <td>
-                            1
+                           {{index+1}}
                         </td>
                         <td>
-                            1
+                            {{it.typename}}
                         </td>
                         <td class="nametd">
                             <div class="namediv">
                                 <img src="" alt="图片" style="width: 30px;height: 30px;">
-                                <p>白T</p>
+                                <p>{{it.goodsname}}</p>
                             </div>
                         </td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
+                        <td>{{it.bianhao}}/{{it.numbers}}</td>
+                        <td>{{it.specification}}/{{it.colour}}</td>
+                        <td>{{it.stock}}</td>
+                        <td>{{it.salesprice}}</td>
+                        <td>{{it.costprice}}</td>
+                        <td>-</td>
                         <td>
                             <a href="javascript:;">删除</a>
                             <a href="javascript:;">编辑</a>
                         </td>
                     </tr>
+                    <tr>
+                    	<td colspan="6">合计</td>
+                    	<td>{{heji.stock}}</td>
+                    	<td>{{heji.salesprice}}</td>
+                    	<td>{{heji.costprice}}</td>
+                    	<td>-</td>
+                    	<td>-</td>
+                    </tr>
                 </tbody>
             </table>
+            <table>
+                <tr>
+									<td colspan="5">
+										<ul class="pager">
+											<li>
+												<a href="javascript:void(0)" @click="shou">首页</a>
+											</li>
+											<li class="abled" >
+												<a href="javascript:void(0)" @click="shang">上一页</a>
+											</li>
+											<li class="abled"  >
+												<a href="javascript:void(0)" @click="xia">下一页</a>
+											</li>
+											<li>
+												<a href="javascript:void(0)" @click="wei">末页</a>
+											</li>
+											<li class="disabled">
+												<a href="javascript:void(0)" style="margin-left: 50px;">第<b id="num">{{goodspage.pageNum}}</b>页/ 共<b id="pages">{{goodspage.pages}}</b>页  &nbsp; &nbsp;  共<b id="size">{{goodspage.total}}</b>条记录</a>
+											</li>
+										</ul>
+									</td>
+				</tr>
+				</table>
         </div>
     </div>
 </div>
+<!-- Modal -->
+	<div class="modal fade batchImportDialog dialog " id="batchImportDialog" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+	  <div class="modal-dialog" role="document" style="width:490px;">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color: #f4f5f9;">
+	        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalspan">批量导入</h4>
+	      </div>
+	      <div class="modal-body" style="height:180px;padding: 0px;">
+	      	<div class="dialog_bd clearfix" style="">
+				<label for="excelFile" class="btn addExcelBtn">Excel导入</label>
+				<input type="file" name="file" class="file excelFile" id="excelFile">
+				<a href="javascript:void(0)" class="downExcl" onclick="downloadExcel()" data-dismiss="modal">下载范本</a>
+			</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </body>
 </html>
 <script type="text/javascript">
@@ -95,22 +225,97 @@
 		el:"#managevue",
 		data(){
 			return{
-				typelist:[]
+				goodspage:{
+					list:[]
+				},
+				typelist:[],
+				heji:{}
 			}
 		},
 		methods:{
 			typequery:function(){
-				var th=this
+				var th=this;
 				$.ajax({
 					url:"[[@{goods/goodstypeAll}]]",
 					success:function(res){
 						th.typelist=res;
 					}
 				});
+			},
+			gopage:function(dqy,uid,typeid,numbers){
+				var that=this;
+				$.ajax({
+					url:"[[@{goods/selectgoodspage}]]",
+					data:{pageNum:dqy,uid:uid,typeid:typeid,numbers:numbers},
+					type:"post",
+					dataType:"json",
+					success:function(res){
+						console.log(res);
+						that.goodspage=res;
+					}
+					
+				});
+			},
+			xia:function(){
+				if(this.goodspage.hasNextPage) {
+					this.gopage(this.goodspage.nextPage,1,null,null);
+				}
+				
+			},
+			shang:function(){
+				if(this.goodspage.hasPreviousPage) {
+					this.gopage(this.goodspage.prePage,1,null,null);
+				}
+			},
+			wei: function() {
+				this.gopage(this.goodspage.pages,1,null,null);
+			},
+			shou: function() {
+				this.gopage(1,1,null,null);
+			},
+			type:function(){
+				var leibie= $("#leibie").val();
+				this.gopage(1,1,leibie,null);
+				this.queryheji(1,leibie,null);
+			},
+			mingzi:function(){
+				var leibie= $("#leibie").val();
+				var ming= $("#ming").val();
+				alert(ming)
+				this.gopage(1,1,leibie,ming);
+				this.queryheji(1,leibie,ming);
+			},
+			queryheji:function(uid,typeid,numbers){
+				var th=this;
+				$.ajax({
+					url:"[[@{goods/selectgoodsByzongji}]]",
+					data:{uid:uid,typeid:typeid,numbers:numbers},
+					type:"post",
+					dataType:"json",
+					success:function(res){
+						th.heji=res;
+					}
+					
+				});
 			}
 		},
 		mounted:function(){
 			this.typequery();
+			this.gopage(1,1,null,null);
+			this.queryheji(1,null,null);
 		}
 	});
+	function downloadExcel(){
+		window.location.href="[[@{goods/downloadExcel}]]"
+	}
+	
+	
+	function exportExcel(){
+		var leibie= $("#leibie").val();
+		var ming= $("#ming").val();
+		alert(leibie);
+		alert(ming);
+		
+		window.location.href="/goods/exportExcel?uid=1&typeid="+leibie+"&numbers="+ming;
+	}
 </script>

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.accp.domain.Goods;
 import com.accp.domain.GoodsExample;
+import com.accp.domain.zongjivo;
 
 public interface GoodsMapper {
     int countByExample(GoodsExample example);
@@ -30,5 +31,9 @@ public interface GoodsMapper {
 
     int updateByPrimaryKey(Goods record);
     
-    List<Goods> selectgoodsAll(String uid);
+    List<Goods> selectgoodsAll(String uid,String typeid,String numbers);
+    List<Goods> selectgoodsAlls(String uid,String typeid,String numbers);
+    
+    zongjivo selectByzongji(String uid,String typeid,String numbers);
+    
 }

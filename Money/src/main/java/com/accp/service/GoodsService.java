@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.accp.domain.Goods;
 import com.accp.domain.Goodstype;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
 import com.accp.domain.purchrvo;
+import com.accp.domain.zongjivo;
+import com.accp.mapper.GoodsMapper;
 import com.accp.mapper.GoodstypeMapper;
 import com.accp.mapper.PurchaseMapper;
 import com.accp.mapper.ShopMapper;
@@ -28,6 +31,8 @@ public class GoodsService {
 	SupplierMapper supplier;
 	@Autowired
 	PurchaseMapper purchase;
+	@Autowired
+	GoodsMapper goods;
 	/**
 	 * 商品类型查询分页
 	 * @param pageNum
@@ -131,5 +136,33 @@ public class GoodsService {
 	/**
 	 * 根据店长查询商品
 	 */
+	public PageInfo<Goods> selectgoodspage(int pageNum,String uid,String typeid,String numbers){
+		PageHelper.startPage(pageNum, 5);
+		
+		List<Goods> list=goods.selectgoodsAll(uid, typeid, numbers);
+		PageInfo<Goods> page=new PageInfo<Goods>(list);
+		return page;
+	}
+	/*
+	 * 查询商品的总计
+	 */
+	public zongjivo selectByzongji(String uid,String typeid,String numbers){
+		System.out.println("asd"+numbers);
+		return goods.selectByzongji(uid, typeid, numbers);
+		
+	}
+	/**
+	 * 导出商品的查询
+	 * @param uid
+	 * @param typeid
+	 * @param numbers
+	 * @return
+	 */
+	public List<Goods> selectgoodsAll(String uid,String typeid,String numbers) {
+		return goods.selectgoodsAlls(uid, typeid, numbers);
+	}
 	
+	public Goodstype selectBytypename(String typename){
+		return goodstype.selectBytypename(typename);
+	}
 }

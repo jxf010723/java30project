@@ -5,7 +5,7 @@ public class OrderDetails {
 
     private String orderId;
 
-    private Integer goodsId;
+    private Integer gdid;
 
     private String goodsName;
 
@@ -32,11 +32,11 @@ public class OrderDetails {
     }
 
     public Integer getGoodsId() {
-        return goodsId;
+        return gdid;
     }
 
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
+    public void setGoodsId(Integer gdid) {
+        this.gdid = gdid;
     }
 
     public String getGoodsName() {

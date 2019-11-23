@@ -20,8 +20,20 @@
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
     </properties>
-
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		
+	
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
