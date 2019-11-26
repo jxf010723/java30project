@@ -16,6 +16,7 @@
     <result column="costprice" property="costprice" jdbcType="REAL" />
     <result column="agio" property="agio" jdbcType="INTEGER" />
      <result column="colour" property="colour" jdbcType="VARCHAR" />
+     <result column="bianhao" property="bianhao" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -163,6 +164,12 @@
       <if test="agio != null" >
         agio,
       </if>
+      <if test="colour != null" >
+        colour,
+      </if>
+      <if test="bianhao != null" >
+        bianhao,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="goodsid != null" >
@@ -203,6 +210,12 @@
       </if>
       <if test="agio != null" >
         #{agio,jdbcType=INTEGER},
+      </if>
+      <if test="colour != null" >
+        #{colour,jdbcType=VARCHAR},
+      </if>
+      <if test="bianhao != null" >
+        #{bianhao,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

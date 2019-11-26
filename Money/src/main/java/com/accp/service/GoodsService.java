@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.accp.domain.Goods;
+import com.accp.domain.Goodsize;
 import com.accp.domain.Goodstype;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
 import com.accp.domain.purchrvo;
 import com.accp.domain.zongjivo;
 import com.accp.mapper.GoodsMapper;
+import com.accp.mapper.GoodsizeMapper;
 import com.accp.mapper.GoodstypeMapper;
 import com.accp.mapper.PurchaseMapper;
 import com.accp.mapper.ShopMapper;
@@ -33,6 +35,8 @@ public class GoodsService {
 	PurchaseMapper purchase;
 	@Autowired
 	GoodsMapper goods;
+	@Autowired
+	GoodsizeMapper goodsize;
 	/**
 	 * 商品类型查询分页
 	 * @param pageNum
@@ -164,5 +168,12 @@ public class GoodsService {
 	
 	public Goodstype selectBytypename(String typename){
 		return goodstype.selectBytypename(typename);
+	}
+	
+	public int insertSelective(Goods record){
+		return goods.insertSelective(record);
+	}
+	public List<Goodsize> chicunquery(){
+		return goodsize.selectByExample(null);
 	}
 }

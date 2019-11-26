@@ -1,6 +1,7 @@
 package com.accp.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.accp.domain.Goods;
+import com.accp.domain.Goodsize;
 import com.accp.domain.Goodstype;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
@@ -306,8 +308,9 @@ public class GoodsController {
 				}
 		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
 	}
-	@RequestMapping("/excelUpload")
-	public String excelUpload(MultipartFile file) {
+	@RequestMapping("/uploadAjax")
+	@ResponseBody
+	public int excelUpload(MultipartFile file) {
 		try {
 			//将传入的文件转换成excel
 			Workbook wb = new XSSFWorkbook(file.getInputStream());
@@ -322,6 +325,7 @@ public class GoodsController {
 					//根据下标获取行
 					Row row = sheet.getRow(j);
 					Cell typenameCell = row.createCell(0);
+					System.out.println("qqqqqqqqqqqqqqqqqqqq"+typenameCell);
 					Cell numbersCell = row.createCell(1);
 					Cell goodsnameCell = row.createCell(2);
 					Cell bianhaoCell = row.createCell(3);
@@ -334,7 +338,7 @@ public class GoodsController {
 					Goods good=new Goods();
 					good.setTypeid(ty.getTypeid());
 					good.setNumbers(numbersCell.getStringCellValue());
-					good.setTypename(goodsnameCell.getStringCellValue());
+					good.setGoodsname(goodsnameCell.getStringCellValue());
 					good.setBianhao(bianhaoCell.getStringCellValue());
 					good.setColour(colourCell.getStringCellValue());
 					good.setSpecification(specificationCell.getStringCellValue());
@@ -344,12 +348,48 @@ public class GoodsController {
 					good.setCostprice(costprice.floatValue());
 					Double salesprice = salespriceCell.getNumericCellValue();
 					good.setSalesprice(salesprice.floatValue());
+					good.setAgio(1);
+					good.setSupplierid(1);
+					good.setShopid(1);
+					good.setGoodsphoto("abc.jpg");
+					System.out.println();
+					goods.insertSelective(good);
 				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "redirect:/file/toPage";
+		return 0;
+	}
+	@RequestMapping("chicunquery")
+	@ResponseBody
+	public List<Goodsize> chicunquery(){
+		return goods.chicunquery();
+	}
+	
+	@RequestMapping("/upimgAjax")
+	@ResponseBody
+	public String upimgAjax(MultipartFile [] files) {
+		File directory = new File("/Users/tangyong/upload");
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
+		try {
+			for(MultipartFile l : files) {
+				String url = "/Users/tangyong/upload/";
+				url = url+"/"+l.getOriginalFilename();
+				File f = new File(url);
+				l.transferTo(f);
+			}
+			System.out.println("to成功了");
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "success";
 	}
 }

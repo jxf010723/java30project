@@ -210,8 +210,10 @@
 	      </div>
 	      <div class="modal-body" style="height:180px;padding: 0px;">
 	      	<div class="dialog_bd clearfix" style="">
+	      	<form action="">
 				<label for="excelFile" class="btn addExcelBtn">Excel导入</label>
 				<input type="file" name="file" class="file excelFile" id="excelFile">
+				</form>
 				<a href="javascript:void(0)" class="downExcl" onclick="downloadExcel()" data-dismiss="modal">下载范本</a>
 			</div>
 	      </div>
@@ -318,4 +320,29 @@
 		
 		window.location.href="/goods/exportExcel?uid=1&typeid="+leibie+"&numbers="+ming;
 	}
+	$(function () {
+        var $input =  $("#excelFile");
+        // ①为input设定change事件
+        $input.change(function () {
+        //    ②如果value不为空，调用文件加载方法
+            if($(this).val() != ""){
+            	var file = new FormData($("form")[0]);
+				 /* var file = $("[name=file]")[0].file;
+				for(var i=0;i<file.length;i++){
+					formData.append("file",file[i]);
+				}  */
+				$.ajax({
+					url:"[[@{/goods/uploadAjax}]]",
+					data:file,
+					type:"post",
+					processData:false,
+					contentType:false,
+					success:function(result){
+						alert(result);
+					}
+				});
+            }
+        })
+    })
+
 </script>
