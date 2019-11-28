@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+	</head>
+	<style>
+	</style>
+	<body>
+		<div class="container">
+			<div class="row col-md-12" >
+				<h4 class="col-md-2">商品上传</h4> 
+			</div>
+			<input type="hidden" id="spidss" >
+			<div class="row col-md-12" >
+				<div class="col-md-5">
+					<div class="col-md-12" style="height: 300px;">
+						  <input type="hidden" id="imageVal" name="imageVal" value=""/>
+       					 <img id="imagePre"  width="100%" height="100%"/>
+					</div>
+					<a class="col-md-2"><</a><input type="file" id="picFile"  name="picFile" multiple /><a class="col-md-2" style="float: right;">></a>
+				</div>
+				<div class="row col-md-6" style="margin-left: 50px;">
+					<div class="col-md-12">
+						<span style="color: red;" class="col-md-3">*商品货号</span><input type="text" id="shangpinhh" class="col-md-3"/>
+						
+					</div><div class="col-md-12">&nbsp;</div>
+					<div class="col-md-12">
+						<span style="color: red;" class="col-md-3">*商品名称</span><input type="text" id="shangpinmc" class="col-md-9"/>
+					</div><div class="col-md-12">&nbsp;</div>
+					<div class="col-md-12">
+						<span style="color: red;" class="col-md-3">*吊牌价格</span><input type="text" id="shangpinxs" class="col-md-3"/>
+						<span style="color: red;" class="col-md-3">*成本价格</span><input type="text" id="shangpincb" class="col-md-3"/>
+					</div><div class="col-md-12">&nbsp;</div>
+					<div class="col-md-12">
+						<span style="color: red;" class="col-md-3">*商品类别</span><select id="shangpinlbss" class="col-md-3"><option></option></select>
+						<span style="color: red;" class="col-md-3">*店&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;铺</span><select id="shangpindp" class="col-md-3"><option></option></select>
+					</div><div class="col-md-12">&nbsp;</div>
+					<div class="col-md-12">
+						<span style="color: red;" class="col-md-3">*商品颜色</span>
+						<table class="table table-bordered col-md-12">
+							<tr class="row">
+								<td class="col-md-3">黑色系</td><td class="col-md-3">白色系</td><td class="col-md-3">红色系</td><td class="col-md-3">蓝色系</td>
+							</tr>
+							<tr class="row">
+								<td class="col-md-3"><input type="checkbox" class="yss" value="黑色"><span><div style="height: 10px; width: 10px;background-color: black;"></div></span>黑色<br>
+								<input type="checkbox" class="yss" value="深灰色"><span><div style="height: 10px; width: 10px;background-color: #3C3C3C;"></div></span>深灰色<br>
+								<input type="checkbox" class="yss" value="浅灰色"><span><div style="height: 10px; width: 10px;background-color: #BEBEBE;"></div></span>浅灰色
+								</td>
+								<td class="col-md-3">
+								<input type="checkbox" class="yss" value="白色"><span><div style="height: 10px; width: 10px;background-color: #FFFFFF;"></div></span>白色<br>
+								<input type="checkbox" class="yss" value="透明"><span><div style="height: 10px; width: 10px;background-color: #FFFFFF;border: 1px;"></div></span>透明<br>
+								<input type="checkbox" class="yss" value="花色"><span><div style="height: 10px; width: 10px;background-color: rgb(255,200,255);"></div></span>花色
+								</td>
+								<td class="col-md-3"><input type="checkbox" class="yss" value="酒红色"><span><div style="height: 10px; width: 10px;background-color: winered;"></div></span>酒红色<br>
+								<input type="checkbox" class="yss" value="红色"><span><div style="height: 10px; width: 10px;background-color: red;"></div></span>红色<br>
+								<input type="checkbox" class="yss" value="粉红"><span><div style="height: 10px; width: 10px;background-color: pink;"></div></span>粉红
+								</td>
+								
+								<td class="col-md-3"><input type="checkbox" class="yss" value="酒红色"><span><div style="height: 10px; width: 10px;background-color: #000093;"></div></span>深蓝色<br>
+								<br><input type="checkbox" class="yss" value="蓝色"><span><div style="height: 10px; width: 10px;background-color: #4A4AFF;"></div></span>蓝色<br>
+								<input type="checkbox" class="yss" value="天蓝色"><span><div style="height: 10px; width: 10px;background-color: #00FFFF;"></div></span>天蓝色
+								</td>
+							</tr>
+						</table>
+						<table class="table table-bordered col-md-12">
+							<tr class="row">
+								<td class="col-md-3">黄色系</td><td class="col-md-3">绿色系</td><td class="col-md-3">紫色系</td><td class="col-md-3">其他色系</td>
+							</tr>
+							<tr class="row">
+								<td class="col-md-3 row"><input type="checkbox" class="yss" value="桔色"><span><div style="height: 20px; width: 20px;background-color: Orange;"></div></span>桔色<br>
+								<input type="checkbox" class="yss" value="黄色"><span><div style="height: 20px; width: 20px;background-color: yellow;"></div></span>黄色<br>
+								<input type="checkbox" class="yss" value="浅黄色"><span><div style="height: 20px; width: 20px;background-color: buff;"></div></span>浅黄色
+								</td>
+								<td class="col-md-3">
+								<input type="checkbox" class="yss" value="军绿色"><span><div style="height: 20px; width: 20px;background-color: armygreen;"></div></span>军绿色<br>
+								<input type="checkbox" class="yss" value="绿色"><span><div style="height: 20px; width: 20px;background-color: green;border: 1px;"></div></span>绿色<br>
+								<input type="checkbox" class="yss" value="浅绿色"><span><div style="height: 20px; width: 20px;background-color: reseda;"></div></span>浅绿色
+								</td>
+								<td class="col-md-3"><input type="checkbox" class="yss" value="深紫色"><span><div style="height: 20px; width: 20px;background-color: modena;"></div></span>深紫色<br>
+								<input type="checkbox" class="yss" value="紫色"><span><div style="height: 20px; width: 20px;background-color: violet;"></div></span>紫色<br>
+								<input type="checkbox" class="yss" value="紫罗兰"><span><div style="height: 20px; width: 20px;background-color: violet;"></div></span>紫罗兰
+								</td>
+								
+								<td class="col-md-3"><input type="checkbox" class="yss" value="深卡其"><span><div style="height: 20px; width: 20px;background-color: #000093;"></div></span>深卡其<br>
+								<input type="checkbox" class="yss" value="褐色"><span><div style="height: 20px; width: 20px;background-color: #4A4AFF;"></div></span>褐色<br>
+								<input type="checkbox" class="yss" value="巧克力"><span><div style="height: 20px; width: 20px;background-color: #00FFFF;"></div></span>巧克力
+								</td>
+							</tr>
+						</table>
+						
+						
+						<a class="col-md-3 col-md-offset-8" id="tjys" style="color: green;">+添加颜色</a>
+					</div>
+					<div class="col-md-12" id="ysbiao" style="display: none;">
+						<table class="table-bordered col-md-12">
+							
+								<tr class="row ">
+									<th class="col-md-6" style="text-align: center;">颜色名称</th>
+								</tr>
+							
+							<tbody id="ysxxx">
+							
+							</tbody>
+								
+							
+						</table>
+					</div><div class="col-md-12">&nbsp;</div>
+					<div class=" col-md-12" >
+						<span style="color: red;" class="col-md-3">*商品尺码</span><div class="col-md-12" id="spccxs">
+						<span class="col-md-3" style="display: none"><input type="checkbox" class="cima"/></span>
+						</div>
+						<a class="col-md-3 col-md-offset-8" style="color: green;">+编辑尺码</a>
+					</div><div class="col-md-12">&nbsp;</div>
+					<div class=" col-md-12" >
+						<span style="color: red;" class="col-md-3">*商品库存</span><input type="text" id="shangpinkc" readonly="readonly" class="col-md-3"/><span class="col-md-6">请勿随意修改库存</span>
+						<table class="table-bordered col-md-12">
+						<thead>
+							<tr>
+								<th class="col-md-4" style="text-align: center;">规格</th>
+								<th class="col-md-4" style="text-align: center;">数量</th>
+								<th class="col-md-4" style="text-align: center;">条形码</th>
+							</tr>
+							</thead>
+							<tbody  id="spxtb">
+							
+							</tbody>
+						</table>
+					</div>
+					
+				</div>
+				<div class=" col-md-12" >
+				  <div id="editor">
+			        
+			    </div>
+			</div>
+			<div class="col-md-12">
+			<button class="btn col-md-2  btn-success" style="float: right;" id="spfbu">发布商品</button>
+			<button class="col-md-2  btn btn-gray-500" style="float: right;" id="qxfbu">取消发布</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+	    <script type="text/javascript">
+	   
+	        var E = window.wangEditor
+	        var editor = new E('#editor')
+	        // 或者 var editor = new E( document.getElementById('editor') )
+	        editor.create();
+	         $("#picFile").change(function(){
+	        	   //验证是否图片
+	        	   if(!/image\/\w+/.test(this.files[0].type)){
+	        	           alert("文件必须是图片格式!");
+	        	           return false;
+	        	     }
+	        	   //限制图片大小
+	        	   var size = this.files[0].size / 1024;   
+	        	         if(size>1000){ 
+	        	            alert("图片大小不能大于1M!");
+	        	            return false;
+	        	         }
+	        	         //var v = $(this).val();
+	        	         var reader = new FileReader();
+	        	         reader.readAsDataURL(this.files[0]);
+	        	         reader.onload = function(e){
+	        	             console.log(e.target.result);
+	        	             $("#imageVal").val("");        //清空base46
+	        	             $("#imagePre").attr("src", "");   //清空图片
+	        	            
+	        	             $("#imageVal").val(e.target.result.split(",")[1]);
+	        	             $("#imagePre").attr("src", e.target.result);    //将Base64流显示在页面的  img标签中进行浏览z
+	        	         };
+	        	     });
+	        
+	        $(function(){
+	        	shangpinccxs();	
+	        	 shangpinshch();
+	        	$(".yss").click(function(){
+	        		
+	        	//	var n=*;
+	        	//alert(11);
+	        		spsf();	
+	        		bzxs(this);
+	        
+	        	});
+	        	
+	        	$("#qxfbu").click(function(){
+	        		initshch("shangpinguanli/shangpinGl");
+	        	});
+	        	
+	        	$("#tjys").click(function(){
+	        		$("#ysbiao").show();
+	        		var $ystbb=`<tr class="row">
+					<td class="col-md-6" style="text-align: center;"><input type="text" class="ysemc" onblur="sqjd()">
+					<button class="xqys" onclick="xqys(this)">x</button>
+					</td>
+				</tr>`;
+				spsf();
+				$("#ysxxx").append($ystbb);
+	        	});
+	        	
+	        	
+	        	
+	        	$("#spfbu").click(function(){
+	        		fbbaocuan();
+	        	});
+	        	
+	        	
+	        });
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        function fbbaocuan(){
+	        	var list={
+	        			spid:0,
+	        			spno:$("#shangpinhh").val(),
+	        	spname:$("#shangpinmc").val(),
+	        	spxiaoshou:$("#shangpinxs").val(),
+	        	spchengben:$("#shangpincb").val(),
+	        	spcount:$("#shangpinkc").val(),
+	        	lbid:$("#shangpinlbss").val(),
+	        	dpid:$("#shangpindp").val(),
+	        	spmiaoshu:editor.txt.text(),
+	        	sid:1,
+	        	spx:[]
+		     	};
+	        	if($("#spidss").val()!=null){
+	        		list.spid=$("#spidss").val();
+	        	}else{
+	        		list.spid=0;
+	        	}
+	        	for(var i=0;i<$(".spxbiao").length;i++){
+	        		var spxsaq={spxid:0,
+	        				spno:$("#shangpinhh").val(),
+	        			ysname:"",
+	        			ccname:"",
+	        			spxtm:""}
+	        		
+	        		spxsaq.ysname=$(".yszhi").eq(i).text();
+	        		spxsaq.ccname=$(".cczhi").eq(i).text();
+	        		spxsaq.spxtm=$(".shangpinshchtiaoma").eq(i).val();
+	        		list.spx[i]=spxsaq
+	        	}
+	        	alert(JSON.stringify(list));
+	        	//if($("#spidss").val()!=null){
+	        		
+	        	//}
+	        	
+	        }
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	        
+	    	function initxx(index) {
+				$.ajax({
+					url : "[[@{/dianpu/go}]]",
+					data : {
+						method : index
+					},
+					dataType : "html",
+					success : function(res) {
+						$("#lb").empty();
+						$("#lb").append(res);
+					}
+				});
+			}
+	        
+	        
+	        
+	        
+	        
+	        function shangpinshch(){
+	        	$.ajax({
+    				url:"[[@{/shangping/sessionkey}]]",
+    				type:"get",
+    				dataType:"json",
+    				success:function(res){
+    					alert(1);
+    					if(res!=null){
+    						$("#spidss").val(res.spid);
+    						$("#shangpinhh").val(res.spno);
+        					$("#shangpinmc").val(res.spname);
+        					$("#shangpinxs").val(res.spxiaoshou);
+        					$("#shangpincb").val(res.spchengben);
+        					initspscdp(res.dpid);
+        					initspsclb(res.lbid)
+        					
+        					$.each(res.spx,function(i,obj){
+        						var $gg="<tr class='spxbiao'>";
+        						for(var i=0;i<$(".cima").length;i++){
+            						if($(".cima").eq(i).val()==obj.ccname){
+            							$(".cima").eq(i).prop("checked",true);
+            						}
+            					}
+        						for(var i=0;i<$(".yss").length;i++){
+            						if($(".yss").eq(i).val()==obj.ysname){
+            							$(".yss").eq(i).prop("checked",true);
+            						}
+            					}
+        						if(obj.ysname!=null){
+        							$gg+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+obj.ysname;
+        						}else{
+        							$gg+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>-";
+        						}
+        		        		if(obj.ccname!=null){
+        		        			$gg+="</span>/<span class='cczhi'>"+obj.ccname+"</td>";
+        		        		}else{
+        		        			$gg+="</span>/<span class='cczhi'>-</td>";
+        		        		}	
+        	        				
+        	        				$gg+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()' value='"+obj.spxcount+"' ></td>"+
+        							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+obj.spxtm+"</td>"+
+        						"</tr>";
+        	        				$("#spxtb").append($gg);
+        					});
+        					
+            				$("#shangpinkc").val(res.spcount);
+            				editor.txt.text("");
+            				editor.txt.text(res.spmiaoshu);
+    					}else{
+    						spsf();	
+    						initspscdp(null);
+    			        	initspsclb(null);
+    					}//$("#shangpinmc").val(res.spname);
+    				}
+    			});
+	        }
+	        
+	        function ccclick(){
+	        	spsf();
+	        }
+	        
+	        function shangpinccxs(){
+	        	$.ajax({
+    				url:"[[@{/shangping/shangpincma}]]",
+    				type:"get",
+    				dataType:"json",
+    				success:function(res){
+    					$.each(res,function(i,obj){
+    						var $cc=`<span class="col-md-3"><input type="checkbox" class="cima" onclick="ccclick()" value="${obj.ccname}"/>${obj.ccname}</span>`;
+    						$("#spccxs").append($cc);
+    					});
+    				}
+    			});
+	        }
+	        
+	        function sqjd(){
+	        	//alert(11);
+	        	spsf();
+	        }
+	        function xqys(obj){
+	        	alert(11);
+	        	for(var i=0;i<$(".yss:checked").length;i++){
+	        		if($(obj).prev().val()==$(".yss:checked").eq(i).val()){
+	        			$(".yss:checked").eq(i).prop("checked",false);
+	        		}
+	        	}
+	        	$(obj).parent().parent().remove();
+	        	if($("#ysxxx").html()==null){
+	        		$("#ysbiao").hide();
+	        	}
+	        	spsf();
+	        }
+	        
+	        function bzxs(obj){
+	        	
+	        	if($(obj).prop("checked")){
+	        		$("#ysbiao").show();
+		        	var vla=$(obj).val();
+	        		var $ystbb=`<tr class="row">
+					<td class="col-md-6" style="text-align: center;"><input type="text" class="sysxz" value="${vla}" onblur="sqjd()"><button class="xqys" onclick="xqys(this)">x</button>
+					</td>
+				</tr>`;
+				//spsf();
+				$("#ysxxx").append($ystbb);
+	        	}else{
+	        		for(var i=0;i<$(".sysxz").length;i++){
+		        		if($(".sysxz").eq(i).val()==$(obj).val()){
+		        			//$(".yss:checked").eq(i).prop("checked",false);
+		        			alert(11);
+		        			$(".sysxz").eq(i).parent().parent().remove();
+		    	        	if($("#ysxxx").html()==null){
+		    	        		$("#ysbiao").hide();
+		    	        	}
+		    	        	spsf();
+		        		}
+		        	}
+	        	}
+	        	
+	        }
+	       
+	        	
+	        function spsf(){
+	        					$("#spxtb").html(" ");
+	        					var forz=$(".cima:checked").length*$(".yss:checked").length;
+	        					var index=$(".cima:checked").length-1;
+	        					//var indexs=$(".yss:checked").length;
+	        					var ins=0;
+	        					var ysxzshil=$(".yss:checked").length;
+	        					var cmxzshul=$(".cima:checked").length;
+	        					
+	        					var vtm=new Date();
+    	        				var yearss=vtm.getFullYear();
+    	        				var muoth=vtm.getMonth()+1;
+    	        				var day=vtm.getDate();
+    	        				var time=vtm.getMinutes();
+    	        				var timess=vtm.getSeconds();
+    	        				var hm=vtm.getMilliseconds();
+	        					if(forz==0){
+	        						if($(".cima:checked").length==1){
+	        							
+		    	        				if($(".ysemc").length>=1){
+		        							if($(".ysemc").val()!=null){
+		        								
+		        								for(var i=0;i<$(".ysemc").length;i++){
+			        								var $spxs="<tr class='spxbiao'>";
+					    		        			$spxs+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".ysemc").eq(i).val();
+					    	        				$spxs+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(0).val()+"</span></td>";
+					    	        				$spxs+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+					    							"<td class='col-md-4 shangpinshchtiaoma'  style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+					    						"</tr>";
+					    	        				$("#spxtb").append($spxs);
+			        							}
+		        							}
+		        						}else{
+		        							var $spx="<tr class='spxbiao'>";
+			    		        			$spx+="<td class='col-md-4  ' style='text-align: center;'><span class='yszhi'>-";
+			    	        				$spx+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(0).val()+"</td>";
+			    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+			    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+			    						"</tr>";
+			    	        				$("#spxtb").append($spx);
+		        						}
+		    	        				
+	        						}else if($(".cima:checked").length>1){
+	        							
+		    	        				if($(".ysemc").length>=1){
+		        							if($(".ysemc").val()!=null){
+		        								for(var i=0;i<cmxzshul;i++){
+			        								for(var j=0;j<$(".ysemc").length;j++){
+				        								var $spxs="<tr class='spxbiao'>";
+						    		        			$spxs+="<td class='col-md-4' style='text-align: center;'> <span class='yszhi'>"+$(".ysemc").eq(j).val();
+						    	        				$spxs+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(i).val()+"</td>";
+						    	        				$spxs+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+						    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+						    						"</tr>";
+						    	        				$("#spxtb").append($spxs);
+				        							}
+		        								}
+		        							}
+		        						}else{
+		        							for(var i=0;i<cmxzshul;i++){
+			        							var $spx="<tr class='spxbiao'>";
+				    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>-";
+				    	        				$spx+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(i).val()+"</td>";
+				    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+				    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+				    						"</tr>";
+				    	        				$("#spxtb").append($spx);
+		        							}
+		        						}
+		    	        				
+	        							
+	        						}else{
+	        							
+	        							if($(".ysemc").length>=1){
+		        							if($(".ysemc").val()!=null){
+		        								//alert($(".ysemc").length);
+		        								for(var i=0;i<$(".ysemc").length;i++){
+			        								var $spxs="<tr class='spxbiao'>";
+					    		        			$spxs+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".ysemc").eq(i).val();
+					    	        				$spxs+="</span>/<span class='cczhi'>-</td>";
+					    	        				$spxs+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+					    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+					    						"</tr>";
+					    						//alert($spxs);
+					    	        				$("#spxtb").append($spxs);
+			        							}
+		        							}
+		        						}
+	        						}
+	        						if(ysxzshil==1){
+	        							var $spx="<tr class='spxbiao'>";
+		    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".yss:checked").eq(0).val();
+		    	        				$spx+="</span>/<span class='cczhi'>-</td>";
+		    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+		    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+		    						"</tr>";
+		    	        				$("#spxtb").append($spx);
+	        						}else if(ysxzshil>1){
+	        							for(var i=0;i<ysxzshil;i++){
+	        								var $spx="<tr class='spxbiao'>";
+			    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".yss:checked").eq(i).val();
+			    	        				$spx+="</span>/<span class='cczhi'>-</td>";
+			    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+			    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+			    						"</tr>";
+			    	        				$("#spxtb").append($spx);
+	        							}
+	        							
+	        						}
+	        						//$("#spxtb").append($spx);
+	        					}else{
+	        						
+		    	        				
+		    	        				if(ysxzshil==cmxzshul){
+		    	        					//alert("1");
+		    	        					
+		    	        					for(var i=0;i<cmxzshul;i++){
+		    	        						for(var j=0;j<ysxzshil;j++){
+		    	        							var $spx="<tr class='spxbiao'>";
+					    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".yss:checked").eq(j).val();
+					    	        				$spx+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(i).val()+"</td>";
+					    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+					    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+timess+timess+""+j+""+hm+"</td>"+
+					    						"</tr>";
+					    	        				$("#spxtb").append($spx);
+			    	        					}
+		    	        					}
+		    	        					
+		    	        					if($(".ysemc").length>=1){
+			        							if($(".ysemc").val()!=null){
+			        								for(var i=0;i<cmxzshul;i++){
+				        								for(var j=0;j<$(".ysemc").length;j++){
+					        								var $spx="<tr class='spxbiao'>";
+							    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".ysemc").eq(j).val();
+							    	        				$spx+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(i).val()+"</td>";
+							    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()' ></td>"+
+							    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+							    						"</tr>";
+							    	        				$("#spxtb").append($spx);
+					        							}
+			        								}
+			        							}
+			        						}
+		    	        					
+		    	        				}else if(cmxzshul<ysxzshil){
+		    	        					
+		    	        					//alert("2");
+		    	        					for(var i=0;i<cmxzshul;i++){
+		    	        						for(var j=0;j<ysxzshil;j++){
+		    	        							var $spx="<tr class='spxbiao'>";
+					    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".yss:checked").eq(j).val();
+					    	        				$spx+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(i).val()+"</td>";
+					    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+					    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+timess+timess+""+j+""+hm+"</td>"+
+					    						"</tr>";
+					    	        				$("#spxtb").append($spx);
+			    	        					}
+		    	        					}
+		    	        					if($(".ysemc").length>=1){
+			        							if($(".ysemc").val()!=null){
+			        								for(var i=0;i<cmxzshul;i++){
+				        								for(var j=0;j<$(".ysemc").length;j++){
+					        								var $spx="<tr class='spxbiao'>";
+							    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".ysemc").eq(j).val();
+							    	        				$spx+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(i).val()+"</td>";
+							    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+							    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+(timess+1)+""+hm+"</td>"+
+							    						"</tr>";
+							    	        				$("#spxtb").append($spx);
+					        							}
+			        								}
+			        							}
+			        						}
+			    						
+			    						
+		    	        				}else if(cmxzshul>ysxzshil){
+		    	        				//	alert("3");
+		    	        					for(var i=0;i<ysxzshil;i++){
+		    	        						for(var j=0;j<cmxzshul;j++){
+		    	        							var $spx="<tr class='spxbiao'>";
+					    		        			$spx+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+$(".yss:checked").eq(i).val();
+					    	        				$spx+="</span>/<span class='cczhi'>"+$(".cima:checked").eq(j).val()+"</td>";
+					    	        				$spx+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()'></td>"+
+					    							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+yearss+""+muoth+""+day+""+time+""+timess+""+j+""+hm+"</td>"+
+					    						"</tr>";
+					    	        				$("#spxtb").append($spx);
+			    	        					}
+		    	        					}
+		    	        				}
+	        					}
+	        				var spkc=0;
+	        				for(var i=0;i<$(".shul").length;i++){
+	        					spkc+=$(".shul").eq(i).val();
+	        				}
+	        				$("#shangpinkc").val(spkc);
+	        		}
+	        		
+	       	
+	     
+	        	
+	        function spxshul(){
+	        	$("#shangpinkc").val(" ");
+	        	var spkc=0;
+				for(var i=0;i<$(".shul").length;i++){
+					spkc+=parseInt($(".shul").eq(i).val());
+				}
+				$("#shangpinkc").val(spkc);
+	        }
+	        
+	        function initspscdp(indexs){
+	        	
+	    			$.ajax({
+	    				url:"[[@{/dianpu/queryAllDianPu}]]",
+	    				type:"get",
+	    				dataType:"json",
+	    				success:function(res){
+	    					$.each(res,function(i,obj){
+	    						if(indexs==obj.dpid){
+	    							var $op=`<option value="${obj.dpid}" selected="selected">${obj.dpname}</option>`;
+		    						$("#shangpindp").append($op);
+	    						}else{
+	    							var $op=`<option value="${obj.dpid}">${obj.dpname}</option>`;
+		    						$("#shangpindp").append($op);
+	    						}
+	    						
+	    					});
+	    				}
+	    			});
+	    		
+	        }
+	        
+	        
+	        function initspsclb(indexs){
+	        	$.ajax({
+					url:"[[@{/shangping/leibieAll}]]",
+					type:"get",
+					data:{},
+					dataType:"json",
+					success:function(res){
+						//alert();
+						$.each(res,function(i,obj){
+							if(indexs==obj.lbid){
+								var $lb=`<option value="${obj.lbid}" selected="selected">${obj.lbname}</option>`;
+								$("#shangpinlbss").append($lb);
+    						}else{
+    							var $lb=`<option value="${obj.lbid}">${obj.lbname}</option>`;
+    							$("#shangpinlbss").append($lb);
+    						}
+							
+						});
+					}
+				});
+         }
+	        
+	        
+	        // function initshangpinshch(){
+	     //   	$.ajax({
+	        		//			url:"[[@{/shangping/sessionkey}]]",
+	//				type:"get",
+					//			data:{},
+				//	dataType:"json",
+					//	success:function(res){
+						//alert();
+					
+						//				}
+						//			});
+						//	        }
+	        
+	        
+	        
+	        
+	        
+	        
+	    </script>
+					
+				</div>
+			</div>
+	</body>
+</html>
