@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/member_info.css">
     <link rel="stylesheet" href="css/bootstrap.css">
-    <script th:src="@{js/jquery-1.12.4.js}"></script>
-    <script th:src="@{js/bootstrap.js}"></script>
-    <script type="text/javascript" th:src="@{js/vue.js}"></script>
     <style type="text/css">
 		.addUserDialog .list {
 		    float: left;
@@ -165,13 +162,13 @@
                 <span class="title">会员信息</span>
                 <div class="searchArea">
                     <div class="btn-div">
-                        <a href="javascript:;" class="btn btn-success" data-toggle="modal" data-target="#addUserDialog">
+                        <a class="btn btn-success" data-toggle="modal" data-target="#addUserDialog">
                             添加会员
                         </a>
                     </div>
                 </div>
                 <div class="list">
-                    <a href="javascript:;" class="btn btn-default">导出会员</a>
+                    <a href="javascript:;" class="btn btn-default" onclick="exportExcel()">导出会员</a>
                     <a href="javascript:;" class="btn btn-default" data-toggle="modal" data-target="#batchImportDialog">批量导入</a>
                 </div>
                 <div class="list search">
@@ -181,9 +178,6 @@
                 <div class="list">
                     <select name="viptypeid" id="" class="form-control" onchange="queryMember(1)">
                         <option value="全部等级" selected="selected">全部等级</option>
-                       	 <!-- <template v-for="item in vipType">
-                        	<option :value="item.viptypeId">{{item.viptypeName}}</option>
-                        </template> -->
                     </select>
                 </div>
             </div>
@@ -204,27 +198,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <!-- <tr v-for="item,index in page.list">
-                        <td>
-                            {{item.vipId}}
-                        </td>
-                        <td>
-                            {{item.vipName}}
-                        </td>
-                        <td class="nametd">
-                           {{item.vipPhone}}
-                        </td>
-                        <td>{{item.viptypeName}}</td>
-                        <td>{{item.vipTurnover}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.balance}}</td>
-                        <td>{{item.integral}}</td>
-                        <td v-if="item.zjcj!=null">{{item.zjcj}}</td>
-                        <td v-else>0</td>
-                        <td>
-                            <a href="javascript:;" data-toggle="modal" data-target="#updateUserDialog">编辑</a>
-                        </td>
-                    </tr> -->
                     </tbody>
                     <tfoot>
                     <tr>
@@ -295,41 +268,41 @@
 	      	
 	      	<div class="dialog_bd clearfix">
 
-				<div class="list"><span><em>*</em>手　机</span><input type="text" maxlength="11" value="" class="inputText" name="mobile"></div>
-				<div class="list"><span><em>*</em>名　称</span><input type="text" maxlength="15" value="" class="inputText" name="nick"></div>
+				<div class="list"><span><em>*</em>手　机</span><input type="text" maxlength="11" value="" class="inputText" name="vipPhone"></div>
+				<div class="list"><span><em>*</em>名　称</span><input type="text" maxlength="15" value="" class="inputText" name="vipName"></div>
 				<div class="list">
 					<span>等　级</span>
 					<div >
-						<select>
+						<select name="viptypeid1">
 							<option>请选择等级</option>
-							 <template v-for="item in vipType">
-	                        	<option :value="item.viptypeId">{{item.viptypeName}}</option>
-	                        </template>
 						</select>
 					</div>
 				</div>
-				<div class="list"><span>密　码</span><input type="password" maxlength="16" value="" class="inputText" name="password"></div>
+				<div class="list"><span>密　码</span><input type="password" maxlength="16" value="" class="inputText" name="vipPwd"></div>
 				<div class="list addressList CA_Area">
 					<span>地　址</span>
-					<div>
-						<select>
-							<option>请选择省份</option>
-							<option>湖南省</option>
-						</select>
-						<select>
-							<option>请选择市</option>
-							<option>株洲市</option>
-						</select>
-						<select>
-							<option>请选择区市</option>
-							<option>天元区</option>
-						</select>
-					</div>
+					<form class="form-inline">
+				      <div data-toggle="distpicker">
+				        <div class="form-group">
+				          <label class="sr-only" for="province2">Province</label>
+				          <select name="vipProvince" class="form-control" id="province2" data-province="---- 选择省 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="city2">City</label>
+				          <select name="vipCity" class="form-control" id="city2" data-city="---- 选择市 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="district2">District</label>
+				          <select name="vipRegion" class="form-control" id="district2" data-district="---- 选择区 ----"></select>
+				        </div>
+				      </div>
+				    </form>
+					
 				</div>
 				
 				<div class="list" style="width:450px;">
 					<span>街　道</span>
-					<input style="width:370px;" type="password" maxlength="16" value="" name="password" class="inputText">
+					<input style="width:370px;" type="text" maxlength="16" value="" name="vipStreet" class="inputText">
 				</div>
 			
 				</div>
@@ -337,7 +310,7 @@
 	      </div>
 	      <div class="modal-footer" style="text-align: center;background-color: #f4f5f9;">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-	        <button type="button" class="btn btn-primary">确定</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add()">确定</button>
 	      </div>
 	    </div>
 	  </div>
@@ -353,53 +326,46 @@
 	      <div class="modal-body" style="height:290px;">
 	      	
 	      	<div class="dialog_bd clearfix">
-
-				<div class="list"><span><em>*</em>手　机</span><input type="text" maxlength="11" value="" class="inputText" name="mobile"></div>
-				<div class="list"><span><em>*</em>名　称</span><input type="text" maxlength="15" value="" class="inputText" name="nick"></div>
+				<input type="hidden" name="userId2">
+				<input type="hidden" name="vipId2">
+				<input type="hidden" name="vipTurnover2">
+				<input type="hidden" name="transactionPrice2">
+				<input type="hidden" name="balance2">
+				<input type="hidden" name="integral2">
+				<div class="list"><span><em>*</em>手　机</span><input type="text" maxlength="11" value="" class="inputText" name="vipPhone2"></div>
+				<div class="list"><span><em>*</em>名　称</span><input type="text" maxlength="15" value="" class="inputText" name="vipName2"></div>
 				<div class="list">
 					<span>等　级</span>
 					<div >
-						<select>
+						<select name="viptypeid2">
 							<option>请选择等级</option>
-							 <template v-for="item in vipType">
-	                        	<option :value="item.viptypeId">{{item.viptypeName}}</option>
-	                        </template>
 						</select>
 					</div>
 				</div>
-				<div class="list"><span>密　码</span><input type="password" maxlength="16" value="" class="inputText" name="password"></div>
+				<div class="list"><span>密　码</span><input type="text" maxlength="16" value="" class="inputText" name="vipPwd2"></div>
 				<div class="list addressList CA_Area">
 					<span>地　址</span>
-						<!-- <select>
-							<option>请选择省份</option>
-							<option>湖南省</option>
-						</select>
-						<select>
-							<option>请选择市</option>
-							<option>株洲市</option>
-						</select>
-						<select>
-							<option>请选择区市</option>
-							<option>天元区</option>
-						</select> -->
-						 <div class="col-sm-10"data-toggle="distpicker">
-							  <select style="width: 25%;display: inline-block;" name="check" class="form-control">
-						      	
-						      </select>
-						      -
-						      <select style="width: 25%;display: inline-block;"  name="check" class="form-control">
-						      	
-						      </select>
-						      -
-						      <select style="width: 25%;display: inline-block;"  name="check" class="form-control">
-						      	
-						      </select>
-						  </div>
+					<form class="form-inline">
+				      <div data-toggle="distpicker">
+				        <div class="form-group">
+				          <label class="sr-only" for="province2">Province</label>
+				          <select name="vipProvince2" class="form-control" id="province2" data-province="---- 选择省 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="city2">City</label>
+				          <select name="vipCity2" class="form-control" id="city2" data-city="---- 选择市 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="district2">District</label>
+				          <select name="vipRegion2" class="form-control" id="district2" data-district="---- 选择区 ----"></select>
+				        </div>
+				      </div>
+				    </form>
 				</div>
 				
 				<div class="list" style="width:450px;">
 					<span>街　道</span>
-					<input style="width:370px;" type="password" maxlength="16" value="" name="password" class="inputText">
+					<input style="width:370px;" type="text" maxlength="16" value="" name="vipStreet2" class="inputText">
 				</div>
 			
 				</div>
@@ -407,7 +373,7 @@
 	      </div>
 	      <div class="modal-footer" style="text-align: center;background-color: #f4f5f9;">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-	        <button type="button" class="btn btn-primary">确定</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="update()">确定</button>
 	      </div>
 	    </div>
 	  </div>
@@ -422,9 +388,11 @@
 	      </div>
 	      <div class="modal-body" style="height:180px;padding: 0px;">
 	      	<div class="dialog_bd clearfix" style="">
-				<label for="excelFile" class="btn addExcelBtn">Excel导入</label>
-				<input type="file" name="file" class="file excelFile" id="excelFile">
-				<a href="javascript:void(0)" class="downExcl" @click="downloadExcel" data-dismiss="modal">下载范本</a>
+				<form name="excelFile" method="post" enctype="multipart/form-data">
+					<label for="excelFile" class="btn addExcelBtn">Excel导入</label>
+					<input type="file" name="file" class="file excelFile" id="excelFile" onchange="FexcelFile()">
+					<a href="javascript:void(0)" class="downExcl" onclick="downloadExcel()" data-dismiss="modal">下载范本</a>
+				</form>
 			</div>
 	      </div>
 	    </div>
@@ -432,53 +400,6 @@
 	</div>
 </div>
    <script type="text/javascript">
-   		/*var member_infovue = new Vue({
-			el:"#content",
-			data(){
-				return {
-					page:{
-						list:[]
-					},
-					vipType:[]
-				}
-			},
-			methods:{
-				queryMember:function(pageNum){
-					if(pageNum==0){
-						return;
-					}
-					var viptypeid=$("[name=viptypeid]").val()
-					var searchname=$("[placeholder=查找]").val()
-					$.ajax({
-						url:"[[@{member/queryMember}]]",
-						data:{pageNum:pageNum,pageSize:2,viptypeid:viptypeid,searchname:searchname},
-						success:function(result){
-							member_infovue.page=result;
-						}
-					});
-				},
-				cz:function(){
-					this.queryMember(1)
-				},
-				tz:function(){
-					var tz=$("[name=tz]").val()
-					this.queryMember(tz)
-				},
-				downloadExcel:function(){
-					window.location.href="[[@{member/downloadExcel}]]"
-				}
-			},
-			created:function(){
-				var that = this;
-				that.queryMember(1)
-				$.ajax({
-					url:"[[@{member/queryVipType}]]",
-					success:function(result){
-						that.vipType = result;
-					}
-				});
-			}
-		});*/
 		queryMember(1)
 		function queryMember(pageNum){
 			if(pageNum==0){
@@ -513,7 +434,7 @@
 	                        <td>${this.integral}</td>
 	                        <td>${this.zjcj!=null?this.zjcj:0}</td>
 	                        <td>
-	                            <a href="javascript:;" data-toggle="modal" data-target="#updateUserDialog">编辑</a>
+	                            <a data-toggle="modal" data-target="#updateUserDialog" onclick="queryVipByid(${this.vipId})">编辑</a>
 	                        </td>
 	                    </tr>`)
 					})
@@ -539,10 +460,106 @@
 				success:function(result){
 					$(result).each(function(i,obj){
 						$("[name=viptypeid]").append(`<option value="${this.viptypeId}">${this.viptypeName}</option>`)
+						$("[name=viptypeid1]").append(`<option value="${this.viptypeId}">${this.viptypeName}</option>`)
+						$("[name=viptypeid2]").append(`<option name="typeid" value="${this.viptypeId}">${this.viptypeName}</option>`)
+						
 					})
 				}
 			});
 		}
+		function downloadExcel(){
+			window.location.href="[[@{member/downloadExcel}]]"
+		}
+		function add(){
+			var viptypeId=$("[name=viptypeid1]").val()
+			var vipPhone=$("[name=vipPhone]").val()
+			var vipName=$("[name=vipName]").val()
+			var vipPwd=$("[name=vipPwd]").val()
+			var vipProvince=$("[name=vipProvince]").val()
+			var vipCity=$("[name=vipCity]").val()
+			var vipRegion=$("[name=vipRegion]").val()
+			var vipStreet=$("[name=vipStreet]").val()
+			$.ajax({
+				url:"[[@{member/addVip}]]",
+				data:{viptypeId:viptypeId,vipPhone:vipPhone,vipName:vipName,vipPwd:vipPwd,vipProvince:vipProvince,vipCity:vipCity,vipRegion:vipRegion,vipStreet:vipStreet},
+				success:function(result){
+					queryMember(1)
+				}
+			});
+		}
+		function queryVipByid(vipId){
+			$.ajax({
+				url:"[[@{member/queryVipByid}]]",
+				data:{vipId:vipId},
+				success:function(result){
+					$("[name=vipId2]").val(result.vipId)
+					$("[name=userId2]").val(result.userId)
+					$("[name=typeid]").each(function(){
+						if($(this).val()==result.viptypeId){
+							$(this).prop("selected",true)
+						}
+					})
+					$("[name=vipPhone2]").val(result.vipPhone)
+					$("[name=vipName2]").val(result.vipName)
+					$("[name=vipPwd2]").val(result.vipPwd)
+					$("[name=vipProvince2]").val(result.vipProvince)
+					$("[name=vipProvince2]").change()
+					$("[name=vipCity2]").val(result.vipCity)
+					$("[name=vipCity2]").change()
+					$("[name=vipRegion2]").val(result.vipRegion)
+					$("[name=vipStreet2]").val(result.vipStreet)
+					$("[name=vipTurnover2]").val(result.vipTurnover)
+		    		$("[name=transactionPrice2]").val(result.transactionPrice)
+		    		$("[name=balance2]").val(result.balance)
+		    		$("[name=integral2]").val(result.integral)
+				}
+			});
+		}
+		function update(){
+			var vipId=$("[name=vipId2]").val()
+			var userId=$("[name=userId2]").val()
+			var viptypeId=$("[name=viptypeid2]").val()
+			var vipPhone=$("[name=vipPhone2]").val()
+			var vipName=$("[name=vipName2]").val()
+			var vipPwd=$("[name=vipPwd2]").val()
+			var vipProvince=$("[name=vipProvince2]").val()
+			var vipCity=$("[name=vipCity2]").val()
+			var vipRegion=$("[name=vipRegion2]").val()
+			var vipStreet=$("[name=vipStreet2]").val()
+			var vipTurnover=$("[name=vipTurnover2]").val()
+		    var transactionPrice=$("[name=transactionPrice2]").val()
+		    var balance=$("[name=balance2]").val()
+		    var integral=$("[name=integral2]").val()
+			$.ajax({
+				url:"[[@{member/updateVip}]]",
+				data:{vipId:vipId,userId:userId,viptypeId:viptypeId,vipPhone:vipPhone,vipName:vipName,vipPwd:vipPwd,vipProvince:vipProvince,vipCity:vipCity,vipRegion:vipRegion,vipStreet:vipStreet,vipTurnover:vipTurnover,transactionPrice:transactionPrice,balance:balance,integral:integral},
+				success:function(result){
+					queryMember(1)
+				}
+			});
+		}
+		function exportExcel(){
+			var viptypeid=$("[name=viptypeid]").val()
+			var searchname=$("[placeholder=查找]").val()
+			window.location.href="[[@{member/exportExcel}]]?viptypeid="+viptypeid+"&searchname="+searchname
+		}
+		function FexcelFile(){
+			var formData = new FormData($("form[name=excelFile]")[0]);
+			$.ajax({
+				url:"[[@{member/uploadAjax}]]",
+				data:formData,
+				type:"post",
+				processData:false,
+				contentType:false,
+				success:function(result){
+					alert("导入成功！");
+					queryMember(1)
+				}
+			});
+		}
    </script> 
+    <script type="text/javascript" th:src="@{js/distpicker.js}"></script>
+    <script type="text/javascript" th:src="@{js/distpicker.data.js}"></script>
+    <script type="text/javascript" th:src="@{js/distpicker.data.js}"></script>
 </body>
 </html>

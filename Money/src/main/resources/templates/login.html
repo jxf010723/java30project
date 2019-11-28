@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/jigsaw.css">
 	
 	<style>
 	.container {
@@ -57,10 +58,10 @@
 		<button class="btn btn-success" onclick="login()" style="margin-top:15px;">登录</button>
 	</div>
     
-    <!-- <form>
+   <!-- <form>
     	<div class="login-form">
 	        <div class="form-item">
-	            <input   type="text" placeholder="账号" name="uname" maxlength="11"  class="form-control">
+	            <input type="text" placeholder="账号" name="uname" maxlength="11"  class="form-control">
 	        </div>
 	        <div class="form-item">
 	            <input type="text" placeholder="密码" name="upwd"   class="form-control">
@@ -111,22 +112,11 @@ jigsaw.init(document.getElementById('captcha'), function () {
 			url:"[[@{shop/login}]]",
 			data:{uname:uname,upwd:upwd},
 			success:function(result){
-				console.log(result);
-				if(result!=null&&result!=""){
+				if(result!=null/* &&result!="" */){
 					//alert(result+"进来了呀");
-					//登录成功则进入实体店
-					$(".indexs>div").remove();
-					var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
-	                $.ajax({
-	                	type:"post",
-	                	url:"/money",
-	                	data:{dataid:"storeindex"},
-	                	dataType:"html",
-	                	success:function(res){
-	                		newDiv.append(res);
-	                        $(".indexs").append(newDiv);
-	                	}
-	                });
+					jz()
+					//登录成功则进入实体店	周鹏改成进账户页面
+					
 				}
 			}
 		})

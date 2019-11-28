@@ -1,10 +1,12 @@
 package com.accp.Interceptor;
-/*
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-//¾ÍÊÇÀ¹½ØÆ÷
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
@@ -15,16 +17,30 @@ public class SessionInterceptor implements HandlerInterceptor {
             throws Exception {
             }
     @Override
-    public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exception {
-        //ÆÕÍ¨Â·¾¶·ÅÐÐ
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+       
+    	/* //ï¿½ï¿½Í¨Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if ("/yanzheng".equals(arg0.getRequestURI()) || "/login".equals(arg0.getRequestURI())) {
             return true;}    
-        //È¨ÏÞÂ·¾¶À¹½Ø
+        //È¨ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Object object = arg0.getSession().getAttribute("users");
         if (null == object) {
             arg1.sendRedirect("/login");
-            return false;}
+            return false;}*/
+    	
+    	
+    	/*if(handler instanceof HandlerMethod) {
+			HandlerMethod method = (HandlerMethod) handler;
+			if(method.getBean() instanceof LoginController) {
+				return true;
+			}
+		}
+		//String path=request.getContextPath();
+		User user=(User)request.getSession().getAttribute("user");
+		if(user==null) {
+			response.sendRedirect("/index");
+			return false;
+		}*/
         return true;
     }
 }
-*/

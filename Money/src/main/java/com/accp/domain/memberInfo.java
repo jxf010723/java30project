@@ -4,7 +4,19 @@ public class memberInfo {
 	
 	private Integer vipId;
 	
+	private Integer userId;
+	
 	private String vipName;
+	
+	private String vipPwd;
+	
+	private String vipProvince;
+
+    private String vipCity;
+
+    private String vipRegion;
+    
+    private String vipStreet;
 	
 	private String vipPhone;
 	
@@ -20,6 +32,54 @@ public class memberInfo {
 	
 	private double price;
 	
+	public String getVipStreet() {
+		return vipStreet;
+	}
+
+	public void setVipStreet(String vipStreet) {
+		this.vipStreet = vipStreet;
+	}
+
+	public String getVipPwd() {
+		return vipPwd;
+	}
+
+	public void setVipPwd(String vipPwd) {
+		this.vipPwd = vipPwd;
+	}
+
+	public String getVipProvince() {
+		return vipProvince;
+	}
+
+	public void setVipProvince(String vipProvince) {
+		this.vipProvince = vipProvince;
+	}
+
+	public String getVipCity() {
+		return vipCity;
+	}
+
+	public void setVipCity(String vipCity) {
+		this.vipCity = vipCity;
+	}
+
+	public String getVipRegion() {
+		return vipRegion;
+	}
+
+	public void setVipRegion(String vipRegion) {
+		this.vipRegion = vipRegion;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
 	public double getPrice() {
 		return price;
 	}

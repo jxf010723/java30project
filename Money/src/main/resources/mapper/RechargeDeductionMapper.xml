@@ -6,7 +6,7 @@
     <result column="rd_date" property="rdDate" jdbcType="DATE" />
     <result column="rd_vxid" property="rdVxid" jdbcType="VARCHAR" />
     <result column="rd_name" property="rdName" jdbcType="VARCHAR" />
-    <result column="rd_phone" property="rdPhone" jdbcType="INTEGER" />
+    <result column="rd_phone" property="rdPhone" jdbcType="VARCHAR" />
     <result column="rd_recharge" property="rdRecharge" jdbcType="INTEGER" />
     <result column="rd_presentation" property="rdPresentation" jdbcType="INTEGER" />
     <result column="rd_expenditure" property="rdExpenditure" jdbcType="DOUBLE" />
@@ -111,12 +111,12 @@
       rd_presentation, rd_expenditure, rd_balance, 
       rd_remark)
     values (#{rdid,jdbcType=INTEGER}, #{rdDate,jdbcType=DATE}, #{rdVxid,jdbcType=VARCHAR}, 
-      #{rdName,jdbcType=VARCHAR}, #{rdPhone,jdbcType=INTEGER}, #{rdRecharge,jdbcType=INTEGER}, 
+      #{rdName,jdbcType=VARCHAR}, #{rdPhone,jdbcType=VARCHAR}, #{rdRecharge,jdbcType=INTEGER}, 
       #{rdPresentation,jdbcType=INTEGER}, #{rdExpenditure,jdbcType=DOUBLE}, #{rdBalance,jdbcType=DOUBLE}, 
       #{rdRemark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.RechargeDeduction" >
-    insert into "recharge_deduction"
+    insert into recharge_deduction
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="rdid != null" >
         rdid,
@@ -163,7 +163,7 @@
         #{rdName,jdbcType=VARCHAR},
       </if>
       <if test="rdPhone != null" >
-        #{rdPhone,jdbcType=INTEGER},
+        #{rdPhone,jdbcType=VARCHAR},
       </if>
       <if test="rdRecharge != null" >
         #{rdRecharge,jdbcType=INTEGER},
@@ -204,7 +204,7 @@
         rd_name = #{record.rdName,jdbcType=VARCHAR},
       </if>
       <if test="record.rdPhone != null" >
-        rd_phone = #{record.rdPhone,jdbcType=INTEGER},
+        rd_phone = #{record.rdPhone,jdbcType=VARCHAR},
       </if>
       <if test="record.rdRecharge != null" >
         rd_recharge = #{record.rdRecharge,jdbcType=INTEGER},
@@ -232,7 +232,7 @@
       rd_date = #{record.rdDate,jdbcType=DATE},
       rd_vxid = #{record.rdVxid,jdbcType=VARCHAR},
       rd_name = #{record.rdName,jdbcType=VARCHAR},
-      rd_phone = #{record.rdPhone,jdbcType=INTEGER},
+      rd_phone = #{record.rdPhone,jdbcType=VARCHAR},
       rd_recharge = #{record.rdRecharge,jdbcType=INTEGER},
       rd_presentation = #{record.rdPresentation,jdbcType=INTEGER},
       rd_expenditure = #{record.rdExpenditure,jdbcType=DOUBLE},
@@ -255,7 +255,7 @@
         rd_name = #{rdName,jdbcType=VARCHAR},
       </if>
       <if test="rdPhone != null" >
-        rd_phone = #{rdPhone,jdbcType=INTEGER},
+        rd_phone = #{rdPhone,jdbcType=VARCHAR},
       </if>
       <if test="rdRecharge != null" >
         rd_recharge = #{rdRecharge,jdbcType=INTEGER},
@@ -280,7 +280,7 @@
     set rd_date = #{rdDate,jdbcType=DATE},
       rd_vxid = #{rdVxid,jdbcType=VARCHAR},
       rd_name = #{rdName,jdbcType=VARCHAR},
-      rd_phone = #{rdPhone,jdbcType=INTEGER},
+      rd_phone = #{rdPhone,jdbcType=VARCHAR},
       rd_recharge = #{rdRecharge,jdbcType=INTEGER},
       rd_presentation = #{rdPresentation,jdbcType=INTEGER},
       rd_expenditure = #{rdExpenditure,jdbcType=DOUBLE},

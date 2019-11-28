@@ -402,52 +402,52 @@ public class RechargeDeductionExample {
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneEqualTo(Integer value) {
+        public Criteria andRdPhoneEqualTo(String value) {
             addCriterion("rd_phone =", value, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneNotEqualTo(Integer value) {
+        public Criteria andRdPhoneNotEqualTo(String value) {
             addCriterion("rd_phone <>", value, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneGreaterThan(Integer value) {
+        public Criteria andRdPhoneGreaterThan(String value) {
             addCriterion("rd_phone >", value, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneGreaterThanOrEqualTo(Integer value) {
+        public Criteria andRdPhoneGreaterThanOrEqualTo(String value) {
             addCriterion("rd_phone >=", value, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneLessThan(Integer value) {
+        public Criteria andRdPhoneLessThan(String value) {
             addCriterion("rd_phone <", value, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneLessThanOrEqualTo(Integer value) {
+        public Criteria andRdPhoneLessThanOrEqualTo(String value) {
             addCriterion("rd_phone <=", value, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneIn(List<Integer> values) {
+        public Criteria andRdPhoneIn(List<String> values) {
             addCriterion("rd_phone in", values, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneNotIn(List<Integer> values) {
+        public Criteria andRdPhoneNotIn(List<String> values) {
             addCriterion("rd_phone not in", values, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneBetween(Integer value1, Integer value2) {
+        public Criteria andRdPhoneBetween(String value1, String value2) {
             addCriterion("rd_phone between", value1, value2, "rdPhone");
             return (Criteria) this;
         }
 
-        public Criteria andRdPhoneNotBetween(Integer value1, Integer value2) {
+        public Criteria andRdPhoneNotBetween(String value1, String value2) {
             addCriterion("rd_phone not between", value1, value2, "rdPhone");
             return (Criteria) this;
         }

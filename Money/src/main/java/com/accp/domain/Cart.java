@@ -5,17 +5,21 @@ import java.util.Date;
 public class Cart {
     private Integer cid;
 
+    private Integer gid;
+
     private Integer gdid;
 
-    private Integer userid;
+    private Integer vipid;
+
+    private String color;
+
+    private Integer goodssize;
 
     private Integer orderCount;
 
     private Double orderTotalmoney;
 
     private Double orderSfmoney;
-
-    private Double integralDeductionmoney;
 
     private Date orderDate;
 
@@ -29,20 +33,44 @@ public class Cart {
         this.cid = cid;
     }
 
-    public Integer getgdid() {
+    public Integer getGid() {
+        return gid;
+    }
+
+    public void setGid(Integer gid) {
+        this.gid = gid;
+    }
+
+    public Integer getGdid() {
         return gdid;
     }
 
-    public void setgdid(Integer gdid) {
+    public void setGdid(Integer gdid) {
         this.gdid = gdid;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getVipid() {
+        return vipid;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setVipid(Integer vipid) {
+        this.vipid = vipid;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Integer getGoodssize() {
+        return goodssize;
+    }
+
+    public void setGoodssize(Integer goodssize) {
+        this.goodssize = goodssize;
     }
 
     public Integer getOrderCount() {
@@ -67,14 +95,6 @@ public class Cart {
 
     public void setOrderSfmoney(Double orderSfmoney) {
         this.orderSfmoney = orderSfmoney;
-    }
-
-    public Double getIntegralDeductionmoney() {
-        return integralDeductionmoney;
-    }
-
-    public void setIntegralDeductionmoney(Double integralDeductionmoney) {
-        this.integralDeductionmoney = integralDeductionmoney;
     }
 
     public Date getOrderDate() {

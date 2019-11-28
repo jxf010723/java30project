@@ -16,7 +16,7 @@ public class RechargeDeduction {
 
     private String rdName;
 
-    private Integer rdPhone;
+    private String rdPhone;
 
     private Integer rdRecharge;
 
@@ -60,11 +60,11 @@ public class RechargeDeduction {
         this.rdName = rdName;
     }
 
-    public Integer getRdPhone() {
+    public String getRdPhone() {
         return rdPhone;
     }
 
-    public void setRdPhone(Integer rdPhone) {
+    public void setRdPhone(String rdPhone) {
         this.rdPhone = rdPhone;
     }
 
