@@ -153,4 +153,14 @@ public class Purchase {
     public void setGrossmoney(Float grossmoney) {
         this.grossmoney = grossmoney;
     }
+
+	@Override
+	public String toString() {
+		return "Purchase [purchaseid=" + purchaseid + ", odd=" + odd + ", deliverytime=" + deliverytime
+				+ ", supplierid=" + supplierid + ", userid=" + userid + ", remarks=" + remarks + ", grossmoney="
+				+ grossmoney + ", shenghe=" + shenghe + ", sl=" + sl + ", suppliername=" + suppliername + ", uname="
+				+ uname + ", remark1=" + remark1 + ", goodscount=" + goodscount + ", goodCostprice=" + goodCostprice
+				+ ", purchasezi=" + purchasezi + "]";
+	}
+    
 }

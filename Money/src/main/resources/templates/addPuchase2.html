@@ -157,11 +157,12 @@
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
 		</div>
-		</div>
 		
+		</div>
+		<div th:text="${purchaseid}" id="purchaseidsw"></div>
 		
 		<script type="text/javascript">
-		var addpuchasevue=new Vue({
+		var addpuchasevue2=new Vue({
 	    	   el:'.vue_cg',
 	    	   data(){
 	    		   return {
@@ -184,7 +185,7 @@
 							 url:"[[@{/goods/goodsquery}]]",
 							 success:function(reulte){
 								 //alert(reulte)
-								  addpuchasevue.spadd=reulte;
+								  addpuchasevue2.spadd=reulte;
 								  
 							 }
 					  })
@@ -195,17 +196,17 @@
 	    						  $(".li").each(function(){
 	    							   $(this).prop("checked",true);  
 	    						  })
-	    						  addpuchasevue.checkedNames=addpuchasevue.spadd;
+	    						  addpuchasevue2.checkedNames=addpuchasevue2.spadd;
 	    					  }else{
 	    						  $(".li").each(function(){
 	    							   $(this).prop("checked",false);
 	    						  })
-							   addpuchasevue.checkedNames=[];
+							   addpuchasevue2.checkedNames=[];
 	    					  }
 	    		   },
 	    		   queren:function(){//确认添加
 	    			   $('#addpuchaseModal').modal('hide');
-	    			   console.log(addpuchasevue.checkedNames)
+	    			   console.log(addpuchasevue2.checkedNames)
 	    			   var goodCostprice=0;
 	    			   var gooddetailscount=0;
 	    			   $("[name=goodCostprice]").each(function(r,s){
@@ -218,12 +219,12 @@
 		    			   //alert(gooddetailscount)
 	    			
 	    			   }); 
-	    			   addpuchasevue.ss=goodCostprice;
-	    			   addpuchasevue.dd=gooddetailscount;
+	    			   addpuchasevue2.ss=goodCostprice;
+	    			   addpuchasevue2.dd=gooddetailscount;
 	    		   },
 	    		   del:function(index){//删除选中的
 	    			   //alert(index)
-	    			   addpuchasevue.checkedNames.splice(index,1); 
+	    			   addpuchasevue2.checkedNames.splice(index,1); 
 	    		   },
 	    		   inputs:function(){
 	    			  // alert(1)
@@ -239,8 +240,8 @@
 		    			  // alert(gooddetailscount)
 	    			
 	    			   }); 
-	    			   addpuchasevue.ss=goodCostprice;
-	    			   addpuchasevue.dd=gooddetailscount;
+	    			   addpuchasevue2.ss=goodCostprice;
+	    			   addpuchasevue2.dd=gooddetailscount;
 	    		   },
 	    		   datess:function(){//生成单号
 	    			    let now = new Date();
@@ -251,22 +252,23 @@
 					   url:"[[@{/goods/dateNew?datetime=}]]"+datetime,
 					   success:function(c){
 						   var datetime=$("#datessw").val().replace(/-/g,'');
-						   addpuchasevue.Purchasedanhao=datetime+c;
+						   addpuchasevue2.Purchasedanhao=datetime+c;
 								
 							}
 						})
 	    		   },
 	    		   qinkong:function(){//清空
-	    			   addpuchasevue.checkedNames=[];
-	    			   addpuchasevue.ss=0;
-	    			   addpuchasevue.dd=0;
+	    			   addpuchasevue2.checkedNames=[];
+	    			   addpuchasevue2.ss=0;
+	    			   addpuchasevue2.dd=0;
 	    		   },
 	    		   tijiao:function(){//提交
+	    			   var id=$("#purchaseidsw").text();
 	    			   var purchases={};
 	    			   var datetime=$("#datessw").val();//日期
 	    			   var selectdp=$("#selectdp").val();//供应商id
 	    			   //alert(selectdp)
-	    			   var obj = addpuchasevue.dp.find((item)=>{//这里的userList就是上面遍历的数据源
+	    			   var obj = addpuchasevue2.dp.find((item)=>{//这里的userList就是上面遍历的数据源
 	    				   //alert(item.supplierid)
 		    			       if(item.supplierid == selectdp){
 		    			    	   return item;//筛选出匹配数据
@@ -280,14 +282,14 @@
 	    			  var remark=$("#remark").val();
 	    			 var uname=$("#uname").val();
 	    			 //alert(uname)
-	    			  purchases={odd:addpuchasevue.Purchasedanhao,deliverytime:datetime,supplierid:selectdp,suppliername:selectdpname,userid:1,uname:uname,shenghe:"1",remarks:remark};
-	    			  addpuchasevue.purchase=purchases;
-	    			  addpuchasevue.purchase.purchasezi=addpuchasevue.checkedNames;
-	    			  addpuchasevue.checkedNames=[];
-	    			  alert(JSON.stringify(addpuchasevue.purchase)) ;
+	    			  purchases={odd:addpuchasevue2.Purchasedanhao,deliverytime:datetime,supplierid:selectdp,suppliername:selectdpname,userid:1,uname:uname,shenghe:"1",remarks:remark};
+	    			  addpuchasevue2.purchase=purchases;
+	    			  addpuchasevue2.purchase.purchasezi=addpuchasevue2.checkedNames;
+	    			  addpuchasevue2.checkedNames=[];
+	    			  alert(JSON.stringify(addpuchasevue2.purchase)) ;
 	    			   $.ajax({
-					   url:"[[@{/goods/inserzhu}]]",
-					   data:JSON.stringify(addpuchasevue.purchase),
+					   url:"[[@{/goods/xiou3}]]",
+					   data:JSON.stringify(addpuchasevue2.purchase),
 	    			   contentType:"application/json;charset=utf-8",
 	    			   type:"post",
 					   success:function(reulte){
@@ -306,6 +308,31 @@
 	    		   }
 	    	   },
 	    	   created:function(){
+	    		   var id=$("#purchaseidsw").text();
+	    		   alert(id)
+				   $.ajax({
+					   url:"[[@{/goods/xiou2?purchaseid=}]]"+id,
+						 dataType:"json",
+						 success:function(reulte){
+							 alert(1)
+							 addpuchasevue2.checkedNames=reulte.purchasezi;
+							 addpuchasevue2.purchase=reulte;
+							 var goodCostprice=0;
+			    			 var gooddetailscount=0;
+			    			   $("[name=goodCostprice]").each(function(r,s){
+			    				   goodCostprice+=parseInt($(this).val())*parseInt($("[name=gooddetailscount]:eq("+r+")").val());
+			    				  alert(goodCostprice)
+			    				  
+			    			   });
+			    			   $("[name=gooddetailscount]").each(function(){
+			    				   gooddetailscount+=parseInt($(this).val());
+				    			   alert(gooddetailscount)
+			    			
+			    			   }); 
+			    			   addpuchasevue2.ss=goodCostprice;
+			    			   addpuchasevue2.dd=gooddetailscount;
+						}
+					})
 	    		   //alert(1)
 	    		   //时间
 	    	
@@ -316,7 +343,7 @@
 						 dataType:"json",
 						 success:function(reulte){
 							 console.log(reulte)
-							 addpuchasevue.dp=reulte;
+							 addpuchasevue2.dp=reulte;
 						}
 					})
 	    	   }

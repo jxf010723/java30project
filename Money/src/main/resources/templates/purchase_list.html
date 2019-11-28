@@ -76,7 +76,7 @@
 						<td>{{item.remarks}}</td>
 						<td>
 							<a href="javascript:;" v-on:click="a_del(item)">删除</a>
-							<a v-if="item.shenghe=='1'" :href="'/cgs/xiou?purchaseid='+item.purchaseid">编辑</a>
+							<a v-if="item.shenghe=='1'" href="javascript:;" v-on:click="upda(item)">编辑</a>
 							<a v-if="item.shenghe=='0'" href="javascript:;" v-on:click="a_bj(item)">查看</a>
 						</td>
 					</tr>
@@ -206,6 +206,18 @@
  		   del:function(index){//删除选中的
  			   //alert(index)
  			   purchasevue.dede.splice(index,1); 
+ 		   },
+ 		   upda:function(item){
+ 			  $.ajax({
+		        	type:"post",
+		        	url:"/money2",
+		        	data:{dataid:"addPuchase2",purchaseid:item.purchaseid},
+		        	dataType:"html",
+		        	success:function(res){
+		        		$("#add").html("");
+		        		$("#add").append(res);
+		        	}
+		        });
  		   }
  	   },
  	   created:function(){

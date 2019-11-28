@@ -240,4 +240,22 @@ public class GoodsService {
 		public  List<Purchasedetails> bj(Integer purchaseid) {
 			return purch.selectall(purchaseid);	
 		}
+		//修改采购表 查出所有表
+		public Purchase xiou(Integer purchaseid) {
+			Purchase p=purch.seleszhuid(purchaseid);
+			p.setPurchasezi(purch.selectall(purchaseid));
+			return p;	
+		}
+		
+		//修改表
+		public void updatazhu(Purchase purchase) {
+			//修改主表
+			purch.updatazhu(purchase.getSupplierid(), purchase.getSuppliername(), purchase.getUserid(), purchase.getUname(), purchase.getRemarks(), purchase.getPurchasezi().get(0).getPurchaseid());
+			//删除子表
+			purch.deleteByddd(purchase.getPurchasezi().get(0).getPurchaseid().toString());
+			//新增子表
+			for (Purchasedetails t : purchase.getPurchasezi()) {
+				purchasedetails.insertSelective(t);
+			}
+		}
 }

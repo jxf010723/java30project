@@ -296,4 +296,8 @@
   	delete from purchase where purchaseid=#{purchaseid};
   	
   </delete>
+  <delete id="deleteByddd">
+  	delete from purchasedetails where purchaseid=#{purchaseid};
+  	
+  </delete>
 </mapper>

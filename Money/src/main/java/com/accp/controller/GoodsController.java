@@ -464,5 +464,21 @@ public class GoodsController {
 			return goods.bj(purchaseid);
 				
 		}
-		
+		//修改传值
+		@RequestMapping("/xiou2")
+		@ResponseBody
+		public Purchase xiou2(Integer purchaseid) {
+			System.out.println(purchaseid);
+			Purchase p=goods.xiou(purchaseid);
+			return p;			
+		}
+		//新增采购单
+		@RequestMapping("/xiou3")
+		@ResponseBody
+		public String selectidalls(@RequestBody Purchase purchase) {
+			System.out.println(purchase);
+			System.out.println(purchase.getPurchasezi().get(0).getPurchaseid());
+			goods.updatazhu(purchase);
+			 return "s";
+		}
 }

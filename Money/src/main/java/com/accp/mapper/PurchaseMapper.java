@@ -53,4 +53,16 @@ public interface PurchaseMapper {
   //查询
     @Select("SELECT * FROM `purchasedetails` where purchaseid=#{purchaseid}")
     List<Purchasedetails> selectall(Integer purchaseid);
+    //查询主表
+    @Select("SELECT * FROM purchase WHERE purchaseid=#{purchaseid}")
+    Purchase seleszhuid(Integer purchaseid);
+    
+    
+  //修改主表
+    @Update("UPDATE  `purchase`  \r\n" + 
+    		"SET  `supplierid` = #{supplierid},\r\n" + 
+    		"`suppliername` = #{suppliername}, `userid` = #{userid},\r\n" + 
+    		"`uname` = #{uname}, `remarks` = #{remarks} WHERE `purchaseid` = #{purchaseid}")
+    int updatazhu(@Param("supplierid") Integer Supplierid,@Param("suppliername") String suppliername,@Param("userid") Integer userid,@Param("uname") String uname,@Param("remarks") String remarks,@Param("purchaseid") Integer purchaseid);
+    int  deleteByddd(@Param("purchaseid") String purchaseid);
 }

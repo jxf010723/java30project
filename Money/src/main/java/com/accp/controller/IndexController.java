@@ -1,10 +1,11 @@
 package com.accp.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-//ÓÃÀ´Ìø×ªÒ³Ãæ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªÒ³ï¿½ï¿½
 public class IndexController {
 	@RequestMapping("/index")
 	public String index() {
@@ -14,6 +15,13 @@ public class IndexController {
 	@RequestMapping("/money")
 	public String money(String dataid) {
 		System.out.println("qqq"+dataid);
+		return dataid;
+	}
+	@RequestMapping("/money2")
+	public String money2(String dataid,String purchaseid,Model model) {
+		System.out.println("mmmmm"+purchaseid);
+		System.out.println("www"+dataid);
+		model.addAttribute("purchaseid",purchaseid);
 		return dataid;
 	}
 }
