@@ -37,18 +37,16 @@
 </head>
 <body>
 	<div style="border: 1px solid #DDDDDD;border-radius: 5px;padding: 10px 25px;">
-		<form class="form-inline">
 			<!-- <img src="../images/home.png" > -->
 			你现在所在的位置是：
 			<a href="javascript:;" style="font-weight: 600;">账户信息</a>			
-		</div>
+	</div>
 			<div class="container" style="margin-left:13% ;">
 				  <div class="imageBox">
 				    <div class="thumbBox"></div>
 				    <div class="spinner" style="display: none">Loading...</div>
 				  </div>
 				  <div class="action"> 
-				    <!-- <input type="file" id="file" style=" width: 200px">-->
 				    <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">
 				      <label for="upload-file">上传图像</label>
 				      </a>
@@ -60,14 +58,7 @@
 				  </div>
 				  <!-- <div class="cropped" style="margin-right: 65%;"></div> -->
 			</div>
-		<!-- <div class="yuan" style="margin-left: 20%;margin-top:10%;background: url(../images/file/3.jpg) no-repeat center;background-size:100% 100%; ">
-			<div class="tx" hidden="hidden" style="background-color: whitesmoke;width: 270px;height: 50px;margin-top: 85%;margin-left: 13px;font-size: 18px;font-weight:bolder;text-align: center;padding-top: 10px;opacity: 0.5;">
-				<a href="#" style="color: #000000;" onclick="showWindowDialog('users_img.html','上传头像')">上传头像</a>
-			</div>
-			
-		</div> -->
-		<div class="users">
-			
+			<div class="users">
 				<div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">行&nbsp&nbsp&nbsp业&nbsp&nbsp&nbsp&nbsp</label>
 				    <input type="text" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写行业" style="width: 60%;">
@@ -86,7 +77,6 @@
 				    <input type="password" class="form-control" disabled="disabled" id="exampleInputName2" placeholder="请填写密码" style="width: 60%;">
 			    </div>
 			    <button type="button" id="xg" class="btn btn-success col-md-3" style="margin-left: 45%;margin-top: 6%;">修改</button>
-			</form>
 		</div>
 		<script>
 			$(function(){
@@ -140,7 +130,7 @@
 				{
 					thumbBox: '.thumbBox',
 					spinner: '.spinner',
-					imgSrc: 'images/avatar.jpg'
+					imgSrc: 'images/huoperson.jpg'
 				}
 				var cropper = $('.imageBox').cropbox(options);
 				$('#upload-file').on('change', function(){

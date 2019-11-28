@@ -14,6 +14,7 @@
     <result column="order_date" property="orderDate" jdbcType="DATE" />
     <result column="integral" property="integral" jdbcType="INTEGER" />
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

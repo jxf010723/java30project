@@ -115,7 +115,7 @@ jigsaw.init(document.getElementById('captcha'), function () {
 				console.log(result);
 				if(result!=null&&result!=""){
 					//alert(result+"进来了呀");
-					//登录成功则进入实体店
+					//登录成功则进入实体店	周鹏改成进账户页面
 					$(".indexs>div").remove();
 					var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
 	                $.ajax({

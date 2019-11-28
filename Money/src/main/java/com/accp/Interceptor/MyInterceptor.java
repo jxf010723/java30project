@@ -11,43 +11,46 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-@Component//ÈÃspringÈİÆ÷´´½¨¸ÃÀà¶ÔÏó£¬±íÊ¾ÆäËü×é½¨
-public class MyInterceptor  implements HandlerInterceptor {
-	
-	/*@Autowired
-	ModuleService mService;
+import com.accp.domain.All;
+import com.accp.service.ShopService;
 
-	*//***
+
+
+@Component
+public class MyInterceptor implements HandlerInterceptor{
+	@Autowired
+	ShopService sService;
+
+	/***
 	 * 
-	 * Ö´ĞĞ¿ØÖÆÆ÷Ö®Ç°Ö´ĞĞ¸Ã·½·¨£¬·µ»Øfalse±íÊ¾²»Ö´ĞĞ¿ØÖÆÆ÷
+	 * æ‰§è¡Œæ§åˆ¶å™¨ä¹‹å‰æ‰§è¡Œè¯¥æ–¹æ³•ï¼Œè¿”å›falseè¡¨ç¤ºä¸æ‰§è¡Œæ§åˆ¶å™¨
 	 * 
-	 *//*
+	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		System.out.println("preHandler");
+		
 		HttpSession session = request.getSession();
-		List<Module> list = (List<Module>)session.getAttribute("prem");
+		List<All> list = (List<All>)session.getAttribute("perm");
 		if(list==null) {
-			list = mService.findModuleListByUserId(1);
+			list = sService.queryByUserId(1);
 			session.setAttribute("perm", list);
 		}
 		String path = request.getRequestURI();
 		boolean flag = false;
-		for(Module m : list) {
+		for(All m : list) {
 			if(path.equals(m.getPath())) {
-				System.out.println("ÓĞÈ¨ÏŞ.....");
 				flag = true;
 				return true;
 			}
 		}
-		System.out.println("Ã»ÓĞÈ¨ÏŞ....");
+		
 		return flag;
-	}*/
-	
+	}
 	/**
 	 * 
-	 * ¿ØÖÆ³É¹¦Ö´ĞĞ£¬Ã»ÓĞ·¢ÉúÒì³£Çé¿ö
+	 * æ§åˆ¶æˆåŠŸæ‰§è¡Œï¼Œæ²¡æœ‰å‘ç”Ÿå¼‚å¸¸æƒ…å†µ
 	 * 
 	 */
 	@Override
@@ -59,14 +62,14 @@ public class MyInterceptor  implements HandlerInterceptor {
 	}
 	
 	/**
-	 * ²»¹ÜÊÇ·ñ·¢ÉúÒì³£¶¼»á±»Ö´ĞĞ
+	 * ä¸ç®¡æ˜¯å¦å‘ç”Ÿå¼‚å¸¸éƒ½ä¼šè¢«æ‰§è¡Œ
 	 */
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		System.out.println("afterCOmpletion");
+		System.out.println("è¿›å…¥");
 		// TODO Auto-generated method stub
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
-	
 }

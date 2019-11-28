@@ -68,14 +68,14 @@
             <!-- 挂单模块 -->
             <el-tab-pane label="挂单" name="entryOrders">
 	            <el-table :data="danData" border>
-	                <el-table-column prop="goodsName" label="商品名称"></el-table-column>
-	                <el-table-column prop="count" label="数量" width="70"></el-table-column>
-	                <el-table-column prop="price" label="金额" width="70"></el-table-column>
+	                <el-table-column prop="goodsname" label="商品名称"></el-table-column>
+	                <el-table-column prop="orderCount" label="数量" width="70"></el-table-column>
+	                <el-table-column prop="orderTotalmoney" label="金额" width="70"></el-table-column>
 	                <el-table-column label="操作" width="100" fixed="right">
 	                  <!-- scope 是模板的作用域，通过scope.row把这一行数据传递到addOrderList()中去 -->
 	                  <template slot-scope="scope">
 	                    <el-button type="text" size="small" @click="delSingleGoods(scope.row)">删除</el-button>
-	                    <el-button type="text" size="small" @click="addOrderList(scope.row)">增加</el-button>
+	                    <el-button type="text" size="small" @click="addButton(scope.row)">增加</el-button>
 	                  </template> 
 	                </el-table-column>
 	              </el-table>
@@ -125,6 +125,7 @@
 		                <div class="food-content">
 		                  <span class="foodName">{{g.goodsname}}</span>
 		                  <span class="foodPrice">￥{{g.salesprice}}元</span>
+		                  <span class="foodPrice" style="font-size: 14px">{{g.color}}/{{g.goodssize}}</span>
 		                </div> 
 		              </li>
 		            </ul>
@@ -155,9 +156,9 @@
 		      </div> 
 			</div>
 			
-			<div v-if="isBlock==2">
+			<!-- <div v-if="isBlock==2">
 				结算……
-			</div>
+			</div> -->
 			
 			
         </el-col>
@@ -180,17 +181,22 @@
 	              discount:0.0,	//折扣金额
 	              point:0,	//会员要用的积分
 	              havePoint:0,	//会员有的积分
+	              yongPoint:0,	//点击确定时才获取输入框里输入的积分(会员要用的积分)
 	              pointMoney:0,	//积分金额
 	              shiMoney:0,	//实收金额
 	              ofterGoods:[],	//常买商品
     			  goodstype:[],	//查询到的商品类型和商品的数据
     			  viptype:[],	//查询到的vip类型和对应会员的数据
-    			  cart:{},	//点击挂单新增购物车时的数据
+    			  vipid:0,	//会员id,数据操作时方便用到
+    			  cart:[],	//点击挂单新增购物车时的数据
     			  integral:[],	//查询积分设置表是否允许使用积分
-    			  order:{},	//订单
-    			  orderDetails:[],
+    			  order:{
+    				  details:[]	//订单详情
+    			  },	//订单
     			  isBlock:0,	//是否显示
-    			  isOrder:0	//是否能结算
+    			  isOrder:0,	//是否能结算	当商品和挂单都有数据时
+    			  isClickPerson:0,	//是否能结算	当点击了会员或者普通买家时
+    			  insertOrUpdate:0	//点击挂单时新增或者修改
 	            }
 	          },
 	          methods: {
@@ -206,10 +212,15 @@
 	        		  var diMoney = 100;
 	        		  //alert(point+"---"+diMoney+"---"+point/diMoney);
 	        		  this.pointMoney = point/diMoney;
+	        		  this.yongPoint = point;
 	        	  },
 	        	  insertOrder:function(){
 	        		  if(this.isOrder == 0){
 	        			  alert("你都没有商品结算个锤子啊，请去选个商品好嘛亲?");
+	        			  return;
+	        		  }
+	        		  if(this.isClickPerson == 0){
+	        			  alert("Who are you?不能结算哦，请去选下你的信息好嘛亲~");
 	        			  return;
 	        		  }
 	        		  
@@ -223,17 +234,95 @@
 	        		  this.order.integralDeductionmoney = this.pointMoney;
 	        		  this.order.orderPayment = "微信";
 	        		  this.order.integral = this.point; 
-	        		  console.log(this.order);
+	        		  //console.log(this.order);
+	        		  
+	        		  //先看tableData和danData哪个有数据，算出他的长度好循环新增订单详情
+	        		  var dataLength = 0;
+	        		  var data = [];
+	        		  var detail={};
+	        		  if(this.tableData.length !=0 ){
+	        			  dataLength = this.tableData.length;
+	        			  data = this.tableData;
+	        			  console.log(data);
+	        			  for (let i=0; i<dataLength; i++){
+		        			  detail.gdid = data[i].detailsid;
+		        			  detail.goodsName = data[i].goodsName;
+		        			  detail.goodsPrice = data[i].price;
+		        			  detail.goodsCount = data[i].count;
+		        			  detail.orderDetailsDiscount = this.zhe; 
+		        			  this.order.details.push(detail);
+		        			  detail={};
+		        		  } 
+	        			  this.tableData = [];
+	        		  }else{
+	        			  dataLength = this.danData.length;
+	        			  data = this.danData;
+	        			  console.log(data);
+	        			  for (let i=0; i<dataLength; i++){
+		        			  detail.gdid = data[i].gdid;
+		        			  detail.goodsName = data[i].goodsname;
+		        			  detail.goodsPrice = data[i].orderTotalmoney;
+		        			  detail.goodsCount = data[i].orderCount;
+		        			  detail.orderDetailsDiscount = this.zhe; 
+		        			  this.order.details.push(detail);
+		        			  detail={};
+		        		  } 
+	        		  }
+	        		  
+	        		 console.log(this.order.details);
+	        		 //console.log(this.order);
+	        		 var str = JSON.stringify(this.order);
+	        		 var uid = this.viptype[0].vlist[0].uid;
+	        		 var p = this.yongPoint;	//用了积分要减去的积分
+	   				  var x = (this.shiMoney/100).toFixed(2);	//一元金额等于一个积分，要送的积分
+	   				  var now = this.havePoint-p+parseFloat(x);
+	   				  var t = this;
+	        		  //新增订单
 	        		  $.ajax({
 	        			  url:"[[@{shop/insertOrder}]]",
-	        			  data:collectVue.order,
+	        			  data:str,
 	        			  type:"post",
+	        			  contentType:"application/json;charset=utf-8",
 	        			  success:function(result){
 	        				  console.log(result);
+	        				  //当新增订单成功后，修改会员减去用掉的积分并加上买商品送的积分(一元=1积分)，清空购物车买了的商品
+	        				  if(result>0){
+	        					  t.queryOftenGoods();
+	        					  //结算
+	        	        		  t.checkout();
+	        					  $.ajax({
+	        	        			  url:"[[@{shop/updatePoint}]]",
+	        	        			  data:{point:now,uid:uid},
+	        	        			  type:"post",
+	        	        			  success:function(result){
+	        	        				  console.log(result);
+	        	        			  }
+	        	        		  }); 
+	        					  console.log("现在结算时购物车长度为"+t.danData.length);
+	        					  console.log(t.danData);
+	        					  var cid = 0;
+	        					  for (let i=0; i<t.danData.length; i++){
+	        						  cid = t.danData[i].cid;
+	        						  //清空购物车的操作
+		        					  $.ajax({
+		        	        			  url:"[[@{shop/deleteCart}]]",
+		        	        			  data:{cid:cid},
+		        	        			  type:"post",
+		        	        			  success:function(result){
+		        	        				  console.log(result);
+		        	        				  //清空购物车后挂单晴空
+		        	        				  if(result>0){
+		        	        					  this.danData = [];
+		        	        				  }
+		        	        			  }
+		        	        		  }); 
+	        					  }
+	        					  
+	        				  }
 	        			  }
 	        		  }); 
 	        		  
-	        		  this.isBlock = 2;	//显示结算界面
+	        		  //this.isBlock = 2;	//显示结算界面
 	        		  
 	        	  },
 	        	  queryIntegral:function(){
@@ -250,46 +339,88 @@
 	        		  }); 
 	        	  },
 	        	  guadan:function(){
+	        		  if(this.isClickPerson == 0){
+	        			  alert("Who are you?加不了购物车哦，请去选下你的信息好嘛亲~");
+	        			  return;
+	        		  }
 	        		  this.isOrder = 1;
 	        		  
+	        		  
 	        		  this.danData = this.tableData;
+	        		  
 	        		  this.tableData=[];
-	        		  
-	        		  for (let i=0; i<this.danData.length; i++){
-	        			  //console.log(this.danData[i].count+"---"+this.danData[i].price+"---"+this.danData[i].price*this.zhe);
-	        			  this.cart.orderCount = this.danData[i].count;
-		        		  this.cart.orderTotalmoney = this.danData[i].price;
-		        		  this.cart.orderSfmoney = this.danData[i].price*this.zhe;
-		        		  this.cart.gdid = this.danData[i].detailsid;
-		        		  
-		        		  this.cart.userid = this.viptype[0].vlist[0].uid;
-		        		  
-		        		  this.cart.status = 1;
-		        		  
-		        		  console.log(collectVue.cart);
-		        		  
-		        		  $.ajax({
-		        			  url:"[[@{shop/insertCart}]]",
-		        			  data:collectVue.cart,
-		        			  type:"post",
-		        			  dataType:"json",
-		        			  success:function(result){
-		        				  console.log(result);
-		        			  }
-		        		  }); 
-		        		  /* if(null == this.tableData || this.tableData.length ==0 ){
-		        			  this.cart.status = 1;
-		        		  }*/
-		        		  
-		                }
-	        		  
-	        		  //;
-	        		  
-	        		  
-	        		  //console.log(this.cart.status);
 	        		  //console.log(this.danData);
-	        		  //console.log(this.viptype);
 	        		  
+	        		  
+	        		  var t = this;
+	        		  var vipid = this.vipid;
+	        		  for (let i=0; i<this.danData.length; i++){
+	        			  var c = {vipid:vipid,gid:this.danData[i].goodsId,gdid:this.danData[i].detailsid,color:this.danData[i].color,goodssize:this.danData[i].goodssize,orderCount:this.danData[i].count,orderTotalmoney:this.danData[i].price,orderSfmoney:this.danData[i].price*this.zhe,status:1};
+	        			  //console.log(this.danData[i].goodsId+"---"+this.danData[i].detailsid+"---"+this.danData[i].count+"---"+this.danData[i].price+"---"+this.danData[i].price*this.zhe);
+		        		  //alert(c.vipid+"---"+this.viptype[i].vlist[i].vipId);
+		        		  if(c.vipid!=this.viptype[i].vlist[i].vipId){
+		        			  t.insertOrUpdate = 0;
+		        		  }
+	        			  //点击挂单时先判断购物车是否有该商品，有则修改，没有就进行新增
+		        		  $.ajax({
+		        			  url:"[[@{shop/queryHaveCart}]]",
+		        			  data:{gdid:c.gdid,vipid:c.vipid},
+		        			  type:"post",
+		        			  success:function(result){
+		        				  //console.log(result);
+		        				  if(result!=null||result!=""||result.length!=0||result!=[]){
+		        					  t.insertOrUpdate = 1;
+		        				  }else{
+		        					  t.insertOrUpdate = 0;
+	    		        		  }
+		        			  }
+		        		  });
+		        		  console.log(c);
+		        		  if(t.insertOrUpdate==0){
+		        			  //新增
+			        		  $.ajax({
+			        			  url:"[[@{shop/insertCart}]]",
+			        			  data:c,
+			        			  type:"post",
+			        			  dataType:"json",
+			        			  success:function(result){
+			        				  //console.log(result);
+			        				  if(result>0){
+				    	        		  /* t.queryCartAll();
+				    	        		 //重新计算价格
+				        				  t.getAllMoney(); */
+			        				  }
+			        			  }
+			        		  }); 
+		        		  }else{
+		        			  //修改
+		        			  $.ajax({
+    		        			  url:"[[@{shop/updateGuaCount}]]",
+    		        			  data:{count:t.danData[i].count,gdid:t.danData[i].detailsid,vipid:c.vipid},
+    		        			  type:"post",
+    		        			  success:function(result){
+    		        				  //console.log(result);
+    		        				  if(result>0){
+    			    	        		  //t.queryCartAll();
+    		        				  }
+    		        			  }
+    		        		  });
+		        		  }
+		        		  
+		                } 
+	        		  //不管是新增还是修改成功都要点击挂单显示的是当前会员的购物车
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryCartByvipid}]]",
+	        			  data:{vipid:t.vipid},
+	        			  type:"post",
+	        			  success:function(result){
+	        				  //console.log(result);
+	        				  t.danData = result;
+	        				  console.log(t.danData);
+	        				  //重新计算价格
+	        				  t.getAllMoney();
+	        			  }
+	        		  });
 	        		  
 	        	  },
 	        	  queryOftenGoods:function(){
@@ -326,9 +457,44 @@
 	        			  }
 	        		  });
 	        	  },
+	        	  queryCartAll(){
+	        		//点击挂单新增购物车成功后应该是要查询所有购物车的商品
+	        		  var t = this;
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryCart}]]",
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        				  t.danData = result;
+	        				  console.log(t.danData+111);
+	        				  t.getAllMoney();
+	        			  }
+	        		  });  
+	        		  
+	        	  },
 	        	  addDiscount(v,item){
+	        		  this.isOrder = 1;
+	        		  //选了会员或者普通用户
+	        		  this.isClickPerson = 1;
 	        		  console.log(v);
 	        		  console.log(item);
+	        		  console.log(v.vipId);
+	        		  this.vipid = v.vipId;
+	        		  var t = this;
+	        		  var vipid = v.vipId;
+	        		  //点击会员应该要把挂单里的商品变成该会员的购物车数据
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryCartByvipid}]]",
+	        			  data:{vipid:vipid},
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        				  t.danData = result;
+	        				  //重新计算价格
+	        				  t.getAllMoney();
+	        			  }
+	        		  });
+	        		  
 	        		  var zhePrice = (this.totalMoney * item.viptypeDiscount).toFixed(2);
 	        		  console.log(zhePrice);
 	        		  var zhe = (this.totalMoney-zhePrice).toFixed(2);
@@ -344,8 +510,8 @@
 	        	  },
 	        	// 点击右边商品，添加到左边
 	              addOrderList(goods){
-	        		  this.isOrder = 1;
-	        		  console.log(goods);
+	        		 this.isOrder = 1;
+	        		 console.log(goods);
 	                // 每次添加都清零，防止重复添加
 	                this.totalCount=0;
 	                this.totalMoney=0;
@@ -368,16 +534,48 @@
 	                  arr[0].count++;
 	                } else {
 	                  // 构造一个newGoods
-	                  let newGoods={detailsid:goods.detailsid,goodsName:goods.goodsname,price:goods.salesprice,count:1};
+	                  let newGoods={goodsId:goods.goodsId,detailsid:goods.detailsid,goodsName:goods.goodsname,price:goods.salesprice,count:1,color:goods.color,goodssize:goods.goodssize};
 	                  console.log(newGoods);
 	                  this.tableData.push(newGoods);
 	                }
 	                this.getAllMoney();
 	              },
+	              //点击挂单增加的时候
+	              addButton(goods){
+	            	  this.isOrder = 1;
+	        		  console.log(goods);
+	                // 每次添加都清零，防止重复添加
+	                this.totalCount=0;
+	                this.totalMoney=0;
+	                
+	             	  // 改变列表中的商品数量
+	                  // 通过filter过滤tableData
+	                  let arr = this.danData.filter(o=>o.cid == goods.cid);
+	                  arr[0].orderCount++;
+	                  console.log(arr[0].orderCount+"---"+arr[0].cid);
+	                  //修改数量
+	                  $.ajax({
+	        			  url:"[[@{shop/updateCartCount}]]",
+	        			  data:{count:arr[0].orderCount,cid:arr[0].cid},
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result);
+	        			  }
+	        		  });
+	                this.getAllMoney();
+	              },
 	              // 删除单个商品
 	              delSingleGoods(goods){
 	                // console.log(goods);
-	                this.tableData=this.tableData.filter(o => o.detailsid !=goods.detailsid);
+	                //this.tableData=this.tableData.filter(o => o.detailsid !=goods.detailsid);
+	                if(this.tableData.length!=0){
+	                	this.tableData=this.tableData.filter(o => o.detailsid !=goods.detailsid);
+	                }else{
+	                	console.log(this.danData);
+	                	console.log(goods);
+	                	this.danData=this.danData.filter(o => o.cid !=goods.cid);
+	                	//点击挂单删除除了页面商品数据删除，还要删除该购物车
+	                }
 	                this.getAllMoney();
 	              },
 	              // 删除所有商品
@@ -390,16 +588,31 @@
 	            getAllMoney(){
 	              this.totalCount=0;
 	              this.totalMoney=0;
-	              // 订单列表有数据的时候才进行汇总
-	              if(this.tableData){
-	                // 进行数量和价格的汇总计算
-	                // element表示tableData中的单个元素
-	                  this.tableData.forEach((element) => {
-	                  this.totalCount+=element.count;
-	                  this.totalMoney=this.totalMoney+(element.price*element.count);
-	                });
-	                  this.shiMoney=this.totalMoney-this.discount;
+	              if(this.tableData.length!=0){
+	            	// 订单列表有数据的时候才进行汇总
+		              if(this.tableData){
+		                // 进行数量和价格的汇总计算
+		                // element表示tableData中的单个元素
+		                  this.tableData.forEach((element) => {
+		                  this.totalCount+=element.count;
+		                  this.totalMoney=this.totalMoney+(element.price*element.count);
+		                });
+		                  this.shiMoney=this.totalMoney-this.discount;
+		              }
+	              }else{
+	            	// 订单列表有数据的时候才进行汇总
+		              if(this.danData){
+		                // 进行数量和价格的汇总计算
+		                // element表示tableData中的单个元素
+		                  this.danData.forEach((element) => {
+		                  this.totalCount+=element.totalCount;
+		                  this.totalMoney=this.totalMoney+(element.orderTotalmoney*element.orderCount);
+		                  //alert(this.totalMoney);
+		                });
+		                  this.shiMoney=this.totalMoney-this.discount;
+		              }
 	              }
+	              
 	            },
 	            // 结账
 	            checkout() {
@@ -425,6 +638,10 @@
 	      		  this.queryGoodstype();
 	      		  this.queryViptype();
 	      		  this.queryIntegral();
+	      		  this.queryCartAll();
+	      		  
+	      		  //刚开始就计算价格
+	      		  this.getAllMoney();
 	          }
 	        })
       </script>

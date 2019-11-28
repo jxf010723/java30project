@@ -13,17 +13,19 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.accp.Interceptor.MyInterceptor;
+
 
 @Configuration
 public class MvcConfig extends WebMvcConfigurationSupport {
 	
-	//@Autowired
-	//MyInterceptor my;
+	@Autowired
+	MyInterceptor my;
 
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/")
-				.addResourceLocations("file:E:/Y2/文件/项目资料/images/");
+				.addResourceLocations("file:E:/Y2/鏂囦欢/椤圭洰璧勬枡/images/");
 		super.addResourceHandlers(registry);
 	}
 
@@ -36,11 +38,13 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 		super.configureMessageConverters(converters);
 	}
 	
-	/*@Override
+	@Override
 	protected void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(my).addPathPatterns("/**").excludePathPatterns("/module/**").excludePathPatterns("/js/**").excludePathPatterns("/verPerm");
-		super.addInterceptors(registry);
-	}*/
+		//registry.addInterceptor(my).addPathPatterns("/**").excludePathPatterns("/module/**").excludePathPatterns("/js/**").excludePathPatterns("/verPerm");
+		System.out.println("杩涙潵浜哅vcConfig");
+		registry.addInterceptor(new MyInterceptor()).addPathPatterns("/shop/queryShopList");
+		//super.addInterceptors(registry);
+	}
 
 }
 

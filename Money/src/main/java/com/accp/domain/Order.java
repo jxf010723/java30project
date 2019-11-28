@@ -1,6 +1,7 @@
 package com.accp.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
     private String orderId;
@@ -24,8 +25,18 @@ public class Order {
     private Date orderDate;
 
     private Integer integral;
+    
+    List<OrderDetails> details;
+    
+    public List<OrderDetails> getDetails() {
+		return details;
+	}
 
-    public String getOrderId() {
+	public void setDetails(List<OrderDetails> details) {
+		this.details = details;
+	}
+
+	public String getOrderId() {
         return orderId;
     }
 
