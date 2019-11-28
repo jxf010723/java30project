@@ -2,6 +2,7 @@ package com.accp.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.accp.domain.Goods;
 import com.accp.domain.Goodsize;
 import com.accp.domain.Goodstype;
+import com.accp.domain.Purchase;
+import com.accp.domain.Purchasedetails;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
 import com.accp.domain.purchrvo;
@@ -17,6 +20,7 @@ import com.accp.mapper.GoodsMapper;
 import com.accp.mapper.GoodsizeMapper;
 import com.accp.mapper.GoodstypeMapper;
 import com.accp.mapper.PurchaseMapper;
+import com.accp.mapper.PurchasedetailsMapper;
 import com.accp.mapper.ShopMapper;
 import com.accp.mapper.SupplierMapper;
 import com.github.pagehelper.PageHelper;
@@ -32,11 +36,14 @@ public class GoodsService {
 	@Autowired
 	SupplierMapper supplier;
 	@Autowired
-	PurchaseMapper purchase;
+	PurchaseMapper purch;
 	@Autowired
 	GoodsMapper goods;
 	@Autowired
 	GoodsizeMapper goodsize;
+	@Autowired
+	PurchasedetailsMapper purchasedetails;
+	
 	/**
 	 * 商品类型查询分页
 	 * @param pageNum
@@ -126,7 +133,7 @@ public class GoodsService {
 	
 	public PageInfo<purchrvo> purchasepage(int pageNum,purchrvo purchr){
 		PageHelper.startPage(pageNum, 5);
-		List<purchrvo> list=purchase.selectAll(purchr);
+		List<purchrvo> list=purch.selectAll(purchr);
 		PageInfo<purchrvo> page=new PageInfo<purchrvo>(list);
 		return page;
 	}
@@ -176,4 +183,61 @@ public class GoodsService {
 	public List<Goodsize> chicunquery(){
 		return goodsize.selectByExample(null);
 	}
+	
+	public int insertzhuxiang(Goods good) {
+		return goods.insertzhuxiang(good);
+	}
+	public int insertxiang(Goods good) {
+		return goods.insertxiang(good);
+	}
+	public List<Goods> goodsquery(){
+		return goods.selectByExample(null);
+	}
+	public List<Supplier> supplierquery(){
+		return supplier.selectByExample(null);
+	}
+	//查看指定日期有多少个单号
+		public String selectdate(String datetime) {
+			int a=purch.selectdate(datetime)+1;
+			if(a<10) {
+				return "00"+a;
+			}else if(a<100){
+				return "0"+a;
+			}else if(a<100){
+				return a+"";
+			}
+			return "";
+		}
+		
+		//新增主表
+		public int insertPurchase(Purchase purchase) {
+	        int a=purch.insertSelective(purchase);
+	        purchase.getPurchaseid();
+	        //新增子表了
+	        for (Purchasedetails e : purchase.getPurchasezi()) {
+	        	e.setPurchaseid(purchase.getPurchaseid());
+	        	purchasedetails.insertSelective(e);
+			}
+	        return 1;
+		}
+		//查看采购信息
+		public  List<Purchase> selectPurchase(String purchasedate,String purchasedatejie) {
+			 return purch.selectPurchase(purchasedate,purchasedatejie);
+		}
+		//查询店铺
+	    public List<Shop> selectshop(String userid){
+	    	return purch.selectshop(userid);
+	    }
+	  //修改采购状态
+		public  int upda(Integer purchaseid){
+			return purch.upda(purchaseid);	
+		}
+		//采购单删除
+		public int deletePurchaseid(String purchaseid){
+			return purch.deleteByid(purchaseid);
+		}
+		//查看
+		public  List<Purchasedetails> bj(Integer purchaseid) {
+			return purch.selectall(purchaseid);	
+		}
 }

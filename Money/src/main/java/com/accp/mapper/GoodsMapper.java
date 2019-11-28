@@ -36,4 +36,6 @@ public interface GoodsMapper {
     
     zongjivo selectByzongji(String uid,String typeid,String numbers);
     
+    int insertzhuxiang(Goods good);
+    int insertxiang(Goods good);
 }

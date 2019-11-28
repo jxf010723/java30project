@@ -127,7 +127,7 @@
                     <th width="4%">序号</th>
                     <th width="10%">类别</th>
                     <th width="*">品名</th>
-                    <th width="10%">货号/条码</th>
+                    <th width="10%">货号</th>
                     <th width="10%">规格</th>
                     <th width="9%">库存</th>
                     <th width="9%">销售价</th>
@@ -149,12 +149,12 @@
                         </td>
                         <td class="nametd">
                             <div class="namediv">
-                                <img src="" alt="图片" style="width: 30px;height: 30px;">
+                                <img :src="'img/'+it.goodsphoto" alt="图片" style="width: 30px;height: 30px;">
                                 <p>{{it.goodsname}}</p>
                             </div>
                         </td>
-                        <td>{{it.bianhao}}/{{it.numbers}}</td>
-                        <td>{{it.specification}}/{{it.colour}}</td>
+                        <td>{{it.bianhao}}</td>
+                        <td>-</td>
                         <td>{{it.stock}}</td>
                         <td>{{it.salesprice}}</td>
                         <td>{{it.costprice}}</td>
@@ -231,7 +231,8 @@
 					list:[]
 				},
 				typelist:[],
-				heji:{}
+				heji:{},
+				imgtp:"",
 			}
 		},
 		methods:{
@@ -254,6 +255,7 @@
 					success:function(res){
 						console.log(res);
 						that.goodspage=res;
+						
 					}
 					
 				});
@@ -326,14 +328,14 @@
         $input.change(function () {
         //    ②如果value不为空，调用文件加载方法
             if($(this).val() != ""){
-            	var file = new FormData($("form")[0]);
-				 /* var file = $("[name=file]")[0].file;
-				for(var i=0;i<file.length;i++){
-					formData.append("file",file[i]);
-				}  */
+            	var formData = new FormData($("form")[0]);
+				  var files = $("[name=file]")[0].files;
+				for(var i=0;i<files.length;i++){
+					formData.append("files",files[i]);
+				}  
 				$.ajax({
 					url:"[[@{/goods/uploadAjax}]]",
-					data:file,
+					data:formData,
 					type:"post",
 					processData:false,
 					contentType:false,

@@ -110,7 +110,7 @@
       #{supplierid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, 
       #{grossmoney,jdbcType=REAL})
   </insert>
-  <insert id="insertSelective" parameterType="com.accp.domain.Purchase" >
+  <insert id="insertSelective" parameterType="com.accp.domain.Purchase" useGeneratedKeys="true" keyProperty="purchaseid">
     insert into purchase
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="purchaseid != null" >
@@ -134,6 +134,15 @@
       <if test="grossmoney != null" >
         grossmoney,
       </if>
+       <if test="shenghe != null" >
+        shenghe,
+      </if>
+       <if test="suppliername != null" >
+        suppliername,
+      </if>
+       <if test="uname != null" >
+        uname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="purchaseid != null" >
@@ -156,6 +165,15 @@
       </if>
       <if test="grossmoney != null" >
         #{grossmoney,jdbcType=REAL},
+      </if>
+       <if test="shenghe != null" >
+        #{shenghe,jdbcType=REAL},
+      </if>
+       <if test="suppliername != null" >
+        #{suppliername,jdbcType=REAL},
+      </if>
+       <if test="uname != null" >
+        #{uname,jdbcType=REAL},
       </if>
     </trim>
   </insert>
@@ -259,7 +277,23 @@
 		<if test="odd = '' ">
 		 and odd like  concat('%',#{odd},'%')  or s.suppliername like  concat('%',#{odd},'%')
 		</if>
-		
 		</where> 
   </select>
+  <select id="selectshop" resultType="com.accp.domain.Shop">
+  	select * from shop where userid=#{userid}
+  </select>
+  <select id="selectPurchase" resultType="com.accp.domain.Purchase">
+  	 SELECT shenghe,purchase.`Purchaseid`,purchase.`odd`,purchase.`deliverytime`,purchase.`supplierid`,purchase.`suppliername`,SUM(purchasedetails.`gooddetailscount`)AS goodscount,SUM(purchasedetails.`goodCostprice`)AS goodCostprice,purchase.`remarks`,uname FROM `purchase`
+	   LEFT JOIN `purchasedetails` ON purchasedetails.`purchaseid`=purchase.`purchaseid`
+	   WHERE 1=1
+      <if test="purchasedate!=null and purchasedate!='' and purchasedatejie!=null and purchasedatejie!=''">
+       and deliverytime '&lt;'= #{purchasedate} and deliverytime '&gt;'= #{purchasedatejie}
+       </if>
+       AND userid='1'
+       GROUP BY purchase.`purchaseid`
+  </select>
+  <delete id="deleteByid">
+  	delete from purchase where purchaseid=#{purchaseid};
+  	
+  </delete>
 </mapper>

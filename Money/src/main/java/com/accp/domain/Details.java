@@ -3,81 +3,74 @@ package com.accp.domain;
 public class Details {
     private Integer detailsid;
 
-    private Integer goodsid;
+    private String goodsid;
 
-    private String goodsphoto;
+    
 
     private String goodssize;
 
     private String color;
 
-    private Integer goodsstock;
 
     private String shapecode;
 
     private Integer count;
 
-    public Integer getDetailsid() {
-        return detailsid;
-    }
+	public Integer getDetailsid() {
+		return detailsid;
+	}
 
-    public void setDetailsid(Integer detailsid) {
-        this.detailsid = detailsid;
-    }
+	public void setDetailsid(Integer detailsid) {
+		this.detailsid = detailsid;
+	}
 
-    public Integer getGoodsid() {
-        return goodsid;
-    }
+	public String getGoodsid() {
+		return goodsid;
+	}
 
-    public void setGoodsid(Integer goodsid) {
-        this.goodsid = goodsid;
-    }
+	public void setGoodsid(String goodsid) {
+		this.goodsid = goodsid;
+	}
 
-    public String getGoodsphoto() {
-        return goodsphoto;
-    }
+	public String getGoodssize() {
+		return goodssize;
+	}
 
-    public void setGoodsphoto(String goodsphoto) {
-        this.goodsphoto = goodsphoto;
-    }
+	public void setGoodssize(String goodssize) {
+		this.goodssize = goodssize;
+	}
 
-    public String getGoodssize() {
-        return goodssize;
-    }
+	public String getColor() {
+		return color;
+	}
 
-    public void setGoodssize(String goodssize) {
-        this.goodssize = goodssize;
-    }
+	public void setColor(String color) {
+		this.color = color;
+	}
 
-    public String getColor() {
-        return color;
-    }
+	public String getShapecode() {
+		return shapecode;
+	}
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+	public void setShapecode(String shapecode) {
+		this.shapecode = shapecode;
+	}
 
-    public Integer getGoodsstock() {
-        return goodsstock;
-    }
+	public Integer getCount() {
+		return count;
+	}
 
-    public void setGoodsstock(Integer goodsstock) {
-        this.goodsstock = goodsstock;
-    }
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 
-    public String getShapecode() {
-        return shapecode;
-    }
+	@Override
+	public String toString() {
+		return "Details [detailsid=" + detailsid + ", goodsid=" + goodsid + ", goodssize=" + goodssize + ", color="
+				+ color + ", shapecode=" + shapecode + ", count=" + count + "]";
+	}
 
-    public void setShapecode(String shapecode) {
-        this.shapecode = shapecode;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+	
+	
+	
 }

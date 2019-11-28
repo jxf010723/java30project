@@ -23,7 +23,7 @@
         	时间：2019-11-12
         	描述：新建采购单
         -->
-		<div class="col-md-10" style="width: 100%;">
+		<div class="col-md-10 vue_cg" style="width: 100%;" id="add">
 			<div class="row">
 				<div id="tab_yggl" class="tal_none2">
 					<div class="row" style="height:50px;line-height:52px;margin-bottom:10px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
@@ -40,28 +40,29 @@
 							<div style="padding-bottom: 10px;width: 100%;overflow:hidden;margin-left: 4px;">
 								<div style="float: left;width: 25%;">
 									<label>单 号</label>
-									<input type="text" class="form-control" style="display: inline-block; width: 78%;">
+									<input type="text" v-model="Purchasedanhao" class="form-control" style="display: inline-block; width: 78%;">
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>交 期</label>
-									<input type="date" class="form-control" style="display: inline-block; width: 78%;">
+									<input type="date" v-on:change="datess()" id="datessw" class="form-control" style="display: inline-block; width: 78%;">
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>供应商</label>
-									<select class="form-control" style="display: inline-block;width: 78%;">
+									<select class="form-control" id="selectdp"  style="display: inline-block;width: 78%;">
 									  <option>请选择供应商</option>
+									  <option v-for="dpitem in dp" :value="dpitem.supplierid">{{dpitem.suppliername}}</option>
 									</select>
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>制表人</label>
-									<select class="form-control" style="display: inline-block;width: 78%;">
+									<select class="form-control" id="uname" style="display:inline-block; width: 78%;">
 									  <option>18610249685</option>
 									</select>
 								</div>
 							</div>	
 							<div style="float: left;width: 100%;margin-left: 4px;">
 								<label>备 注</label>
-								<input type="text" class="form-control" style="display: inline-block; width: 95.15%;">
+								<input type="text" class="form-control" id="remark" style="display: inline-block; width: 95.15%;">
 							</div>
 						</form>
 					</div>
@@ -76,21 +77,29 @@
 									<td width="8%">成本价</td>
 									<td width="6%">数量</td>
 									<td width="6%">金额</td>
+									<td width="6%">操作</td>
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr>
-									
+								<tr v-for="item,index in checkedNames">
+									<td>{{item.bianhao}}/{{item.numbers}}</td>
+									<td>--</td>
+									<td>{{item.goodsname}}</td>
+									<td>--</td>
+									<td>{{item.costprice}}</td>
+									<td><input v-model="item.gooddetailscount" name="gooddetailscount" v-on:change="inputs()" type="text" style="border: solid 0px;"></td>
+									<td><input v-model="item.goodCostprice"    name="goodCostprice" v-on:change="inputs()" type="text" style="border: solid 0px;"></td>
+									<td v-on:click="del(index)">X</td>
 								</tr>
 							</tbody>
 							<tfoot>
 								<tr>
-									<td colspan="7">
+									<td colspan="8">
 										<div style="float: right;line-height: 38px;padding-right: 14px;">
-											金额<span style="color: red;">0.00</span>
+											金额<span style="color: red;">{{ss}}</span>
 										</div>
 										<div style="float: right;line-height: 38px;padding-right: 14px;">
-											合计<span style="color: red;">0</span>件
+											合计<span style="color: red;">{{dd}}</span>件
 										</div>
 									</td>
 								</tr>
@@ -99,19 +108,18 @@
 					</div>
 					<div class="row" style="margin-right: 15px;padding-left: 5px;">
 						<div class="col-md-2">
-							<span style="color: #44b549;cursor: pointer;" data-toggle="modal" data-target="#myModal">+ 添加商品</span>
+							<span v-on:click="seladd()" style="color: #44b549;cursor: pointer;">+ 添加商品</span>
+							<!-- <span style="color: #44b549;cursor: pointer;" data-toggle="modal" data-target="#addpuchaseModal">+ 添加商品</span> -->
 						</div>
 						<div style="text-align: right;">
-							<button type="button" class="btn btn-default" style="width: 8%;">清空</button>
-							<button type="button" class="btn btn-success" style="width: 8%;">提交</button>
+							<button type="button" class="btn btn-default" v-on:click="qinkong()" style="width: 8%;">清空</button>
+							<button type="button" class="btn btn-success" v-on:click="tijiao()" style="width: 8%;">提交</button>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		
-		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<!-- 模态框（Modal） -->
+		<div class="modal fade" id="addpuchaseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div style="width: 75%;" class="modal-dialog">
 		        <div class="modal-content">
 		            <div class="modal-header">
@@ -122,7 +130,7 @@
 		            	<table class="table table-bordered table-hover table-striped">
 							<thead align="center">
 								<tr class="info">
-									<td width="6%"><input type="checkbox" name="" /></td>
+									<td width="6%"><input type="checkbox" @click="qx()" id="qx"/></td>
 									<td width="6%">货码/条码</td>
 									<td width="10%">商品</td>
 									<td width="15%">规格</td>
@@ -131,26 +139,188 @@
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr>
-									<td><input type="checkbox" name="" /></td>
-									<td>612841444</td>
-									<td>绿色卫衣</td>
+								<tr v-for="item,index in spadd">
+									<td><input type="checkbox" class="li" :value="item" v-model="checkedNames" /></td>
+									<td>{{item.bianhao}}/{{item.numbers}}</td>
+									<td>{{item.goodsname}}</td>
 									<td>--</td>
-									<td>229.00</td>
-									<td>3</td>
+									<td>{{item.costprice}}</td>
+									<td>{{item.stock}}</td>
 								</tr>
 							</tbody>
 						</table>
 		            </div>
 		            <div class="modal-footer" style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-		                <button type="button" class="btn btn-success" style="width: 16.66%;">确认</button>
+		                <button type="button" class="btn btn-success" v-on:click="queren()" style="width: 16.66%;">确认</button>
 		            </div>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
 		</div>
+		</div>
+		
+		
 		<script type="text/javascript">
-			
+		var addpuchasevue=new Vue({
+	    	   el:'.vue_cg',
+	    	   data(){
+	    		   return {
+	    			   dp:[],//供应商
+	    			   spadd:[],//查到的商品
+	    			   checkedNames:[],//添加到采购表里的
+	    			   Purchasedanhao:'',//根据日期生成的单号
+	    			   ss:0,//数量
+	    			   dd:0,//钱
+	    			   purchase:{//订单主
+	    			   purchasezi:[]//子
+	    			   }
+	    		   }
+	    	   },
+	    	   methods:{
+	    		   seladd:function(){//查看所有商品
+	    			   $('#addpuchaseModal').modal('show');
+	    			  // alert(1)
+	    			   $.ajax({
+							 url:"[[@{/goods/goodsquery}]]",
+							 success:function(reulte){
+								 //alert(reulte)
+								  addpuchasevue.spadd=reulte;
+								  
+							 }
+					  })
+	    		   },
+	    		   qx:function(){//全选
+	    			 //  alert(1)
+	    					  if($("#qx").is(":checked")){
+	    						  $(".li").each(function(){
+	    							   $(this).prop("checked",true);  
+	    						  })
+	    						  addpuchasevue.checkedNames=addpuchasevue.spadd;
+	    					  }else{
+	    						  $(".li").each(function(){
+	    							   $(this).prop("checked",false);
+	    						  })
+							   addpuchasevue.checkedNames=[];
+	    					  }
+	    		   },
+	    		   queren:function(){//确认添加
+	    			   $('#addpuchaseModal').modal('hide');
+	    			   console.log(addpuchasevue.checkedNames)
+	    			   var goodCostprice=0;
+	    			   var gooddetailscount=0;
+	    			   $("[name=goodCostprice]").each(function(r,s){
+	    				   goodCostprice+=parseInt($(this).val())*parseInt($("[name=gooddetailscount]:eq("+r+")").val());
+	    				  //alert(goodCostprice)
+	    				  
+	    			   });
+	    			   $("[name=gooddetailscount]").each(function(){
+	    				   gooddetailscount+=parseInt($(this).val());
+		    			   //alert(gooddetailscount)
+	    			
+	    			   }); 
+	    			   addpuchasevue.ss=goodCostprice;
+	    			   addpuchasevue.dd=gooddetailscount;
+	    		   },
+	    		   del:function(index){//删除选中的
+	    			   //alert(index)
+	    			   addpuchasevue.checkedNames.splice(index,1); 
+	    		   },
+	    		   inputs:function(){
+	    			  // alert(1)
+	    			   var goodCostprice=0;
+	    			   var gooddetailscount=0;
+	    			   $("[name=goodCostprice]").each(function(r,s){
+	    				   goodCostprice+=parseInt($(this).val())*parseInt($("[name=gooddetailscount]:eq("+r+")").val());
+	    				 // alert(goodCostprice)
+	    				  
+	    			   });
+	    			   $("[name=gooddetailscount]").each(function(r,s){
+	    				   gooddetailscount+=parseInt($(this).val());
+		    			  // alert(gooddetailscount)
+	    			
+	    			   }); 
+	    			   addpuchasevue.ss=goodCostprice;
+	    			   addpuchasevue.dd=gooddetailscount;
+	    		   },
+	    		   datess:function(){//生成单号
+	    			    let now = new Date();
+			    		inde=now.toLocaleDateString();
+	    			   var datetime=inde.replace(/-/g,''); 
+	       			  // alert(datetime)
+				       $.ajax({
+					   url:"[[@{/goods/dateNew?datetime=}]]"+datetime,
+					   success:function(c){
+						   var datetime=$("#datessw").val().replace(/-/g,'');
+						   addpuchasevue.Purchasedanhao=datetime+c;
+								
+							}
+						})
+	    		   },
+	    		   qinkong:function(){//清空
+	    			   addpuchasevue.checkedNames=[];
+	    			   addpuchasevue.ss=0;
+	    			   addpuchasevue.dd=0;
+	    		   },
+	    		   tijiao:function(){//提交
+	    			   var purchases={};
+	    			   var datetime=$("#datessw").val();//日期
+	    			   var selectdp=$("#selectdp").val();//供应商id
+	    			   //alert(selectdp)
+	    			   var obj = addpuchasevue.dp.find((item)=>{//这里的userList就是上面遍历的数据源
+	    				   //alert(item.supplierid)
+		    			       if(item.supplierid == selectdp){
+		    			    	   return item;//筛选出匹配数据
+		    			       }else{
+		    			    	   return ""; 
+		    			       }  
+	    			      });
+	    			   console.log(obj)
+	    			  var selectdpname=obj.suppliername;
+	    			 // alert(selectdpname)
+	    			  var remark=$("#remark").val();
+	    			 var uname=$("#uname").val();
+	    			 //alert(uname)
+	    			  purchases={odd:addpuchasevue.Purchasedanhao,deliverytime:datetime,supplierid:selectdp,suppliername:selectdpname,userid:1,uname:uname,shenghe:"1",remarks:remark};
+	    			  addpuchasevue.purchase=purchases;
+	    			  addpuchasevue.purchase.purchasezi=addpuchasevue.checkedNames;
+	    			  addpuchasevue.checkedNames=[];
+	    			  alert(JSON.stringify(addpuchasevue.purchase)) ;
+	    			   $.ajax({
+					   url:"[[@{/goods/inserzhu}]]",
+					   data:JSON.stringify(addpuchasevue.purchase),
+	    			   contentType:"application/json;charset=utf-8",
+	    			   type:"post",
+					   success:function(reulte){
+						   $.ajax({
+		    		        	type:"post",
+		    		        	url:"/money",
+		    		        	data:{dataid:"purchase_list"},
+		    		        	dataType:"html",
+		    		        	success:function(res){
+		    		        		$("#add").html("");
+		    		        		$("#add").append(res);
+		    		        	}
+		    		        });
+						}
+					}) 
+	    		   }
+	    	   },
+	    	   created:function(){
+	    		   //alert(1)
+	    		   //时间
+	    	
+	    		   //登入人的店铺渲染
+	    		   //查询这个人就几个店铺	
+	    		   $.ajax({
+					   url:"[[@{/goods/supplierquery}]]",
+						 dataType:"json",
+						 success:function(reulte){
+							 console.log(reulte)
+							 addpuchasevue.dp=reulte;
+						}
+					})
+	    	   }
+	       })
 		</script>
 	</body>
 </html>

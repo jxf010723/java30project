@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jmx.export.annotation.ManagedMetric;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.accp.domain.Goods;
 import com.accp.domain.Goodsize;
 import com.accp.domain.Goodstype;
+import com.accp.domain.Purchase;
+import com.accp.domain.Purchasedetails;
 import com.accp.domain.Shop;
 import com.accp.domain.Supplier;
 import com.accp.domain.purchrvo;
@@ -371,16 +374,20 @@ public class GoodsController {
 	@RequestMapping("/upimgAjax")
 	@ResponseBody
 	public String upimgAjax(MultipartFile [] files) {
-		File directory = new File("/Users/tangyong/upload");
+		File directory = new File("//C:/Users/f'j/git/java30project/Money/src/main/resources/static/img");
+		String imgname="";
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : files) {
-				String url = "/Users/tangyong/upload/";
+				System.out.println("进来");
+				String url = "//C:/Users/f'j/git/java30project/Money/src/main/resources/static/img";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
+				imgname=l.getOriginalFilename();
+				System.out.println(url);
 			}
 			System.out.println("to成功了");
 		} catch (IllegalStateException e) {
@@ -390,6 +397,72 @@ public class GoodsController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "success";
+		return imgname;
 	}
+	@RequestMapping("insertzhuxiang")
+	@ResponseBody
+	public int insertzhuxiang(@RequestBody Goods good){
+		System.out.println(good);
+		goods.insertxiang(good);
+		return goods.insertzhuxiang(good);
+	}
+	@RequestMapping("goodsquery")
+	@ResponseBody
+	public List<Goods> goodsquery(){
+		System.out.println(goods.goodsquery());
+		return goods.goodsquery();
+	}
+	@RequestMapping("supplierquery")
+	@ResponseBody
+	public List<Supplier> supplierquery(){
+		System.out.println(goods.goodsquery());
+		return goods.supplierquery();
+	}
+	//根据时间自动生成单号
+		@RequestMapping("/dateNew")
+		@ResponseBody
+		public String selectdate(String datetime) {
+			System.out.println(datetime+"sss");
+			return goods.selectdate(datetime);
+		}
+		//新增采购单
+		@RequestMapping("/inserzhu")
+		@ResponseBody
+		public String selectidall(@RequestBody Purchase purchase) {
+			 return goods.insertPurchase(purchase)+"";
+		}
+		//查询
+		@RequestMapping("/seleall")
+		@ResponseBody
+		public List<Purchase> selece(String purchasedate,String purchasedatejie) {
+			return goods.selectPurchase(purchasedate, purchasedatejie);
+		}
+		@RequestMapping("/selectshop")
+		@ResponseBody
+		public List<Shop> selectshop(String userid) {
+			return goods.selectshop(userid);
+		}
+		//修改状态
+		@RequestMapping("/upda")
+		@ResponseBody
+		public String upda(Integer purchaseid) {
+			System.out.println(purchaseid);
+			goods.upda(purchaseid);
+			return "1";
+		}
+		//采购单删除
+		@RequestMapping("/deletePurchaseid")
+		@ResponseBody
+		public int deletePurchaseid(String purchaseid){
+			return goods.deletePurchaseid(purchaseid);
+		}
+		//采购单查看
+		@RequestMapping("/bj")
+		@ResponseBody
+		public List<Purchasedetails> bj(Integer purchaseid) {
+			System.out.println(purchaseid);
+			return goods.bj(purchaseid);
+				
+		}
+		
 }

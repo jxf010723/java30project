@@ -3,9 +3,13 @@ package com.accp.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.accp.domain.Purchase;
 import com.accp.domain.PurchaseExample;
+import com.accp.domain.Purchasedetails;
+import com.accp.domain.Shop;
 import com.accp.domain.purchrvo;
 
 public interface PurchaseMapper {
@@ -32,4 +36,21 @@ public interface PurchaseMapper {
     int updateByPrimaryKey(Purchase record);
     
     List<purchrvo> selectAll(purchrvo purchr);
+  //查看指定日期有多少个单号
+    @Select("SELECT  COUNT(*) FROM `purchase` WHERE purchase.`deliverytime`=#{datetime}")
+    int selectdate(String datetime);
+    
+  //按日期查找表
+    List<Purchase> selectPurchase(@Param("purchasedate") String purchasedate,@Param("purchasedatejie") String purchasedatejie);
+    
+    //查询店铺
+    List<Shop> selectshop(@Param("userid") String userid);
+  //通过审核
+    @Update("UPDATE `purchase` SET`shenghe` = '0' WHERE purchaseid = #{purchaseid}")
+    int upda(Integer Purchaseid);
+    	
+    int  deleteByid(@Param("purchaseid") String purchaseid);
+  //查询
+    @Select("SELECT * FROM `purchasedetails` where purchaseid=#{purchaseid}")
+    List<Purchasedetails> selectall(Integer purchaseid);
 }
