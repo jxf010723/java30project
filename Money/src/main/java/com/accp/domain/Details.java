@@ -15,6 +15,16 @@ public class Details {
     private String shapecode;
 
     private Integer count;
+    
+    private String bianhao;
+
+	public String getBianhao() {
+		return bianhao;
+	}
+
+	public void setBianhao(String bianhao) {
+		this.bianhao = bianhao;
+	}
 
 	public Integer getDetailsid() {
 		return detailsid;

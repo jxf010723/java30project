@@ -87,7 +87,7 @@
     </style>
 </head>
 <body>
-<div class="rightarea clearfix">
+<div class="rightarea clearfix" id="add">
     <div class="mainarea clearfix" id="managevue">
         <div class="mainhead">
             <span class="title">商品管理</span>
@@ -160,8 +160,8 @@
                         <td>{{it.costprice}}</td>
                         <td>-</td>
                         <td>
-                            <a href="javascript:;">删除</a>
-                            <a href="javascript:;">编辑</a>
+                            <a href="javascript:;" @click="goodsdelete(it)">删除</a>
+                            <a href="javascript:;" @click="goodsupdate(it)">编辑</a>
                         </td>
                     </tr>
                     <tr>
@@ -301,6 +301,32 @@
 					}
 					
 				});
+			},
+			goodsupdate:function(it){
+				$.ajax({
+		        	type:"post",
+		        	url:"/money2",
+		        	data:{dataid:"shop_upload2",purchaseid:it.goodsid},
+		        	dataType:"html",
+		        	success:function(res){
+		        		$("#add").html("");
+		        		$("#add").append(res);
+		        	}
+		        });
+			},
+			goodsdelete:function(it){
+				if (confirm("您确认要删除改商品吗？")) {
+					$.ajax({
+			        	type:"post",
+			        	url:"[[@{goods/deletegoods}]]",
+			        	data:{goodsid:it.goodsid},
+			        	dataType:"json",
+			        	success:function(res){
+			        		
+			        	}
+			        });
+					this.gopage(1,1,null,null);
+				}
 			}
 		},
 		mounted:function(){

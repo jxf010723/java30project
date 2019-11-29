@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.accp.domain.Details;
 import com.accp.domain.Goods;
 import com.accp.domain.Goodsize;
 import com.accp.domain.Goodstype;
@@ -185,11 +186,19 @@ public class GoodsService {
 	}
 	
 	public int insertzhuxiang(Goods good) {
-		return goods.insertzhuxiang(good);
+		int a=goods.insertzhuxiang(good);
+		good.getGoodsid();
+        //新增子表了
+        for (Details e : good.getSpx()) {
+        	e.setGoodsid(good.getGoodsid().toString());
+        	goods.insertxiang(e);
+		}
+		return 1;
+		
 	}
-	public int insertxiang(Goods good) {
-		return goods.insertxiang(good);
-	}
+//	public int insertxiang(Goods good) {
+//		return goods.insertxiang(good);
+//	}
 	public List<Goods> goodsquery(){
 		return goods.selectByExample(null);
 	}
@@ -255,7 +264,31 @@ public class GoodsService {
 			purch.deleteByddd(purchase.getPurchasezi().get(0).getPurchaseid().toString());
 			//新增子表
 			for (Purchasedetails t : purchase.getPurchasezi()) {
+				t.setPurchaseid(purchase.getPurchasezi().get(0).getPurchaseid());
 				purchasedetails.insertSelective(t);
+			}
+		}
+		public int deletegoods(String goodsid) {
+			goods.deletegoods(goodsid);
+			goods.deletedetails(goodsid);
+			return 1;
+		}
+		//根据id查询主详
+		public Goods selectBygoodsid(String goodsid){
+			Goods goo=goods.selectgoodsbyid(goodsid);
+			goo.setSpx(goods.selectdetailsbyid(goodsid));
+			return goo;
+		}
+		//修改表goods
+		public void updategoods(Goods good) {
+			//修改主表
+			goods.updategoods(good);
+			//删除子表
+			goods.deletedetails(good.getGoodsid().toString());
+			//新增子表
+			for (Details t : good.getSpx()) {
+				t.setGoodsid(good.getGoodsid().toString());
+				goods.insertxiang(t);
 			}
 		}
 }

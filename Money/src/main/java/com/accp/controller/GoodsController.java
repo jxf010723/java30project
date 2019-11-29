@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -376,16 +377,23 @@ public class GoodsController {
 	public String upimgAjax(MultipartFile [] files) {
 		File directory = new File("//C:/Users/f'j/git/java30project/Money/src/main/resources/static/img");
 		String imgname="";
+		String ententionName="";
+		String newName="";
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : files) {
 				System.out.println("进来");
+				
+				newName = UUID.randomUUID().toString().replaceAll("-", "");
+				 ententionName = l.getOriginalFilename().substring(l.getOriginalFilename().lastIndexOf("."));
 				String url = "//C:/Users/f'j/git/java30project/Money/src/main/resources/static/img";
-				url = url+"/"+l.getOriginalFilename();
+				url = url+"/"+newName+ententionName;
+				System.out.println(url);
 				File f = new File(url);
 				l.transferTo(f);
+				
 				imgname=l.getOriginalFilename();
 				System.out.println(url);
 			}
@@ -397,13 +405,13 @@ public class GoodsController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return imgname;
+		return newName+ententionName;
 	}
 	@RequestMapping("insertzhuxiang")
 	@ResponseBody
 	public int insertzhuxiang(@RequestBody Goods good){
 		System.out.println(good);
-		goods.insertxiang(good);
+		
 		return goods.insertzhuxiang(good);
 	}
 	@RequestMapping("goodsquery")
@@ -480,5 +488,27 @@ public class GoodsController {
 			System.out.println(purchase.getPurchasezi().get(0).getPurchaseid());
 			goods.updatazhu(purchase);
 			 return "s";
+		}
+		//删除商品
+		@RequestMapping("/deletegoods")
+		@ResponseBody
+		public int deletegoods(String goodsid) {
+			
+			 return goods.deletegoods(goodsid);
+		}
+		@RequestMapping("/selectBygoodsid")
+		@ResponseBody
+		//根据id查询主详selectBygoodsid
+		public Goods selectBygoodsid(String goodsid){
+			return goods.selectBygoodsid(goodsid);
+		}
+		//修改商品
+		@RequestMapping("/updatezhuxing")
+		@ResponseBody
+		public String selectidalls(@RequestBody Goods good) {
+			System.out.println(good.getGoodsid());
+			
+			goods.updategoods(good);
+			return "s";
 		}
 }
