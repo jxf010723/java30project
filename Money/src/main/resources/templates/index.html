@@ -39,7 +39,7 @@
     <!-- <script type="text/javascript" th:src="@{js/ajaxIndex.js}"></script> -->
     
     <!-- 三级联动 -->
-   <script type="text/javascript" th:src="@{js/distpicker.data.js}"></script>
+   	<script type="text/javascript" th:src="@{js/distpicker.data.js}"></script>
     <script type="text/javascript" th:src="@{js/distpicker.js}"></script>
     <script type="text/javascript" th:src="@{js/main.js}"></script>
     <style>
@@ -51,23 +51,23 @@
         <div class="top">
             <div class="divUser" style="position:relative;left:-50px;">
             	
-				<div th:text="${session.userName}"></div> <!--获取session中的userName -->
+				<div></div> <!-- 获取session中的userName -->
                 <a href="javascript:;" class="logout" style="top:0px;">退出</a>
                 <a href="javascript:;" class="head">
                     <p class="type">
                         <span>未认证</span>
                     </p>
                     <p class="nick">
-                        <span th:text="${session.userName}">账号名称</span>
+                        <span name="Uname">账号名称</span>
                     </p>
-                    <img src="" alt="">
+                    <img name="headportrait" src="" alt="">
                 </a>
             </div>
-            <!--logo-->
+            <!-- logo -->
             <a href="javascript:;">
                 <h2 class="logo" title="点击显示登录"></h2>
             </a>
-            <ul class="nav-menu clearfix nav nav-tabs"> <!--nav-tabs将会显示对应active的内容-->
+            <ul class="nav-menu clearfix nav nav-tabs"> <!-- nav-tabs将会显示对应active的内容 -->
                 <li class="nav-item"  data-id="accountindex">
                     <a href="javascript:;">
                         <span class="text">
@@ -85,10 +85,10 @@
             </ul>
         </div>
     </div>
-    <!--内容 -->
+    <!-- 内容 -->
     <div class="content">
         <div class="tab-content indexs">
-            <!--这里的内容根据点击的按钮按钮加载对应的html页面 由tab-pane active决定-->
+            <!-- 这里的内容根据点击的按钮按钮加载对应的html页面 由tab-pane active决定 -->
         </div>
     </div>
     <div class="clearfix"></div>
@@ -96,20 +96,8 @@
         <p style="color: #5e5e5e;">Copyright © 2010-2019 POSO2O. All Rights Reserved.</p>
     </div>
     <script type="text/javascript">
-         $(function () {
-        	 
-                var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
-                $.ajax({
-                	type:"post",
-                	url:"/money",
-                	data:{dataid:"login"},
-                	dataType:"html",
-                	success:function(res){
-                		newDiv.append(res);
-                        $(".indexs").append(newDiv);
-                	}
-                });
-               
+        $(function () {
+        		jz()
             });
          	//点击logo的时候回到登录
          	$(".logo").click(function(){
@@ -147,6 +135,44 @@
                     });
                     
             });
+         	var User=null;
+         	function jz(){
+				$.ajax({
+					url:"[[@{user/getUser}]]",
+					success:function(result){
+						if(result!=null){
+							User=result.uname;
+							$("[name=headportrait]").attr("src",result.headportrait)
+							$("[name=Uname]").text(result.uname)
+						
+							$(".indexs>div").remove();
+							var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
+			                $.ajax({
+			                	type:"post",
+			                	url:"/money",
+			                	data:{dataid:"accountindex"},
+			                	dataType:"html",
+			                	success:function(res){
+			                		newDiv.append(res);
+			                        $(".indexs").append(newDiv);
+			                	}
+			                });
+						}else{
+							 var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
+				                $.ajax({
+				                	type:"post",
+				                	url:"/money",
+				                	data:{dataid:"login"},
+				                	dataType:"html",
+				                	success:function(res){
+				                		newDiv.append(res);
+				                        $(".indexs").append(newDiv);
+				                	}
+				                });
+						}
+					}
+				});
+			}
     </script>
     <!-- 时间的js -->
      
