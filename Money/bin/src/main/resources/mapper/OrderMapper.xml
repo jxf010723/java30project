@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Order" >
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="order_name" property="orderName" jdbcType="VARCHAR" />
+    <result column="order_phone" property="orderPhone" jdbcType="VARCHAR" />
+    <result column="order_count" property="orderCount" jdbcType="INTEGER" />
+    <result column="order_totalMoney" property="orderTotalmoney" jdbcType="DOUBLE" />
+    <result column="order_sfMoney" property="orderSfmoney" jdbcType="DOUBLE" />
+    <result column="Integral_ deductionMoney" property="integralDeductionmoney" jdbcType="DOUBLE" />
+    <result column="order_payment" property="orderPayment" jdbcType="VARCHAR" />
+    <result column="order_date" property="orderDate" jdbcType="DATE" />
+    <result column="integral" property="integral" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    order_id, user_id, order_name, order_phone, order_count, order_totalMoney, order_sfMoney, 
+    "Integral_ deductionMoney", order_payment, order_date, integral
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.OrderExample" >
+    delete from order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Order" >
+    insert into order (order_id, user_id, order_name, 
+      order_phone, order_count, order_totalMoney, 
+      order_sfMoney, "Integral_ deductionMoney", order_payment, 
+      order_date, integral)
+    values (#{orderId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderName,jdbcType=VARCHAR}, 
+      #{orderPhone,jdbcType=VARCHAR}, #{orderCount,jdbcType=INTEGER}, #{orderTotalmoney,jdbcType=DOUBLE}, 
+      #{orderSfmoney,jdbcType=DOUBLE}, #{integralDeductionmoney,jdbcType=DOUBLE}, #{orderPayment,jdbcType=VARCHAR}, 
+      #{orderDate,jdbcType=DATE}, #{integral,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Order" >
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="orderName != null" >
+        order_name,
+      </if>
+      <if test="orderPhone != null" >
+        order_phone,
+      </if>
+      <if test="orderCount != null" >
+        order_count,
+      </if>
+      <if test="orderTotalmoney != null" >
+        order_totalMoney,
+      </if>
+      <if test="orderSfmoney != null" >
+        order_sfMoney,
+      </if>
+      <if test="integralDeductionmoney != null" >
+        "Integral_ deductionMoney",
+      </if>
+      <if test="orderPayment != null" >
+        order_payment,
+      </if>
+      <if test="orderDate != null" >
+        order_date,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderName != null" >
+        #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPhone != null" >
+        #{orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null" >
+        #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderTotalmoney != null" >
+        #{orderTotalmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="orderSfmoney != null" >
+        #{orderSfmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="integralDeductionmoney != null" >
+        #{integralDeductionmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="orderPayment != null" >
+        #{orderPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.OrderExample" resultType="java.lang.Integer" >
+    select count(*) from order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order
+    <set >
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderName != null" >
+        order_name = #{record.orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderPhone != null" >
+        order_phone = #{record.orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderCount != null" >
+        order_count = #{record.orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTotalmoney != null" >
+        order_totalMoney = #{record.orderTotalmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.orderSfmoney != null" >
+        order_sfMoney = #{record.orderSfmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.integralDeductionmoney != null" >
+        "Integral_ deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.orderPayment != null" >
+        order_payment = #{record.orderPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderDate != null" >
+        order_date = #{record.orderDate,jdbcType=DATE},
+      </if>
+      <if test="record.integral != null" >
+        integral = #{record.integral,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order
+    set order_id = #{record.orderId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      order_name = #{record.orderName,jdbcType=VARCHAR},
+      order_phone = #{record.orderPhone,jdbcType=VARCHAR},
+      order_count = #{record.orderCount,jdbcType=INTEGER},
+      order_totalMoney = #{record.orderTotalmoney,jdbcType=DOUBLE},
+      order_sfMoney = #{record.orderSfmoney,jdbcType=DOUBLE},
+      "Integral_ deductionMoney" = #{record.integralDeductionmoney,jdbcType=DOUBLE},
+      order_payment = #{record.orderPayment,jdbcType=VARCHAR},
+      order_date = #{record.orderDate,jdbcType=DATE},
+      integral = #{record.integral,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Order" >
+    update order
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderName != null" >
+        order_name = #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPhone != null" >
+        order_phone = #{orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null" >
+        order_count = #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderTotalmoney != null" >
+        order_totalMoney = #{orderTotalmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="orderSfmoney != null" >
+        order_sfMoney = #{orderSfmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="integralDeductionmoney != null" >
+        "Integral_ deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="orderPayment != null" >
+        order_payment = #{orderPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        order_date = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Order" >
+    update order
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_name = #{orderName,jdbcType=VARCHAR},
+      order_phone = #{orderPhone,jdbcType=VARCHAR},
+      order_count = #{orderCount,jdbcType=INTEGER},
+      order_totalMoney = #{orderTotalmoney,jdbcType=DOUBLE},
+      order_sfMoney = #{orderSfmoney,jdbcType=DOUBLE},
+      "Integral_ deductionMoney" = #{integralDeductionmoney,jdbcType=DOUBLE},
+      order_payment = #{orderPayment,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=DATE},
+      integral = #{integral,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

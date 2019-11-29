@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/member.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script th:src="@{js/jquery-1.12.4.js}"></script>
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{js/vue.js}"></script>
     
 </head>
 <body>
@@ -23,7 +29,7 @@
             <li data-id="recharge_deduction">
                 <a href="javascript:;">充值抵扣</a>
             </li>
-            <li class="transaction_record">
+            <li data-id="transaction_record">
                 <a href="javascript:;">成交记录</a>
             </li>
         </ul>

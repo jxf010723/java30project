@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/employee_management.css">
+    
+    
+    <style>
+    	.addUserDialog .dialog_bd {
+		    padding-left: 74px;
+		    padding-top: 50px;
+		    padding-right: 0;
+		    padding-bottom: 50px;
+		}
+		.addUserDialog .list {
+		    float: left;
+		    margin-bottom: 14px;
+		    width: 340px;
+		}
+		.addUserDialog .list span {
+		    float: left;
+		    width: 50px;
+		    padding-top: 6px;
+		    position: relative;
+		}
+		.dropDownBox {
+		    cursor: pointer;
+		    float: left;
+		    height: 34px;
+		    position: relative;
+		    background-color: #FFF;
+		    border: 1px solid #e7e7eb;
+		}
+		.dropDownBox .comboxText {
+		    background-color: #FFF;
+		    margin-top: 7px;
+		    padding-left: 8px;
+		    padding-right: 26px;
+		    border: 0 none;
+		    cursor: pointer;
+		    float: left;
+		    height: 18px;
+		    line-height: 18px;
+		}
+		.dropDownBox .comboxArrow {
+		    background: url(http://www.poso2o.com/ECstaff/style/img/mark.gif) 0 -58px no-repeat;
+		    width: 18px;
+		    height: 18px;
+		    cursor: pointer;
+		    opacity: .8;
+		    filter: alpha(opacity=80);
+		    position: absolute;
+		    right: 2px;
+		    top: 7px;
+		    border-left: none;
+		}
+		.dropDownBox .pannel {
+		    position: absolute;
+		    background: #fff;
+		    border: 1px #44b549 solid;
+		    overflow: hidden;
+		    z-index: 100;
+		}
+		.dropDownBox .pannel {
+		    top: 34px;
+		    max-height: 210px;
+		    left: -1px;
+		}
+		.dropDownBox .pannel ul {
+		    overflow: auto;
+		    text-align: left;
+		}
+		.dropDownBox .pannel ul {
+		    max-height: 210px;
+		}
+		.dropDownBox .pannel a {
+		    display: block;
+		    height: 32px;
+		    line-height: 30px;
+		    padding: 0 0 0 8px;
+		    cursor: pointer;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		}
+		.addUserDialog .list {
+		    float: left;
+		    margin-bottom: 14px;
+		    width: 340px;
+		}
+		.dropDownBox {
+		    cursor: pointer;
+		    float: left;
+		    height: 34px;
+		    position: relative;
+		    background-color: #FFF;
+		    border: 1px solid #e7e7eb;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		.addUserDialog input,select{
+			height:30px;
+		}
+		.addUserDialog select{
+			width:175px;
+		}
+    </style>
+</head>
+<body>
+<!--员工管理-->
+<div id="employee">
+	<div class="rightarea clearfix" >
+	    <div class="mainarea clearfix">
+	        <div class="mainhead">
+	            <span class="title">员工管理</span>
+	            <div class="searchArea">
+	                <div class="btn-div addUserDialog dialog">
+	                    <!-- 添加员工的模态框 -->
+	                    <!-- Button trigger modal -->
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+							添加员工
+						</button>
+						
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+						  <div class="modal-dialog" role="document"  style="width:840px;">
+						    <div class="modal-content">
+						      <div class="modal-header" style="background-color: #f4f5f9;">
+						        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalspan">添加员工</h4>
+						      </div>
+						      <div class="modal-body"  style="height:250px;">
+						      
+						        <div class="dialog_bd clearfix">
+									<div class="list staffBoxList staffBoxListX"><span>店　铺</span>
+									<!-- <input class="comboxText" type="text" style="width:190px" readonly="" value="请选择店铺" comboxval="18670802166">
+									<span class="comboxArrow"></span> -->
+										<div class="pannel hideDiv" style="width: 226px; ">
+											<select  name="shop">
+												<option>请选择店铺</option>
+												<option v-for="s in shop" :value="s.shopid">{{s.shopname}}</option>
+											</select>
+										</div>
+									</div>
+									<div style="float:left;" class="list positionBoxList positionBoxListX">
+									<span>职　位</span>
+									<!-- <input class="comboxText" type="text" style="width:190px" readonly="" value="请选择职位" comboxval="">
+									<span class="comboxArrow"></span> -->
+									<div class="pannel hideDiv" style="width: 226px; ">
+										<select  name="juris">
+											<option>请选择职位</option>
+											<option  :value="j.tid" v-for="j in jurisdictionone">{{j.tname}}</option>
+										</select>
+									</div>
+									</div>							
+									<div class="list"><span>工　号</span><input v-model="staff.jobnumber" type="text" maxlength="15" value="" class="inputText" name="czy"></div>
+									<div class="list"><span>姓　名</span><input v-model="staff.employeename" type="text" maxlength="15" value="" class="inputText" name="realname"></div>
+									<div class="list"><span>密　码</span><input v-model="staff.password" type="password" maxlength="16" value="" class="inputText" name="password" password=""></div>
+								</div>
+								
+						      </div>
+						      <div class="modal-footer" style="background-color: #f4f5f9;text-align: center">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							        <button type="button" class="btn btn-primary" @click="insertStaff">确定</button>
+							      </div>
+						    </div>
+						  </div>
+						</div>
+							
+	                </div>
+	            </div>
+	            <div class="list search">
+	                <input class="inputtext" id="employeeName" type="text" placeholder="查找(员工姓名)">
+	                <a href="javascript:;" class="search-btn" onclick="changeEmployeeName()"></a>
+	            </div>
+	            <div class="list">
+	                <select name=""  @change="changetname" class="form-control">
+	                    <option value="全部职位">全部职位</option>
+	                    <option name="tname" v-for="j in jurisdictionone">{{j.tname}}</option>
+	                </select>
+	
+	            </div>
+	            <div class="list">
+	                <select name=""  @change="changeshopname" class="form-control">
+	                    <option value="全部店铺">全部店铺</option>
+	                    <option name="shopname" v-for="s in shop">{{s.shopname}}</option>
+	                </select>
+	
+	            </div>
+	        </div>
+	        <div class="mainbody">
+	            <table class="settable table table-striped">
+	                <thead>
+	                <tr>
+	                    <th width="6%">序号</th>
+	                    <th width="*">所属店铺</th>
+	                    <th width="14%">职位</th>
+	                    <th width="14%">工号</th>
+	                    <th width="14%">姓名</th>
+	                    <th width="14%">登录密码</th>
+	                    <th width="12%">操作</th>
+	                </tr>
+	                </thead>
+	                <tbody>
+	                    <tr v-for="item in page.list">
+	                        <td>{{item.staffid}}</td>
+	                        <td>{{item.shopname}}</td>
+	                        <td>{{item.tname}}</td>
+	                        <td>{{item.jobnumber}}</td>
+	                        <td>{{item.employeename}}</td>
+	                        <td>******</td>
+	                        <td>
+	                            <span data-toggle="modal" @click="updateStaff(item.staffid)" data-target="#updateModal">编辑</span>
+	                             <span @click="delEmployee(item.staffid)">删除</span>
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	            
+	            <!-- 分页按钮 -->
+                	<div class="pagebar" style="text-align: center">
+	                    <div class="pagetion">
+	                       <div class="page">
+                               <ul class="pagination">
+                                   <li>
+                                       <a @click="getPage(1,null,null,null)" href="javascript:;">首页</a>
+                                   </li>
+                                   <li>
+                                       <a @click="getPage(page.prePage,null,null,null)" href="javascript:;">&laquo;</a>
+                                   </li>
+                                   <li>
+                                       <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
+                                       <span v-for="a in page.pages" @click="getPage(a,null,null,null)">{{a}}</span>
+                                   </li>
+                                   <li>
+                                       <a @click="getPage(page.nextPage,null,null,null)" href="javascript:;">&raquo;</a>
+                                   </li>
+                                   <li>
+                                       <a @click="getPage(page.pages,null,null,null)" href="javascript:;">尾页</a>
+                                   </li>
+                                   <li style="margin-left: 20px; float:left;">
+                                       <input name="tz" type="text" class="form-control" style="width: 100px;" id="inputPages">
+                                   </li>
+                                   <li style="margin-left: 15px; float:left;">
+                                       <a @click="tz" href="javascript:;" class="btn btn-default">跳转</a>
+                                   </li>
+                               </ul>
+	                       </div> 
+	                    </div>
+                	</div> 
+	            
+	            <!-- 第二个编辑的模态框 -->
+	            <div class="addUserDialog dialog">
+	            	<!-- Modal -->
+						<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+						  <div class="modal-dialog" role="document"  style="width:840px;">
+						    <div class="modal-content">
+						      <div class="modal-header" style="background-color: #f4f5f9;">
+						        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalspan">编辑员工</h4>
+						      </div>
+						      <div class="modal-body"  style="height:250px;">
+						      
+						        <div class="dialog_bd clearfix">
+									<div class="list staffBoxList staffBoxListX"><span>店　铺</span>
+									<!-- <input class="comboxText" type="text" style="width:190px" readonly="" value="请选择店铺" comboxval="18670802166">
+									<span class="comboxArrow"></span> -->
+										<div class="pannel hideDiv" style="width: 226px; ">
+											<select>
+												<option>请选择店铺</option>
+												<option selected="selected" value="s.shopname" shopid="s.shopid" v-for="s in shop">{{s.shopname}}</option>
+											</select>
+										</div>
+									</div>
+									<div style="float:left;" class="list positionBoxList positionBoxListX">
+									<span>职　位</span>
+									<!-- <input class="comboxText" type="text" style="width:190px" readonly="" value="请选择职位" comboxval="">
+									<span class="comboxArrow"></span> -->
+									<div class="pannel hideDiv" style="width: 226px; ">
+										<select>
+											<option>请选择职位</option>
+											<option selected="selected" value="j.tid" v-for="j in jurisdictionone">{{j.tname}}</option>
+										</select>
+									</div>
+									</div>							
+									<div class="list"><span>工　号</span><input v-model="staff.jobnumber" type="text" maxlength="15" value="9527" class="inputText" name="czy"></div>
+									<div class="list"><span>姓　名</span><input v-model="staff.employeename" type="text" maxlength="15" value="哈哈哈" class="inputText" name="realname"></div>
+									<div class="list"><span>密　码</span><input v-model="staff.password" type="password" maxlength="16" value="123456" class="inputText" name="password" password=""></div>
+								</div>
+								
+						      </div>
+						      <div class="modal-footer" style="background-color: #f4f5f9;text-align: center">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							        <!-- <button type="button" class="btn btn-primary">删除</button> -->
+							        <button type="button" @click="updateStaffById" class="btn btn-primary">确定</button>
+							      </div>
+						    </div>
+						  </div>
+						</div>
+						
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+        	var employeeVue = new Vue({
+        		el:"#employee",
+        		data(){
+        			return {
+        				page:{
+        					list:[]
+        				},
+        				staff:{},
+        				shop:[],
+        				jurisdictionone:[]
+        			}
+        		},
+        		methods:{
+        			delEmployee:function(staffid){
+        				//alert(staffid);
+        				var t = this;
+        				$.ajax({
+    						url:"shop/delEmployee",
+    						data:{staffid:staffid},
+    						type:"post",
+    						success:function(result){
+    							alert("删除成功");
+    							t.getPage(1,null,null,null);
+    						}
+    					})
+        			},
+        			updateStaffById:function(){
+        				console.log(employeeVue.staff);
+        				$.ajax({
+    						url:"shop/updatestaff",
+    						data:employeeVue.staff,
+    						type:"post",
+    						success:function(result){
+    							$('#updateModal').modal('hide');
+    							employeeVue.getPage(1,null,null,null);
+    						}
+    					})
+        			},
+        			insertStaff:function(){
+        				employeeVue.staff.shopid=$("[name=shop]").val();
+        				employeeVue.staff.shopname = $("[name=shop]").find("option:selected").html()
+        				employeeVue.staff.roleid = $("[name=juris]").val();
+        				console.log(employeeVue.staff);
+        				
+        				$.ajax({
+    						url:"shop/insertstaff",
+    						data:employeeVue.staff,
+    						type:"post",
+    						success:function(result){
+    							$('#myModal').modal('hide');
+    							employeeVue.getPage(1,null,null,null);
+    						}
+    					}) 
+        			},
+        			tz:function(){
+        				var pageNum = $("#inputPages").val();
+        				employeeVue.getPage(pageNum);
+        			},
+        			updateStaff:function(staffid){
+        				//点击编辑根据员工id修改店铺
+        				var t = this;
+        				$.ajax({
+        					url:"shop/selectBystaffid",
+        					data:{staffid:staffid},
+        					success:function(result){
+        						console.log(result);
+        						t.staff = result;
+        					}	
+        				})
+        			},
+        			getShop:function(){
+        				var that = this;
+            			$.ajax({
+            				url:"[[@{shop/queryShop}]]",
+            				success:function(result){
+            					//console.log(result);
+            					that.shop = result;
+            					console.log(that.shop);
+            				}
+            			});
+        			},
+        			getJurisdictionone:function(){
+        				var that = this;
+            			$.ajax({
+            				url:"[[@{shop/queryJurisdictiontype}]]",
+            				success:function(result){
+            					//console.log(result);
+            					that.jurisdictionone = result;
+            					console.log(that.jurisdictionone);
+            				}
+            			});
+        			},
+        			changetname:function(){
+        				var tname = $("[name=tname]").val();
+        				employeeVue.getPage(1,null,tname,null);
+        			},
+        			changeshopname:function(){
+        				var shopname = $("[name=shopname]").val();
+        				employeeVue.getPage(1,shopname,null,null);
+        			},
+        			getPage:function(pageNum,shopname,tname,employeename){
+        				//alert(pageNum+"---"+shopname+"---"+tname+"---"+employeename);
+        				var parm = "pageSize=5";
+        				if(pageNum!=null&&pageNum!=undefined){
+        					parm += "&pageNum="+pageNum;
+        				}
+        				if(shopname!=null&&shopname!=undefined){
+        					parm += "&shopname="+shopname;
+        				}
+        				if(tname!=null&&tname!=undefined){
+        					parm += "&tname="+tname;
+        				}
+        				if(employeename!=null&&employeename!=undefined){
+        					parm += "&employeename="+employeename;
+        				}
+        				var that = this;
+            			$.ajax({
+            				url:"[[@{shop/queryStaff}]]",
+            				data:parm,
+            				success:function(result){
+            					console.log(result);
+            					that.page = result;
+            					console.log(that.page.list);
+            				}
+            			});
+        			}
+        		},
+        		created:function(){
+        			this.getJurisdictionone();
+        			this.getShop();
+        			this.getPage(1,null,null,null);
+        		}
+        	});
+        	
+        	function changeShop(){
+        		var shopname = $(this).val();
+        		employeeVue.getPage(1,shopname,null,null);
+        	}
+        	
+        	function changeRole(){
+        		var tname = $(this).val();
+        		employeeVue.getPage(1,null,tname,null);
+        	}
+        	
+        	function changeEmployeeName(){
+        		var employeename = $("#employeeName").val();
+        		employeeVue.getPage(1,null,null,employeename);
+        	}
+        </script>
+</html>

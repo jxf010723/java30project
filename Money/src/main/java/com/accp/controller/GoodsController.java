@@ -1,14 +1,18 @@
 package com.accp.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.accp.domain.Goodstype;
 import com.accp.domain.Shop;
+import com.accp.domain.Supplier;
+import com.accp.domain.purchrvo;
 import com.accp.service.GoodsService;
 import com.github.pagehelper.PageInfo;
 
@@ -69,4 +73,52 @@ public class GoodsController {
 	public List<Shop> queryshop(){
 		return goods.queryshop();
 	}
+	
+	@RequestMapping("/goodssupplierpage")
+	@ResponseBody
+	public PageInfo<Supplier> goodssupplierpage(int pageNum,String sheng,String shi,String ming){
+		
+		
+		Supplier supp=new Supplier(ming,sheng,shi);
+		System.out.println("进入"+sheng);
+		PageInfo<Supplier> page=goods.supplierpage(pageNum, supp);
+		for (Supplier list : page.getList()) {
+			System.out.println("ss"+list);
+			
+		}
+		return page;
+	}
+	@RequestMapping("/supplierinsert")
+	@ResponseBody
+	public int supplierinsert(@RequestBody Supplier supplier) {
+		System.out.println("新增");
+		System.out.println(supplier);
+		return goods.supplierinsert(supplier);
+	}
+	
+	@RequestMapping("/supplierupdate")
+	@ResponseBody
+	public int supplierupdate(@RequestBody Supplier supplier) {
+		System.out.println("修改");
+		System.out.println(supplier);
+		return goods.supplierupdate(supplier);
+	}
+	
+	@RequestMapping("/supplierdelete")
+	@ResponseBody
+	public int supplierupdate(String id) {
+		return goods.supplierdelete(id);
+	}
+	@RequestMapping("/goodspurchasepage")
+	@ResponseBody
+	public PageInfo<purchrvo> goodspurchasepage(int pageNum,String kstime,String jstime,String ming,String supp){
+		purchrvo pur=new purchrvo(ming,kstime,jstime,supp);
+		PageInfo<purchrvo> page=goods.purchasepage(pageNum,pur);
+		for (purchrvo list : page.getList()) {
+			System.out.println("ss"+list);
+			
+		}
+		return page;
+	}
+	
 }

@@ -9,9 +9,12 @@ import com.accp.domain.User;
 import com.accp.domain.UserExample;
 
 public interface UserMapper {
-	//²éÕÒÊÇ·ñÓÐ¸ù¾ÝÓÃ»§ÃûºÍÃÜÂë²éÕÒµ½µÄÓÃ»§
-	@Select("SELECT * FROM `user` WHERE uname =  #{uname} and upwd = #{upwd}")
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½Ã»ï¿½
+	@Select("SELECT * FROM `user` WHERE uname =  #{uname} and upwd = #{upwd} LIMIT 1")
 	User login(User user);
+	
+	@Select("SELECT * FROM `user` WHERE uname =  #{uname} LIMIT 1")
+	User selectUserByUserName(String uname);
 	
     int countByExample(UserExample example);
 
