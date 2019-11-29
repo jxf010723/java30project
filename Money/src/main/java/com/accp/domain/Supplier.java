@@ -8,6 +8,7 @@ public class Supplier {
     private String cohr;
 
     private String contact;
+    
 
     private String phone;
 
@@ -23,7 +24,14 @@ public class Supplier {
 
     private String street;
 
-    public Integer getSupplierid() {
+    @Override
+	public String toString() {
+		return "Supplier [supplierid=" + supplierid + ", suppliername=" + suppliername + ", cohr=" + cohr + ", contact="
+				+ contact + ", phone=" + phone + ", email=" + email + ", telephone=" + telephone + ", province="
+				+ province + ", city=" + city + ", district=" + district + ", street=" + street + "]";
+	}
+
+	public Integer getSupplierid() {
         return supplierid;
     }
 
@@ -110,4 +118,14 @@ public class Supplier {
     public void setStreet(String street) {
         this.street = street;
     }
+
+	public Supplier(String suppliername, String province, String city) {
+		super();
+		this.suppliername = suppliername;
+		this.province = province;
+		this.city = city;
+	}
+	public Supplier() {
+		
+	}
 }

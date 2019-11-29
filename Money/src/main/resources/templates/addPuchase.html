@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>新建采购单</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：新建采购单
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_yggl" class="tal_none2">
+					<div class="row" style="height:50px;line-height:52px;margin-bottom:10px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
+						<div style="padding-left: 0;float: left;">供应商</div>
+						<div style="float: right;width: 80%;">
+							<div style="text-align: right;margin-right: 10px;">
+								<input type="text" class="form-control" id="inputEmail3" placeholder="请输入货号或条码+回车 确认" style="width: 32.50%; display: inline-block;">
+								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="margin-bottom:20px;margin-left: 5px;margin-right:15px;">
+						<form class="">
+							<div style="padding-bottom: 10px;width: 100%;overflow:hidden;margin-left: 4px;">
+								<div style="float: left;width: 25%;">
+									<label>单 号</label>
+									<input type="text" class="form-control" style="display: inline-block; width: 78%;">
+								</div>
+								<div style="float: left;width: 25%;">
+									<label>交 期</label>
+									<input type="date" class="form-control" style="display: inline-block; width: 78%;">
+								</div>
+								<div style="float: left;width: 25%;">
+									<label>供应商</label>
+									<select class="form-control" style="display: inline-block;width: 78%;">
+									  <option>请选择供应商</option>
+									</select>
+								</div>
+								<div style="float: left;width: 25%;">
+									<label>制表人</label>
+									<select class="form-control" style="display: inline-block;width: 78%;">
+									  <option>18610249685</option>
+									</select>
+								</div>
+							</div>	
+							<div style="float: left;width: 100%;margin-left: 4px;">
+								<label>备 注</label>
+								<input type="text" class="form-control" style="display: inline-block; width: 95.15%;">
+							</div>
+						</form>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;">
+						<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="info">
+									<td width="4%">货号</td>
+									<td width="5%">条码</td>
+									<td width="12%">产品名称</td>
+									<td width="10%">规格</td>
+									<td width="8%">成本价</td>
+									<td width="6%">数量</td>
+									<td width="6%">金额</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr>
+									
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="7">
+										<div style="float: right;line-height: 38px;padding-right: 14px;">
+											金额<span style="color: red;">0.00</span>
+										</div>
+										<div style="float: right;line-height: 38px;padding-right: 14px;">
+											合计<span style="color: red;">0</span>件
+										</div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div class="row" style="margin-right: 15px;padding-left: 5px;">
+						<div class="col-md-2">
+							<span style="color: #44b549;cursor: pointer;" data-toggle="modal" data-target="#myModal">+ 添加商品</span>
+						</div>
+						<div style="text-align: right;">
+							<button type="button" class="btn btn-default" style="width: 8%;">清空</button>
+							<button type="button" class="btn btn-success" style="width: 8%;">提交</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div style="width: 75%;" class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">选择商品</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="info">
+									<td width="6%"><input type="checkbox" name="" /></td>
+									<td width="6%">货码/条码</td>
+									<td width="10%">商品</td>
+									<td width="15%">规格</td>
+									<td width="10%">单价</td>
+									<td width="10%">库存</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr>
+									<td><input type="checkbox" name="" /></td>
+									<td>612841444</td>
+									<td>绿色卫衣</td>
+									<td>--</td>
+									<td>229.00</td>
+									<td>3</td>
+								</tr>
+							</tbody>
+						</table>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;">确认</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+		<script type="text/javascript">
+			
+		</script>
+	</body>
+</html>
