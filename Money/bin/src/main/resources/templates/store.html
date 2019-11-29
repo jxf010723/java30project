@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/store.css">
+    
+</head>
+<body>
+    <!--店铺内容-->
+    <div class="contentarea clearfix" style="height: 785px;">
+            <div class="navlists">
+                <ul>
+                    <li class="current-item" data-id="store_management">
+                        <a href="javascript:;">店铺管理</a>
+                    </li>
+                    <li data-id="position">
+                        <a href="javascript:;">职位权限</a>
+                    </li>
+                    <li data-id="employee_management">
+                        <a href="javascript:;">员工管理</a>
+                    </li>
+                    <li data-id="alipay_collection">
+                        <a href="javascript:;">收银机支付宝收款</a>
+                    </li>
+                    <li class="wepay_collection">
+                        <a href="javascript:;">收银机微信付款</a>
+                    </li>
+                </ul>
+
+            </div>
+        <div class="content">
+            <div class="tab-content stores">
+                <!--店铺下的功能模块-->
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var newDiv = $(`<div data-id="store_management"  class="tab-pane active">`);
+            $.ajax({
+            	type:"post",
+            	url:"/money",
+            	data:{dataid:"store_management"},
+            	dataType:"html",
+            	success:function(res){
+            		newDiv.append(res);
+            		 $(".stores").append(newDiv);
+            	}
+            });
+            
+        });
+        $(".navlists li").click(function () {
+            $(".stores>div").remove();
+            let dataid=$(this).attr("data-id");
+
+            $(".navlists li").removeClass("active");
+            $(this).addClass("active");
+            
+            $(".navlists li").removeClass("current-item");
+            $(this).addClass("current-item");
+            
+            $(".stores div").removeClass("active");
+            var newDiv = $(`<div data-id="${dataid}"  class="tab-pane active">`);
+   		 	$(".stores").append(newDiv.load("/money?dataid="+dataid));
+             /* $.ajax({
+            	type:"post",
+            	url:"/money",
+            	data:{dataid:dataid},
+            	dataType:"html",
+            	success:function(res){
+            		
+            	}
+            }); */
+        });
+    </script>
+</body>
+</html>

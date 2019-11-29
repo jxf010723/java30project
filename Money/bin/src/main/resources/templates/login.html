@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/login.css">
+	
+	<style>
+	.container {
+	  width: 310px;
+	  margin: 100px auto;
+	}
+	.container input {
+	  display: block;
+	  width: 290px;
+	  line-height: 40px;
+	  margin: 10px 0;
+	  padding: 0 10px;
+	  outline: none;
+	  border:1px solid #c8cccf;
+	  border-radius: 4px;
+	  color:#6a6f77;
+	}
+	#msg {
+	  width: 100%;
+	  line-height: 40px;
+	  font-size: 14px;
+	  text-align: center;
+	}
+	/* a:link,a:visited,a:hover,a:active {
+	  margin-left: 100px;
+	  color: #0366D6;
+	} */
+	</style>
+</head>
+<body>
+
+<div class="login-body">
+    <!--标题-->
+    <div class="login-header">
+        <!--注册联系客服链接-->
+        <div class="register-right ">
+            <span>如需注册，请联系客服  </span>
+            <a href="javascript:;">
+                <span></span>
+            </a>
+        </div>
+        用户登录
+    </div>
+    <!--表单-->
+    <div class="container">
+		<input type="text" placeholder="账号" name="uname" maxlength="11" />
+		<input type="password" placeholder="密码" name="upwd"  />
+		<div id="captcha" style="position: relative"></div>
+		<div id="msg"></div>
+		<input type="hidden" id="hmsg"/>
+		<button class="btn btn-success" onclick="login()" style="margin-top:15px;">登录</button>
+	</div>
+    
+    <!-- <form>
+    	<div class="login-form">
+	        <div class="form-item">
+	            <input   type="text" placeholder="账号" name="uname" maxlength="11"  class="form-control">
+	        </div>
+	        <div class="form-item">
+	            <input type="text" placeholder="密码" name="upwd"   class="form-control">
+	        </div>
+	        <div class="form-item code">
+	            <input type="text" placeholder="验证码" name="code" maxlength="11"  class="form-control">
+	            <div class="code-pane">验证码区域 <img src="" alt="" title="点击换一张"></div>
+	        </div>
+	        <div class="form-item">
+	            <a href="javascript:;" class="forgetpwd">忘记密码？</a>
+	
+	            <input type="checkbox" class="checkbox">记住账号
+	
+	        </div>
+	        <div class="form-item">
+	            <button class="btn btn-success" onclick="login()">登录</button>
+	        </div>
+	    </div>
+    </form> -->
+</div>
+
+<!-- 图片滑动验证码 -->
+<script type="text/javascript" src="js/jigsaw.js"></script>
+<script type="text/javascript">
+jigsaw.init(document.getElementById('captcha'), function () {
+	document.getElementById('msg').innerHTML = '验证成功！'
+	$("#hmsg").val("验证成功！");
+})
+</script>
+
+
+<script type="text/javascript">
+	$(function(){
+	})
+
+	 function login(){
+		var msg = $("#hmsg").val();
+		//alert(msg);
+		if(msg!="验证成功！"){
+			return;
+		}
+
+		//验证用户名密码是否正确
+		var uname = $("[name=uname]").val();
+		var upwd = $("[name=upwd]").val();
+		//alert(uname+"---"+upwd);
+		$.ajax({
+			url:"[[@{shop/login}]]",
+			data:{uname:uname,upwd:upwd},
+			success:function(result){
+				console.log(result);
+				if(result!=null&&result!=""){
+					//alert(result+"进来了呀");
+					//登录成功则进入实体店
+					$(".indexs>div").remove();
+					var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
+	                $.ajax({
+	                	type:"post",
+	                	url:"/money",
+	                	data:{dataid:"storeindex"},
+	                	dataType:"html",
+	                	success:function(res){
+	                		newDiv.append(res);
+	                        $(".indexs").append(newDiv);
+	                	}
+	                });
+				}
+			}
+		})
+	} 
+</script>
+</body>
+</html>

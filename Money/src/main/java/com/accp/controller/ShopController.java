@@ -398,6 +398,7 @@ public class ShopController {
 				System.out.println(l.getOriginalFilename()+"hhh");
 				shop.setShopimg(l.getOriginalFilename());
 			}
+			System.out.println("to�ɹ���");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -425,6 +426,7 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		service.insertShop(shop);
+		System.out.println("������");
 		return "success";
 	}
 	
@@ -447,6 +449,7 @@ public class ShopController {
 				System.out.println(l.getOriginalFilename());
 				shop.setShopimg(l.getOriginalFilename());
 			}
+			System.out.println("to�ɹ���");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -2,16 +2,21 @@ package com.accp.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class RechargeDeduction {
     private Integer rdid;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date rdDate;
 
     private String rdVxid;
 
     private String rdName;
 
-    private Integer rdPhone;
+    private String rdPhone;
 
     private Integer rdRecharge;
 
@@ -55,11 +60,11 @@ public class RechargeDeduction {
         this.rdName = rdName;
     }
 
-    public Integer getRdPhone() {
+    public String getRdPhone() {
         return rdPhone;
     }
 
-    public void setRdPhone(Integer rdPhone) {
+    public void setRdPhone(String rdPhone) {
         this.rdPhone = rdPhone;
     }
 

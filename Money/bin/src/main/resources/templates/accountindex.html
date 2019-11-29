@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/accountindex.css">
+    
+</head>
+<body>
+    <!--左右结构-->
+    <div class="area clearfix content-in">
+        <!--左边导航-->
+        <div class="navlist">
+            <ul class=" nav nav-tabs account">
+                <li class="navindex current" data-id="accountinfo">
+                    <a href="javascript:;">账户信息</a>
+                </li>
+                <li class="">
+                    <a href="javascript:;">暂定中..</a>
+                </li>
+                <li class="">
+                    <a href="javascript:;">暂定中..</a>
+                </li>
+            </ul>
+        </div>
+        <!--右边显示区域  -->
+        <div class="accountcontent">
+            <div class="tab-content">
+                <!--根据左边显示右边的区域-->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        	$(function () {
+                var newDiv = $(`<div data-id="accountinfo"  class="tab-pane active">`);
+                $.ajax({
+                	type:"post",
+                	url:"/money",
+                	data:{dataid:"accountinfo"},
+                	dataType:"html",
+                	success:function(res){
+                		newDiv.append(res);
+                		 $(".accountcontent").append(newDiv);
+                	}
+                });
+                
+            });
+        
+        $(".account li").click(function () {
+            $(".accountcontent>div").remove();
+            let dataid=$(this).attr("data-id");
+            
+            var newDiv = $(`<div data-id="${dataid}"  class="tab-pane active">`);
+            $.ajax({
+            	type:"post",
+            	url:"/money",
+            	data:{dataid:dataid},
+            	dataType:"html",
+            	success:function(res){
+            		newDiv.append(res);
+            		 $(".accountcontent").append(newDiv);
+            	}
+            });
+        });
+   
+    </script>
+</body>
+</html>

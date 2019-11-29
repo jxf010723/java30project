@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/position.css">
+    <style>
+    .addPermissionsDialog .dialog_bd {
+	    padding-left: 42px;
+	    padding-top: 50px;
+	    padding-right: 0;
+	    padding-bottom: 50px;
+	}
+	.addPermissionsDialog .list {
+	    float: left;
+	    margin-bottom: 14px;
+	    width: 340px;
+	}
+	.addPermissionsDialog .list span {
+	    float: left;
+	    width: 76px;
+	    padding-top: 10px;
+	    position: relative;
+	}
+	.addPermissionsDialog .list .inputText {
+	    background-color: #FFF;
+	    border: 1px solid #c7c7c7;
+	    float: left;
+	    height: 35px;
+	    line-height: 35px;
+	    padding-bottom: 10px;
+	    padding-left: 6px;
+	    padding-top: 10px;
+	    margin-left: 4px;
+	    width: 230px;
+	}
+	input, img {
+	    vertical-align: middle;
+	}
+	.addPermissionsDialog .checkboxList {
+	    float: left;
+	    width: 100%;
+	    padding-left: 78px;
+	}
+	.addPermissionsDialog .checkboxList span {
+	    /* padding-right: 10px; */
+	    cursor: pointer;
+	}
+	.addPermissionsDialog .list span {
+	    float: left;
+	    padding-top: 10px;
+	    position: relative;
+	}
+	.addPermissionsDialog .list_title {
+	    width: 42px!important;
+	}
+	.addPermissionsDialog .J_Checkbox {
+	    float: left;
+	    margin-top: 16px;
+	    margin-right: 4px;
+	}
+	.dialog .dialog_ft {
+	    border-top: 1px solid transparent;
+	    box-shadow: none;
+	    margin: 0;
+	    text-align: center;
+	    background-color: #f4f5f9;
+	    padding: 16px 0;
+	}
+	.wc_btn_default {
+	    background-color: #fff;
+	    background-image: linear-gradient(to bottom,#fff 0,#fff 100%);
+	    border-color: #e7e7eb;
+	    color: #222;
+	}
+	.wc_btn {
+	    display: inline-block;
+	    overflow: visible;
+	    padding: 0 22px;
+	    height: 30px;
+	    line-height: 30px;
+	    vertical-align: middle;
+	    text-align: center;
+	    text-decoration: none;
+	    -webkit-border-radius: 3px;
+	    font-size: 14px;
+	    border-width: 1px;
+	    border-style: solid;
+	    cursor: pointer;
+	    min-width: 60px;
+	}
+	.wc_btn_warn {
+	    background-color: #f24d4d;
+	    background-image: linear-gradient(to bottom,#f24d4d 0,#f24d4d 100%);
+	    border-color: #f24d4d;
+	    color: #fff;
+	}
+	.wc_btn_primary {
+	    background-color: #44b549;
+	    background-image: linear-gradient(to bottom,#44b549 0,#44b549 100%);
+	    border-color: #44b549;
+	    color: #fff;
+	}
+	.addPermissionsDialog .checkboxList span:hover {
+	    color: #44b549;
+	}
+	/* .dialog_bd span{
+		padding:5px;
+		font-size:14px;
+		margin: 6px;
+		padding-top: 10px;
+   		position: relative;
+	} */
+	.dialog_bd span:hover{
+		color:#44b549;
+	}
+    </style>
+</head>
+<body>
+    <!--职位权限-->
+    <div class="rightarea clearfix">
+        <div class="mainarea clearfix">
+            <div class="mainhead">
+                <span class="title">职位权限</span>
+                <div class="searchArea">
+                    <div class="btn-div dialog addPermissionsDialog">
+                        <!-- 添加职位的模态框 -->
+                        <!-- Button trigger modal -->
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+							添加职位
+						</button>
+						
+						<!-- Modal -->
+						<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+						  <div class="modal-dialog modal-lg" role="document" style="width:780px;">
+						    <div class="modal-content" >
+						      <div class="modal-header"  style="background-color: #f4f5f9;">
+						        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalspan">添加职位</h4>
+						      </div>
+						      <div class="modal-body" style="height:530px;">
+						      	<!-- 添加职位的内容 -->
+						        <div class="dialog_bd clearfix">
+								    <div class="list"><span>职位名称：</span>
+										<input type="text" maxlength="8" value="" class="inputText" name="positionname">
+									</div>
+									
+									<div class="list" style="float:left; width:100%; margin-bottom:0px;"><span>职位权限：</span></div>
+									
+									<div class="list checkboxList"><span class="list_title">销售：</span>
+									<input type="checkbox" value="收银开单" name="checkbox" class="J_Checkbox" id="orderCheckBox1" checked="checked">
+									<span for="orderCheckBox1">收银开单</span>
+									<input type="checkbox" value="编辑订单" name="checkbox" class="J_Checkbox" id="orderCheckBox2" checked="checked">
+									<span for="orderCheckBox2">编辑订单</span>
+									<input type="checkbox" value="删除订单" name="checkbox" class="J_Checkbox" id="orderCheckBox3" checked="checked">
+									<span for="orderCheckBox3">删除订单</span>
+									<input type="checkbox" value="操作发货" name="checkbox" class="J_Checkbox" id="orderCheckBox4" checked="checked">
+									<span for="orderCheckBox4">操作发货</span>
+									<input type="checkbox" value="查看订单" name="checkbox" class="J_Checkbox" id="orderCheckBox5" checked="checked">
+									<span for="orderCheckBox5">查看订单</span>
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">报表：</span>
+									<input type="checkbox" value="营收概况" name="checkbox" class="J_Checkbox" id="analysisCheckBox1" checked="checked">
+									<span for="analysisCheckBox1">营收概况</span>
+									<input type="checkbox" value="热销商品" name="checkbox" class="J_Checkbox" id="analysisCheckBox2" checked="checked">
+									<span for="analysisCheckBox2">热销商品</span>
+									<input type="checkbox" value="业绩排名" name="checkbox" class="J_Checkbox" id="analysisCheckBox3" checked="checked">
+									<span for="analysisCheckBox3">业绩排名</span>
+									<input type="checkbox" value="月损益表" name="checkbox" class="J_Checkbox" id="analysisCheckBox4" checked="checked">
+									<span for="analysisCheckBox4">月损益表</span>
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">会员：</span>
+									<input type="checkbox" value="增加会员" name="checkbox" class="J_Checkbox" id="memberCheckBox1" checked="checked">
+									<span for="memberCheckBox1">增加会员</span>
+									<input type="checkbox" value="编辑会员" name="checkbox" class="J_Checkbox" id="memberCheckBox2" checked="checked">
+									<span for="memberCheckBox2">编辑会员</span>
+									<input type="checkbox" value="删除会员" name="checkbox" class="J_Checkbox" id="memberCheckBox3" checked="checked">
+									<span for="memberCheckBox3">删除会员</span>
+									<input type="checkbox" value="会员充值" name="checkbox" class="J_Checkbox" id="memberCheckBox4" checked="checked">
+									<span for="memberCheckBox4">会员充值</span>
+									<input type="checkbox" value="查询会员" name="checkbox" class="J_Checkbox" id="memberCheckBox4">
+									<span for="memberCheckBox4">查询会员</span> 
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">商品：</span>
+									<input type="checkbox" value="增加商品" name="checkbox" class="J_Checkbox" id="productsCheckBox1" checked="checked">
+									<span for="productsCheckBox1">增加商品</span>
+									<input type="checkbox" value="编辑商品" name="checkbox" class="J_Checkbox" id="productsCheckBox2" checked="checked">
+									<span for="productsCheckBox2">编辑商品</span>
+									<input type="checkbox" value="删除商品" name="checkbox" class="J_Checkbox" id="productsCheckBox3" checked="checked">
+									<span for="productsCheckBox3">删除商品</span>
+									</div>
+									
+									<div class="list checkboxList">
+									<p style="float:left;"><span class="list_title">库存：</span>
+									<input type="checkbox" value="入仓单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox1" checked="checked">
+									<span for="inventoryCheckBox1">入仓单</span>
+									<input type="checkbox" value="出货单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox2" checked="checked">
+									<span for="inventoryCheckBox2">出货单</span>
+									<input type="checkbox" value="调拨单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox3" checked="checked">
+									<span for="inventoryCheckBox3">调拨单</span>
+									<input type="checkbox" value="退货单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox4" checked="checked">
+									<span for="inventoryCheckBox4">退货单</span>
+									<input type="checkbox" value="报损单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox5" checked="checked">
+									<span for="inventoryCheckBox5">报损单</span>
+									<input type="checkbox" value="盘点单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox6" checked="checked">
+									<span for="inventoryCheckBox6">盘点单</span>
+									</p>
+									<p style="float:left;padding-left:78px; display:none;">
+									<input type="checkbox" value="进货单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox6" checked="checked">
+									<span for="inventoryCheckBox6">进货单审核</span>
+									<input type="checkbox" value="退货单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox7" checked="checked">
+									<span for="inventoryCheckBox7">退货单审核</span>
+									<input type="checkbox" value="配货单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox8" checked="checked">
+									<span for="inventoryCheckBox8">配货单审核</span>
+									<input type="checkbox" value="报损单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox9" checked="checked">
+									<span for="inventoryCheckBox9">报损单审核</span>
+									<input type="checkbox" value="盘点单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox10" checked="checked">
+									<span for="inventoryCheckBox10">盘点单审核</span>
+									</p>
+									
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">采购：</span>
+									<input type="checkbox" value="供应商" name="checkbox" class="J_Checkbox" id="procurementCheckBox1" checked="checked">
+									<span for="procurementCheckBox1">供应商</span>
+									<input type="checkbox" value="订货会" name="checkbox" class="J_Checkbox" id="procurementCheckBox2" checked="checked">
+									<span for="procurementCheckBox2">订货会</span>
+									<input type="checkbox" value="采购单" name="checkbox" class="J_Checkbox" id="procurementCheckBox3" checked="checked">
+									<span for="procurementCheckBox3">采购单</span>
+									<input type="checkbox" value="合同审核" name="checkbox" class="J_Checkbox" id="procurementCheckBox4" checked="checked">
+									<span for="procurementCheckBox4">合同审核</span>
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">店铺：</span>
+									<input type="checkbox" value="店铺信息" name="checkbox" class="J_Checkbox" id="storeCheckBox1" checked="checked">
+									<span for="storeCheckBox1">店铺信息</span>
+									<input type="checkbox" value="职位权限" name="checkbox" class="J_Checkbox" id="storeCheckBox2" checked="checked">
+									<span for="storeCheckBox2">职位权限</span>
+									<input type="checkbox" value="员工管理" name="checkbox" class="J_Checkbox" id="storeCheckBox3" checked="checked">
+									<span for="storeCheckBox3">员工管理</span>
+									</div> 
+									
+									</div>
+						      </div>
+						      <div class="modal-footer" style="background-color: #f4f5f9;text-align: center">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						        <button type="button" class="btn btn-primary">确定</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+                    </div>
+                </div>
+            </div>
+            <div class="mainbody">
+                <table class="settable">
+                    <thead>
+                        <tr>
+                            <th width="20%">序号</th>
+                            <th width="*">名称</th>
+                            <th width="40%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>职位</td>
+                            <td>
+                                <!-- <a href="javascript:;" data-target="updateModal" data-toggle="modal">编辑</a> -->
+                                <span  data-toggle="modal" data-target="#updateModal">编辑</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="dialog addPermissionsDialog">
+                	<!-- Button trigger modal -->
+					<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updateModal">
+					  编辑
+					</button> -->
+					
+					<!-- Modal -->
+						<div class="modal fade bs-example-modal-lg" id="updateModal" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+						  <div class="modal-dialog modal-lg" role="document" style="width:780px;">
+						    <div class="modal-content" >
+						      <div class="modal-header"  style="background-color: #f4f5f9;">
+						        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalspan">编辑职位</h4>
+						      </div>
+						      <div class="modal-body" style="height:530px;">
+						      	<!-- 添加职位的内容 -->
+						        <div class="dialog_bd clearfix">
+								    <div class="list"><span>职位名称：</span>
+										<input type="text" maxlength="8" value="店长" class="inputText" name="positionname">
+									</div>
+									
+									<div class="list" style="float:left; width:100%; margin-bottom:0px;"><span>职位权限：</span></div>
+									
+									<div class="list checkboxList"><span class="list_title">销售：</span>
+									<input type="checkbox" value="收银开单" name="checkbox" class="J_Checkbox" id="orderCheckBox1" checked="checked">
+									<span for="orderCheckBox1">收银开单</span>
+									<input type="checkbox" value="编辑订单" name="checkbox" class="J_Checkbox" id="orderCheckBox2" checked="checked">
+									<span for="orderCheckBox2">编辑订单</span>
+									<input type="checkbox" value="删除订单" name="checkbox" class="J_Checkbox" id="orderCheckBox3" checked="checked">
+									<span for="orderCheckBox3">删除订单</span>
+									<input type="checkbox" value="操作发货" name="checkbox" class="J_Checkbox" id="orderCheckBox4" checked="checked">
+									<span for="orderCheckBox4">操作发货</span>
+									<input type="checkbox" value="查看订单" name="checkbox" class="J_Checkbox" id="orderCheckBox5" checked="checked">
+									<span for="orderCheckBox5">查看订单</span>
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">报表：</span>
+									<input type="checkbox" value="营收概况" name="checkbox" class="J_Checkbox" id="analysisCheckBox1" checked="checked">
+									<span for="analysisCheckBox1">营收概况</span>
+									<input type="checkbox" value="热销商品" name="checkbox" class="J_Checkbox" id="analysisCheckBox2" checked="checked">
+									<span for="analysisCheckBox2">热销商品</span>
+									<input type="checkbox" value="业绩排名" name="checkbox" class="J_Checkbox" id="analysisCheckBox3" checked="checked">
+									<span for="analysisCheckBox3">业绩排名</span>
+									<input type="checkbox" value="月损益表" name="checkbox" class="J_Checkbox" id="analysisCheckBox4" checked="checked">
+									<span for="analysisCheckBox4">月损益表</span>
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">会员：</span>
+									<input type="checkbox" value="增加会员" name="checkbox" class="J_Checkbox" id="memberCheckBox1" checked="checked">
+									<span for="memberCheckBox1">增加会员</span>
+									<input type="checkbox" value="编辑会员" name="checkbox" class="J_Checkbox" id="memberCheckBox2" checked="checked">
+									<span for="memberCheckBox2">编辑会员</span>
+									<input type="checkbox" value="删除会员" name="checkbox" class="J_Checkbox" id="memberCheckBox3" checked="checked">
+									<span for="memberCheckBox3">删除会员</span>
+									<input type="checkbox" value="会员充值" name="checkbox" class="J_Checkbox" id="memberCheckBox4" checked="checked">
+									<span for="memberCheckBox4">会员充值</span>
+									<input type="checkbox" value="查询会员" name="checkbox" class="J_Checkbox" id="memberCheckBox4">
+									<span for="memberCheckBox4">查询会员</span> 
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">商品：</span>
+									<input type="checkbox" value="增加商品" name="checkbox" class="J_Checkbox" id="productsCheckBox1" checked="checked">
+									<span for="productsCheckBox1">增加商品</span>
+									<input type="checkbox" value="编辑商品" name="checkbox" class="J_Checkbox" id="productsCheckBox2" checked="checked">
+									<span for="productsCheckBox2">编辑商品</span>
+									<input type="checkbox" value="删除商品" name="checkbox" class="J_Checkbox" id="productsCheckBox3" checked="checked">
+									<span for="productsCheckBox3">删除商品</span>
+									</div>
+									
+									<div class="list checkboxList">
+									<p style="float:left;"><span class="list_title">库存：</span>
+									<input type="checkbox" value="入仓单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox1" checked="checked">
+									<span for="inventoryCheckBox1">入仓单</span>
+									<input type="checkbox" value="出货单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox2" checked="checked">
+									<span for="inventoryCheckBox2">出货单</span>
+									<input type="checkbox" value="调拨单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox3" checked="checked">
+									<span for="inventoryCheckBox3">调拨单</span>
+									<input type="checkbox" value="退货单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox4" checked="checked">
+									<span for="inventoryCheckBox4">退货单</span>
+									<input type="checkbox" value="报损单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox5" checked="checked">
+									<span for="inventoryCheckBox5">报损单</span>
+									<input type="checkbox" value="盘点单" name="checkbox" class="J_Checkbox" id="inventoryCheckBox6" checked="checked">
+									<span for="inventoryCheckBox6">盘点单</span>
+									</p>
+									<p style="float:left;padding-left:78px; display:none;">
+									<input type="checkbox" value="进货单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox6" checked="checked">
+									<span for="inventoryCheckBox6">进货单审核</span>
+									<input type="checkbox" value="退货单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox7" checked="checked">
+									<span for="inventoryCheckBox7">退货单审核</span>
+									<input type="checkbox" value="配货单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox8" checked="checked">
+									<span for="inventoryCheckBox8">配货单审核</span>
+									<input type="checkbox" value="报损单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox9" checked="checked">
+									<span for="inventoryCheckBox9">报损单审核</span>
+									<input type="checkbox" value="盘点单审核" name="checkbox" class="J_Checkbox" id="inventoryCheckBox10" checked="checked">
+									<span for="inventoryCheckBox10">盘点单审核</span>
+									</p>
+									
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">采购：</span>
+									<input type="checkbox" value="供应商" name="checkbox" class="J_Checkbox" id="procurementCheckBox1" checked="checked">
+									<span for="procurementCheckBox1">供应商</span>
+									<input type="checkbox" value="订货会" name="checkbox" class="J_Checkbox" id="procurementCheckBox2" checked="checked">
+									<span for="procurementCheckBox2">订货会</span>
+									<input type="checkbox" value="采购单" name="checkbox" class="J_Checkbox" id="procurementCheckBox3" checked="checked">
+									<span for="procurementCheckBox3">采购单</span>
+									<input type="checkbox" value="合同审核" name="checkbox" class="J_Checkbox" id="procurementCheckBox4" checked="checked">
+									<span for="procurementCheckBox4">合同审核</span>
+									</div>
+									
+									<div class="list checkboxList"><span class="list_title">店铺：</span>
+									<input type="checkbox" value="店铺信息" name="checkbox" class="J_Checkbox" id="storeCheckBox1" checked="checked">
+									<span for="storeCheckBox1">店铺信息</span>
+									<input type="checkbox" value="职位权限" name="checkbox" class="J_Checkbox" id="storeCheckBox2" checked="checked">
+									<span for="storeCheckBox2">职位权限</span>
+									<input type="checkbox" value="员工管理" name="checkbox" class="J_Checkbox" id="storeCheckBox3" checked="checked">
+									<span for="storeCheckBox3">员工管理</span>
+									</div> 
+									
+									</div>
+						      </div>
+						      <div class="modal-footer" style="background-color: #f4f5f9;text-align: center">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						        <button type="button" class="btn btn-primary">确定</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+                </div>
+				
+				
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    	$(function(){
+    		
+    	})
+    
+    </script>
+</body>
+</html>

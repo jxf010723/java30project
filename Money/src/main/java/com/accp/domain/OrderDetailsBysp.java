@@ -13,7 +13,7 @@ public class OrderDetailsBysp {
 
     private Integer goodsCount;
     
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date orderDate;
 
 	public Integer getOrderDetailsId() {

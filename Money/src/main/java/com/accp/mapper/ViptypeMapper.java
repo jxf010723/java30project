@@ -4,8 +4,13 @@ import com.accp.domain.Viptype;
 import com.accp.domain.ViptypeExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface ViptypeMapper {
+	
+	@Select("SELECT `vipType_id` FROM `viptype` WHERE vipType_name = #{name}")
+	Integer selectViptypeByviptypeName(String name);
+	
     int countByExample(ViptypeExample example);
 
     int deleteByExample(ViptypeExample example);

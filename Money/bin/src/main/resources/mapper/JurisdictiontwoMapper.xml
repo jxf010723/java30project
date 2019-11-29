@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.JurisdictiontwoMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Jurisdictiontwo" >
+    <id column="Jtwoid" property="jtwoid" jdbcType="INTEGER" />
+    <result column="Jtwoname" property="jtwoname" jdbcType="VARCHAR" />
+    <result column="Joneid" property="joneid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Jtwoid, Jtwoname, Joneid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.JurisdictiontwoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jurisdictiontwo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jurisdictiontwo
+    where Jtwoid = #{jtwoid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from jurisdictiontwo
+    where Jtwoid = #{jtwoid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.JurisdictiontwoExample" >
+    delete from jurisdictiontwo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Jurisdictiontwo" >
+    insert into jurisdictiontwo (Jtwoid, Jtwoname, Joneid
+      )
+    values (#{jtwoid,jdbcType=INTEGER}, #{jtwoname,jdbcType=VARCHAR}, #{joneid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Jurisdictiontwo" >
+    insert into jurisdictiontwo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jtwoid != null" >
+        Jtwoid,
+      </if>
+      <if test="jtwoname != null" >
+        Jtwoname,
+      </if>
+      <if test="joneid != null" >
+        Joneid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jtwoid != null" >
+        #{jtwoid,jdbcType=INTEGER},
+      </if>
+      <if test="jtwoname != null" >
+        #{jtwoname,jdbcType=VARCHAR},
+      </if>
+      <if test="joneid != null" >
+        #{joneid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.JurisdictiontwoExample" resultType="java.lang.Integer" >
+    select count(*) from jurisdictiontwo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update jurisdictiontwo
+    <set >
+      <if test="record.jtwoid != null" >
+        Jtwoid = #{record.jtwoid,jdbcType=INTEGER},
+      </if>
+      <if test="record.jtwoname != null" >
+        Jtwoname = #{record.jtwoname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.joneid != null" >
+        Joneid = #{record.joneid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update jurisdictiontwo
+    set Jtwoid = #{record.jtwoid,jdbcType=INTEGER},
+      Jtwoname = #{record.jtwoname,jdbcType=VARCHAR},
+      Joneid = #{record.joneid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Jurisdictiontwo" >
+    update jurisdictiontwo
+    <set >
+      <if test="jtwoname != null" >
+        Jtwoname = #{jtwoname,jdbcType=VARCHAR},
+      </if>
+      <if test="joneid != null" >
+        Joneid = #{joneid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Jtwoid = #{jtwoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Jurisdictiontwo" >
+    update jurisdictiontwo
+    set Jtwoname = #{jtwoname,jdbcType=VARCHAR},
+      Joneid = #{joneid,jdbcType=INTEGER}
+    where Jtwoid = #{jtwoid,jdbcType=INTEGER}
+  </update>
+</mapper>

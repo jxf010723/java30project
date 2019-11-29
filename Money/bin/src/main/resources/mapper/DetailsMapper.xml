@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.DetailsMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Details" >
+    <id column="detailsid" property="detailsid" jdbcType="INTEGER" />
+    <result column="goodsid" property="goodsid" jdbcType="INTEGER" />
+    <result column="goodsphoto" property="goodsphoto" jdbcType="VARCHAR" />
+    <result column="goodssize" property="goodssize" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="goodsstock" property="goodsstock" jdbcType="INTEGER" />
+    <result column="shapecode" property="shapecode" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    detailsid, goodsid, goodsphoto, goodssize, color, goodsstock, shapecode, count
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.DetailsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from details
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from details
+    where detailsid = #{detailsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from details
+    where detailsid = #{detailsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.DetailsExample" >
+    delete from details
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Details" >
+    insert into details (detailsid, goodsid, goodsphoto, 
+      goodssize, color, goodsstock, 
+      shapecode, count)
+    values (#{detailsid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{goodsphoto,jdbcType=VARCHAR}, 
+      #{goodssize,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, #{goodsstock,jdbcType=INTEGER}, 
+      #{shapecode,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Details" >
+    insert into details
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="detailsid != null" >
+        detailsid,
+      </if>
+      <if test="goodsid != null" >
+        goodsid,
+      </if>
+      <if test="goodsphoto != null" >
+        goodsphoto,
+      </if>
+      <if test="goodssize != null" >
+        goodssize,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="goodsstock != null" >
+        goodsstock,
+      </if>
+      <if test="shapecode != null" >
+        shapecode,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="detailsid != null" >
+        #{detailsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsphoto != null" >
+        #{goodsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="goodssize != null" >
+        #{goodssize,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsstock != null" >
+        #{goodsstock,jdbcType=INTEGER},
+      </if>
+      <if test="shapecode != null" >
+        #{shapecode,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.DetailsExample" resultType="java.lang.Integer" >
+    select count(*) from details
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update details
+    <set >
+      <if test="record.detailsid != null" >
+        detailsid = #{record.detailsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsid != null" >
+        goodsid = #{record.goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsphoto != null" >
+        goodsphoto = #{record.goodsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodssize != null" >
+        goodssize = #{record.goodssize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.color != null" >
+        color = #{record.color,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsstock != null" >
+        goodsstock = #{record.goodsstock,jdbcType=INTEGER},
+      </if>
+      <if test="record.shapecode != null" >
+        shapecode = #{record.shapecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        count = #{record.count,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update details
+    set detailsid = #{record.detailsid,jdbcType=INTEGER},
+      goodsid = #{record.goodsid,jdbcType=INTEGER},
+      goodsphoto = #{record.goodsphoto,jdbcType=VARCHAR},
+      goodssize = #{record.goodssize,jdbcType=VARCHAR},
+      color = #{record.color,jdbcType=VARCHAR},
+      goodsstock = #{record.goodsstock,jdbcType=INTEGER},
+      shapecode = #{record.shapecode,jdbcType=VARCHAR},
+      count = #{record.count,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Details" >
+    update details
+    <set >
+      <if test="goodsid != null" >
+        goodsid = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsphoto != null" >
+        goodsphoto = #{goodsphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="goodssize != null" >
+        goodssize = #{goodssize,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsstock != null" >
+        goodsstock = #{goodsstock,jdbcType=INTEGER},
+      </if>
+      <if test="shapecode != null" >
+        shapecode = #{shapecode,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+    </set>
+    where detailsid = #{detailsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Details" >
+    update details
+    set goodsid = #{goodsid,jdbcType=INTEGER},
+      goodsphoto = #{goodsphoto,jdbcType=VARCHAR},
+      goodssize = #{goodssize,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      goodsstock = #{goodsstock,jdbcType=INTEGER},
+      shapecode = #{shapecode,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER}
+    where detailsid = #{detailsid,jdbcType=INTEGER}
+  </update>
+</mapper>

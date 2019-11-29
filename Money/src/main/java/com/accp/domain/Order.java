@@ -3,6 +3,8 @@ package com.accp.domain;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Order {
     private String orderId;
 
@@ -22,6 +24,7 @@ public class Order {
 
     private String orderPayment;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date orderDate;
 
     private Integer integral;

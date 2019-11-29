@@ -3,10 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/member_info.css">
-    
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style type="text/css">
+		.addUserDialog .list {
+		    float: left;
+		    margin-bottom: 14px;
+		    width: 340px;
+		}
+		.addUserDialog .list span {
+		    float: left;
+		    width: 50px;
+		    padding-top: 6px;
+		    position: relative;
+		}
+		.addUserDialog .list em {
+		    float: left;
+		    color: #f17e3f;
+		    font-size: 14px;
+		    font-style: normal;
+		    font-weight: normal;
+		    position: absolute;
+		    top: 8px;
+		    left: -10px;
+		}
+		.addUserDialog .list .inputText {
+		    background-color: #FFF;
+		    border: 1px solid #e7e7eb;
+		    float: left;
+		    height: 35px;
+		    line-height: 35px;
+		    padding-bottom: 10px;
+		    padding-left: 6px;
+		    padding-top: 10px;
+		    width: 220px;
+		}
+		.addUserDialog .addressList {
+		    width: 680px;
+		}
+		.dropDownBox {
+		    cursor: pointer;
+		    float: left;
+		    height: 34px;
+		    position: relative;
+		    background-color: #FFF;
+		    border: 1px solid #e7e7eb;
+		    -webkit-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		.dropDownBox .comboxText {
+		    background-color: #FFF;
+		    margin-top: 7px;
+		    padding-left: 8px;
+		    padding-right: 26px;
+		    border: 0 none;
+		    cursor: pointer;
+		    float: left;
+		    height: 18px;
+		    line-height: 18px;
+		}
+		.dropDownBox .comboxArrow {
+		    background: url(http://www.poso2o.com/ECSHOP/style/img/mark.gif) 0 -58px no-repeat;
+		    width: 18px;
+		    height: 18px;
+		    cursor: pointer;
+		    opacity: .8;
+		    position: absolute;
+		    right: 2px;
+		    top: 7px;
+		    border-left: none;
+		}
+		.dropDownBox .pannel {
+		    position: absolute;
+		    /* display: none; */
+		    background: #fff;
+		    border: 1px #44b549 solid;
+		    overflow: hidden;
+		    z-index: 100;
+		}
+		.dropDownBox .pannel {
+		    top: 34px;
+		    max-height: 210px;
+		    left: -1px;
+		}
+		.addUserDialog .addressList .pannel ul {
+		    min-height: 180px;
+		}
+		.dropDownBox .pannel ul {
+		    overflow: auto;
+		    text-align: left;
+		}
+		.addUserDialog input,select{
+			height:35px;
+		}
+		.addUserDialog select{
+			width:130px;
+		}
+		
+		
+		
+		.batchImportDialog .dialog_bd {
+		    padding: 60px 90px;
+		}
+		.cf:after, .clearfix:after {
+		    clear: both;
+		    content: "";
+		    display: block;
+		    height: 0;
+		    overflow: hidden;
+		    visibility: hidden;
+		}
+		.batchImportDialog .addExcelBtn {
+		    float: left;
+		}
+		.batchImportDialog .btn {
+		    font-size: 14px;
+		    color: #5E5E5E;
+		    cursor: pointer;
+		    float: left;
+		    overflow: hidden;
+		    text-align: center;
+		    width: 130px;
+		    margin-left: 10px;
+		    text-align: center;
+		    text-decoration: none;
+		    height: 48px;
+		    line-height: 36px;
+		    border: 1px solid #B3B3B3;
+		    background-color: #f6f6f6;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		#excelFile {
+		    background: none repeat scroll 0 0 #FFFFFF;
+		    -moz-opacity: 0.0;
+		    -khtml-opacity: 0.0;
+		    opacity: 0.0;
+		    float: left;
+		    width: 10px;
+		}
+		.batchImportDialog .downExcl {
+		    float: left;
+		    padding-top: 12px;
+		    padding-left: 12px;
+		}
+		
+    </style>
 </head>
 <body>
+<div id="content">
     <!--会员信息-->
     <div class="rightarea clearfix">
         <div class="mainarea clearfix">
@@ -14,24 +162,23 @@
                 <span class="title">会员信息</span>
                 <div class="searchArea">
                     <div class="btn-div">
-                        <a href="javascript:;" class="btn btn-success">
+                        <a class="btn btn-success" data-toggle="modal" data-target="#addUserDialog">
                             添加会员
                         </a>
                     </div>
                 </div>
                 <div class="list">
-                    <a href="javascript:;" class="btn btn-default">导出会员</a>
-                    <a href="javascript:;" class="btn btn-default">批量导入</a>
+                    <a href="javascript:;" class="btn btn-default" onclick="exportExcel()">导出会员</a>
+                    <a href="javascript:;" class="btn btn-default" data-toggle="modal" data-target="#batchImportDialog">批量导入</a>
                 </div>
                 <div class="list search">
                     <input class="inputtext" type="text" placeholder="查找">
-                    <a href="javascript:;" class="search-btn"></a>
+                    <a onclick="queryMember(1)" href="javascript:;" class="search-btn"></a>
                 </div>
                 <div class="list">
-                    <select name="" id="" class="form-control">
-                        <option value="全部等级">全部等级</option>
+                    <select name="viptypeid" id="" class="form-control" onchange="queryMember(1)">
+                        <option value="全部等级" selected="selected">全部等级</option>
                     </select>
-
                 </div>
             </div>
             <div class="mainbody">
@@ -51,26 +198,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <input type="checkbox">
-                        </td>
-                        <td>
-                            1
-                        </td>
-                        <td class="nametd">
-                           1
-                        </td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
-                            <a href="javascript:;">编辑</a>
-                        </td>
-                    </tr>
                     </tbody>
                     <tfoot>
                     <tr>
@@ -89,33 +216,33 @@
                        <div class="page">
                                <ul class="pagination">
                                    <li>
-                                       <a href="javascript:;">
+                                       <a onclick="queryMember(1)" href="javascript:;">
                                            首页
                                        </a>
                                    </li>
                                    <li>
-                                       <a href="javascript:;">
+                                       <a name="s" onclick="s()" href="javascript:;">
                                            &laquo;
                                        </a>
                                    </li>
                                    <li>
-                                       <span style="font-size: 14px;">1/5</span>
+                                       <span style="font-size: 14px;" name="ye"></span>
                                    </li>
                                    <li>
-                                       <a href="javascript:;">
+                                       <a name="x" onclick="x()" href="javascript:;">
                                            &raquo;
                                        </a>
                                    </li>
                                    <li>
-                                       <a href="javascript:;">
+                                       <a name="w" onclick="w()" href="javascript:;">
                                            尾页
                                        </a>
                                    </li>
                                    <li style="margin-left: 20px; float:left;">
-                                       <input type="text" class="form-control" style="width: 100px;">
+                                       <input name="tz" type="text" class="form-control" style="width: 100px;">
                                    </li>
                                    <li style="margin-left: 15px; float:left;">
-                                       <a href="javascript:;" class="btn btn-default">
+                                       <a onclick="tz()" href="javascript:;" class="btn btn-default">
                                            跳转
                                        </a>
                                    </li>
@@ -128,5 +255,311 @@
             </div>
         </div>
     </div>
+
+	<!-- Modal -->
+	<div class="modal fade addUserDialog dialog " id="addUserDialog" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+	  <div class="modal-dialog" role="document" style="width:780px;">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color: #f4f5f9;">
+	        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title" id="myModalspan">添加会员</h3>
+	      </div>
+	      <div class="modal-body" style="height:290px;">
+	      	
+	      	<div class="dialog_bd clearfix">
+
+				<div class="list"><span><em>*</em>手　机</span><input type="text" maxlength="11" value="" class="inputText" name="vipPhone"></div>
+				<div class="list"><span><em>*</em>名　称</span><input type="text" maxlength="15" value="" class="inputText" name="vipName"></div>
+				<div class="list">
+					<span>等　级</span>
+					<div >
+						<select name="viptypeid1">
+							<option>请选择等级</option>
+						</select>
+					</div>
+				</div>
+				<div class="list"><span>密　码</span><input type="password" maxlength="16" value="" class="inputText" name="vipPwd"></div>
+				<div class="list addressList CA_Area">
+					<span>地　址</span>
+					<form class="form-inline">
+				      <div data-toggle="distpicker">
+				        <div class="form-group">
+				          <label class="sr-only" for="province2">Province</label>
+				          <select name="vipProvince" class="form-control" id="province2" data-province="---- 选择省 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="city2">City</label>
+				          <select name="vipCity" class="form-control" id="city2" data-city="---- 选择市 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="district2">District</label>
+				          <select name="vipRegion" class="form-control" id="district2" data-district="---- 选择区 ----"></select>
+				        </div>
+				      </div>
+				    </form>
+					
+				</div>
+				
+				<div class="list" style="width:450px;">
+					<span>街　道</span>
+					<input style="width:370px;" type="text" maxlength="16" value="" name="vipStreet" class="inputText">
+				</div>
+			
+				</div>
+	      	
+	      </div>
+	      <div class="modal-footer" style="text-align: center;background-color: #f4f5f9;">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add()">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade addUserDialog dialog " id="updateUserDialog" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+	  <div class="modal-dialog" role="document" style="width:780px;">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color: #f4f5f9;">
+	        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title" id="myModalspan">编辑会员</h3>
+	      </div>
+	      <div class="modal-body" style="height:290px;">
+	      	
+	      	<div class="dialog_bd clearfix">
+				<input type="hidden" name="userId2">
+				<input type="hidden" name="vipId2">
+				<input type="hidden" name="vipTurnover2">
+				<input type="hidden" name="transactionPrice2">
+				<input type="hidden" name="balance2">
+				<input type="hidden" name="integral2">
+				<div class="list"><span><em>*</em>手　机</span><input type="text" maxlength="11" value="" class="inputText" name="vipPhone2"></div>
+				<div class="list"><span><em>*</em>名　称</span><input type="text" maxlength="15" value="" class="inputText" name="vipName2"></div>
+				<div class="list">
+					<span>等　级</span>
+					<div >
+						<select name="viptypeid2">
+							<option>请选择等级</option>
+						</select>
+					</div>
+				</div>
+				<div class="list"><span>密　码</span><input type="text" maxlength="16" value="" class="inputText" name="vipPwd2"></div>
+				<div class="list addressList CA_Area">
+					<span>地　址</span>
+					<form class="form-inline">
+				      <div data-toggle="distpicker">
+				        <div class="form-group">
+				          <label class="sr-only" for="province2">Province</label>
+				          <select name="vipProvince2" class="form-control" id="province2" data-province="---- 选择省 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="city2">City</label>
+				          <select name="vipCity2" class="form-control" id="city2" data-city="---- 选择市 ----"></select>
+				        </div>
+				        <div class="form-group">-
+				          <label class="sr-only" for="district2">District</label>
+				          <select name="vipRegion2" class="form-control" id="district2" data-district="---- 选择区 ----"></select>
+				        </div>
+				      </div>
+				    </form>
+				</div>
+				
+				<div class="list" style="width:450px;">
+					<span>街　道</span>
+					<input style="width:370px;" type="text" maxlength="16" value="" name="vipStreet2" class="inputText">
+				</div>
+			
+				</div>
+	      	
+	      </div>
+	      <div class="modal-footer" style="text-align: center;background-color: #f4f5f9;">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="update()">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade batchImportDialog dialog " id="batchImportDialog" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+	  <div class="modal-dialog" role="document" style="width:490px;">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color: #f4f5f9;">
+	        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalspan">批量导入</h4>
+	      </div>
+	      <div class="modal-body" style="height:180px;padding: 0px;">
+	      	<div class="dialog_bd clearfix" style="">
+				<form name="excelFile" method="post" enctype="multipart/form-data">
+					<label for="excelFile" class="btn addExcelBtn">Excel导入</label>
+					<input type="file" name="file" class="file excelFile" id="excelFile" onchange="FexcelFile()">
+					<a href="javascript:void(0)" class="downExcl" onclick="downloadExcel()" data-dismiss="modal">下载范本</a>
+				</form>
+			</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
+   <script type="text/javascript">
+		queryMember(1)
+		function queryMember(pageNum){
+			if(pageNum==0){
+				return;
+			}
+			$("tbody").empty()
+			var viptypeid=$("[name=viptypeid]").val()
+			var searchname=$("[placeholder=查找]").val()
+			$.ajax({
+				url:"[[@{member/queryMember}]]",
+				data:{pageNum:pageNum,pageSize:2,viptypeid:viptypeid,searchname:searchname},
+				success:function(result){
+					$("[name=s]").attr("prePage",result.prePage)
+					$("[name=x]").attr("nextPage",result.nextPage)
+					$("[name=w]").attr("lastPage",result.lastPage)
+					$("[name=ye]").text(`${result.pageNum}/${result.pages}`)
+					$(result.list).each(function(i,obj){
+						$("tbody").append(`<tr>
+		                        <td>
+	                            ${this.vipId}
+	                        </td>
+	                        <td>
+	                            ${this.vipName}
+	                        </td>
+	                        <td class="nametd">
+	                           ${this.vipPhone}
+	                        </td>
+	                        <td>${this.viptypeName}</td>
+	                        <td>${this.vipTurnover}</td>
+	                        <td>${this.price}</td>
+	                        <td>${this.balance}</td>
+	                        <td>${this.integral}</td>
+	                        <td>${this.zjcj!=null?this.zjcj:0}</td>
+	                        <td>
+	                            <a data-toggle="modal" data-target="#updateUserDialog" onclick="queryVipByid(${this.vipId})">编辑</a>
+	                        </td>
+	                    </tr>`)
+					})
+				}
+			});
+		}
+		function s(){
+			queryMember($("[name=s]").attr("prePage"))
+		}
+		function x(){
+			queryMember($("[name=x]").attr("nextPage"))
+		}
+		function w(){
+			queryMember($("[name=w]").attr("lastPage"))
+		}
+		function tz(){
+			queryMember($("[name=tz]").val())
+		}
+		viptype()
+		function viptype(){
+			$.ajax({
+				url:"[[@{member/queryVipType}]]",
+				success:function(result){
+					$(result).each(function(i,obj){
+						$("[name=viptypeid]").append(`<option value="${this.viptypeId}">${this.viptypeName}</option>`)
+						$("[name=viptypeid1]").append(`<option value="${this.viptypeId}">${this.viptypeName}</option>`)
+						$("[name=viptypeid2]").append(`<option name="typeid" value="${this.viptypeId}">${this.viptypeName}</option>`)
+						
+					})
+				}
+			});
+		}
+		function downloadExcel(){
+			window.location.href="[[@{member/downloadExcel}]]"
+		}
+		function add(){
+			var viptypeId=$("[name=viptypeid1]").val()
+			var vipPhone=$("[name=vipPhone]").val()
+			var vipName=$("[name=vipName]").val()
+			var vipPwd=$("[name=vipPwd]").val()
+			var vipProvince=$("[name=vipProvince]").val()
+			var vipCity=$("[name=vipCity]").val()
+			var vipRegion=$("[name=vipRegion]").val()
+			var vipStreet=$("[name=vipStreet]").val()
+			$.ajax({
+				url:"[[@{member/addVip}]]",
+				data:{viptypeId:viptypeId,vipPhone:vipPhone,vipName:vipName,vipPwd:vipPwd,vipProvince:vipProvince,vipCity:vipCity,vipRegion:vipRegion,vipStreet:vipStreet},
+				success:function(result){
+					queryMember(1)
+				}
+			});
+		}
+		function queryVipByid(vipId){
+			$.ajax({
+				url:"[[@{member/queryVipByid}]]",
+				data:{vipId:vipId},
+				success:function(result){
+					$("[name=vipId2]").val(result.vipId)
+					$("[name=userId2]").val(result.userId)
+					$("[name=typeid]").each(function(){
+						if($(this).val()==result.viptypeId){
+							$(this).prop("selected",true)
+						}
+					})
+					$("[name=vipPhone2]").val(result.vipPhone)
+					$("[name=vipName2]").val(result.vipName)
+					$("[name=vipPwd2]").val(result.vipPwd)
+					$("[name=vipProvince2]").val(result.vipProvince)
+					$("[name=vipProvince2]").change()
+					$("[name=vipCity2]").val(result.vipCity)
+					$("[name=vipCity2]").change()
+					$("[name=vipRegion2]").val(result.vipRegion)
+					$("[name=vipStreet2]").val(result.vipStreet)
+					$("[name=vipTurnover2]").val(result.vipTurnover)
+		    		$("[name=transactionPrice2]").val(result.transactionPrice)
+		    		$("[name=balance2]").val(result.balance)
+		    		$("[name=integral2]").val(result.integral)
+				}
+			});
+		}
+		function update(){
+			var vipId=$("[name=vipId2]").val()
+			var userId=$("[name=userId2]").val()
+			var viptypeId=$("[name=viptypeid2]").val()
+			var vipPhone=$("[name=vipPhone2]").val()
+			var vipName=$("[name=vipName2]").val()
+			var vipPwd=$("[name=vipPwd2]").val()
+			var vipProvince=$("[name=vipProvince2]").val()
+			var vipCity=$("[name=vipCity2]").val()
+			var vipRegion=$("[name=vipRegion2]").val()
+			var vipStreet=$("[name=vipStreet2]").val()
+			var vipTurnover=$("[name=vipTurnover2]").val()
+		    var transactionPrice=$("[name=transactionPrice2]").val()
+		    var balance=$("[name=balance2]").val()
+		    var integral=$("[name=integral2]").val()
+			$.ajax({
+				url:"[[@{member/updateVip}]]",
+				data:{vipId:vipId,userId:userId,viptypeId:viptypeId,vipPhone:vipPhone,vipName:vipName,vipPwd:vipPwd,vipProvince:vipProvince,vipCity:vipCity,vipRegion:vipRegion,vipStreet:vipStreet,vipTurnover:vipTurnover,transactionPrice:transactionPrice,balance:balance,integral:integral},
+				success:function(result){
+					queryMember(1)
+				}
+			});
+		}
+		function exportExcel(){
+			var viptypeid=$("[name=viptypeid]").val()
+			var searchname=$("[placeholder=查找]").val()
+			window.location.href="[[@{member/exportExcel}]]?viptypeid="+viptypeid+"&searchname="+searchname
+		}
+		function FexcelFile(){
+			var formData = new FormData($("form[name=excelFile]")[0]);
+			$.ajax({
+				url:"[[@{member/uploadAjax}]]",
+				data:formData,
+				type:"post",
+				processData:false,
+				contentType:false,
+				success:function(result){
+					alert("导入成功！");
+					queryMember(1)
+				}
+			});
+		}
+   </script> 
+    <script type="text/javascript" th:src="@{js/distpicker.js}"></script>
+    <script type="text/javascript" th:src="@{js/distpicker.data.js}"></script>
+    <script type="text/javascript" th:src="@{js/distpicker.data.js}"></script>
 </body>
 </html>

@@ -1,9 +1,12 @@
 package com.accp.mapper;
 
 import com.accp.domain.Order;
+import com.accp.domain.OrderDetailsBysp;
 import com.accp.domain.OrderExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.hibernate.validator.constraints.ParameterScriptAssert;
 
 public interface OrderMapper {
     int countByExample(OrderExample example);
@@ -27,4 +30,31 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+    
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
+    		"FROM `order_details` od\r\n" + 
+    		"INNER JOIN `order`\r\n" + 
+    		"ON `order`.`order_id`=od.`order_id`")
+    List<OrderDetailsBysp> selectBysp();
+    
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
+    		"FROM `order_details` od\r\n" + 
+    		"INNER JOIN `order`\r\n" + 
+    		"ON `order`.`order_id`=od.`order_id`\r\n" + 
+    		"WHERE `order`.`order_date` BETWEEN #{preDate} AND #{afterDate} AND od.`goods_name` LIKE'%${name}%'")
+    List<OrderDetailsBysp> selectByspByAll(@Param("preDate") String preDate,@Param("afterDate") String afterDate,@Param("name") String name);
+    
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
+    		"FROM `order_details` od\r\n" + 
+    		"INNER JOIN `order`\r\n" + 
+    		"ON `order`.`order_id`=od.`order_id`\r\n" + 
+    		"WHERE `order`.`order_date` BETWEEN #{preDate} AND #{afterDate}")
+    List<OrderDetailsBysp> selectByspBydate(@Param("preDate") String preDate,@Param("afterDate") String afterDate);
+    
+    @Select("SELECT `order_details_id` as orderDetailsId,`goods_name` as goodsName,`goods_count` as goodsCount,`goods_price` as goodsPrice,`order_date` as orderDate \r\n" + 
+    		"FROM `order_details` od\r\n" + 
+    		"INNER JOIN `order`\r\n" + 
+    		"ON `order`.`order_id`=od.`order_id`\r\n" + 
+    		"WHERE od.`goods_name` LIKE'%${name}%'")
+    List<OrderDetailsBysp> selectByspByname(@Param("name") String name);
 }
