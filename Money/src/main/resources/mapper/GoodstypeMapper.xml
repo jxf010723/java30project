@@ -161,4 +161,8 @@
     set typename = #{typename,jdbcType=VARCHAR}
     where typeid = #{typeid,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectBytypename" parameterType="String" resultType="com.accp.domain.Goodstype">
+  	select * from where typename=#{0}
+  </select>
 </mapper>

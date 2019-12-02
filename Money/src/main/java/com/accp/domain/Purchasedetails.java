@@ -3,7 +3,7 @@ package com.accp.domain;
 public class Purchasedetails {
     private Integer purchasedetailsid;
 
-    private String ltemno;
+    private String bianhao;
 
     private Integer purchaseid;
 
@@ -17,87 +17,92 @@ public class Purchasedetails {
 
     private Float costprice;
 
-    private Float count;
+    private Float gooddetailscount;
 
-    private Float money;
+    private Float goodCostprice;
+    
 
-    public Integer getPurchasedetailsid() {
-        return purchasedetailsid;
-    }
+	public Integer getPurchasedetailsid() {
+		return purchasedetailsid;
+	}
 
-    public void setPurchasedetailsid(Integer purchasedetailsid) {
-        this.purchasedetailsid = purchasedetailsid;
-    }
+	public void setPurchasedetailsid(Integer purchasedetailsid) {
+		this.purchasedetailsid = purchasedetailsid;
+	}
 
-    public String getLtemno() {
-        return ltemno;
-    }
+	public String getBianhao() {
+		return bianhao;
+	}
 
-    public void setLtemno(String ltemno) {
-        this.ltemno = ltemno;
-    }
+	public void setBianhao(String bianhao) {
+		this.bianhao = bianhao;
+	}
 
-    public Integer getPurchaseid() {
-        return purchaseid;
-    }
+	public Integer getPurchaseid() {
+		return purchaseid;
+	}
 
-    public void setPurchaseid(Integer purchaseid) {
-        this.purchaseid = purchaseid;
-    }
+	public void setPurchaseid(Integer purchaseid) {
+		this.purchaseid = purchaseid;
+	}
 
-    public String getShapecode() {
-        return shapecode;
-    }
+	public String getShapecode() {
+		return shapecode;
+	}
 
-    public void setShapecode(String shapecode) {
-        this.shapecode = shapecode;
-    }
+	public void setShapecode(String shapecode) {
+		this.shapecode = shapecode;
+	}
 
-    public String getGoodsname() {
-        return goodsname;
-    }
+	public String getGoodsname() {
+		return goodsname;
+	}
 
-    public void setGoodsname(String goodsname) {
-        this.goodsname = goodsname;
-    }
+	public void setGoodsname(String goodsname) {
+		this.goodsname = goodsname;
+	}
 
-    public String getGoodsphoto() {
-        return goodsphoto;
-    }
+	public String getGoodsphoto() {
+		return goodsphoto;
+	}
 
-    public void setGoodsphoto(String goodsphoto) {
-        this.goodsphoto = goodsphoto;
-    }
+	public void setGoodsphoto(String goodsphoto) {
+		this.goodsphoto = goodsphoto;
+	}
 
-    public String getSpecification() {
-        return specification;
-    }
+	public String getSpecification() {
+		return specification;
+	}
 
-    public void setSpecification(String specification) {
-        this.specification = specification;
-    }
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
 
-    public Float getCostprice() {
-        return costprice;
-    }
+	public Float getCostprice() {
+		return costprice;
+	}
 
-    public void setCostprice(Float costprice) {
-        this.costprice = costprice;
-    }
+	public void setCostprice(Float costprice) {
+		this.costprice = costprice;
+	}
 
-    public Float getCount() {
-        return count;
-    }
+	public Float getGooddetailscount() {
+		return gooddetailscount;
+	}
 
-    public void setCount(Float count) {
-        this.count = count;
-    }
+	public void setGooddetailscount(Float gooddetailscount) {
+		this.gooddetailscount = gooddetailscount;
+	}
 
-    public Float getMoney() {
-        return money;
-    }
+	public Float getGoodCostprice() {
+		return goodCostprice;
+	}
 
-    public void setMoney(Float money) {
-        this.money = money;
-    }
+	public void setGoodCostprice(Float goodCostprice) {
+		this.goodCostprice = goodCostprice;
+	}
+
+	
+
+    
 }

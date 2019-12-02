@@ -29,7 +29,8 @@
             </div>
             <div class="list">
                 <select name="" id="" class="form-control">
-                    <option value="请选择城市">全部店铺</option>
+                    <option value="">全部店铺</option>
+                    <option v-for="item in dp" :value="item.shopid">{{item.shopname}}</option>
                 </select>
             </div>
 
@@ -59,63 +60,189 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr v-for="item,index in page.list">
-                    <td>
-                        {{index+1}}
-                    </td>
-                    <td>
-                    	{{item.shenghe}}
-                    </td>
-                    <td>
-						{{item.deliverytime}}
-                    </td>
-                    <td >{{item.odd}}
-                    </td>
-                    <td>{{item.odd}}</td>
-                    <td>{{item.odd}}</td>
-                    <td>{{item.odd}}</td>
-                    <td>{{item.odd}}</td>
-                    <td>
-                        <a href="javascript:;">删除</a>
-                        <a href="javascript:;">编辑</a>
-                    </td>
-                </tr>
+                	<tr v-for="item,index in  purc">
+						<td>{{index+1}}</td>
+						<td v-if="item.shenghe=='0'">
+										已审核
+						</td>
+						<td v-if="item.shenghe=='1'">
+							<a href="javascript:" v-on:click="a_tiao(item)" class="btn btn-default">未审核</a>
+						</td>
+						<td>{{item.odd}}</td>
+						<td>{{item.deliverytime}}</td>
+						<td>{{item.suppliername}}</td>
+						<td>{{item.goodscount}}</td>
+						<td>{{item.goodCostprice}}</td>
+						<td>{{item.remarks}}</td>
+						<td>
+							<a href="javascript:;" v-on:click="a_del(item)">删除</a>
+							<a v-if="item.shenghe=='1'" href="javascript:;" v-on:click="upda(item)">编辑</a>
+							<a v-if="item.shenghe=='0'" href="javascript:;" v-on:click="a_bj(item)">查看</a>
+						</td>
+					</tr>
                 </tbody>
             </table>
         </div>
     </div>
+    					<!-- 模态框（Modal） -->
+		<div class="modal fade" id="purchase_listModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div style="width: 75%;" class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">选择商品</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="info">
+									<td width="6%">货码</td>
+									<td width="10%">商品</td>
+									<td width="15%">规格</td>
+									<td width="10%">单价</td>
+									<td width="10%">库存</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr v-for="item,index in dede">
+									<td>{{item.bianhao}}</td>
+									<td>{{item.goodsname}}</td>
+									<td>--</td>
+									<td>{{item.goodCostprice}}</td>
+									<td>{{item.gooddetailscount}}</td>
+								</tr>
+							</tbody>
+						</table>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">确认</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+	      </div>	
 </div>
 </body>
 </html>
 <script type="text/javascript">
-	var purchasevue=new Vue({
+	 var purchasevue=new Vue({
 		el:"#add",
-		data(){
-			return{
-				page:{
-					list:[]
-				}
-			}
-		},
-		methods:{
-			pages:function(dqy,kstime,jstime,ming,supp){
-				var th=this;
-				$.ajax({
-					data:{pageNum:dqy,kstime:kstime,jstime:jstime,ming:ming,supp:supp},
-					url:"[[@{goods/goodspurchasepage}]]",
-					type:"post",
-					success:function(res){
-						console.log(res);
-						th.page=res;
-					}
-				});
-			}
-		},
-		mounted:function(){
-			this.pages(1,null,null,null,null);
-		}
-	});
-
+		 data(){
+ 		   return {
+ 			   dp:[],
+ 			   purc:[],
+ 			   dede:[]
+ 		   }
+ 	   },
+ 	   methods:{
+ 		   a_tiao:function(item){
+ 			   //alert(1)
+ 				   $.ajax({
+						 url:"[[@{/goods/upda?purchaseid=}]]"+item.purchaseid,
+						 dataType:"json",
+						 success:function(reulte){
+							//登入人的店铺渲染
+					 		   //查询这个人就几个店铺
+									  $.ajax({
+										 url:"[[@{/goods/selectshop?userid=1}]]",
+										 dataType:"json",
+										 success:function(reulte){
+											 console.log(reulte);
+											  purchasevue.dp=reulte;
+											 }
+										 })
+										 
+										  $.ajax({
+										 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null}]]",
+										 dataType:"json",
+										 success:function(reulte){
+											 //alert(reulte)
+											  purchasevue.purc=reulte;
+											 
+											}
+										 })
+							  
+						  }
+					  })
+ 		   },
+ 		   a_del:function(item){
+ 			   $.ajax({
+						 url:"[[@{/goods/deletePurchaseid?purchaseid=}]]"+item.purchaseid,
+						 dataType:"json",
+						 success:function(reulte){
+							//登入人的店铺渲染
+					 		   //查询这个人就几个店铺
+									  $.ajax({
+										 url:"[[@{/goods/selectshop?userid=1}]]",
+										 dataType:"json",
+										 success:function(reulte){
+											 console.log(reulte);
+											  purchasevue.dp=reulte;
+											 }
+										 })
+										 
+										  $.ajax({
+										 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null}]]",
+										 dataType:"json",
+										 success:function(reulte){
+											 //alert(reulte)
+											  purchasevue.purc=reulte;
+											 
+											}
+										 })
+						 } 
+					})
+ 		   },
+ 		   a_bj:function(item){//查看
+ 			   $.ajax({
+ 				  	 url:"[[@{/goods/bj?purchaseid=}]]"+item.purchaseid,
+						 success:function(reulte){
+							 console.log(reulte);
+							$("#purchase_listModal").modal('show');
+							purchasevue.dede=reulte;
+							//window.lication.href="[[@{/ha/tiao?htmlt=good_cg}]]"
+						 }
+					})
+ 		   },
+ 		   del:function(index){//删除选中的
+ 			   //alert(index)
+ 			   purchasevue.dede.splice(index,1); 
+ 		   },
+ 		   upda:function(item){
+ 			  $.ajax({
+		        	type:"post",
+		        	url:"/money2",
+		        	data:{dataid:"addPuchase2",purchaseid:item.purchaseid},
+		        	dataType:"html",
+		        	success:function(res){
+		        		$("#add").html("");
+		        		$("#add").append(res);
+		        	}
+		        });
+ 		   }
+ 	   },
+ 	   created:function(){
+ 		   //登入人的店铺渲染
+ 		   //查询这个人就几个店铺
+				  $.ajax({
+					 url:"[[@{/goods/selectshop?userid=1}]]",
+					 dataType:"json",
+					 success:function(reulte){
+						 
+						  purchasevue.dp=reulte;
+						 }
+					 })
+					 
+					  $.ajax({
+					 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null}]]",
+					 dataType:"json",
+					 success:function(reulte){
+						 //alert(reulte)
+						  purchasevue.purc=reulte;
+						 
+						}
+					 })
+ 	   }
+    })
 
 
 

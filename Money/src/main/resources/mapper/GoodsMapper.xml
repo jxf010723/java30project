@@ -6,7 +6,7 @@
     <result column="shopid" property="shopid" jdbcType="INTEGER" />
     <result column="typeid" property="typeid" jdbcType="INTEGER" />
     <result column="supplierid" property="supplierid" jdbcType="INTEGER" />
-    <result column="goodsbrand" property="goodsbrand" jdbcType="VARCHAR" />
+    
     <result column="goodsname" property="goodsname" jdbcType="VARCHAR" />
     <result column="goodsphoto" property="goodsphoto" jdbcType="VARCHAR" />
     <result column="numbers" property="numbers" jdbcType="VARCHAR" />
@@ -15,6 +15,9 @@
     <result column="salesprice" property="salesprice" jdbcType="REAL" />
     <result column="costprice" property="costprice" jdbcType="REAL" />
     <result column="agio" property="agio" jdbcType="INTEGER" />
+     <result column="colour" property="colour" jdbcType="VARCHAR" />
+     <result column="bianhao" property="bianhao" jdbcType="VARCHAR" />
+     <result column="miaoshu" property="miaoshu" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    goodsid, shopid, typeid, supplierid, goodsbrand, goodsname, goodsphoto, numbers, 
-    specification, stock, salesprice, costprice, agio
+    goodsid, shopid, typeid, supplierid, goodsname, goodsphoto, numbers, 
+    specification, stock, salesprice, costprice, agio,bianhao
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.GoodsExample" >
     select
@@ -162,6 +165,12 @@
       <if test="agio != null" >
         agio,
       </if>
+      <if test="colour != null" >
+        colour,
+      </if>
+      <if test="bianhao != null" >
+        bianhao,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="goodsid != null" >
@@ -202,6 +211,12 @@
       </if>
       <if test="agio != null" >
         #{agio,jdbcType=INTEGER},
+      </if>
+      <if test="colour != null" >
+        #{colour,jdbcType=VARCHAR},
+      </if>
+      <if test="bianhao != null" >
+        #{bianhao,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -335,4 +350,79 @@
       agio = #{agio,jdbcType=INTEGER}
     where goodsid = #{goodsid,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectgoodsAll" resultType="com.accp.domain.Goods" parameterType="String">
+  	SELECT g.bianhao,g.`colour`,g.`goodsid`,g.`typeid`,t.typename,g.`supplierid`,g.`shopid`,g.`goodsname`,g.`goodsphoto`,
+  	g.`numbers`,g.`specification`,g.`stock`,g.`salesprice`,g.`costprice`,g.`agio` FROM `goods` g INNER JOIN
+  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+	 <where>
+	 u.uid=#{uid}
+	 	<if test="typeid!= '' ">
+	 			AND g.typeid =#{typeid}
+	 	</if>
+	 <if test="numbers!= '' ">
+	 			AND  (numbers LIKE #{numbers} OR goodsname LIKE #{numbers})
+	 	</if>
+	 </where>
+  </select>
+  
+  <select id="selectgoodsAlls" resultType="com.accp.domain.Goods" parameterType="String">
+  	SELECT g.bianhao,g.`colour`,g.`goodsid`,g.`typeid`,t.typename,g.`supplierid`,g.`shopid`,g.`goodsname`,g.`goodsphoto`,
+  	g.`numbers`,g.`specification`,g.`stock`,g.`salesprice`,g.`costprice`,g.`agio` FROM `goods` g INNER JOIN
+  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+	 <where>
+	 u.uid=#{uid}
+	 	<if test="typeid!= '' ">
+	 			AND g.typeid =#{typeid}
+	 	</if>
+	 <if test="numbers!= '' ">
+	 			AND  (numbers <![CDATA[like '%${numbers}%']]> OR goodsname <![CDATA[like '%${numbers}%']]>)
+	 	</if>
+	 	
+	 </where>
+  </select>
+  
+  <select id="selectByzongji" resultType="com.accp.domain.zongjivo" parameterType="String">
+  	SELECT SUM(stock) stock,SUM(salesprice) salesprice,SUM(costprice) costprice FROM `goods` g INNER JOIN
+  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+	 <where>
+	 u.uid=#{uid}
+	 	<if test="typeid!= '' ">
+	 			AND g.typeid =#{typeid}
+	 	</if>
+	 <if test="numbers!= '' ">
+	 			AND  (numbers LIKE #{numbers} OR goodsname LIKE #{numbers})
+	 	</if>
+	 </where>
+  
+  </select>
+  
+  <insert id="insertzhuxiang" parameterType="com.accp.domain.Goods" useGeneratedKeys="true" keyProperty="goodsid">
+  	insert into goods (shopid, typeid, 
+        goodsname, 
+      goodsphoto, 
+      stock, salesprice, costprice,bianhao,miaoshu)
+    values ( #{shopid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR}, 
+      #{goodsphoto,jdbcType=VARCHAR},#{stock,jdbcType=INTEGER}, #{salesprice,jdbcType=REAL}, #{costprice,jdbcType=REAL},
+      #{bianhao,jdbcType=VARCHAR},#{miaoshu,jdbcType=VARCHAR})
+      
+    
+  </insert>
+  <update id="updategoods" parameterType="com.accp.domain.Goods">
+  	update goods set shopid=#{shopid},typeid=#{typeid},goodsname=#{goodsname},
+  	goodsphoto=#{goodsphoto},stock=#{stock},salesprice=#{salesprice},costprice=#{costprice},
+  	bianhao=#{bianhao},miaoshu=#{miaoshu} where goodsid=#{goodsid}
+  </update>
+  <insert id="insertxiang" parameterType="com.accp.domain.Details"> 	      
+     INSERT INTO `collectmoney`.`details` ( `goodsid`, `goodssize`, `color`, `shapecode`, `count`,bianhao) VALUES
+     
+      ( #{goodsid}, #{goodssize} , #{color} , #{shapecode} , #{count},#{bianhao} )
+      
+  </insert>
+  <delete id="deletegoods">
+  	delete from goods where goodsid=#{goodsid}
+  </delete>
+  <delete id="deletedetails">
+  	delete from details where goodsid=#{goodsid}
+  </delete>
 </mapper>

@@ -316,4 +316,7 @@
 		      
 		</where>
 	</select>
+	<select id="selectByid" parameterType="String" resultMap="BaseResultMap">
+		select * from supplier where supplierid=#{0}
+	</select>
 </mapper>

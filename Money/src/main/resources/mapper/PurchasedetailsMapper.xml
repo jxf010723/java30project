@@ -10,8 +10,8 @@
     <result column="goodsphoto" property="goodsphoto" jdbcType="VARCHAR" />
     <result column="specification" property="specification" jdbcType="VARCHAR" />
     <result column="costprice" property="costprice" jdbcType="REAL" />
-    <result column="count" property="count" jdbcType="REAL" />
-    <result column="money" property="money" jdbcType="REAL" />
+    <result column="gooddetailscount" property="gooddetailscount" jdbcType="REAL" />
+    <result column="goodCostprice" property="goodCostprice" jdbcType="REAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -121,8 +121,8 @@
       <if test="purchasedetailsid != null" >
         purchasedetailsid,
       </if>
-      <if test="ltemno != null" >
-        ltemno,
+      <if test="bianhao != null" >
+        bianhao,
       </if>
       <if test="purchaseid != null" >
         purchaseid,
@@ -142,19 +142,19 @@
       <if test="costprice != null" >
         costprice,
       </if>
-      <if test="count != null" >
-        count,
+      <if test="gooddetailscount != null" >
+        gooddetailscount,
       </if>
-      <if test="money != null" >
-        money,
+      <if test="goodCostprice != null" >
+        goodCostprice,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="purchasedetailsid != null" >
         #{purchasedetailsid,jdbcType=INTEGER},
       </if>
-      <if test="ltemno != null" >
-        #{ltemno,jdbcType=VARCHAR},
+      <if test="bianhao != null" >
+        #{bianhao,jdbcType=VARCHAR},
       </if>
       <if test="purchaseid != null" >
         #{purchaseid,jdbcType=INTEGER},
@@ -174,11 +174,11 @@
       <if test="costprice != null" >
         #{costprice,jdbcType=REAL},
       </if>
-      <if test="count != null" >
-        #{count,jdbcType=REAL},
+      <if test="gooddetailscount != null" >
+        #{gooddetailscount,jdbcType=REAL},
       </if>
-      <if test="money != null" >
-        #{money,jdbcType=REAL},
+      <if test="goodCostprice != null" >
+        #{goodCostprice,jdbcType=REAL},
       </if>
     </trim>
   </insert>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/shop_upload.css">
+    <script src="js/common.js"></script>
     <style type="text/css">
     .aas{
 		border:1px solid #907c73;
@@ -28,10 +29,7 @@
                                     商品货号
                                 </span>
                                 <input type="text" class="inputtext" id="shangpinhh">
-                                <span>
-                                    商品品牌
-                                </span>
-                                <input type="text" class="inputtext" >
+                                
                             </div>
                             <!---->
                             <div class="listdiv">
@@ -172,14 +170,14 @@
                     <!--上传图片  放大-->
                     <div class="productshow clearfix">
                         <div class="magni">
-                            <div class="tb-booth s310">
+                            <div class="tb-booth s310" >
                                 <a href="javascript:;">
                                     <img src="images/storeindex/uploadImg150_150.jpg" lt=""  id="imagePre">
                                 </a>
                             </div>
                         </div>
                         <!--下一张下一张-->
-                        <div class="staticPic clearfix">
+                        <div class="staticPic clearfix" >
                             <span class="prev"></span>
                             <span class="next"></span>
                             <!--小图滚动区域-->
@@ -214,6 +212,7 @@
         </div>
     </div>
 </div>
+<div th:text="${purchaseid}" id="goodsid" style="display: none;"></div>
 <script type="text/javascript">
     var uploadvue=new Vue({
     	el:"#upvue",
@@ -237,6 +236,20 @@
     		this.logintype();
     	}
     });
+    $(function(){
+    	var goodsid=$("#goodsid").text();
+    	alert(goodsid)
+    })
+    
+    $("#chicun a").click(function(){
+    	 $(this).toggleClass("aas");
+ 			/* if(){
+ 				$(this).removeClass("aas");
+ 			}
+     		$(this).addClass("aas"); */
+     });
+    
+    
     
 
     var E = window.wangEditor
@@ -270,7 +283,7 @@
     
     $(function(){
     	shangpinccxs();	
-    	
+    	 shangpinshch();
     	$(".yss").click(function(){
     		
     	//	var n=*;
@@ -280,7 +293,9 @@
     
     	});
     	
-    	
+    	$("#qxfbu").click(function(){
+    		initshch("shangpinguanli/shangpinGl");
+    	});
     	
     	$("#tjys").click(function(){
     		$("#ysbiao").show();
@@ -310,6 +325,7 @@
     
     
     function fbbaocuan(){
+    	var goodsid=$("#goodsid").text();
     	var formData = new FormData($("form")[0]);
 		 var files = $("[name=picFile]")[0].files;
 		for(var i=0;i<files.length;i++){
@@ -331,6 +347,7 @@
 		    			costprice:$("#shangpincb").val(),
 		    			stock:$("#shangpinkc").val(),
 		    			typeid: $("#shangpinlbss").val(),
+		    			goodsid:goodsid,
 		    	miaoshu:editor.txt.text(),
 		    	sid:1,
 		    	goodsphoto:result,
@@ -338,7 +355,7 @@
 		     	};
 		    	for(var i=0;i<$(".spxbiao").length;i++){
 		    		var spxsaq={		    			
-		    				bianhao:$("#shangpinhh").val(),
+		    				goodsid:$("#shangpinhh").val(),
 			    			color:"",
 			    			goodssize:"",
 			    			shapecode:"",
@@ -353,11 +370,11 @@
 			    	$.ajax({
 			    		data:JSON.stringify(list),
 			    		type:"json",
-			    		url:"[[@{goods/insertzhuxiang}]]",
+			    		url:"[[@{goods/updatezhuxing}]]",
 			    		dateType:"json",
 			    		contentType : "application/json;charset=utf-8",
 			    		success:function(res){
-			    			if(res>0){
+			    			
 			    				alert("cg");
 			    				$.ajax({
 			    		        	type:"post",
@@ -369,42 +386,70 @@
 			    		        		$("#add").append(res);
 			    		        	}
 			    		        });
-			    			}
+			    			
 			    		}
 			    	});
 			}
 		});
     	
-    	
-    	
-    	
-    	
-    	
-    	
     }
     
-    
-    
-    
-    
-    
-    
-    
-	function initxx(index) {
-		$.ajax({
-			url : "[[@{/dianpu/go}]]",
-			data : {
-				method : index
-			},
-			dataType : "html",
-			success : function(res) {
-				$("#lb").empty();
-				$("#lb").append(res);
+    function shangpinshch(){
+    	var goodsid=$("#goodsid").text();
+    	$.ajax({
+			url:"[[@{/goods/selectBygoodsid}]]",
+			type:"post",
+			data:{goodsid:goodsid},
+			dataType:"json",
+			success:function(res){
+				alert(1);
+				if(res!=null){
+					
+					$("#shangpinhh").val(res.bianhao);
+					$("#shangpinmc").val(res.goodsname);
+					$("#shangpinxs").val(res.salesprice);
+					$("#shangpincb").val(res.costprice);					
+					$.each(res.spx,function(i,obj){
+						var $gg="<tr class='spxbiao'>";
+						for(var i=0;i<$(".cima").length;i++){
+    						if($(".cima").eq(i).val()==obj.goodssize){
+    							$(".cima").eq(i).prop("checked",true);
+    						}
+    					}
+						for(var i=0;i<$(".yss").length;i++){
+    						if($(".yss").eq(i).val()==obj.color){
+    							$(".yss").eq(i).prop("checked",true);
+    						}
+    					}
+						if(obj.color!=null){
+							$gg+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>"+obj.color;
+						}else{
+							$gg+="<td class='col-md-4' style='text-align: center;'><span class='yszhi'>-";
+						}
+		        		if(obj.goodssize!=null){
+		        			$gg+="</span>/<span class='cczhi'>"+obj.goodssize+"</td>";
+		        		}else{
+		        			$gg+="</span>/<span class='cczhi'>-</td>";
+		        		}	
+	        				
+	        				$gg+="<td class='col-md-4' style='text-align: center;'><input type='text' class='shul' onblur='spxshul()' value='"+obj.count+"' ></td>"+
+							"<td class='col-md-4 shangpinshchtiaoma' style='text-align: center;'>"+obj.shapecode+"</td>"+
+						"</tr>";
+	        				$("#spxtb").append($gg);
+					});
+					
+    				$("#shangpinkc").val(res.stock);
+    				editor.txt.text("");
+    				editor.txt.text(res.miaoshu);
+    				 $("#imagePre").attr("src", "img/"+res.goodsphoto); 
+    				 $("#shangpinlbss").val(res.typeid).trigger("change");
+				}else{
+					spsf();	
+					
+				}//$("#shangpinmc").val(res.spname);
 			}
 		});
-	}
-    
-   
+    }
     
     function ccclick(){
     	spsf();
@@ -678,8 +723,8 @@
 		}
 		$("#shangpinkc").val(spkc);
     }
-    
-   
+
+  
     function quxiao(){
     	$.ajax({
         	type:"post",
@@ -692,7 +737,7 @@
         	}
         });
     }
-    
+   
 </script>
 </body>
 </html>

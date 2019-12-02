@@ -19,6 +19,8 @@ public interface SupplierMapper {
     int deleteBysuppiler(String id);
     
     List<Supplier> selectByExample(SupplierExample example);
+    
+    Supplier selectByid(String suppid);
 
     int updateByExampleSelective(@Param("record") Supplier record, @Param("example") SupplierExample example);
 

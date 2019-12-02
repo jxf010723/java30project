@@ -28,21 +28,25 @@
 
             <div class="list search">
                 <input class="inputtext" type="text" placeholder="查找" id="ming">
-                <a href="javascript:void(0)" class="search-btn" @click="mingpage"></a>
+                <a href="javascript:void(0)" class="search-btn" onclick="mingpage()"></a>
             </div>
             <div class="list">
             <form class="form-inline">
-      <div data-toggle="distpicker">
+      <div id="distpicker5">
         <div class="form-group">
-          <label class="sr-only" for="province7">Province</label>
-          <select class="form-control" id="province7" @change="shengpage()"></select>
+          <label class="sr-only" for="province10">Province</label>
+          <select class="form-control" id="province10" onchange="shengpage()"></select>
         </div>
         <div class="form-group">
-          <label class="sr-only" for="city7">City</label>
-          <select class="form-control" id="city7"></select>
+          <label class="sr-only" for="city10">City</label>
+          <select class="form-control" id="city10" onchange="shengpage()"></select>
         </div>
       </div>
     </form>
+            
+            
+            
+        
              
         </div>
          <div class="list">
@@ -63,26 +67,8 @@
                     <th width="8%">操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr v-for="item,index in page.list">
-                    <td>
-                      {{index+1}}
-                    </td>
-                    <td>{{item.cohr}}
-                    </td>
-                    <td>{{item.suppliername}}
-                    </td>
-                    <td >{{item.contact}}
-                    </td>
-                    <td>{{item.phone}}</td>
-                    <td>{{item.telephone}}</td>
-                    <td>{{item.email}}</td>
-                    <td>-</td>
-                    <td>
-                        <a href="javascript:;" @click="del(item.supplierid)">删除</a>
-                        <a href="javascript:;" @click="upd(item)">编辑</a>
-                    </td>
-                </tr>
+                <tbody id="tbody">
+               
                 </tbody>
                 
             </table>
@@ -90,19 +76,19 @@
 									<td colspan="5">
 										<ul class="pager">
 											<li>
-												<a href="javascript:void(0)" @click="shou">首页</a>
+												<a href="javascript:void(0)"  id="shou">首页</a>
 											</li>
 											<li class="abled" >
-												<a href="javascript:void(0)" @click="shang">上一页</a>
+												<a href="javascript:void(0)"  id="shang">上一页</a>
 											</li>
 											<li class="abled"  >
-												<a href="javascript:void(0)" @click="xia">下一页</a>
+												<a href="javascript:void(0)"  id="xia">下一页</a>
 											</li>
 											<li>
-												<a href="javascript:void(0)" @click="wei">末页</a>
+												<a href="javascript:void(0)"  id="wei">末页</a>
 											</li>
 											<li class="disabled">
-												<a href="javascript:void(0)" style="margin-left: 50px;">第<b id="num">{{page.pageNum}}</b>页/ 共<b id="pages">{{page.pages}}</b>页  &nbsp; &nbsp;  共<b id="size">{{page.total}}</b>条记录</a>
+												<a href="javascript:void(0)" style="margin-left: 50px;">第<b id="num"></b>页/ 共<b id="pages"></b>页  &nbsp; &nbsp;  共<b id="size"></b>条记录</a>
 											</li>
 										</ul>
 									</td>
@@ -124,61 +110,72 @@
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control" id="suppname" v-model="supplier.suppliername">
+						      <input type="text" class="form-control" id="suppname" >
 						    </div>
 						    
 						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>公司简称</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control" id="cohr" v-model="supplier.cohr">
+						      <input type="text" class="form-control" id="cohr" >
 						    </div>
 						  </div>
 						  
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;&nbsp;系  人</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control" id="contact" v-model="supplier.contact">
+						      <input type="text" class="form-control" id="contact" >
 						    </div>
 						    
 						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control" id="phone" v-model="supplier.phone">
+						      <input type="text" class="form-control" id="phone" >
 						    </div>
 						  </div>
 						  
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-2 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control" id="email" v-model="supplier.email">
+						      <input type="text" class="form-control" id="email" >
 						    </div>
 						    
 						     <label for="inputEmail3" class="col-sm-2 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control" id="telephone" v-model="supplier.telephone">
+						      <input type="text" class="form-control" id="telephone" >
 						    </div>
 						  </div>
 						  
 						   <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-2 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
 						    <div class="col-sm-10">
-						         <input type="text" class="form-control" id="province" name="province" style="width: 25%;display: inline-block;" placeholder="所在省" v-model="supplier.province">
-                         	  &nbsp; <input class="form-control" type="text" id="city" name="city" style="width: 25%;display: inline-block;" placeholder="所在省"  v-model="supplier.city">  
-                           	 &nbsp;<input  type="text" class="form-control" id="district" name="district" style="width: 25%;display: inline-block;" placeholder="所在区"  v-model="supplier.district">
-                            
-                           
-						    
+						         <form class="form-inline">
+      <div data-toggle="distpicker">&nbsp;&nbsp;&nbsp;
+        <div class="form-group" style="display: inline-block;width: 25%">
+          <label class="sr-only" for="province2">Province</label>
+          <select class="form-control" id="province2" data-province="---- 选择省 ----"></select>
+        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="form-group" style="display: inline-block;width: 25%">
+          <label class="sr-only" for="city2">City</label>
+          <select class="form-control" id="city2" data-city="---- 选择市 ----"></select>
+        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="form-group" style="display: inline-block;width: 25%">
+          <label class="sr-only" for="district2">District</label>
+          <select class="form-control" id="district2" data-district="---- 选择区 ----"></select>
+        </div>
+      </div>
+    </form>
+
 						    </div>
 						  </div>
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-2 control-label">街&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道</label>
-						    <div class="col-sm-8">
-						      <input type="text" class="form-control" id="street" v-model="supplier.street">
+						    <div class="col-sm-6">
+						      <input type="text" class="form-control" id="street" >
 						    </div>
 						  </div>
 						</form>
 		            </div>
 		            <div class="modal-footer" style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-		                <button type="button" class="btn btn-success" style="width: 16.66%;" @click="supplierinsert">确认</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;" onclick="supplierinsert()">确认</button>
 		            </div>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
@@ -194,7 +191,7 @@
 </html>
 
 <script type="text/javascript">
-//我来判断是新增还是修改
+/*我来判断是新增还是修改*/
 var bool=0;
 /*模态框*/
 $('#exampleModal').on('show.bs.modal', function (event) {
@@ -207,126 +204,192 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 	  modal.find('.modal-body input').val(recipient)
  })  
  
-
-	var supplier=new Vue({
-		el:"#suppvue",
-		data(){
-			return{
-				page:{
-					list:[]
-				},
-				supplier:{
-					
-				}
-				
-			}
-		},
-		methods:{
-			upd:function(item){//修改
-				 //alert(1)
-				 $('#supplierModal').modal('show');
-					  var button = $(event.relatedTarget) // 触发模式的按钮
-					  var recipient = button.data('whatever') // 从数据中提取信息-*属性
-					  // 如果需要，可以在这里启动AJAX请求（然后在回调中进行更新）。
-					  // 更新模态的内容。我们将在这里使用jQuery，但是您可以使用数据绑定库或其他方法。
-					  $('#supplierModalLabel').html("供应商编辑")
-					  $('#exampleModal').find('.modal-body input').val(item.suppliername)
-					 $("#suppname").val(item.suppliername);
-					  $("#cohr").val(item.cohr);
-					  $("#contact").val(item.contact);
-					  $("#phone").val(item.phone);
-					  $("#email").val(item.email);
-					  $("#telephone").val(item.telephone);
-					  $("#province").val(item.province);
-					  $("#city").val(item.city);
-					  $("#district").val(item.district);
-					  $("#street").val(item.street);
-					  bool=item.supplierid;
-			 },
-			 del:function(supid){
-				 if (confirm("您确认要删除改供应商吗？")) {
-				 $.ajax({
-						data:{id:supid},
-						url:"[[@{goods/supplierdelete}]]",
-						type:"post",
-						success:function(res){
-						}
-					});
-				 this.pages(1,null,null,null);
-				 }
-			 },
-			pages:function(dqy,sheng,shi,ming){
+pages(1,null,null,null);
+ function pages(dqy,sheng,shi,ming){
 				var th=this;
 				$.ajax({
 					data:{pageNum:dqy,sheng:sheng,shi:shi,ming:ming},
 					url:"[[@{goods/goodssupplierpage}]]",
 					type:"post",
 					success:function(res){
-						console.log(res);
-						th.page=res;						
+						$("#tbody").html("");
+						$.each(res.list,function(i,obj){
+							var th="<tr><td>"+(i+1)+"</td><td>"+obj.cohr+"</td><td>"+obj.suppliername+"</td><td>"+obj.contact+"</td><td>"+obj.phone+"</td><td>"+obj.telephone+"</td><td>"+obj.email+"</td><td>-</td><td><a href='javascript:;' onclick='del("+obj.supplierid+")'>删除</a><a href='javascript:;' onclick='upd("+obj.supplierid+")'>编辑</a></td></tr>";
+							$("#tbody").append(th);
+						});		
+						$("#shou").attr("onclick","shou()");
+						
+						
+						if(res.hasNextPage) {
+							$("#xia").attr("onclick","xia("+res.nextPage+")");
+						}
+						if(res.hasPreviousPage) {
+							$("#shang").attr("onclick","shang("+res.prePage+")");
+						}
+						
+						$("#wei").attr("onclick","wei("+res.pages+")");
+						$("#num").text(res.pageNum);
+						$("#pages").text(res.pages);
+						$("#size").text(res.total);
+						
 					}
 				});
-			},
-			shengpage:function(){
-				var sheng= $("#province7").val();
-				
-				this.pages(1,sheng,null,null);
-			},
-			mingpage:function(){
-				var sheng= $("#province7").val();
-				alert(sheng);
-				var ming=$("#ming").val()
-				this.pages(1,sheng,null,ming);
-			},
-			xia:function(){
-				if(this.page.hasNextPage) {
-					this.pages(this.page.nextPage,null,null,null);
-				}
-				
-			},
-			shang:function(){
-				if(this.page.hasPreviousPage) {
-					this.pages(this.page.prePage,null,null,null);
-				}
-			},
-			wei: function() {
-				this.pages(this.page.pages,null,null,null);
-			},
-			shou: function() {
-				this.pages(1,null,null,null);
-			},
-			supplierinsert:function(){
-				
-				if(bool==0){
-					$.ajax({
-						url:"[[@{goods/supplierinsert}]]",
-						data:JSON.stringify(this.supplier),
-						contentType : "application/json;charset=utf-8",
-						type:"post",
-						dataType:"json",
-						success:function(res){
-						}
-					});
-					$("#supplierModal").modal('hide');  
-				}else{
-					this.supplier.supplierid=bool;
-					$.ajax({
-						url:"[[@{goods/supplierupdate}]]",
-						data:JSON.stringify(this.supplier),
-						contentType : "application/json;charset=utf-8",
-						type:"post",
-						dataType:"json",
-						success:function(res){
-						}
-					});
-					$("#supplierModal").modal('hide');  
-				}
-				this.pages(1,null,null,null);
 			}
-		},
-		mounted:function(){
-			this.pages(1,null,null,null);
-		}
+ 
+ 
+ function xia(xia){
+	 var sheng= $("#province10").val();
+		var shi=$("#city10").val();
+			pages(xia,null,null,null);
 		
-	});
+	}
+	function shang(shang){
+		var sheng= $("#province10").val();
+		var shi=$("#city10").val();
+		var ming=$("#ming").val();
+			pages(shang,null,null,null);
+			
+		}
+	function wei(wei){
+		var sheng= $("#province10").val();
+		var shi=$("#city10").val();
+		var ming=$("#ming").val();
+			pages(wei,null,null,null);
+		}
+	function  shou(){
+		var sheng= $("#province10").val();
+		var shi=$("#city10").val();
+		var ming=$("#ming").val();
+			pages(1,null,null,null);
+		}
+	function shengpage(){
+		var sheng= $("#province10").val();
+		var shi=$("#city10").val();
+		var ming=$("#ming").val();
+		this.pages(1,sheng,shi,null);
+	}
+	function mingpage(){
+		var sheng= $("#province10").val();
+		var shi=$("#city10").val();
+		alert(sheng)
+		var ming=$("#ming").val();
+		this.pages(1,sheng,shi,ming);
+	}
+	function supplierinsert(){
+		var supplier={
+			supplierid:bool,
+			suppliername:$("#suppname").val(),
+			cohr:$("#cohr").val(),
+			contact:$("#contact").val(),
+			phone:$("#phone").val(),
+			email:$("#email").val(),
+			telephone:$("#telephone").val(),
+			province:$("#province2").val(),
+			city:$("#city2").val(),
+			district:$("#district2").val(),
+			street:$("#street").val()
+		}
+		alert(bool)
+		if(bool==0){
+			$.ajax({
+				url:"[[@{goods/supplierinsert}]]",
+				data:JSON.stringify(supplier),
+				contentType : "application/json;charset=utf-8",
+				type:"post",
+				dataType:"json",
+				success:function(res){
+				}
+			});
+			$("#supplierModal").modal('hide');  
+		}else{
+			
+			$.ajax({
+				url:"[[@{goods/supplierupdate}]]",
+				data:JSON.stringify(supplier),
+				contentType : "application/json;charset=utf-8",
+				type:"post",
+				dataType:"json",
+				success:function(res){
+				}
+			});
+			bool=0;
+			$("#supplierModal").modal('hide');  
+		}
+		pages(1,null,null,null);
+	}
+
+	function upd(suppid){//修改
+		 bool=suppid;
+		 $('#supplierModal').modal('show');
+		 $.ajax({
+			 url:"[[@{goods/goodssupplierByid}]]",
+			type:"post",
+			data:{suppid:suppid},
+			success:function(res){
+				 $("#suppname").val(res.suppliername);
+				  $("#cohr").val(res.cohr);
+				  $("#contact").val(res.contact);
+				  $("#phone").val(res.phone);
+				  $("#email").val(res.email);
+				  $("#telephone").val(res.telephone);
+				  $("#province2").val(res.province);
+				  $("#province2").change();
+				  $("#city2").val(res.city);
+				  $("#city2").change();
+				  $("#district2").val(res.district);
+				  $("#street").val(res.street);				  
+			}
+		 });
+	 }
+	function del(supid){
+		 if (confirm("您确认要删除改供应商吗？")) {
+		 $.ajax({
+				data:{id:supid},
+				url:"[[@{goods/supplierdelete}]]",
+				type:"post",
+				success:function(res){
+				}
+			});
+		 pages(1,null,null,null);
+		 }
+	 }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+	
 </script>

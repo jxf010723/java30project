@@ -33,10 +33,11 @@ public class MyInterceptor implements HandlerInterceptor{
 		
 		HttpSession session = request.getSession();
 		List<All> list = (List<All>)session.getAttribute("perm");
-		/*if(list==null) {
-			list = sService.queryByUserId(1);
-			session.setAttribute("perm", list);
-		}*/
+		if(list==null) {
+			/*list = sService.queryByUserId(1);
+			session.setAttribute("perm", list);*/
+			response.sendRedirect("/index");
+		}
 		String path = request.getRequestURI();
 		boolean flag = false;
 		for(All m : list) {

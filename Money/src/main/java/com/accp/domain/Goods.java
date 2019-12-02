@@ -1,5 +1,7 @@
 package com.accp.domain;
 
+import java.util.List;
+
 public class Goods {
     private Integer goodsid;
 
@@ -9,7 +11,7 @@ public class Goods {
 
     private Integer supplierid;
 
-    private String goodsbrand;
+    
 
     private String goodsname;
 
@@ -26,8 +28,69 @@ public class Goods {
     private Float costprice;
 
     private Integer agio;
+    
+    private String typename;
+    
+    private String colour;
+    private String bianhao;
+    private String miaoshu;
+    
+    
+    private List<Details> spx;
+    
+    
+    public List<Details> getSpx() {
+		return spx;
+	}
 
-    public Integer getGoodsid() {
+	public void setSpx(List<Details> spx) {
+		this.spx = spx;
+	}
+
+	public String getMiaoshu() {
+		return miaoshu;
+	}
+
+	public void setMiaoshu(String miaoshu) {
+		this.miaoshu = miaoshu;
+	}
+
+	public String getBianhao() {
+		return bianhao;
+	}
+
+	public void setBianhao(String bianhao) {
+		this.bianhao = bianhao;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
+	
+
+	@Override
+	public String toString() {
+		return "Goods [goodsid=" + goodsid + ", shopid=" + shopid + ", typeid=" + typeid + ", supplierid=" + supplierid
+				+ ", goodsname=" + goodsname + ", goodsphoto=" + goodsphoto + ", numbers=" + numbers
+				+ ", specification=" + specification + ", stock=" + stock + ", salesprice=" + salesprice
+				+ ", costprice=" + costprice + ", agio=" + agio + ", typename=" + typename + ", colour=" + colour
+				+ ", bianhao=" + bianhao + ", miaoshu=" + miaoshu + ", spx=" + spx + "]";
+	}
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+	public Integer getGoodsid() {
         return goodsid;
     }
 
@@ -59,13 +122,7 @@ public class Goods {
         this.supplierid = supplierid;
     }
 
-    public String getGoodsbrand() {
-        return goodsbrand;
-    }
-
-    public void setGoodsbrand(String goodsbrand) {
-        this.goodsbrand = goodsbrand;
-    }
+    
 
     public String getGoodsname() {
         return goodsname;
