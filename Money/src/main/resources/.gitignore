@@ -3,6 +3,11 @@
 /mybatis-config.xml
 /mybatis-generator-config.xml
 =======
+<<<<<<< HEAD
+/mybatis-config.xml
+/mybatis-generator-config.xml
+=======
 /mybatis-generator-config.xml
 /mybatis-config.xml
 >>>>>>> refs/remotes/origin/zp
+>>>>>>> refs/remotes/origin/master
