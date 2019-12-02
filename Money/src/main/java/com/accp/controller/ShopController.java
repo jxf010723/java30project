@@ -2,20 +2,32 @@ package com.accp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.accp.domain.All;
+import com.accp.domain.Cart;
+import com.accp.domain.Integral;
 import com.accp.domain.Jurisdictiontype;
+import com.accp.domain.Module;
+import com.accp.domain.Order;
+import com.accp.domain.Power;
+import com.accp.domain.RolesModule;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
 import com.accp.domain.User;
@@ -28,8 +40,226 @@ public class ShopController {
 	@Autowired
 	ShopService service;
 	
+	@RequestMapping("/queryByTid")
+	@ResponseBody
+	public All queryByTid(Integer tid) {
+		return service.queryByTid(tid);
+	}
+	
+	//ä¿®æ”¹æƒé™
+	@RequestMapping("/updateModule")
+	@ResponseBody
+	public String updateModule(@RequestParam("tname") String tname,Integer tid,@RequestParam(value = "arr[]") String[] arr) {
+		boolean f=false;
+		System.out.println("tname==="+tname+"tid==="+tid+"arré•¿åº¦=="+arr.length);
+		Jurisdictiontype jurisdictiontype = new Jurisdictiontype();
+		jurisdictiontype.setTid(tid);
+		jurisdictiontype.setTname(tname);
+		if(service.updateJurisdictiontype(jurisdictiontype)>0) {
+			//æƒé™ç»„è¡¨ä¿®æ”¹
+			StringBuffer sb = new StringBuffer();
+    		String pname = null;
+    		for (int i = 0; i < arr.length; i++) {
+    			pname = sb.append(arr[i]+",").toString();
+			}
+    		String name = pname.substring(0,pname.length()-1);
+    		Power p = new Power(tid, name);
+    		p.setPid(tid);
+    		p.setPname(name);
+			if(service.updatePower(p)>0) {
+				//æƒé™å…³ç³»è¡¨ä¿®æ”¹
+				for (int i = 0; i < arr.length; i++) {
+					RolesModule role = new RolesModule();
+					role.setRid(tid);
+					role.setMid(Integer.parseInt(arr[i]));
+					role.setId((i+1));
+					if(service.updateRolesModule(role)>0) {
+						f=true;
+					}
+				}
+			}
+		}
+		System.out.println(f);
+		if(f) {
+    		return "success";
+    	}else {
+    		return "shibai";
+    	}
+	}
+	
+	
+	
+	//æ–°å¢èŒä½
+	@RequestMapping("/insertModule")
+	@ResponseBody
+	public String insertpositionBypname(@RequestParam("tname") String tname, @RequestParam(value = "arr[]")String [] arr) {
+		/* é¦–å…ˆæ–°å¢èŒä½åç§° */
+		System.out.println(tname);
+		System.out.println(arr);
+		boolean f=false;
+		//æ–°å¢èŒä½ç±»å‹è¡¨
+    	if (service.insertModule(tname)>0) {
+			/* æ ¹æ®èŒä½åç§°æŸ¥è¯¢pid */
+    		Jurisdictiontype position=service.queryByTname(tname);
+    		//æ–°å¢æƒé™ç»„è¡¨
+    		StringBuffer sb = new StringBuffer();
+    		String pname = null;
+    		for (int i = 0; i < arr.length; i++) {
+    			pname = sb.append(arr[i]+",").toString();
+			}
+    		String name = pname.substring(0,pname.length()-1);
+    		System.out.println("pname==="+pname+"name==="+name);
+    		Power power = new Power();
+    		power.setPname(name);
+    		if(service.insertPower(power)>0) {
+    			/*æ ¹æ®pidæ–°å¢èŒä½æƒé™è¡¨*/
+        		for(String s:arr) {
+        			int moid=Integer.parseInt(s);
+        			RolesModule mm=new RolesModule();
+        			mm.setRid(position.getTid());
+        			mm.setMid(moid);
+        			if(service.insertRolesModule(mm)>0) {
+        				f=true;
+        			}
+        		}
+    		}
+    		
+		 }
+    	if(f) {
+    		return "0";
+    	}else {
+    		return "1";
+    	}
+		 
+    }
+	
+	@RequestMapping("/queryModule")
+	@ResponseBody
+	public List<Module> queryModule(){
+		return service.queryModule();
+	}
+	
+	@RequestMapping("/queryTtype")
+	@ResponseBody
+	public List<Jurisdictiontype> queryTtype(){
+		return service.queryTtype();
+	}
+	
 	/**
-	 * ²éÑ¯ÓĞÉÌÆ·µÄÉÌÆ·ÀàĞÍ
+	 * æ ¹æ®å•†å“è¯¦æƒ…idå’Œä¼šå‘˜idä¿®æ”¹æ•°é‡
+	 */
+	@RequestMapping("/updateGuaCount")
+	@ResponseBody
+	public int updateGuaCount(Integer count,Integer gdid,Integer vipid){
+		return service.updateGuaCount(count, gdid, vipid);
+	}
+	
+	/**
+	 * æŸ¥è¯¢è¯¥cidçš„è´­ç‰©è½¦æœ‰æ²¡æœ‰ï¼Œæœ‰åˆ™åšä¸‹é¢çš„ä¿®æ”¹æ“ä½œ
+	 */
+	@RequestMapping("/queryHaveCart")
+	@ResponseBody
+	public Cart queryHaveCart(Integer gdid,Integer vipid) {
+		return service.queryHaveCart(gdid, vipid);
+	}
+	
+	/**
+	 * ä¿®æ”¹è¯¥è´­ç‰©è½¦çš„å•†å“æ•°é‡
+	 */
+	@RequestMapping("/updateCartCount")
+	@ResponseBody
+	public int updateCartCount(Integer count,Integer cid) {
+		return service.updateCartCount(count, cid);
+	}
+	
+	/**
+	 * æ ¹æ®è´­ç‰©è½¦idæ¸…ç©ºè´­ç‰©è½¦
+	 */
+	@RequestMapping("/deleteCart")
+	@ResponseBody
+	public int deleteCart(Integer cid) {
+		return service.deleteCart(cid);
+	}
+	
+	/**
+	 * æ ¹æ®ä¼šå‘˜idæŸ¥è¯¢è´­ç‰©è½¦
+	 */
+	@RequestMapping("/queryCartByvipid")
+	@ResponseBody
+	public List<All> queryCartByvipid(Integer vipid){
+		return service.queryCartByvipid(vipid);
+	}
+	
+	/**
+	 * æŸ¥è¯¢è´­ç‰©è½¦æ‰€æœ‰
+	 */
+	@RequestMapping("/queryCart")
+	@ResponseBody
+	public List<All> queryCart(){
+		return service.queryCart();
+	}
+	
+	/**
+	 * ä¿®æ”¹ä¼šå‘˜çš„ç§¯åˆ†
+	 */
+	@RequestMapping("/updatePoint")
+	@ResponseBody
+	public int updatePoint(Double point,Integer uid) {
+		return service.updatePoint(point,uid);
+	}
+	
+	/**
+	 * æ–°å¢è®¢å•
+	 */
+	@RequestMapping("/insertOrder")
+	@ResponseBody
+	public int insertOrder(@RequestBody Order order) {
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+		Calendar calendar = Calendar.getInstance();
+		String dateName = df.format(calendar.getTime());
+
+		Random ne=new Random();//å®ä¾‹åŒ–ä¸€ä¸ªrandomçš„å¯¹è±¡ne
+		int x = ne.nextInt(999-100+1)+100;//ä¸ºå˜é‡èµ‹éšæœºå€¼100-999
+		String random_order = String.valueOf(x);
+		String order_id = dateName+random_order;
+		order.setOrderId(order_id);
+		
+		Date date = new Date();
+		order.setOrderDate(date);
+		return service.insertOrder(order);
+	}
+	
+	/**
+	 * æŸ¥è¯¢ç§¯åˆ†è®¾ç½®è¡¨æ˜¯å¦å¯ä»¥ä½¿ç”¨ç§¯åˆ†
+	 */
+	@RequestMapping("/queryIntegral")
+	@ResponseBody
+	public List<Integral> queryIntegral() {
+		return service.queryIntegral();
+	}
+	
+	/**
+	 * æŸ¥è¯¢ä¼šå‘˜ç±»å‹å’Œå¯¹åº”çš„ä¼šå‘˜
+	 */
+	@RequestMapping("/queryVip")
+	@ResponseBody
+	public List<All> queryVip(){
+		return service.queryVip();
+	}
+	
+	/**
+	 * æ–°å¢è´­ç‰©è½¦
+	 */
+	@RequestMapping("/insertCart")
+	@ResponseBody
+	public int insertCart(Cart cart) {
+		Date date = new Date();
+		cart.setOrderDate(date);
+		return service.insertCart(cart);
+	}
+	
+	/**
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/queryGoodstype")
 	@ResponseBody
@@ -38,7 +268,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯¶©µ¥±íÖĞÇ°Ê®ÌõÂôµÄ×îºÃµÄÉÌÆ·(¶©µ¥ÖĞµÄÉÌÆ·ÊıÁ¿)
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Æ·(ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½)
 	 */
 	@RequestMapping("/queryTenGoods")
 	@ResponseBody
@@ -47,7 +277,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ÕË»§µÄĞŞ¸Ä
+	 * ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½
 	 */
 	@RequestMapping("/updateUser")
 	@ResponseBody
@@ -56,7 +286,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ÕË»§µÄ²éÑ¯
+	 * ï¿½Ë»ï¿½ï¿½Ä²ï¿½Ñ¯
 	 */
 	@RequestMapping("/queryUser")
 	@ResponseBody
@@ -65,7 +295,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * É¾³ıÔ±¹¤
+	 * É¾ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/delEmployee")
 	@ResponseBody
@@ -74,7 +304,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ĞŞ¸ÄÔ±¹¤ĞÅÏ¢
+	 * ï¿½Ş¸ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	@RequestMapping("/updatestaff")
 	@ResponseBody
@@ -83,7 +313,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ĞÂÔöÔ±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/insertstaff")
 	@ResponseBody
@@ -93,7 +323,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İÔ±¹¤id²éÑ¯¶ÔÓ¦Ô±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦Ô±ï¿½ï¿½
 	 */
 	@RequestMapping("/selectBystaffid")
 	@ResponseBody
@@ -102,7 +332,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿µêÆÌ
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/queryShop")
 	@ResponseBody
@@ -111,7 +341,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿Ö°Î»
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½Ö°Î»
 	 */
 	@RequestMapping("/queryJurisdictiontype")
 	@ResponseBody
@@ -120,7 +350,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * Ô±¹¤¹ÜÀíµÄ²éÑ¯
+	 * Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½Ñ¯
 	 */
 	@RequestMapping("/queryStaff")
 	@ResponseBody
@@ -137,7 +367,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌidÉ¾³ı¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idÉ¾ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping("/delStoreById")
@@ -147,7 +377,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌidĞŞ¸Ä¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idï¿½Ş¸Ä¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/updateStoreById")
 	@ResponseBody
@@ -155,20 +385,20 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("/E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images");
+		File directory = new File("/E:/Y2/æ–‡ä»¶/é¡¹ç›®èµ„æ–™/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : updateFiles) {
-				String url = "/E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images/";
+				String url = "/E:/Y2/æ–‡ä»¶/é¡¹ç›®èµ„æ–™/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
 				System.out.println(l.getOriginalFilename()+"hhh");
 				shop.setShopimg(l.getOriginalFilename());
 			}
-			System.out.println("to³É¹¦ÁË");
+			System.out.println("toï¿½É¹ï¿½ï¿½ï¿½");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -179,7 +409,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌid²éÑ¯Ïà¹ØµêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Øµï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/selectByShopid")
 	@ResponseBody
@@ -188,7 +418,7 @@ public class ShopController {
 	}
 	
 	/**
-	 * ĞÂÔöµêÆÌ¹ÜÀíµÄµêÆÌ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
 	 */
 	@RequestMapping("/insertShop")
 	@ResponseBody
@@ -196,7 +426,7 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		service.insertShop(shop);
-		System.out.println("½øÀ´ÁË");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		return "success";
 	}
 	
@@ -206,20 +436,20 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("//E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images");
+		File directory = new File("/E:/Y2/æ–‡ä»¶/é¡¹ç›®èµ„æ–™/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : insertFiles) {
-				String url = "//E:/Y2/ÎÄ¼ş/ÏîÄ¿×ÊÁÏ/images/";
+				String url = "/E:/Y2/æ–‡ä»¶/é¡¹ç›®èµ„æ–™/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
 				System.out.println(l.getOriginalFilename());
 				shop.setShopimg(l.getOriginalFilename());
 			}
-			System.out.println("to³É¹¦ÁË");
+			System.out.println("toï¿½É¹ï¿½ï¿½ï¿½");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -231,26 +461,29 @@ public class ShopController {
 	}
 	
 	/**
-	 * ²éÕÒÊÇ·ñÓĞ¸ù¾İÓÃ»§ÃûºÍÃÜÂë²éÕÒµ½µÄÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ğ¸ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param user
 	 * @return
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public User login(User user,HttpServletRequest request) {
+	public Staff login(Staff staff,HttpServletRequest request) {
 		//System.out.println(user.getUname()+"---"+user.getUpwd());
-		user = service.login(user);
-		if(user!=null) {
-			HttpSession session=request.getSession();//»ñÈ¡session²¢½«userName´æÈësession¶ÔÏó
-			session.setAttribute("user", user);
-			System.out.println(111);
+		staff = service.login(staff);
+		System.out.println(staff.getEmployeename()+staff.getPassword());
+		if(staff!=null) {
+			HttpSession session=request.getSession();//ï¿½ï¿½È¡sessionï¿½ï¿½ï¿½ï¿½userNameï¿½ï¿½ï¿½ï¿½sessionï¿½ï¿½ï¿½ï¿½
+			session.setAttribute("user", staff);
+			List<All> list = service.queryByUserId(staff.getUid());
+			session.setAttribute("perm", list);
+			System.out.println("è·¯å¾„æœ‰"+list.get(0).getPath());
 		}
-		return user;
+		return staff;
 		
 	}
 	
 	/**
-	 * ²éÑ¯µêÆÌ¹ÜÀíÀïµÄÃÅµêÁĞ±í
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½Ğ±ï¿½
 	 * @return
 	 */
 	@RequestMapping("/queryShopList")

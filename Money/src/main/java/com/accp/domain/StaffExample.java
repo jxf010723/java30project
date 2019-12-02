@@ -563,6 +563,206 @@ public class StaffExample {
             addCriterion("passWord not between", value1, value2, "password");
             return (Criteria) this;
         }
+
+        public Criteria andUidIsNull() {
+            addCriterion("uid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidIsNotNull() {
+            addCriterion("uid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidEqualTo(Integer value) {
+            addCriterion("uid =", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidNotEqualTo(Integer value) {
+            addCriterion("uid <>", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidGreaterThan(Integer value) {
+            addCriterion("uid >", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("uid >=", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidLessThan(Integer value) {
+            addCriterion("uid <", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidLessThanOrEqualTo(Integer value) {
+            addCriterion("uid <=", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidIn(List<Integer> values) {
+            addCriterion("uid in", values, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidNotIn(List<Integer> values) {
+            addCriterion("uid not in", values, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidBetween(Integer value1, Integer value2) {
+            addCriterion("uid between", value1, value2, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidNotBetween(Integer value1, Integer value2) {
+            addCriterion("uid not between", value1, value2, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeIsNull() {
+            addCriterion("trade is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeIsNotNull() {
+            addCriterion("trade is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeEqualTo(String value) {
+            addCriterion("trade =", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNotEqualTo(String value) {
+            addCriterion("trade <>", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeGreaterThan(String value) {
+            addCriterion("trade >", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeGreaterThanOrEqualTo(String value) {
+            addCriterion("trade >=", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeLessThan(String value) {
+            addCriterion("trade <", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeLessThanOrEqualTo(String value) {
+            addCriterion("trade <=", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeLike(String value) {
+            addCriterion("trade like", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNotLike(String value) {
+            addCriterion("trade not like", value, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeIn(List<String> values) {
+            addCriterion("trade in", values, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNotIn(List<String> values) {
+            addCriterion("trade not in", values, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeBetween(String value1, String value2) {
+            addCriterion("trade between", value1, value2, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNotBetween(String value1, String value2) {
+            addCriterion("trade not between", value1, value2, "trade");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitIsNull() {
+            addCriterion("headPortrait is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitIsNotNull() {
+            addCriterion("headPortrait is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitEqualTo(String value) {
+            addCriterion("headPortrait =", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitNotEqualTo(String value) {
+            addCriterion("headPortrait <>", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitGreaterThan(String value) {
+            addCriterion("headPortrait >", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitGreaterThanOrEqualTo(String value) {
+            addCriterion("headPortrait >=", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitLessThan(String value) {
+            addCriterion("headPortrait <", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitLessThanOrEqualTo(String value) {
+            addCriterion("headPortrait <=", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitLike(String value) {
+            addCriterion("headPortrait like", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitNotLike(String value) {
+            addCriterion("headPortrait not like", value, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitIn(List<String> values) {
+            addCriterion("headPortrait in", values, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitNotIn(List<String> values) {
+            addCriterion("headPortrait not in", values, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitBetween(String value1, String value2) {
+            addCriterion("headPortrait between", value1, value2, "headportrait");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadportraitNotBetween(String value1, String value2) {
+            addCriterion("headPortrait not between", value1, value2, "headportrait");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

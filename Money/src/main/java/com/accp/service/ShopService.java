@@ -5,15 +5,27 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.accp.domain.All;
-import com.accp.domain.Goods;
-import com.accp.domain.Goodstype;
+import com.accp.domain.Cart;
+import com.accp.domain.Integral;
 import com.accp.domain.Jurisdictiontype;
+import com.accp.domain.Module;
+import com.accp.domain.Order;
+import com.accp.domain.Power;
+import com.accp.domain.RolesModule;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
 import com.accp.domain.User;
+import com.accp.domain.Viptype;
+import com.accp.mapper.CartMapper;
+import com.accp.mapper.IntegralMapper;
 import com.accp.mapper.JurisdictiontypeMapper;
+import com.accp.mapper.OrderDetailsMapper;
+import com.accp.mapper.OrderMapper;
+import com.accp.mapper.PowerMapper;
+import com.accp.mapper.RolesModuleMapper;
 import com.accp.mapper.ShopMapper;
 import com.accp.mapper.StaffMapper;
 import com.accp.mapper.UserMapper;
@@ -22,6 +34,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
+@Transactional
 public class ShopService {
 	@Autowired
 	private UserMapper UMapper;
@@ -38,9 +51,177 @@ public class ShopService {
 	@Autowired
 	UserMapper uMapper;
 	
+	@Autowired
+	CartMapper cMapper;
+	
+	@Autowired
+	IntegralMapper iMapper;
+	
+	@Autowired
+	OrderMapper oMapper;
+	
+	@Autowired
+	OrderDetailsMapper dMapper;
+	
+	@Autowired
+	RolesModuleMapper rMapper;
+	
+	@Autowired
+	PowerMapper pMapper;
+	
+	//èŒä½ç±»å‹è¡¨ä¿®æ”¹
+	public int updateJurisdictiontype(Jurisdictiontype jurisdictiontype) {
+		return jMapper.updateByPrimaryKey(jurisdictiontype);
+	}
+	
+	//æƒé™å…³ç³»è¡¨ä¿®æ”¹
+	public int updateRolesModule(RolesModule role) {
+		return rMapper.updateByPrimaryKey(role);
+	}
+	
+	//æƒé™ç»„è¡¨ä¿®æ”¹
+	public int updatePower(Power power) {
+		return pMapper.updateByPrimaryKey(power);
+	}
+	
+	public All queryByTid(Integer tid) {
+		return sMapper.queryByTid(tid);
+	}
+	
+	public Jurisdictiontype queryByTname(String tname) {
+		return sMapper.queryByTname(tname);
+	}
+	
+	public int insertModule(String tname) {
+		return sMapper.insertModule(tname);
+	}
+	
+	public int insertRolesModule(RolesModule rm) {
+		return rMapper.insert(rm);
+	}
+	
+	public int insertPower(Power power) {
+		return pMapper.insert(power);
+	}
+	
+	public List<Module> queryModule(){
+		List<Module> mlist = new ArrayList<>();
+		List<Module> zlist = sMapper.queryByZero();
+		for (Module module : zlist) {
+			List<Module> nlist = sMapper.queryByNoZero(module.getMid());
+			Module m = new Module();
+			m.setDlist(nlist);
+			m.setMname(module.getMname());
+			m.setMid(module.getMid());
+			mlist.add(m);
+		}
+		return mlist;
+	}
+	
+	public List<Jurisdictiontype> queryTtype(){
+		return jMapper.selectByExample(null);
+	}
+	
+	/*æ ¹æ®ç”¨æˆ·IDæŸ¥è¯¢ç”¨æˆ·æ‹¥æœ‰çš„æ‰€æœ‰æƒé™*/
+	public List<All> queryByUserId(Integer uid){
+		All power = sMapper.queryByUserId(uid);
+		return sMapper.queryPower(power.getPname(),power.getPname());
+	}
+
 	
 	/**
-	 * ²éÑ¯ÓĞÉÌÆ·µÄÉÌÆ·ÀàĞÍºÍ²éÑ¯ÉÌÆ·ÀàĞÍid¶ÔÓ¦µÄÉÌÆ·
+	 * æ ¹æ®å•†å“è¯¦æƒ…idå’Œä¼šå‘˜idä¿®æ”¹æ•°é‡
+	 */
+	public int updateGuaCount(Integer count,Integer gdid,Integer vipid){
+		return sMapper.updateGuaCount(count, gdid, vipid);
+	}
+	
+	/**
+	 * æŸ¥è¯¢è¯¥å•†å“è¯¦æƒ…id(gdid)çš„è´­ç‰©è½¦æœ‰æ²¡æœ‰ï¼Œæœ‰åˆ™åšä¸‹é¢çš„ä¿®æ”¹æ“ä½œ
+	 */
+	public Cart queryHaveCart(Integer gdid,Integer vipid) {
+		return sMapper.queryHaveCart(gdid, vipid);
+	}
+	
+	/**
+	 * ä¿®æ”¹è¯¥è´­ç‰©è½¦çš„å•†å“æ•°é‡
+	 */
+	public int updateCartCount(Integer count,Integer cid) {
+		return sMapper.updateCartCount(count, cid);
+	}
+	
+	/**
+	 * æ ¹æ®è´­ç‰©è½¦idæ¸…ç©ºè´­ç‰©è½¦
+	 */
+	public int deleteCart(Integer cid) {
+		return cMapper.deleteByPrimaryKey(cid);
+	}
+	
+	/**
+	 * æŸ¥è¯¢è´­ç‰©è½¦æ‰€æœ‰
+	 */
+	public List<All> queryCart(){
+		return sMapper.queryAll();
+	}
+	
+	/**
+	 * æ ¹æ®ä¼šå‘˜idæŸ¥è¯¢è´­ç‰©è½¦
+	 */
+	public List<All> queryCartByvipid(Integer vipid){
+		return sMapper.queryCartByvipid(vipid);
+	}
+	
+	/**
+	 * ä¿®æ”¹ä¼šå‘˜çš„ç§¯åˆ†
+	 */
+	public int updatePoint(Double point,Integer uid) {
+		return sMapper.updatePoint(point,uid);
+	}
+	
+	/**
+	 * æ–°å¢è®¢å•
+	 */
+	public int insertOrder(Order order) {
+		oMapper.insert(order);
+		return dMapper.addEach(order.getDetails(), order.getOrderId());
+	}
+	
+	/**
+	 * æŸ¥è¯¢ç§¯åˆ†è®¾ç½®è¡¨æ˜¯å¦å¯ä»¥ä½¿ç”¨ç§¯åˆ†
+	 */
+	public List<Integral> queryIntegral() {
+		return iMapper.selectByExample(null);
+	}
+	
+	/**
+	 * æŸ¥è¯¢ä¼šå‘˜ç±»å‹å’Œå¯¹åº”çš„ä¼šå‘˜
+	 */
+	public List<All> queryVip(){
+		List<All> zlist = new ArrayList<>();
+		
+		List<Viptype> tlist = sMapper.queryViptype();
+		
+		for (Viptype type : tlist) {
+			List<All> glist = sMapper.queryVip(type.getViptypeId());
+			System.out.println(glist.get(0).getUid());
+			All a = new All();
+			a.setVlist(glist);
+			a.setViptypeName(type.getViptypeName());
+			a.setViptypeDiscount(type.getViptypeDiscount());
+			zlist.add(a);
+		}
+		return zlist;
+	}
+	
+	/**
+	 * æ–°å¢è´­ç‰©è½¦
+	 */
+	public int insertCart(Cart cart) {
+		return cMapper.insert(cart);
+	}
+	
+	/**
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ÍºÍ²ï¿½Ñ¯ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·
 	 */
 	public List<All> queryGoodstype(){
 		List<All> zlist = new ArrayList<>();
@@ -48,7 +229,7 @@ public class ShopService {
 		List<All> tlist = sMapper.queryGoodstype();
 		
 		for (All all : tlist) {
-			List<Goods> glist = sMapper.queryGoods(all.getTypeid());
+			List<All> glist = sMapper.queryGoods(all.getTypeid());
 			All a = new All();
 			a.setGlist(glist);
 			a.setTypename(all.getTypename());
@@ -58,56 +239,56 @@ public class ShopService {
 	}
 	
 	/**
-	 * ²éÑ¯¶©µ¥±íÖĞÇ°Ê®ÌõÂôµÄ×îºÃµÄÉÌÆ·(¶©µ¥ÖĞµÄÉÌÆ·ÊıÁ¿)
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Æ·(ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½)
 	 */
 	public List<All> queryTenGoods(){
 		return sMapper.queryTenGoods();
 	}
 	
 	/**
-	 * ÕË»§µÄĞŞ¸Ä
+	 * ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½
 	 */
 	public int updateUser(User user) {
 		return UMapper.updateByPrimaryKey(user);
 	}
 	
 	/**
-	 * ÕË»§µÄ²éÑ¯
+	 * ï¿½Ë»ï¿½ï¿½Ä²ï¿½Ñ¯
 	 */
 	public User queryUser(Integer uid) {
 		return uMapper.selectByPrimaryKey(uid);
 	}
 	
 	/**
-	 * É¾³ıÔ±¹¤
+	 * É¾ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	public int delEmployee(Integer staffid) {
 		return fMapper.deleteByPrimaryKey(staffid);
 	}
 	
 	/**
-	 * ĞŞ¸ÄÔ±¹¤ĞÅÏ¢
+	 * ï¿½Ş¸ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	public int updatestaff(Staff staff) {
 		return fMapper.updateByPrimaryKey(staff);
 	}
 	
 	/**
-	 * ĞÂÔöÔ±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½
 	 */
 	public int insertstaff(Staff staff) {
 		return fMapper.insert(staff);
 	}
 	
 	/**
-	 * ¸ù¾İÔ±¹¤id²éÑ¯¶ÔÓ¦Ô±¹¤
+	 * ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦Ô±ï¿½ï¿½
 	 */
 	public Staff selectBystaffid(Integer staffid) {
 		return fMapper.selectByPrimaryKey(staffid);
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿µêÆÌ
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public List<Shop> queryShop(){
 		System.out.println(sMapper.selectByExample(null));
@@ -115,14 +296,14 @@ public class ShopService {
 	}
 	
 	/**
-	 * ²éÑ¯È«²¿Ö°Î»
+	 * ï¿½ï¿½Ñ¯È«ï¿½ï¿½Ö°Î»
 	 */
 	public List<Jurisdictiontype> queryJurisdictiontype(){
 		return jMapper.selectByExample(null);
 	}
 	
 	/**
-	 * Ô±¹¤¹ÜÀíµÄ²éÑ¯
+	 * Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½Ñ¯
 	 */
 	public PageInfo<All> queryStaff(Integer pageNum,Integer pageSize,String shopname,String tname,String employeename){
 		Page page=PageHelper.startPage(pageNum, pageSize);
@@ -131,7 +312,7 @@ public class ShopService {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌidÉ¾³ı¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idÉ¾ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	public int delStoreById(Integer shopid) {
@@ -139,37 +320,37 @@ public class ShopService {
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌidĞŞ¸Ä¶ÔÓ¦µêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idï¿½Ş¸Ä¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 */
 	public int updateStoreById(Shop shop) {
 		return sMapper.updateByPrimaryKey(shop);
 	}
 	
 	/**
-	 * ¸ù¾İµêÆÌid²éÑ¯Ïà¹ØµêÆÌ
+	 * ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½idï¿½ï¿½Ñ¯ï¿½ï¿½Øµï¿½ï¿½ï¿½
 	 */
 	public Shop selectByShopid(Integer shopid) {
 		return sMapper.selectByPrimaryKey(shopid);
 	}
 	
 	/**
-	 * ĞÂÔöµêÆÌ¹ÜÀíµÄµêÆÌ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
 	 */
 	public int insertShop(Shop shop) {
 		return sMapper.insert(shop);
 	}
 	
 	/**
-	 * ²éÕÒÊÇ·ñÓĞ¸ù¾İÓÃ»§ÃûºÍÃÜÂë²éÕÒµ½µÄÓÃ»§
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ğ¸ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	 * @param user
 	 * @return
 	 */
-	public User login(User user) {
-		return UMapper.login(user);
+	public Staff login(Staff staff) {
+		return fMapper.login(staff);
 	}
 	
 	/**
-	 * ²éÑ¯µêÆÌ¹ÜÀíÀïµÄÃÅµêÁĞ±í
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½Ğ±ï¿½
 	 * @return
 	 */
 	public PageInfo<All> queryShopList(Integer pageNum,Integer pageSize){

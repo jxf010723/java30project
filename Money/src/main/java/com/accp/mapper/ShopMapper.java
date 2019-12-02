@@ -2,27 +2,91 @@ package com.accp.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.accp.domain.All;
-import com.accp.domain.Goods;
+import com.accp.domain.Cart;
+import com.accp.domain.Jurisdictiontype;
+import com.accp.domain.Module;
 import com.accp.domain.Shop;
 import com.accp.domain.ShopExample;
+import com.accp.domain.Viptype;
 
 public interface ShopMapper {
-	//²éÑ¯ÉÌÆ·ÀàĞÍid¶ÔÓ¦µÄÉÌÆ·
-	@Select("SELECT * FROM goods WHERE typeid = #{typeid}")
-	List<Goods> queryGoods(Integer typeid);
+	@Select("SELECT * FROM `jurisdictiontype` j\r\n" + 
+			"INNER JOIN `power` p ON(p.pid=j.tid)\r\n" + 
+			"WHERE tid = #{tid}")
+	All queryByTid(Integer tid);
 	
-	//²éÑ¯ÓĞÉÌÆ·µÄÉÌÆ·ÀàĞÍ
+	@Select("SELECT tid FROM `jurisdictiontype` WHERE tname = #{tname}")
+	Jurisdictiontype queryByTname(String tname);
+	
+	@Insert("INSERT INTO `jurisdictiontype` (`tname`) VALUES (#{tname})")
+	int insertModule(String tname);
+	
+	@Select("SELECT * FROM module WHERE parentid=#{parentid}")
+	List<Module> queryByNoZero(Integer parentid);
+	
+	@Select("SELECT * FROM module WHERE parentid=0")
+	List<Module> queryByZero();
+	
+	@Select("SELECT pid,pname FROM `power` p WHERE pid =(\r\n" + 
+			" SELECT roleID FROM staff f  WHERE f.`staffid`=#{uid})")
+	All queryByUserId(Integer uid);
+	
+	@Select("SELECT * FROM `module` m\r\n" + 
+			" WHERE FIND_IN_SET(`mid`,#{mid})\r\n" + 
+			" OR  FIND_IN_SET (parentid,#{parentid})")
+	List<All> queryPower(@Param("mid") String mid,@Param("parentid") String parentid);
+	
+	//æ ¹æ®å•†å“è¯¦æƒ…idå’Œä¼šå‘˜idä¿®æ”¹æ•°é‡
+	@Update("UPDATE cart SET order_count = order_count+#{count} WHERE gdid = #{gdid} and vipid = #{vipid}")
+	int updateGuaCount(@Param("count") Integer count,@Param("gdid") Integer gdid,@Param("vipid") Integer vipid);
+	
+	//ä¿®æ”¹è¯¥è´­ç‰©è½¦çš„å•†å“æ•°é‡
+	@Update("UPDATE cart SET order_count = #{count} WHERE cid = #{cid}")
+	int updateCartCount(@Param("count") Integer count,@Param("cid") Integer cid);
+	
+	//æŸ¥è¯¢è¯¥ä¼šå‘˜çš„å•†å“è¯¦æƒ…idçš„è´­ç‰©è½¦æœ‰æ²¡æœ‰
+	@Select("SELECT * FROM cart WHERE gdid = #{gdid} AND vipid= #{vipid}")
+	Cart queryHaveCart(@Param("gdid") Integer gdid,@Param("vipid") Integer vipid);
+	
+	//æŸ¥è¯¢å½“å‰ä¼šå‘˜çš„è´­ç‰©è½¦
+	@Select("SELECT cid,gid,gdid,order_count orderCount,order_totalMoney orderTotalmoney,g.goodsname goodsName FROM cart c INNER JOIN goods g ON(c.gid=g.goodsid) WHERE vipid = #{vipid}")
+	List<All> queryCartByvipid(Integer vipid);
+	
+	//æŸ¥è¯¢æ‰€æœ‰è´­ç‰©è½¦
+	@Select("SELECT cid,gid,gdid,order_count orderCount,order_totalMoney orderTotalmoney,g.goodsname goodsName FROM cart c INNER JOIN goods g ON(c.gid=g.goodsid) ")
+	List<All> queryAll();
+	
+	//ä¿®æ”¹ä¼šå‘˜çš„ç§¯åˆ†
+	@Update("UPDATE `vip` SET balance=#{point} WHERE user_id = #{uid}")
+	int updatePoint(@Param("point") Double point,@Param("uid")Integer uid);
+	
+	//æŸ¥è¯¢ç±»å‹å¯¹åº”çš„ä¼šå‘˜
+	@Select("SELECT v.vip_id vipId,SUM(CASE WHEN order_sfMoney IS NULL THEN 0 ELSE order_sfMoney END) orderSfmoney,\r\n" + 
+			"v.balance,v.vip_name vipName,v.vip_phone vipPhone,v.vipType_id viptypeId,v.user_id uid,v.integral FROM `order` o RIGHT JOIN vip v ON(o.user_id=v.user_id)\r\n" + 
+			" WHERE v.vipType_id = #{typeid}  GROUP BY v.user_id")
+	List<All> queryVip(Integer typeid);
+	
+	//æŸ¥è¯¢ä¼šå‘˜ç±»å‹
+	@Select("SELECT vipType_id AS viptypeId,vipType_name AS viptypeName, vipType_discount AS viptypeDiscount FROM viptype")
+	List<Viptype> queryViptype();
+	
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·
+	@Select("SELECT * FROM `goods` g inner JOIN `details` d ON(g.goodsid=d.goodsid) WHERE typeid = #{typeid}")
+	List<All> queryGoods(Integer typeid);
+	
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 	@Select("SELECT t.typeid,t.typename FROM goodstype t INNER JOIN goods g ON(t.typeid = g.typeid) GROUP BY t.typeid")
 	List<All> queryGoodstype();
 	
-	//²éÑ¯¶©µ¥±íÖĞÇ°Ê®ÌõÂôµÄ×îºÃµÄÉÌÆ·(¶©µ¥ÖĞµÄÉÌÆ·ÊıÁ¿)
-	@Select("#²éÑ¯¶©µ¥±íÖĞÇ°Ê®ÌõÂôµÄ×îºÃµÄÉÌÆ·(¶©µ¥ÖĞµÄÉÌÆ·ÊıÁ¿)\r\n" + 
-			"SELECT goods_id AS goodsid,goods_name AS goodsname, goods_price AS goodsPrice,\r\n" + 
-			"goods_count AS goodsCount,COUNT(*) FROM `order_details` GROUP BY goods_id LIMIT 0,10")
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Æ·(ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½)
+	@Select("SELECT gdid AS goodsid,goods_name AS goodsname, goods_price AS goodsPrice,\r\n" + 
+			"goods_count AS goodsCount,COUNT(*) FROM `order_details` GROUP BY gdid LIMIT 0,10")
 	List<All> queryTenGoods();
 	
 	@Select("SELECT s.*, ( SELECT COUNT(*) FROM staff AS r WHERE r.shopid=s.shopid\r\n" + 
