@@ -61,7 +61,8 @@
 			<!-- <table schema="Integral" tableName="integral"></table> -->
 			<!-- <table schema="Module" tableName="module"></table>
 			<table schema="Power" tableName="power"></table> -->
-			<table schema="RolesModule" tableName="roles_module"></table>
+			<!-- <table schema="RolesModule" tableName="roles_module"></table> -->
+			<table schema="Staff" tableName="staff"></table>
 			
 <!-- 		<table schema="Sys_permissions" tableName="sys_permissions"></table> -->
 <!-- 		<table schema="Sys_roles" tableName="sys_roles"></table> -->

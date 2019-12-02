@@ -42,7 +42,13 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 	protected void addInterceptors(InterceptorRegistry registry) {
 		//registry.addInterceptor(my).addPathPatterns("/**").excludePathPatterns("/module/**").excludePathPatterns("/js/**").excludePathPatterns("/verPerm");
 		System.out.println("进来了MvcConfig");
-		registry.addInterceptor(new MyInterceptor()).addPathPatterns("/shop/queryShopList");
+		registry.addInterceptor(new MyInterceptor()).addPathPatterns("/shop/**").addPathPatterns("/goods/**")
+		.addPathPatterns("/member/**").addPathPatterns("/user/**").excludePathPatterns("/shop/login")
+		.excludePathPatterns("/shop/queryByTid").excludePathPatterns("/shop/queryCartByvipid")
+		.excludePathPatterns("/shop/selectBystaffid").excludePathPatterns("/shop/updateStoreById")
+		.excludePathPatterns("/shop/selectByShopid").excludePathPatterns("/shop/queryModule")
+		.excludePathPatterns("/shop/queryJurisdictiontype").excludePathPatterns("/shop/queryShop")
+		.excludePathPatterns("/index/**").excludePathPatterns("/user/getUser");
 		//super.addInterceptors(registry);
 	}
 

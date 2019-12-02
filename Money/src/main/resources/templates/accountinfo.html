@@ -118,10 +118,15 @@
 						var uname=$("[name=uname]").val()
 						var upwd=$("[name=upwd]").val()
 						var uphone=$("[name=uphone]").val()
+						var staff = {staffid:uid,trade:trade,employeename:uname,password:upwd,jobnumber:uphone};
+						console.log({staffid:uid,trade:trade,employeename:uname,password:upwd,jobnumber:uphone});
 						$.ajax({
 							url:"[[@{user/updateUser}]]",
-							data:{uid:uid,trade:trade,uname:uname,upwd,uphone},
+							data:staff,
+							type:"post",
+							dataType:"json",
 							success:function(result){
+								console.log(result);
 								alert("保存成功！")
 							}
 						});
@@ -155,11 +160,11 @@
 				$.ajax({
 					url:"[[@{user/getUser}]]",
 					success:function(result){
-						$("[name=uid]").val(result.uid)
+						$("[name=uid]").val(result.staffid)
 						$("[name=trade]").val(result.trade)
-						$("[name=uname]").val(result.uname)
-						$("[name=upwd]").val(result.upwd)
-						$("[name=uphone]").val(result.uphone)
+						$("[name=uname]").val(result.employeename)
+						$("[name=upwd]").val(result.password)
+						$("[name=uphone]").val(result.jobnumber)
 					}
 				});
 			}

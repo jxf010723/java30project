@@ -10,7 +10,9 @@ import com.accp.domain.Staff;
 import com.accp.domain.StaffExample;
 
 public interface StaffMapper {
-	//员工管理的查询
+	@Select("SELECT * FROM staff WHERE employeeName = #{employeename} AND `passWord`=#{password}")
+	Staff login(Staff staff);
+
 	List<All> queryStaff(@Param("shopname")String shopname,@Param("tname")String jonename,@Param("employeename")String employeename);
 	
     int countByExample(StaffExample example);

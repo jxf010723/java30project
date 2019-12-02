@@ -1,6 +1,7 @@
 package com.accp.domain;
 
 public class User {
+	
     private Integer uid;
 
     private String trade;
@@ -19,7 +20,9 @@ public class User {
 
     private Integer tid;
 
-    public Integer getUid() {
+    
+
+	public Integer getUid() {
         return uid;
     }
 

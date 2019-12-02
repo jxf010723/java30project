@@ -9,6 +9,9 @@
     <result column="jobNumber" property="jobnumber" jdbcType="VARCHAR" />
     <result column="employeeName" property="employeename" jdbcType="VARCHAR" />
     <result column="passWord" property="password" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="trade" property="trade" jdbcType="VARCHAR" />
+    <result column="headPortrait" property="headportrait" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="queryStaff" resultType="com.accp.domain.All">
@@ -85,7 +88,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    staffID, shopID, shopName, roleID, jobNumber, employeeName, passWord
+    staffID, shopID, shopName, roleID, jobNumber, employeeName, passWord, uid, trade, 
+    headPortrait
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.StaffExample" >
     select
@@ -120,10 +124,12 @@
   <insert id="insert" parameterType="com.accp.domain.Staff" >
     insert into staff (staffID, shopID, shopName, 
       roleID, jobNumber, employeeName, 
-      passWord)
+      passWord, uid, trade, 
+      headPortrait)
     values (#{staffid,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{shopname,jdbcType=VARCHAR}, 
       #{roleid,jdbcType=INTEGER}, #{jobnumber,jdbcType=VARCHAR}, #{employeename,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR})
+      #{password,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{trade,jdbcType=VARCHAR}, 
+      #{headportrait,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.Staff" >
     insert into staff
@@ -149,6 +155,15 @@
       <if test="password != null" >
         passWord,
       </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="trade != null" >
+        trade,
+      </if>
+      <if test="headportrait != null" >
+        headPortrait,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="staffid != null" >
@@ -171,6 +186,15 @@
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="trade != null" >
+        #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="headportrait != null" >
+        #{headportrait,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -204,6 +228,15 @@
       <if test="record.password != null" >
         passWord = #{record.password,jdbcType=VARCHAR},
       </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.trade != null" >
+        trade = #{record.trade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headportrait != null" >
+        headPortrait = #{record.headportrait,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -217,7 +250,10 @@
       roleID = #{record.roleid,jdbcType=INTEGER},
       jobNumber = #{record.jobnumber,jdbcType=VARCHAR},
       employeeName = #{record.employeename,jdbcType=VARCHAR},
-      passWord = #{record.password,jdbcType=VARCHAR}
+      passWord = #{record.password,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=INTEGER},
+      trade = #{record.trade,jdbcType=VARCHAR},
+      headPortrait = #{record.headportrait,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -243,6 +279,15 @@
       <if test="password != null" >
         passWord = #{password,jdbcType=VARCHAR},
       </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="trade != null" >
+        trade = #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="headportrait != null" >
+        headPortrait = #{headportrait,jdbcType=VARCHAR},
+      </if>
     </set>
     where staffID = #{staffid,jdbcType=INTEGER}
   </update>
@@ -253,7 +298,10 @@
       roleID = #{roleid,jdbcType=INTEGER},
       jobNumber = #{jobnumber,jdbcType=VARCHAR},
       employeeName = #{employeename,jdbcType=VARCHAR},
-      passWord = #{password,jdbcType=VARCHAR}
+      passWord = #{password,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      trade = #{trade,jdbcType=VARCHAR},
+      headPortrait = #{headportrait,jdbcType=VARCHAR}
     where staffID = #{staffid,jdbcType=INTEGER}
   </update>
 </mapper>

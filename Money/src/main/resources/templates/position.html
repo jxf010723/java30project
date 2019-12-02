@@ -262,13 +262,14 @@
     				});
     			},
     			updatePower:function(){
-    				this.checkedModuls.forEach(item=>{
+    				/* this.checkedModuls.forEach(item=>{
     					//alert(item);
-    				});
+    				}); */
     				var that = this;
     				var arr = this.checkedModuls;
     				var tname = $("[name=updatetname]").val();
     				var tid = this.tid;
+    				console.log("tid==="+tid);
     				$.ajax({
        					url:"shop/updateModule",
        					data:{tname:tname,tid:tid,arr:arr},
@@ -289,6 +290,7 @@
        				
     			},
     			updateByTid:function(tid){
+    				//alert(tid);
     				let that = this;
     				this.tid = tid;
     				$.ajax({
@@ -300,10 +302,12 @@
        					success:function(r){
        						$("[name=updatetname]").val(r.tname);
     						let str = r.pname;
-    						if(str!=null||str!=""){
+    						//console.log(r);
+    						if(str){
     							var ss = str.split(",");
     							that.checkedModuls = ss;
     						}
+    						console.log(r.pname+"---"+that.checkedModuls);
     						
        					}
        				})
@@ -312,7 +316,8 @@
 					$.ajax({
 						url:"shop/queryModule",
 						success:function(result){
-								that.modules = result;
+							//console.log(result);
+							that.modules = result;
 						}
 					});
 						

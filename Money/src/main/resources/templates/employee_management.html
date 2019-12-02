@@ -357,6 +357,7 @@
         				$.ajax({
     						url:"shop/insertstaff",
     						data:employeeVue.staff,
+    						dataType:"json",
     						type:"post",
     						success:function(result){
     							$('#myModal').modal('hide');

@@ -467,15 +467,18 @@ public class ShopController {
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public User login(User user,HttpServletRequest request) {
+	public Staff login(Staff staff,HttpServletRequest request) {
 		//System.out.println(user.getUname()+"---"+user.getUpwd());
-		user = service.login(user);
-		if(user!=null) {
+		staff = service.login(staff);
+		System.out.println(staff.getEmployeename()+staff.getPassword());
+		if(staff!=null) {
 			HttpSession session=request.getSession();//��ȡsession����userName����session����
-			session.setAttribute("user", user);
-			System.out.println(111);
+			session.setAttribute("user", staff);
+			List<All> list = service.queryByUserId(staff.getUid());
+			session.setAttribute("perm", list);
+			System.out.println("路径有"+list.get(0).getPath());
 		}
-		return user;
+		return staff;
 		
 	}
 	

@@ -345,8 +345,8 @@ public class ShopService {
 	 * @param user
 	 * @return
 	 */
-	public User login(User user) {
-		return UMapper.login(user);
+	public Staff login(Staff staff) {
+		return fMapper.login(staff);
 	}
 	
 	/**

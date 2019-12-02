@@ -104,13 +104,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.User" >
-    insert into user (uid, trade, shopid, 
-      shopName, uname, upwd, 
-      uphone, headPortrait, tid
-      )
-    values (#{uid,jdbcType=INTEGER}, #{trade,jdbcType=VARCHAR}, #{shopid,jdbcType=INTEGER}, 
-      #{shopname,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{upwd,jdbcType=VARCHAR}, 
-      #{uphone,jdbcType=VARCHAR}, #{headportrait,jdbcType=VARCHAR}, #{tid,jdbcType=INTEGER}
+    insert into user (uid, shopid, 
+      shopName, uname, upwd)
+    values (#{uid,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, 
+      #{shopname,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{upwd,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.User" >

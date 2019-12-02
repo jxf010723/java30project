@@ -34,7 +34,7 @@ public interface ShopMapper {
 	List<Module> queryByZero();
 	
 	@Select("SELECT pid,pname FROM `power` p WHERE pid =(\r\n" + 
-			" SELECT roleID FROM staff f INNER JOIN `user` u ON(f.uid=u.uid) WHERE f.`uid`=#{uid})")
+			" SELECT roleID FROM staff f  WHERE f.`staffid`=#{uid})")
 	All queryByUserId(Integer uid);
 	
 	@Select("SELECT * FROM `module` m\r\n" + 
