@@ -179,7 +179,7 @@ public class GoodsService {
 	}
 	
 	public int insertSelective(Goods record){
-		return goods.insertSelective(record);
+		return goods.insertzhuxiang2(record);
 	}
 	public List<Goodsize> chicunquery(){
 		return goodsize.selectByExample(null);

@@ -210,7 +210,7 @@
 	      </div>
 	      <div class="modal-body" style="height:180px;padding: 0px;">
 	      	<div class="dialog_bd clearfix" style="">
-	      	<form action="">
+	      	<form enctype="multipart/form-data">
 				<label for="excelFile" class="btn addExcelBtn">Excel导入</label>
 				<input type="file" name="file" class="file excelFile" id="excelFile">
 				</form>
@@ -341,8 +341,16 @@
 	
 	
 	function exportExcel(){
-		var leibie= $("#leibie").val();
-		var ming= $("#ming").val();
+		var leibie=null;
+		var ming=null;
+		if(leibie!=""){
+			leibie= $("#leibie").val();
+		}
+		if(ming!=""){
+			ming= $("#ming").val();
+		}
+		 
+		 
 		alert(leibie);
 		alert(ming);
 		
@@ -355,10 +363,7 @@
         //    ②如果value不为空，调用文件加载方法
             if($(this).val() != ""){
             	var formData = new FormData($("form")[0]);
-				  var files = $("[name=file]")[0].files;
-				for(var i=0;i<files.length;i++){
-					formData.append("files",files[i]);
-				}  
+				 
 				$.ajax({
 					url:"[[@{/goods/uploadAjax}]]",
 					data:formData,
@@ -367,8 +372,10 @@
 					contentType:false,
 					success:function(result){
 						alert(result);
+						
 					}
 				});
+				$('#batchImportDialog').modal('hide');
             }
         })
     })

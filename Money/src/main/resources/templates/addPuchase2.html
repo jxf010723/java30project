@@ -40,7 +40,7 @@
 							<div style="padding-bottom: 10px;width: 100%;overflow:hidden;margin-left: 4px;">
 								<div style="float: left;width: 25%;">
 									<label>单 号</label>
-									<input type="text" v-model="Purchasedanhao" class="form-control" style="display: inline-block; width: 78%;">
+									<input type="text" v-model="Purchasedanhao" class="form-control" style="display: inline-block; width: 78%;" id="danhao">
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>交 期</label>
@@ -309,13 +309,27 @@
 	    		   }
 	    	   },
 	    	   created:function(){
+	    		 //登入人的店铺渲染
+	    		   //查询这个人就几个店铺	
+	    		   $.ajax({
+					   url:"[[@{/goods/supplierquery}]]",
+						 dataType:"json",
+						 success:function(reulte){
+							 console.log(reulte)
+							 addpuchasevue2.dp=reulte;
+						}
+					})
 	    		   var id=$("#purchaseidsw").text();
-	    		   alert(id)
+	    		   
 				   $.ajax({
 					   url:"[[@{/goods/xiou2?purchaseid=}]]"+id,
 						 dataType:"json",
 						 success:function(reulte){
-							 alert(1)
+							 alert(reulte.supplierid)
+							  $("#remark").val(reulte.remarks);
+							 $("#selectdp").val(reulte.supplierid).trigger("change");
+							 addpuchasevue2.Purchasedanhao=reulte.odd;
+							 $("#datessw").val(reulte.deliverytime);
 							 addpuchasevue2.checkedNames=reulte.purchasezi;
 							 addpuchasevue2.purchase=reulte;
 							 var goodCostprice=0;

@@ -3,11 +3,13 @@ package com.accp.domain;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Purchase {
     private Integer purchaseid;
 
     private String odd;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deliverytime;
 
     private Integer supplierid;

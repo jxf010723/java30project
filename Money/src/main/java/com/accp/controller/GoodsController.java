@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -328,36 +329,42 @@ public class GoodsController {
 				for(int j=1;j<rows;j++) {
 					//根据下标获取行
 					Row row = sheet.getRow(j);
-					Cell typenameCell = row.createCell(0);
-					System.out.println("qqqqqqqqqqqqqqqqqqqq"+typenameCell);
-					Cell numbersCell = row.createCell(1);
-					Cell goodsnameCell = row.createCell(2);
-					Cell bianhaoCell = row.createCell(3);
-					Cell colourCell = row.createCell(4);
-					Cell specificationCell = row.createCell(5);
-					Cell salespriceCell = row.createCell(6);
-					Cell stockCell = row.createCell(7);
-					Cell costpriceCell = row.createCell(8);
+					Cell typenameCell = row.getCell(0);
+					System.out.println("qqqqqqqqqqqqqqqqqqqq"+typenameCell.getStringCellValue());
+					Cell numbersCell = row.getCell(1);
+					numbersCell.setCellType(CellType.STRING);
+					Cell goodsnameCell = row.getCell(2);
+					Cell bianhaoCell = row.getCell(3);
+					Cell colourCell = row.getCell(4);
+					Cell specificationCell = row.getCell(5);
+					Cell salespriceCell = row.getCell(6);
+					salespriceCell.setCellType(CellType.STRING);
+					Cell stockCell = row.getCell(7);
+					stockCell.setCellType(CellType.STRING);
+					Cell costpriceCell = row.getCell(8);
+					costpriceCell.setCellType(CellType.STRING);
 					Goodstype ty=goods.selectBytypename(typenameCell.getStringCellValue());
 					Goods good=new Goods();
 					good.setTypeid(ty.getTypeid());
+				
+					//good.setTypeid(typenameCell.getStringCellValue());
 					good.setNumbers(numbersCell.getStringCellValue());
 					good.setGoodsname(goodsnameCell.getStringCellValue());
 					good.setBianhao(bianhaoCell.getStringCellValue());
 					good.setColour(colourCell.getStringCellValue());
 					good.setSpecification(specificationCell.getStringCellValue());
-					Double stock = stockCell.getNumericCellValue();
-					good.setStock(stock.intValue());
-					Double costprice = costpriceCell.getNumericCellValue();
-					good.setCostprice(costprice.floatValue());
-					Double salesprice = salespriceCell.getNumericCellValue();
-					good.setSalesprice(salesprice.floatValue());
+					System.out.println(stockCell.getStringCellValue());
+					good.setStock(Integer.parseInt(stockCell.getStringCellValue()));
+					
+					good.setCostprice(Float.parseFloat(costpriceCell.getStringCellValue()) );
+					
+					good.setSalesprice(Float.parseFloat(salespriceCell.getStringCellValue()) );
 					good.setAgio(1);
-					good.setSupplierid(1);
 					good.setShopid(1);
 					good.setGoodsphoto("abc.jpg");
-					System.out.println();
+					System.out.println("qwer"+good.getGoodsname());
 					goods.insertSelective(good);
+					
 				}
 			}
 		} catch (IOException e) {

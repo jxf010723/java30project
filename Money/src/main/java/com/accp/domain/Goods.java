@@ -21,7 +21,7 @@ public class Goods {
 
     private String specification;
 
-    private Integer stock;
+    private Integer stock;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
     private Float salesprice;
 
