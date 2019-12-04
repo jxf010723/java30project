@@ -51,8 +51,8 @@
         <div class="top">
             <div class="divUser" style="position:relative;left:-50px;">
             	
-				<div></div> <!-- 获取session中的userName -->
-                <a href="javascript:;" class="logout" style="top:0px;">退出</a>
+				<div id="userAAA"> <!-- 获取session中的userName -->
+                <a href="javascript:;" class="logout" style="top:0px;" onclick="tc()">退出</a>
                 <a href="javascript:;" class="head">
                     <p class="type">
                         <span>未认证</span>
@@ -62,6 +62,7 @@
                     </p>
                     <img name="headportrait" src="" alt="">
                 </a>
+                </div>
             </div>
             <!-- logo -->
             <a href="javascript:;">
@@ -141,6 +142,7 @@
 					url:"[[@{user/getUser}]]",
 					success:function(result){
 						if(result!=null){
+							$("[id=userAAA]").show();
 							User=result.uname;
 							$("[name=headportrait]").attr("src",result.headportrait)
 							$("[name=Uname]").text(result.uname)
@@ -158,6 +160,7 @@
 			                	}
 			                });
 						}else{
+							$("[id=userAAA]").hide();
 							 var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
 				                $.ajax({
 				                	type:"post",
@@ -173,6 +176,15 @@
 					}
 				});
 			}
+         	function tc(){
+         		$.ajax({
+    				url:"[[@{user/tc}]]",
+    				success:function(result){
+    					$("[id=userAAA]").hide();
+    					location.reload();
+    				}
+    			});
+         	}
     </script>
     <!-- 时间的js -->
      

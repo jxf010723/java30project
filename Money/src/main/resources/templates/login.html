@@ -50,8 +50,8 @@
     </div>
     <!--表单-->
     <div class="container">
-		<input type="text" placeholder="账号" name="uname" maxlength="11" />
-		<input type="password" placeholder="密码" name="upwd"  />
+		<input type="text" placeholder="账号" name="employeename" maxlength="11" />
+		<input type="password" placeholder="密码" name="password"  />
 		<div id="captcha" style="position: relative"></div>
 		<div id="msg"></div>
 		<input type="hidden" id="hmsg"/>
@@ -105,15 +105,28 @@ jigsaw.init(document.getElementById('captcha'), function () {
 		}
 
 		//验证用户名密码是否正确
-		var uname = $("[name=uname]").val();
-		var upwd = $("[name=upwd]").val();
+		var employeename = $("[name=employeename]").val();
+		var password = $("[name=password]").val();
 		//alert(uname+"---"+upwd);
 		$.ajax({
 			url:"[[@{shop/login}]]",
-			data:{uname:uname,upwd:upwd},
+			data:{employeename:employeename,password:password},
 			success:function(result){
 				if(result!=null/* &&result!="" */){
 					//alert(result+"进来了呀");
+					//登录成功则进入实体店	周鹏改成进账户页面
+					$(".indexs>div").remove();
+					var newDiv = $(`<div data-id="login"  class="tab-pane active">`);
+	                $.ajax({
+	                	type:"post",
+	                	url:"/money",
+	                	data:{dataid:"storeindex"},
+	                	dataType:"html",
+	                	success:function(res){
+	                		newDiv.append(res);
+	                        $(".indexs").append(newDiv);
+	                	}
+	                });
 					jz()
 					//登录成功则进入实体店	周鹏改成进账户页面
 					

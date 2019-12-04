@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.accp.domain.Staff;
 import com.accp.domain.User;
 import com.accp.service.UserService;
 
@@ -25,10 +26,10 @@ public class UserController {
 	
 	@RequestMapping("/getUser")
 	@ResponseBody
-	public User getUser(HttpServletRequest request) {
-		HttpSession session=request.getSession();//��ȡsession����userName����session����
-		User user=(User) session.getAttribute("user");
-		return user;
+	public Staff getUser(HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		Staff s=(Staff) session.getAttribute("user");
+		return s;
 		
 	}
 	
@@ -41,6 +42,15 @@ public class UserController {
 		session.setAttribute("user",userService.queryUserById(user.getUid()));
 		return 0;
 		
+	}
+	
+	@RequestMapping("/tc")
+	@ResponseBody
+	public int tc(HttpServletRequest request) {
+		HttpSession s=request.getSession();//��ȡsession����userName����session����
+		s.removeAttribute("user");
+		s.invalidate();
+		return 0;
 	}
 	
 	@RequestMapping("/uploadFile")

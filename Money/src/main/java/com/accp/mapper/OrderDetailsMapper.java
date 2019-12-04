@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderDetailsMapper {
+	int addEach(@Param("details") List<OrderDetails> details,@Param("orderid") String orderid);
+	
     int countByExample(OrderDetailsExample example);
 
     int deleteByExample(OrderDetailsExample example);

@@ -15,6 +15,12 @@ public class Staff {
 
     private String password;
 
+    private Integer uid;
+
+    private String trade;
+
+    private String headportrait;
+
     public Integer getStaffid() {
         return staffid;
     }
@@ -69,5 +75,29 @@ public class Staff {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
+
+    public String getTrade() {
+        return trade;
+    }
+
+    public void setTrade(String trade) {
+        this.trade = trade;
+    }
+
+    public String getHeadportrait() {
+        return headportrait;
+    }
+
+    public void setHeadportrait(String headportrait) {
+        this.headportrait = headportrait;
     }
 }

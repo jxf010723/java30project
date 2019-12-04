@@ -2,20 +2,32 @@ package com.accp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.accp.domain.All;
+import com.accp.domain.Cart;
+import com.accp.domain.Integral;
 import com.accp.domain.Jurisdictiontype;
+import com.accp.domain.Module;
+import com.accp.domain.Order;
+import com.accp.domain.Power;
+import com.accp.domain.RolesModule;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
 import com.accp.domain.User;
@@ -27,6 +39,260 @@ import com.github.pagehelper.PageInfo;
 public class ShopController {
 	@Autowired
 	ShopService service;
+	
+	@RequestMapping("/queryByTid")
+	@ResponseBody
+	public All queryByTid(Integer tid) {
+		return service.queryByTid(tid);
+	}
+	
+	//修改权限
+	@RequestMapping("/updateModule")
+	@ResponseBody
+	public String updateModule(@RequestParam("tname") String tname,Integer tid,@RequestParam(value = "arr[]") String[] arr) {
+		boolean f=false;
+		System.out.println("tname==="+tname+"tid==="+tid+"arr长度=="+arr.length);
+		Jurisdictiontype jurisdictiontype = new Jurisdictiontype();
+		jurisdictiontype.setTid(tid);
+		jurisdictiontype.setTname(tname);
+		if(service.updateJurisdictiontype(jurisdictiontype)>0) {
+			//权限组表修改
+			StringBuffer sb = new StringBuffer();
+    		String pname = null;
+    		for (int i = 0; i < arr.length; i++) {
+    			pname = sb.append(arr[i]+",").toString();
+			}
+    		String name = pname.substring(0,pname.length()-1);
+    		Power p = new Power(tid, name);
+    		p.setPid(tid);
+    		p.setPname(name);
+			if(service.updatePower(p)>0) {
+				//权限关系表修改
+				for (int i = 0; i < arr.length; i++) {
+					RolesModule role = new RolesModule();
+					role.setRid(tid);
+					role.setMid(Integer.parseInt(arr[i]));
+					role.setId((i+1));
+					if(service.updateRolesModule(role)>0) {
+						f=true;
+					}
+				}
+			}
+		}
+		System.out.println(f);
+		if(f) {
+    		return "success";
+    	}else {
+    		return "shibai";
+    	}
+	}
+	
+	
+	
+	//新增职位
+	@RequestMapping("/insertModule")
+	@ResponseBody
+	public String insertpositionBypname(@RequestParam("tname") String tname, @RequestParam(value = "arr[]")String [] arr) {
+		/* 首先新增职位名称 */
+		System.out.println(tname);
+		System.out.println(arr);
+		boolean f=false;
+		//新增职位类型表
+    	if (service.insertModule(tname)>0) {
+			/* 根据职位名称查询pid */
+    		Jurisdictiontype position=service.queryByTname(tname);
+    		//新增权限组表
+    		StringBuffer sb = new StringBuffer();
+    		String pname = null;
+    		for (int i = 0; i < arr.length; i++) {
+    			pname = sb.append(arr[i]+",").toString();
+			}
+    		String name = pname.substring(0,pname.length()-1);
+    		System.out.println("pname==="+pname+"name==="+name);
+    		Power power = new Power();
+    		power.setPname(name);
+    		if(service.insertPower(power)>0) {
+    			/*根据pid新增职位权限表*/
+        		for(String s:arr) {
+        			int moid=Integer.parseInt(s);
+        			RolesModule mm=new RolesModule();
+        			mm.setRid(position.getTid());
+        			mm.setMid(moid);
+        			if(service.insertRolesModule(mm)>0) {
+        				f=true;
+        			}
+        		}
+    		}
+    		
+		 }
+    	if(f) {
+    		return "0";
+    	}else {
+    		return "1";
+    	}
+		 
+    }
+	
+	@RequestMapping("/queryModule")
+	@ResponseBody
+	public List<Module> queryModule(){
+		return service.queryModule();
+	}
+	
+	@RequestMapping("/queryTtype")
+	@ResponseBody
+	public List<Jurisdictiontype> queryTtype(){
+		return service.queryTtype();
+	}
+	
+	/**
+	 * 根据商品详情id和会员id修改数量
+	 */
+	@RequestMapping("/updateGuaCount")
+	@ResponseBody
+	public int updateGuaCount(Integer count,Integer gdid,Integer vipid){
+		return service.updateGuaCount(count, gdid, vipid);
+	}
+	
+	/**
+	 * 查询该cid的购物车有没有，有则做下面的修改操作
+	 */
+	@RequestMapping("/queryHaveCart")
+	@ResponseBody
+	public Cart queryHaveCart(Integer gdid,Integer vipid) {
+		return service.queryHaveCart(gdid, vipid);
+	}
+	
+	/**
+	 * 修改该购物车的商品数量
+	 */
+	@RequestMapping("/updateCartCount")
+	@ResponseBody
+	public int updateCartCount(Integer count,Integer cid) {
+		return service.updateCartCount(count, cid);
+	}
+	
+	/**
+	 * 根据购物车id清空购物车
+	 */
+	@RequestMapping("/deleteCart")
+	@ResponseBody
+	public int deleteCart(Integer cid) {
+		return service.deleteCart(cid);
+	}
+	
+	/**
+	 * 根据会员id查询购物车
+	 */
+	@RequestMapping("/queryCartByvipid")
+	@ResponseBody
+	public List<All> queryCartByvipid(Integer vipid){
+		return service.queryCartByvipid(vipid);
+	}
+	
+	/**
+	 * 查询购物车所有
+	 */
+	@RequestMapping("/queryCart")
+	@ResponseBody
+	public List<All> queryCart(){
+		return service.queryCart();
+	}
+	
+	/**
+	 * 修改会员的积分
+	 */
+	@RequestMapping("/updatePoint")
+	@ResponseBody
+	public int updatePoint(Double point,Integer uid) {
+		return service.updatePoint(point,uid);
+	}
+	
+	/**
+	 * 新增订单
+	 */
+	@RequestMapping("/insertOrder")
+	@ResponseBody
+	public int insertOrder(@RequestBody Order order) {
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+		Calendar calendar = Calendar.getInstance();
+		String dateName = df.format(calendar.getTime());
+
+		Random ne=new Random();//实例化一个random的对象ne
+		int x = ne.nextInt(999-100+1)+100;//为变量赋随机值100-999
+		String random_order = String.valueOf(x);
+		String order_id = dateName+random_order;
+		order.setOrderId(order_id);
+		
+		Date date = new Date();
+		order.setOrderDate(date);
+		return service.insertOrder(order);
+	}
+	
+	/**
+	 * 查询积分设置表是否可以使用积分
+	 */
+	@RequestMapping("/queryIntegral")
+	@ResponseBody
+	public List<Integral> queryIntegral() {
+		return service.queryIntegral();
+	}
+	
+	/**
+	 * 查询会员类型和对应的会员
+	 */
+	@RequestMapping("/queryVip")
+	@ResponseBody
+	public List<All> queryVip(){
+		return service.queryVip();
+	}
+	
+	/**
+	 * 新增购物车
+	 */
+	@RequestMapping("/insertCart")
+	@ResponseBody
+	public int insertCart(Cart cart) {
+		Date date = new Date();
+		cart.setOrderDate(date);
+		return service.insertCart(cart);
+	}
+	
+	/**
+	 * ��ѯ����Ʒ����Ʒ����
+	 */
+	@RequestMapping("/queryGoodstype")
+	@ResponseBody
+	public List<All> queryGoodstype(){
+		return service.queryGoodstype();
+	}
+	
+	/**
+	 * ��ѯ��������ǰʮ��������õ���Ʒ(�����е���Ʒ����)
+	 */
+	@RequestMapping("/queryTenGoods")
+	@ResponseBody
+	public List<All> queryTenGoods(){
+		return service.queryTenGoods();
+	}
+	
+	/**
+	 * �˻����޸�
+	 */
+	@RequestMapping("/updateUser")
+	@ResponseBody
+	public int updateUser(User user) {
+		return service.updateUser(user);
+	}
+	
+	/**
+	 * �˻��Ĳ�ѯ
+	 */
+	@RequestMapping("/queryUser")
+	@ResponseBody
+	public User queryUser(Integer uid) {
+		return service.queryUser(uid);
+	}
 	
 	/**
 	 * ɾ��Ա��
@@ -96,7 +362,7 @@ public class ShopController {
 			pageSize = 5;
 		}
 		PageInfo<All> page = service.queryStaff(pageNum,pageSize, shopname, tname, employeename);
-		System.out.println(shopname+tname+ employeename);
+		System.out.println(shopname+tname+ employeename+"111");
 		return page;
 	}
 	
@@ -119,13 +385,13 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file");
+		File directory = new File("/E:/Y2/文件/项目资料/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : updateFiles) {
-				String url = "/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file/";
+				String url = "/E:/Y2/文件/项目资料/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
@@ -170,13 +436,13 @@ public class ShopController {
 		shop.setAddress(shop.getProvince()+shop.getCity()+shop.getRegion());
 		shop.setShopuser(shop.getPhonenumber());
 		
-		File directory = new File("/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file");
+		File directory = new File("/E:/Y2/文件/项目资料/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : insertFiles) {
-				String url = "/C:/Users/Administrator/git/java30project/Money/src/main/resources/static/images/file/";
+				String url = "/E:/Y2/文件/项目资料/images/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);
@@ -201,15 +467,18 @@ public class ShopController {
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public User login(User user,HttpServletRequest request) {
+	public Staff login(Staff staff,HttpServletRequest request) {
 		//System.out.println(user.getUname()+"---"+user.getUpwd());
-		user = service.login(user);
-		if(user!=null) {
+		staff = service.login(staff);
+		System.out.println(staff.getEmployeename()+staff.getPassword());
+		if(staff!=null) {
 			HttpSession session=request.getSession();//��ȡsession����userName����session����
-			session.setAttribute("user", user);
-			System.out.println(111);
+			session.setAttribute("user", staff);
+			List<All> list = service.queryByUserId(staff.getUid());
+			session.setAttribute("perm", list);
+			System.out.println("路径有"+list.get(0).getPath());
 		}
-		return user;
+		return staff;
 		
 	}
 	

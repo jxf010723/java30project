@@ -28,6 +28,7 @@ import com.accp.domain.Integral;
 import com.accp.domain.Order;
 import com.accp.domain.OrderDetailsBysp;
 import com.accp.domain.RechargeDeduction;
+import com.accp.domain.Staff;
 import com.accp.domain.User;
 import com.accp.domain.Vip;
 import com.accp.domain.Viptype;
@@ -271,8 +272,8 @@ public class MemberController {
 	@RequestMapping("/addVip")
 	@ResponseBody
 	public int addVip(Vip record,HttpServletRequest request) {
-		User user=(User) request.getSession().getAttribute("user");
-		record.setUserId(user.getUid());
+		Staff user=(Staff) request.getSession().getAttribute("user");
+		record.setUserId(user.getStaffid());
 		return service.addVip(record);
 	}
 	
