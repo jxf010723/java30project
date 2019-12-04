@@ -31,6 +31,7 @@ import com.accp.domain.RolesModule;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
 import com.accp.domain.User;
+import com.accp.domain.Viptype;
 import com.accp.service.ShopService;
 import com.github.pagehelper.PageInfo;
 
@@ -39,6 +40,27 @@ import com.github.pagehelper.PageInfo;
 public class ShopController {
 	@Autowired
 	ShopService service;
+	
+	//统计(查出所有类型)
+	@RequestMapping("/queryViptype")
+	@ResponseBody
+	public List<Viptype> queryViptype(){
+		return service.queryViptype();
+	}
+	
+	//统计(右边的折现柱形图)对应会员类型对应上个月哪天的销售额
+	@RequestMapping("/queryZheshan")
+	@ResponseBody
+	public List<All> queryZheshan(){
+		return service.queryZheshan();
+	}
+	
+	//统计
+	@RequestMapping("/queryTongJi")
+	@ResponseBody
+	public List<All> queryTongJi(){
+		return service.queryTongJi();
+	}
 	
 	@RequestMapping("/queryByTid")
 	@ResponseBody

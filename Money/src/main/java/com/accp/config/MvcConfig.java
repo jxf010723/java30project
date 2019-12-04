@@ -48,6 +48,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 		.excludePathPatterns("/shop/selectBystaffid").excludePathPatterns("/shop/updateStoreById")
 		.excludePathPatterns("/shop/selectByShopid").excludePathPatterns("/shop/queryModule")
 		.excludePathPatterns("/shop/queryJurisdictiontype").excludePathPatterns("/shop/queryShop")
+		.excludePathPatterns("/shop/queryViptype")
 		.excludePathPatterns("/index/**").excludePathPatterns("/user/getUser");
 		//super.addInterceptors(registry);
 	}
