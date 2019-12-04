@@ -360,6 +360,9 @@
 	 	<if test="typeid!= '' ">
 	 			AND g.typeid =#{typeid}
 	 	</if>
+	 	<if test="shopid!= '' ">
+	 			AND g.shopid =#{shopid}
+	 	</if>
 	 <if test="numbers!= '' ">
 	 			AND  (numbers LIKE #{numbers} OR goodsname LIKE #{numbers})
 	 	</if>
@@ -389,6 +392,9 @@
 	 u.uid=#{uid}
 	 	<if test="typeid!= '' ">
 	 			AND g.typeid =#{typeid}
+	 	</if>
+	 	<if test="shopid!= '' ">
+	 			AND g.shopid =#{shopid}
 	 	</if>
 	 <if test="numbers!= '' ">
 	 			AND  (numbers LIKE #{numbers} OR goodsname LIKE #{numbers})

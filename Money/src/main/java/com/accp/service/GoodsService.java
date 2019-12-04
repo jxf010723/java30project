@@ -148,19 +148,18 @@ public class GoodsService {
 	/**
 	 * 根据店长查询商品
 	 */
-	public PageInfo<Goods> selectgoodspage(int pageNum,String uid,String typeid,String numbers){
+	public PageInfo<Goods> selectgoodspage(int pageNum,String uid,String typeid,String numbers,String shopid){
 		PageHelper.startPage(pageNum, 5);
-		
-		List<Goods> list=goods.selectgoodsAll(uid, typeid, numbers);
+		List<Goods> list=goods.selectgoodsAll(uid, typeid, numbers,shopid);
 		PageInfo<Goods> page=new PageInfo<Goods>(list);
 		return page;
 	}
 	/*
 	 * 查询商品的总计
 	 */
-	public zongjivo selectByzongji(String uid,String typeid,String numbers){
+	public zongjivo selectByzongji(String uid,String typeid,String numbers,String shopid){
 		System.out.println("asd"+numbers);
-		return goods.selectByzongji(uid, typeid, numbers);
+		return goods.selectByzongji(uid, typeid, numbers,shopid);
 		
 	}
 	/**
@@ -230,8 +229,8 @@ public class GoodsService {
 	        return 1;
 		}
 		//查看采购信息
-		public  List<Purchase> selectPurchase(String purchasedate,String purchasedatejie) {
-			 return purch.selectPurchase(purchasedate,purchasedatejie);
+		public  List<Purchase> selectPurchase(String purchasedate,String purchasedatejie,String shopid,String odd) {
+			 return purch.selectPurchase(purchasedate,purchasedatejie,shopid,odd);
 		}
 		//查询店铺
 	    public List<Shop> selectshop(String userid){

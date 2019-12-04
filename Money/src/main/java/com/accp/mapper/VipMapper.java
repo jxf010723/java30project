@@ -36,7 +36,6 @@ public interface VipMapper {
     		"		SELECT COUNT(*) AS DATE \r\n" + 
     		"		FROM `order` \r\n" + 
     		"		WHERE DATEDIFF(NOW(),`order_date`)<=6  AND `user_id`=v.`user_id`\r\n" + 
-    		"		GROUP BY DAY(`order_date`)\r\n" + 
     		"	) AS zjcj,\r\n" + 
     		"	CONCAT(v.`vip_province`,v.`vip_city`,v.`vip_region`) AS address\r\n" + 
     		"	FROM `vip` v\r\n" + 
@@ -49,7 +48,7 @@ public interface VipMapper {
     		"		SELECT COUNT(*) AS DATE \r\n" + 
     		"		FROM `order` \r\n" + 
     		"		WHERE DATEDIFF(NOW(),`order_date`)<=6  AND `user_id`=v.`user_id`\r\n" + 
-    		"		GROUP BY DAY(`order_date`)\r\n" + 
+    		  
     		"	) AS zjcj,\r\n" + 
     		"	CONCAT(v.`vip_province`,v.`vip_city`,v.`vip_region`) AS address\r\n" + 
     		"	FROM `vip` v\r\n" + 
@@ -63,7 +62,7 @@ public interface VipMapper {
     		"		SELECT COUNT(*) AS DATE \r\n" + 
     		"		FROM `order` \r\n" + 
     		"		WHERE DATEDIFF(NOW(),`order_date`)<=6  AND `user_id`=v.`user_id`\r\n" + 
-    		"		GROUP BY DAY(`order_date`)\r\n" + 
+    		  
     		"	) AS zjcj,\r\n" + 
     		"	CONCAT(v.`vip_province`,v.`vip_city`,v.`vip_region`) AS address\r\n" + 
     		"	FROM `vip` v\r\n" + 
@@ -77,7 +76,7 @@ public interface VipMapper {
     		"		SELECT COUNT(*) AS DATE \r\n" + 
     		"		FROM `order` \r\n" + 
     		"		WHERE DATEDIFF(NOW(),`order_date`)<=6  AND `user_id`=v.`user_id`\r\n" + 
-    		"		GROUP BY DAY(`order_date`)\r\n" + 
+    		  
     		"	) AS zjcj,\r\n" + 
     		"	CONCAT(v.`vip_province`,v.`vip_city`,v.`vip_region`) AS address\r\n" + 
     		"	FROM `vip` v\r\n" + 

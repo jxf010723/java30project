@@ -286,10 +286,23 @@
   	 SELECT shenghe,purchase.`Purchaseid`,purchase.`odd`,purchase.`deliverytime`,purchase.`supplierid`,purchase.`suppliername`,SUM(purchasedetails.`gooddetailscount`)AS goodscount,SUM(purchasedetails.`goodCostprice`)AS goodCostprice,purchase.`remarks`,uname FROM `purchase`
 	   LEFT JOIN `purchasedetails` ON purchasedetails.`purchaseid`=purchase.`purchaseid`
 	   WHERE 1=1
-      <if test="purchasedate!=null and purchasedate!='' and purchasedatejie!=null and purchasedatejie!=''">
-       and deliverytime '&lt;'= #{purchasedate} and deliverytime '&gt;'= #{purchasedatejie}
+      <if test="purchasedatejie!=null and purchasedatejie!=''">
+      and deliverytime &gt;= #{purchasedatejie}
        </if>
-       AND userid='1'
+       
+       
+        <if test="purchasedate!=null and purchasedate!='' ">
+       and deliverytime &lt;= #{purchasedate} 
+       </if>
+       
+       <if test="shopid!=null and shopid!='' ">
+       and shopid = #{shopid} 
+       </if>
+       <if test="odd!=null and odd!='' ">
+       and odd like concat('%',#{odd},'%')
+       </if>
+       
+       
        GROUP BY purchase.`purchaseid`
   </select>
   <delete id="deleteByid">

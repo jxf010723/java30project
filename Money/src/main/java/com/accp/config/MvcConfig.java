@@ -44,11 +44,22 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 		System.out.println("进来了MvcConfig");
 		registry.addInterceptor(new MyInterceptor()).addPathPatterns("/shop/**").addPathPatterns("/goods/**")
 		.addPathPatterns("/member/**").addPathPatterns("/user/**").excludePathPatterns("/shop/login")
+		.excludePathPatterns("/shop/uploadAjax")
 		.excludePathPatterns("/shop/queryByTid").excludePathPatterns("/shop/queryCartByvipid")
 		.excludePathPatterns("/shop/selectBystaffid").excludePathPatterns("/shop/updateStoreById")
 		.excludePathPatterns("/shop/selectByShopid").excludePathPatterns("/shop/queryModule")
 		.excludePathPatterns("/shop/queryJurisdictiontype").excludePathPatterns("/shop/queryShop")
-		.excludePathPatterns("/shop/queryViptype")
+		.excludePathPatterns("/shop/queryViptype").excludePathPatterns("/goods/goodssupplierByid")
+		.excludePathPatterns("/goods/goodstypeAll").excludePathPatterns("/goods/selectgoodsByzongji")
+		.excludePathPatterns("/goods/downloadExcel").excludePathPatterns("/goods/chicunquery")
+		.excludePathPatterns("/goods/upimgAjax").excludePathPatterns("/goods/goodsquery")
+		.excludePathPatterns("/goods/supplierquery").excludePathPatterns("/goods/dateNew")
+		.excludePathPatterns("/goods/selectshop").excludePathPatterns("/goods/bj")
+		.excludePathPatterns("/goods/xiou2").excludePathPatterns("/goods/selectBygoodsid")
+		.excludePathPatterns("/member/downloadExcel").excludePathPatterns("/member/queryVipType")
+		.excludePathPatterns("/member/queryVipByid").excludePathPatterns("/member/queryVipTypeByid")
+		.excludePathPatterns("/member/queryvip").excludePathPatterns("/hotcakes/querySpType")
+		.excludePathPatterns("/hotcakes/queryShop").excludePathPatterns("/hotcakes/queryGoods2Byid")
 		.excludePathPatterns("/index/**").excludePathPatterns("/user/getUser");
 		//super.addInterceptors(registry);
 	}

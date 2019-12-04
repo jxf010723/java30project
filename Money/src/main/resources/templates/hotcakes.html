@@ -7,6 +7,59 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/member_info.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <style type="text/css">
+    	.orderInfoDialog .dialog_bd {
+		    width: 840px;
+		    padding-top: 20px;
+		    padding-left: 20px;
+		    padding-bottom: 20px;
+		    text-align: center;
+		}
+		
+		.dialog .dialog_bd {
+		    padding: 20px;
+		}
+    	.orderInfoDialog .simple_dialog_content {
+		    float: left;
+		    width: 100%;
+		    text-align: left;
+		}
+		.orderInfoDialog .simple_dialog_content .imgDiv {
+		    float: left;
+		    width: 100%;
+		}
+		.orderInfoDialog .simple_dialog_content .imgDiv img {
+		    float: left;
+		    width: 60px;
+		    height: 60px;
+		    padding-right: 10px;
+		    padding-bottom: 10px;
+		}
+		.orderInfoDialog .simple_dialog_content .imgDiv p {
+		    line-height: 20px;
+		}
+		.orderInfoDialog .settable {
+		    float: left;
+		    width: 100%;
+		}
+		
+		
+		.orderInfoDialog .settable th {
+		    font-weight: normal;
+		    background-color: #F6F6F6;
+		    border: 1px solid #CCCCCC;
+		    padding-bottom: 8px;
+		    padding-top: 8px;
+		    text-align: center;
+		}
+		.orderInfoDialog .settable td {
+		    border: 1px solid #CCCCCC;
+		    padding-bottom: 8px;
+		    padding-top: 8px;
+		    text-align: center;
+		}
+		
+    </style>
 </head>
 <body>
 <div id="content">
@@ -28,8 +81,8 @@
                     <!--<a href="javascript:;" class="btn btn-default">批量导入</a>-->
                 </div>
                 <div class="list search" style="width: 100px;">
-                    <input class="inputtext" type="text" placeholder="查找" name="name">
-                    <a href="javascript:;" class="search-btn"></a>
+                    <input class="inputtext" type="text" placeholder="查找" name="name" >
+                    <a href="javascript:;" class="search-btn" @click="querySp(1)"></a>
                 </div>
                 <div class="list">
 	                <input type="date" class="form-control" style="width: 140px;" name="afterDate">
@@ -42,7 +95,7 @@
 	            </div>
                
                 <div class="list">
- 					<select name="typeid" id="" class="form-control">
+ 					<select name="typeid" @change="querySp(1)" id="" class="form-control">
                         <option value="全部类别">全部类别</option>
                         <template v-for="item in list">
                         	<option :value="item.typeid">{{item.typename}}</option>
@@ -50,7 +103,7 @@
                     </select>
                 </div>
                  <div class="list">
-                    <select name="shopid" id="" class="form-control">
+                    <select name="shopid" @change="querySp(1)" id="" class="form-control">
                         <option value="全部店铺">全部店铺</option>
                         <template v-for="item in list2">
                         	<option :value="item.shopid">{{item.shopname}}</option>
@@ -80,10 +133,11 @@
 							</thead>
 							<tbody>
 								<tr v-for="item,index in page.list">
-									<td>item.goodsid</td>
+									<!-- <template -->
+									<td>{{item.goodsid}}</td>
 									<td class="nameTD"><div class="nameDiv"><img height="30" width="30" :src="item.goodsphoto"><p><em>{{item.goodsname}}</em></p></div></td>
-									<td class="bhDiv"></td><td class="colorTd"><em>-</em><em>-</em></td><td class="price">{{item.salesprice}}</td>
-									<td>{{item.stock}}</td><td>{{item.money}}</td><td><a class="btn seeBtn" href="javascript:void(0);">查看</a></td>
+									<td class="bhDiv">{{item.numbers}}</td><td class="colorTd">{{item.specification}}</td><td class="price">{{item.salesprice}}</td>
+									<td>{{item.count}}</td><td>{{item.salesprice*item.count}}</td><td><a class="btn seeBtn" href="javascript:void(0);" data-toggle="modal" data-target="#addUserDialog" @click="queryGoods2Byid(item.goodsid)">查看</a></td>
 								</tr>
 								<!-- <tr class="" guid="190326428216234849" colorid="-" sizeid="-">
 									<td>1<i class="jsonListData" style="display:none;">{"sizeid":"-","image222":"http://poso2o.oss-cn-hangzhou.aliyuncs.com/18670802166/15684435210000_w1600_h1200","bh":"","price":"89.00","colorid":"-","name":"八角帽","salesamount":"763.62","guid":"190326428216234849","salesnum":"11"}</i></td>
@@ -99,25 +153,26 @@
                        <div class="page">
                                <ul class="pagination">
                                    <li>
-                                       <a href="javascript:;">
+                                       <a @click="querySp(1)" href="javascript:;">
                                            首页
                                        </a>
                                    </li>
                                    <li>
-                                       <a href="javascript:;">
+                                       <a @click="querySp(page.prePage)" href="javascript:;">
                                            &laquo;
                                        </a>
                                    </li>
                                    <li>
-                                       <span style="font-size: 14px;">1/5</span>
+                                       <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}
+                                       </span>
                                    </li>
                                    <li>
-                                       <a href="javascript:;">
+                                       <a @click="querySp(page.nextPage)" href="javascript:;">
                                            &raquo;
                                        </a>
                                    </li>
                                    <li>
-                                       <a href="javascript:;">
+                                       <a @click="querySp(page.lastPage)" href="javascript:;">
                                            尾页
                                        </a>
                                    </li>
@@ -125,7 +180,7 @@
                                        <input name="tz" type="text" class="form-control" style="width: 100px;">
                                    </li>
                                    <li style="margin-left: 15px; float:left;">
-                                       <a href="javascript:;" class="btn btn-default">
+                                       <a @click="tz" href="javascript:;" class="btn btn-default">
                                            跳转
                                        </a>
                                    </li>
@@ -138,6 +193,51 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+	<div class="modal fade orderInfoDialog dialog " id="addUserDialog" tabindex="-1" role="dialog" aria-spanledby="myModalspan">
+	  <div class="modal-dialog" role="document" style="width:840px;">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color: #f4f5f9;">
+	        <button type="button" class="close" data-dismiss="modal" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 style="font-size: 16px;" class="modal-title" id="myModalspan">销售详情</h3>
+	      </div>
+	      <div class="modal-body" style="height:220px;">
+	      	<div class="simple_dialog_content" style="">
+					<div class="imgDiv">
+						<img width="60" height="60" :src="Goods2.goodsphoto">
+						<p style="padding-top:10px;">品名：<em class="name"><em>{{Goods2.goodsname}}</em></em></p>
+						<p>单价：<em class="price" style="color:#f05b23">{{Goods2.salesprice}}</em></p>
+					</div>
+					<table class="settable produtsTable">
+						<thead>
+							<tr>
+								<th width="6%">序号</th>
+								<th width="*">店铺</th>
+								<th width="15%">单价</th>
+								<th width="15%">成交数量</th>
+								<th width="15%">成交金额</th>
+								<th width="15%">库存</th>
+							</tr>
+						</thead>
+						<tbody><tr class=""><td>1</td><td>{{Goods2.goodsbrand}}</td><td>{{Goods2.salesprice}}</td><td>{{Goods2.count}}</td><td>{{Goods2.salesprice*Goods2.count}}</td><td>{{Goods2.stock}}</td></tr></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3">合计</td>
+								<td><em>{{Goods2.count}}</em></td>
+								<td><em>{{Goods2.salesprice*Goods2.count}}</em></td>
+								<td><em>{{Goods2.stock}}</em></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+	      </div>
+	      <div class="modal-footer" style="text-align: center;background-color: #f4f5f9;">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add()">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>
 <script type="text/javascript">
    		var hotcakesvue = new Vue({
@@ -148,10 +248,22 @@
 						list:[]
 					},
 					list:[],
-					list2:[]
+					list2:[],
+					Goods2:{}
 				}
 			},
 			methods:{
+				queryGoods2Byid:function(goodsid){
+					alert(goodsid)
+					$.ajax({
+						url:"[[@{hotcakes/queryGoods2Byid}]]",
+						data:{goodsid:goodsid},
+						success:function(result){
+							console.log(result);
+							hotcakesvue.Goods2=result;
+						}
+					});
+				},
 				querySpType:function(){
 					$.ajax({
 						url:"[[@{hotcakes/querySpType}]]",
@@ -188,9 +300,6 @@
 				tz:function(){
 					var tz=$("[name=tz]").val()
 					hotcakesvue.querySp(tz)
-				},
-				cz:function(){
-					hotcakesvue.querySp(1)
 				}
 			},
 			created:function(){

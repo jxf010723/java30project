@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/purchase_list.css">
     <link rel="stylesheet" href="css/bootstrap.css">
-   <script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
     
 </head>
 <body>
@@ -24,24 +23,24 @@
             </div>
 
             <div class="list search">
-                <input class="inputtext" type="text" placeholder="查找">
-                <a href="javascript:;" class="search-btn"></a>
+                <input class="inputtext" type="text" placeholder="查找" id="odd">
+                <a href="javascript:;" class="search-btn" @click="dianpu"></a>
             </div>
-            <div class="list">
-                <select name="" id="" class="form-control">
+           <!--  <div class="list">
+                <select name="" id="dianpu" class="form-control" @change="dianpu">
                     <option value="">全部店铺</option>
                     <option v-for="item in dp" :value="item.shopid">{{item.shopname}}</option>
                 </select>
-            </div>
+            </div> -->
 
             <div class="list">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="ktime" @change="shijian">
             </div>
             <div class="list">
                 -
             </div>
             <div class="list">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="jtime" @change="shijian">
             </div>
         </div>
         <div class="mainbody">
@@ -152,7 +151,7 @@
 										 })
 										 
 										  $.ajax({
-										 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null}]]",
+										 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null&shopid=null&odd=null}]]",
 										 dataType:"json",
 										 success:function(reulte){
 											 //alert(reulte)
@@ -181,7 +180,7 @@
 										 })
 										 
 										  $.ajax({
-										 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null}]]",
+										 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null&shopid=null&odd=null}]]",
 										 dataType:"json",
 										 success:function(reulte){
 											 //alert(reulte)
@@ -218,6 +217,39 @@
 		        		$("#add").append(res);
 		        	}
 		        });
+ 		   },
+ 		   shijian:function(){
+				var ktime=$("#ktime").val();
+				var jtime=$("#jtime").val();
+				alert(ktime+""+jtime)
+				  $.ajax({
+				 url:"[[@{/goods/seleall}]]",
+				 data:{purchasedate:ktime,purchasedatejie:jtime,shopid:null,odd:null},
+				 dataType:"json",
+				 type:"post",
+				 success:function(reulte){
+					 //alert(reulte)
+					  purchasevue.purc=reulte;
+					 
+					}
+				 })
+ 		   },
+ 		   dianpu:function(){
+ 			  var odd=$("#odd").val();
+ 			  var ktime=$("#ktime").val();
+				var jtime=$("#jtime").val();
+				
+				$.ajax({
+					 url:"[[@{/goods/seleall}]]",
+					 data:{purchasedate:ktime,purchasedatejie:jtime,shopid:null,odd:odd},
+					 dataType:"json",
+					 type:"post",
+					 success:function(reulte){
+						 //alert(reulte)
+						  purchasevue.purc=reulte;
+						 
+						}
+					 })
  		   }
  	   },
  	   created:function(){
@@ -233,7 +265,7 @@
 					 })
 					 
 					  $.ajax({
-					 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null}]]",
+					 url:"[[@{/goods/seleall?purchasedate=null&purchasedatejie=null&shopid=null&odd=null}]]",
 					 dataType:"json",
 					 success:function(reulte){
 						 //alert(reulte)

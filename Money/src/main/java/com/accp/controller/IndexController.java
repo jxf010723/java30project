@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -30,6 +31,14 @@ public class IndexController {
 				dataid="login";
 			}
 		}
+		return dataid;
+	}
+	
+	@RequestMapping("/money2")
+	public String money2(String dataid,String purchaseid,Model model) {
+		System.out.println("mmmmm"+purchaseid);
+		System.out.println("www"+dataid);
+		model.addAttribute("purchaseid",purchaseid);
 		return dataid;
 	}
 }

@@ -41,7 +41,7 @@ public interface PurchaseMapper {
     int selectdate(String datetime);
     
   //按日期查找表
-    List<Purchase> selectPurchase(@Param("purchasedate") String purchasedate,@Param("purchasedatejie") String purchasedatejie);
+    List<Purchase> selectPurchase(@Param("purchasedate") String purchasedate,@Param("purchasedatejie") String purchasedatejie,@Param("shopid") String shopid,@Param("odd") String odd);
     
     //查询店铺
     List<Shop> selectshop(@Param("userid") String userid);

@@ -115,8 +115,9 @@
 
             </div>
             <div class="list">
-                <select name="" id="" class="form-control">
-                    <option value="全部店铺">全部店铺</option>
+                <select name="" id="dianpu" class="form-control" @change="dianpu()">
+                    <option value="">全部店铺</option>
+                    <option v-for="item in dp" :value="item.shopid">{{item.shopname}}</option>
                 </select>
             </div>
         </div>
@@ -234,6 +235,7 @@
 				typelist:[],
 				heji:{},
 				imgtp:"",
+				dp:[],
 			}
 		},
 		methods:{
@@ -246,11 +248,11 @@
 					}
 				});
 			},
-			gopage:function(dqy,uid,typeid,numbers){
+			gopage:function(dqy,uid,typeid,numbers,shopid){
 				var that=this;
 				$.ajax({
 					url:"[[@{goods/selectgoodspage}]]",
-					data:{pageNum:dqy,uid:uid,typeid:typeid,numbers:numbers},
+					data:{pageNum:dqy,uid:uid,typeid:typeid,numbers:numbers,shopid:shopid},
 					type:"post",
 					dataType:"json",
 					success:function(res){
@@ -263,38 +265,44 @@
 			},
 			xia:function(){
 				if(this.goodspage.hasNextPage) {
-					this.gopage(this.goodspage.nextPage,1,null,null);
+					this.gopage(this.goodspage.nextPage,1,null,null,null);
 				}
 				
 			},
 			shang:function(){
 				if(this.goodspage.hasPreviousPage) {
-					this.gopage(this.goodspage.prePage,1,null,null);
+					this.gopage(this.goodspage.prePage,1,null,null,null);
 				}
 			},
 			wei: function() {
-				this.gopage(this.goodspage.pages,1,null,null);
+				this.gopage(this.goodspage.pages,1,null,null,null);
 			},
 			shou: function() {
-				this.gopage(1,1,null,null);
+				this.gopage(1,1,null,null,null);
 			},
 			type:function(){
 				var leibie= $("#leibie").val();
-				this.gopage(1,1,leibie,null);
-				this.queryheji(1,leibie,null);
+				this.gopage(1,1,leibie,null,null);
+				this.queryheji(1,leibie,null,null);
 			},
 			mingzi:function(){
 				var leibie= $("#leibie").val();
 				var ming= $("#ming").val();
+				var dianpu= $("#dianpu").val();
 				alert(ming)
-				this.gopage(1,1,leibie,ming);
-				this.queryheji(1,leibie,ming);
+				this.gopage(1,1,leibie,ming,dianpu);
+				this.queryheji(1,leibie,ming,dianpu);
 			},
-			queryheji:function(uid,typeid,numbers){
+			dianpu:function(){
+				var dianpu= $("#dianpu").val();
+				this.gopage(1,1,null,null,dianpu);
+				this.queryheji(1,null,null,dianpu);
+			},
+			queryheji:function(uid,typeid,numbers,shopid){
 				var th=this;
 				$.ajax({
 					url:"[[@{goods/selectgoodsByzongji}]]",
-					data:{uid:uid,typeid:typeid,numbers:numbers},
+					data:{uid:uid,typeid:typeid,numbers:numbers,shopid:shopid},
 					type:"post",
 					dataType:"json",
 					success:function(res){
@@ -326,14 +334,22 @@
 			        		
 			        	}
 			        });
-					this.gopage(1,1,null,null);
+					this.gopage(1,1,null,null,null);
 				}
 			}
 		},
 		mounted:function(){
 			this.typequery();
-			this.gopage(1,1,null,null);
-			this.queryheji(1,null,null);
+			this.gopage(1,1,null,null,null);
+			this.queryheji(1,null,null,null);
+			 $.ajax({
+				 url:"[[@{/goods/selectshop?userid=1}]]",
+				 dataType:"json",
+				 success:function(reulte){
+					 alert(reulte)
+					  managevue.dp=reulte;
+					 }
+				 })
 		}
 	});
 	function downloadExcel(){

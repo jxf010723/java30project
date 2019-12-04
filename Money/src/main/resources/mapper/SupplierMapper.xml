@@ -310,8 +310,8 @@
 		      and  city like concat('%',#{city},'%')
 		      </if>		      		      		     		         		      
 		      <if test="suppliername!='' ">
-		      and  suppliername like concat('%',#{suppliername},'%') or cohr like concat('%',#{suppliername},'%') or 
-		      contact like concat('%',#{suppliername},'%') or phone like concat('%',#{suppliername},'%')
+		      and  (suppliername like concat('%',#{suppliername},'%') or cohr like concat('%',#{suppliername},'%') or 
+		      contact like concat('%',#{suppliername},'%') or phone like concat('%',#{suppliername},'%'))
 		      </if>
 		      
 		</where>

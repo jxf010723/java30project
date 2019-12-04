@@ -326,15 +326,17 @@
         			delEmployee:function(staffid){
         				//alert(staffid);
         				var t = this;
-        				$.ajax({
-    						url:"shop/delEmployee",
-    						data:{staffid:staffid},
-    						type:"post",
-    						success:function(result){
-    							alert("删除成功");
-    							t.getPage(1,null,null,null);
-    						}
-    					})
+        				if(confirm("确定删除嘛?")){
+        					$.ajax({
+        						url:"shop/delEmployee",
+        						data:{staffid:staffid},
+        						type:"post",
+        						success:function(result){
+        							alert("删除成功");
+        							t.getPage(1,null,null,null);
+        						}
+        					})
+        				}
         			},
         			updateStaffById:function(){
         				console.log(employeeVue.staff);

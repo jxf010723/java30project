@@ -473,21 +473,24 @@
 						console.log(result);
 						$("#querystore").show();
 	            		$("#noneUpdate").hide();
-						storeVue.getPage(1);
+						getPage(1);
 					}
 				});
         	}
         	
         	function delStore(shopid){
-        		$.ajax({
-					url:"shop/delStoreById",
-					data:{shopid:shopid},
-					type:"post",
-					success:function(result){
-						alert("删除成功");
-						getPage(1);
-					}
-				})
+        		if(confirm("确定删除嘛?")){
+        			$.ajax({
+    					url:"shop/delStoreById",
+    					data:{shopid:shopid},
+    					type:"post",
+    					success:function(result){
+    						alert("删除成功");
+    						getPage(1);
+    					}
+    				})
+        		}
+        		
         	}
         	
         	function updateStore(shopid){

@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -30,6 +33,7 @@ import com.accp.domain.Goodstype;
 import com.accp.domain.Purchase;
 import com.accp.domain.Purchasedetails;
 import com.accp.domain.Shop;
+import com.accp.domain.Staff;
 import com.accp.domain.Supplier;
 import com.accp.domain.purchrvo;
 import com.accp.domain.zongjivo;
@@ -193,9 +197,9 @@ public class GoodsController {
 	 */
 	@RequestMapping("/selectgoodspage")
 	@ResponseBody
-	public PageInfo<Goods> selectgoodspage(int pageNum,String uid,String typeid,String numbers){
+	public PageInfo<Goods> selectgoodspage(int pageNum,String uid,String typeid,String numbers,String shopid){
 		
-		PageInfo<Goods> page=goods.selectgoodspage(pageNum, uid, typeid, "%"+numbers+"%");
+		PageInfo<Goods> page=goods.selectgoodspage(pageNum, uid, typeid, "%"+numbers+"%",shopid);
 		for (Goods list : page.getList()) {
 			
 			
@@ -205,9 +209,9 @@ public class GoodsController {
 	
 	@RequestMapping("/selectgoodsByzongji")
 	@ResponseBody
-	public zongjivo selectgoodsByzongji(String uid,String typeid,String numbers){
+	public zongjivo selectgoodsByzongji(String uid,String typeid,String numbers,String shopid){
 		
-		return goods.selectByzongji(uid, typeid, "%"+numbers+"%");
+		return goods.selectByzongji(uid, typeid, "%"+numbers+"%",shopid);
 	}
 	
 	@RequestMapping("/downloadExcel")
@@ -449,8 +453,9 @@ public class GoodsController {
 		//查询
 		@RequestMapping("/seleall")
 		@ResponseBody
-		public List<Purchase> selece(String purchasedate,String purchasedatejie) {
-			return goods.selectPurchase(purchasedate, purchasedatejie);
+		public List<Purchase> selece(String purchasedate,String purchasedatejie,String shopid,String odd) {
+			System.out.println("qweeee"+shopid);
+			return goods.selectPurchase(purchasedate, purchasedatejie,shopid,odd);
 		}
 		@RequestMapping("/selectshop")
 		@ResponseBody
@@ -482,9 +487,12 @@ public class GoodsController {
 		//修改传值
 		@RequestMapping("/xiou2")
 		@ResponseBody
-		public Purchase xiou2(Integer purchaseid) {
+		public Purchase xiou2(Integer purchaseid,HttpServletRequest request) {
 			System.out.println(purchaseid);
 			Purchase p=goods.xiou(purchaseid);
+			HttpSession session=request.getSession();//��ȡsession����userName����session����
+			Staff user=(Staff) session.getAttribute("user");
+			p.setUname(user.getEmployeename());
 			return p;			
 		}
 		//新增采购单
