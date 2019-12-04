@@ -16,6 +16,31 @@ import com.accp.domain.ShopExample;
 import com.accp.domain.Viptype;
 
 public interface ShopMapper {
+	@Select("SELECT t.vipType_id viptypeId,SUM(order_sfMoney) sumPrice,vipType_name tname  \r\n" + 
+			"FROM `order` o \r\n" + 
+			"INNER JOIN vip v ON v.user_id=o.user_id\r\n" + 
+			"RIGHT JOIN viptype t ON v.vipType_id=t.vipType_id\r\n" + 
+			"WHERE t.vipType_id=#{typeid} and order_date=#{vipdate}\r\n" + 
+			"GROUP BY o.order_date")
+	All queryByTypeId(@Param("typeid")Integer typeid,@Param("vipdate")String vipdate);
+	
+	//统计(右边的折现柱形图)对应会员类型对应上个月哪天的销售额
+	@Select("SELECT t.vipType_id viptypeId,SUM(order_sfMoney) sumPrice,vipType_name tname  \r\n" + 
+			"FROM `order` o \r\n" + 
+			"INNER JOIN vip v ON v.user_id=o.user_id\r\n" + 
+			"RIGHT JOIN viptype t ON v.vipType_id=t.vipType_id\r\n" + 
+			"WHERE order_date=#{vipdate} AND t.vipType_id=#{viptypeId}\r\n" + 
+			"GROUP BY t.vipType_id")
+	All queryZheshan(@Param("vipdate")String vipdate,@Param("viptypeId")Integer viptypeId);
+	//List<All> queryZheshan(@Param("vipdate")String vipdate,@Param("viptypeId")Integer viptypeId);
+	
+	//统计(扇形图)
+	@Select("SELECT COUNT(o.order_id) tongvipcount,v.vip_id vipId,vip_name vipName FROM `order` o\r\n" + 
+			"INNER JOIN `order_details` d ON o.order_id=d.order_id\r\n" + 
+			"RIGHT JOIN `vip` v ON v.user_id=o.user_id\r\n" + 
+			"GROUP BY v.vip_id")
+	List<All> queryTongJi();
+	
 	@Select("SELECT * FROM `jurisdictiontype` j\r\n" + 
 			"INNER JOIN `power` p ON(p.pid=j.tid)\r\n" + 
 			"WHERE tid = #{tid}")

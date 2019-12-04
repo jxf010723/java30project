@@ -1,9 +1,81 @@
 package com.accp.domain;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 
 public class All {
+	//统计用到的属性
+	private Integer tongvipcount;
+	
+	private String name;
+	
+	private Double sumPrice;
+	
+	private List<All> slist;
+	
+	//private Hashtable<Integer, Double> tlist;
+	
+	private List<All> tlist;
+	private String sdate;
+	
+	
+	public List<All> getTlist() {
+		return tlist;
+	}
+
+	public void setTlist(List<All> tlist) {
+		this.tlist = tlist;
+	}
+
+	/*public Hashtable<Integer, Double> getTlist() {
+		return tlist;
+	}
+
+	public void setTlist(Hashtable<Integer, Double> tlist) {
+		this.tlist = tlist;
+	}*/
+
+	public String getSdate() {
+		return sdate;
+	}
+
+	public void setSdate(String sdate) {
+		this.sdate = sdate;
+	}
+
+	public List<All> getSlist() {
+		return slist;
+	}
+
+	public void setSlist(List<All> slist) {
+		this.slist = slist;
+	}
+
+	public Double getSumPrice() {
+		return sumPrice;
+	}
+
+	public void setSumPrice(Double sumPrice) {
+		this.sumPrice = sumPrice;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getTongvipcount() {
+		return tongvipcount;
+	}
+
+	public void setTongvipcount(Integer tongvipcount) {
+		this.tongvipcount = tongvipcount;
+	}
+
 	//权限有关实体属性
 	private Integer mid;
 

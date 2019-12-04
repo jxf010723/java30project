@@ -1,7 +1,11 @@
 package com.accp.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,7 @@ import com.accp.mapper.RolesModuleMapper;
 import com.accp.mapper.ShopMapper;
 import com.accp.mapper.StaffMapper;
 import com.accp.mapper.UserMapper;
+import com.accp.mapper.ViptypeMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -68,6 +73,63 @@ public class ShopService {
 	
 	@Autowired
 	PowerMapper pMapper;
+	
+	@Autowired
+	ViptypeMapper vtMapper;
+	
+	//统计(查出所有类型)
+	public List<Viptype> queryViptype(){
+		return vtMapper.selectByExample(null);
+	}
+	
+	//统计(右边的折现柱形图)对应会员类型对应上个月哪天的销售额
+	public List<All> queryZheshan(){
+		Calendar cal = Calendar.getInstance();
+		int nowmonth = cal.get(Calendar.MONTH)+1; 	//这个月
+		int nowyear = cal.get(Calendar.YEAR); //当前年
+		int nowday = cal.get(Calendar.DATE);	//当前日
+		Calendar aCalendar = Calendar.getInstance(Locale.CHINA);
+		int day=aCalendar.getActualMaximum(Calendar.DATE);
+		String vipdate = "";
+		System.out.println("这个月的天数："+day);
+		List<All> zlist = new ArrayList<>();
+		for (int i = 1; i <= day; i++) {
+			vipdate = nowyear+"-"+nowmonth+"-"+i;
+			//System.out.println("日期为vipdate："+vipdate);
+			List<Viptype> vtlist = vtMapper.selectByExample(null);
+			List<All> tlist = new ArrayList<>();
+			//Hashtable<Integer, Double> tlist = new Hashtable<>();
+			for (Viptype viptype : vtlist) {
+				All a = sMapper.queryZheshan(vipdate,viptype.getViptypeId());
+				if(a!=null) {
+					a.setTname(viptype.getViptypeName());
+					tlist.add(a);
+				}
+				
+			}
+			
+			All a = new All();
+			List<All> glist = new ArrayList<>();
+			for (All all : tlist) {
+				All ltlist = sMapper.queryByTypeId(all.getViptypeId(),vipdate);
+				glist.add(ltlist);
+				a.setTname(all.getTname());
+			}
+			a.setTlist(glist);
+			System.out.println("第一个tlist的个数"+tlist.size());
+			//System.out.println("第二个tlist的个数"+a.getTlist().size());
+			a.setSdate(vipdate);
+			//a.setTname();
+			zlist.add(a);
+		}
+		System.out.println("集合的个数"+zlist.size());
+		return zlist;
+	}
+	
+	//统计
+	public List<All> queryTongJi(){
+		return sMapper.queryTongJi();
+	}
 	
 	//职位类型表修改
 	public int updateJurisdictiontype(Jurisdictiontype jurisdictiontype) {
