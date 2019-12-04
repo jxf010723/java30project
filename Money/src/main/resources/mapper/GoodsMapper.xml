@@ -408,6 +408,18 @@
       
     
   </insert>
+  
+  <insert id="insertzhuxiang2" parameterType="com.accp.domain.Goods" useGeneratedKeys="true" keyProperty="goodsid">
+  	insert into goods (shopid, typeid, 
+        goodsname, 
+      goodsphoto, specification,
+      stock, salesprice, costprice,colour,bianhao)
+    values ( #{shopid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR}, 
+      #{goodsphoto,jdbcType=VARCHAR},#{specification,jdbcType=VARCHAR},#{stock,jdbcType=INTEGER}, #{salesprice,jdbcType=REAL}, #{costprice,jdbcType=REAL},
+      #{colour,jdbcType=VARCHAR},#{bianhao,jdbcType=VARCHAR})
+      
+    
+  </insert>
   <update id="updategoods" parameterType="com.accp.domain.Goods">
   	update goods set shopid=#{shopid},typeid=#{typeid},goodsname=#{goodsname},
   	goodsphoto=#{goodsphoto},stock=#{stock},salesprice=#{salesprice},costprice=#{costprice},

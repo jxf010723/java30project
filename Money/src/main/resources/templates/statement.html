@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+	.contentarea{
+    margin: 0 auto;
+    width: 1240px;
+    min-height: 450px;
+    position: relative;
+    border: 1px solid
+    #e7e7eb;
+    margin-bottom: 20px;
+}
+.navlists{
+    background: #f8f8f8 url("../images/accountindex/dian.jpeg") repeat-y 197px 0px;
+    width: 198px;
+    height: 100%;
+    float: left;
+}
+.navlists>li{
+    display: block;
+    border-bottom: 1px solid #e7e7eb;
+    border-right: 1px solid #e7e7eb;
+    text-align: center;
+}
+.current-item{
+    background: #FFF ;
+    border-right: 1px solid #FFF ;
+}
+.current-item>a{
+    color: #44b549 ;
+}
+.navlists li a{
+    display: block ;
+    line-height: 52px ;
+    font-size: 16px ;
+    text-align: center;
+}
+</style>
+<body>
+<div class="contentarea clearfix" style="height: 785px;">
+            <div class="navlists">
+                <ul>
+                    <li class="current-item" data-id="statistics">
+                        <a href="javascript:;">销售统计</a>
+                    </li>
+                    <li data-id="hotcakes">
+                        <a href="javascript:;">热销商品</a>
+                    </li>
+                </ul>
+
+            </div>
+        <div class="content">
+            <div class="tab-content statement">
+                <!--报表下的功能模块-->
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    $(function () {
+        var newDiv = $(`<div data-id="statistics"  class="tab-pane active">`);
+        $.ajax({
+        	type:"post",
+        	url:"/money",
+        	data:{dataid:"statistics"},
+        	dataType:"html",
+        	success:function(res){
+        		newDiv.append(res);
+        		 $(".statement").append(newDiv);
+        	}
+        });
+    });
+    $(".navlists li").click(function () {
+        $(".statement>div").remove();
+        let dataid=$(this).attr("data-id");
+        $(".navlists li").removeClass("active");
+        $(this).addClass("active");
+        
+        $(".navlists li").removeClass("current-item");
+        $(this).addClass("current-item");
+        $(".statement div").removeClass("active");
+        var newDiv = $(`<div data-id="${dataid}"  class="tab-pane active">`);
+        $.ajax({
+        	type:"post",
+        	url:"/money",
+        	data:{dataid:dataid},
+        	dataType:"html",
+        	success:function(res){
+        		newDiv.append(res);
+        		 $(".statement").append(newDiv);
+        	}
+        });
+    });
+</script>
+</body>
+</html>

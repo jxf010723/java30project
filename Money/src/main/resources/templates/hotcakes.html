@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/member_info.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div id="content">
+	 <!--会员信息-->
+    <div class="rightarea clearfix">
+        <div class="mainarea clearfix">
+            <div class="mainhead">
+                <span class="title">热销商品</span>
+                <!--<div class="searchArea">
+                    <div class="btn-div">
+                        <a href="javascript:;" class="btn btn-success">
+                            添加会员
+                        </a>
+                    </div>
+                </div>-->
+              
+                <div class="list">
+                    <a href="javascript:;" class="btn btn-default">导出数据</a>
+                    <!--<a href="javascript:;" class="btn btn-default">批量导入</a>-->
+                </div>
+                <div class="list search" style="width: 100px;">
+                    <input class="inputtext" type="text" placeholder="查找" name="name">
+                    <a href="javascript:;" class="search-btn"></a>
+                </div>
+                <div class="list">
+	                <input type="date" class="form-control" style="width: 140px;" name="afterDate">
+	            </div>
+	            <div class="list">
+	                -
+	            </div>
+	            <div class="list">
+	                <input type="date" class="form-control" style="width: 140px;" name="preDate">
+	            </div>
+               
+                <div class="list">
+ 					<select name="typeid" id="" class="form-control">
+                        <option value="全部类别">全部类别</option>
+                        <template v-for="item in list">
+                        	<option :value="item.typeid">{{item.typename}}</option>
+                        </template>
+                    </select>
+                </div>
+                 <div class="list">
+                    <select name="shopid" id="" class="form-control">
+                        <option value="全部店铺">全部店铺</option>
+                        <template v-for="item in list2">
+                        	<option :value="item.shopid">{{item.shopname}}</option>
+                        </template>
+                    </select>
+                </div>
+              	
+            </div>
+            <div class="mainbody">
+                <table class="settable table table-striped">
+                   
+							<thead>
+								<tr>
+									<th width="5%">序号</th>
+									<th width="30%">商品名称</th>
+									<th width="20%">货号/条形码</th>
+									<th width="20%">规格</th>
+									<th width="8%">单价</th>
+									<th width="8%">
+										<a href="javascript:void(0);" class="order_search current order-desc" order="sales_nums">数量<i></i></a>
+									</th>
+									<th width="8%">
+										<a order="sales_amounts" class="order_search" href="javascript:void(0);">金额<i></i></a>
+									</th>
+									<th width="5%">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item,index in page.list">
+									<td>item.goodsid</td>
+									<td class="nameTD"><div class="nameDiv"><img height="30" width="30" :src="item.goodsphoto"><p><em>{{item.goodsname}}</em></p></div></td>
+									<td class="bhDiv"></td><td class="colorTd"><em>-</em><em>-</em></td><td class="price">{{item.salesprice}}</td>
+									<td>{{item.stock}}</td><td>{{item.money}}</td><td><a class="btn seeBtn" href="javascript:void(0);">查看</a></td>
+								</tr>
+								<!-- <tr class="" guid="190326428216234849" colorid="-" sizeid="-">
+									<td>1<i class="jsonListData" style="display:none;">{"sizeid":"-","image222":"http://poso2o.oss-cn-hangzhou.aliyuncs.com/18670802166/15684435210000_w1600_h1200","bh":"","price":"89.00","colorid":"-","name":"八角帽","salesamount":"763.62","guid":"190326428216234849","salesnum":"11"}</i></td>
+									<td class="nameTD"><div class="nameDiv"><img height="30" width="30" src="http://poso2o.oss-cn-hangzhou.aliyuncs.com/18670802166/15684435210000_w1600_h1200"><p><em>八角帽</em></p></div></td>
+									<td class="bhDiv"></td><td class="colorTd"><em>-</em><em>-</em></td><td class="price">89.00</td>
+									<td>11</td><td>763.62</td><td><a class="btn seeBtn" href="javascript:void(0);">查看</a></td>
+								</tr> -->
+							</tbody>
+                </table>
+                <!--分页按钮-->
+                <div class="pagebar">
+                    <div class="pagetion">
+                       <div class="page">
+                               <ul class="pagination">
+                                   <li>
+                                       <a href="javascript:;">
+                                           首页
+                                       </a>
+                                   </li>
+                                   <li>
+                                       <a href="javascript:;">
+                                           &laquo;
+                                       </a>
+                                   </li>
+                                   <li>
+                                       <span style="font-size: 14px;">1/5</span>
+                                   </li>
+                                   <li>
+                                       <a href="javascript:;">
+                                           &raquo;
+                                       </a>
+                                   </li>
+                                   <li>
+                                       <a href="javascript:;">
+                                           尾页
+                                       </a>
+                                   </li>
+                                   <li style="margin-left: 20px; float:left;">
+                                       <input name="tz" type="text" class="form-control" style="width: 100px;">
+                                   </li>
+                                   <li style="margin-left: 15px; float:left;">
+                                       <a href="javascript:;" class="btn btn-default">
+                                           跳转
+                                       </a>
+                                   </li>
+                               </ul>
+                       </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+   		var hotcakesvue = new Vue({
+			el:"#content",
+			data(){
+				return {
+					page:{
+						list:[]
+					},
+					list:[],
+					list2:[]
+				}
+			},
+			methods:{
+				querySpType:function(){
+					$.ajax({
+						url:"[[@{hotcakes/querySpType}]]",
+						success:function(result){
+							hotcakesvue.list=result;
+						}
+					});
+				},
+				queryShop:function(){
+					$.ajax({
+						url:"[[@{hotcakes/queryShop}]]",
+						success:function(result){
+							hotcakesvue.list2=result;
+						}
+					});
+				},
+				querySp:function(pageNum){
+					if(pageNum==0){
+						return;
+					}
+					var preDate=$("[name=preDate]").val()
+					var afterDate=$("[name=afterDate]").val()
+					var name=$("[name=name]").val()
+					var shopid=$("[name=shopid]").val()
+					var typeid=$("[name=typeid]").val()
+					$.ajax({
+						url:"[[@{hotcakes/querySp}]]",
+						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name,shopid:shopid,typeid:typeid},
+						success:function(result){
+							hotcakesvue.page=result;
+						}
+					});
+				},
+				tz:function(){
+					var tz=$("[name=tz]").val()
+					hotcakesvue.querySp(tz)
+				},
+				cz:function(){
+					hotcakesvue.querySp(1)
+				}
+			},
+			created:function(){
+				var that = this;
+				that.queryShop()
+				that.querySpType()
+				that.querySp(1)
+			}
+		});
+   </script>	
+</body>
+</html>

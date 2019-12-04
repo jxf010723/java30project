@@ -163,6 +163,6 @@
   </update>
   
   <select id="selectBytypename" parameterType="String" resultType="com.accp.domain.Goodstype">
-  	select * from where typename=#{0}
+  	select * from goodstype where typename=#{0} LIMIT 1
   </select>
 </mapper>
