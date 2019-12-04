@@ -30,7 +30,6 @@ public class UserController {
 		HttpSession session=request.getSession();//��ȡsession����userName����session����
 		Staff user=(Staff) session.getAttribute("user");
 		return user;
-		
 	}
 	
 	@RequestMapping("/updateUser")
@@ -42,6 +41,15 @@ public class UserController {
 		session.setAttribute("user",userService.queryUserById(staff.getStaffid()));
 		return 0;
 		
+	}
+	
+	@RequestMapping("/tc")
+	@ResponseBody
+	public int tc(HttpServletRequest request) {
+		HttpSession s=request.getSession();//��ȡsession����userName����session����
+		s.removeAttribute("user");
+		s.invalidate();
+		return 0;
 	}
 	
 	@RequestMapping("/uploadFile")
