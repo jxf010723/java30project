@@ -354,9 +354,9 @@
   <select id="selectgoodsAll" resultType="com.accp.domain.Goods" parameterType="String">
   	SELECT g.bianhao,g.`colour`,g.`goodsid`,g.`typeid`,t.typename,g.`supplierid`,g.`shopid`,g.`goodsname`,g.`goodsphoto`,
   	g.`numbers`,g.`specification`,g.`stock`,g.`salesprice`,g.`costprice`,g.`agio` FROM `goods` g INNER JOIN
-  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+  	 `shop` s ON g.shopid=s.shopid  INNER JOIN `goodstype` t ON g.typeid=t.typeid  
 	 <where>
-	 u.uid=#{uid}
+	 1=1
 	 	<if test="typeid!= '' ">
 	 			AND g.typeid =#{typeid}
 	 	</if>
@@ -372,9 +372,9 @@
   <select id="selectgoodsAlls" resultType="com.accp.domain.Goods" parameterType="String">
   	SELECT g.bianhao,g.`colour`,g.`goodsid`,g.`typeid`,t.typename,g.`supplierid`,g.`shopid`,g.`goodsname`,g.`goodsphoto`,
   	g.`numbers`,g.`specification`,g.`stock`,g.`salesprice`,g.`costprice`,g.`agio` FROM `goods` g INNER JOIN
-  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+  	 `shop` s ON g.shopid=s.shopid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
 	 <where>
-	 u.uid=#{uid}
+	 1=1
 	 	<if test="typeid!= '' ">
 	 			AND g.typeid =#{typeid}
 	 	</if>
@@ -387,9 +387,9 @@
   
   <select id="selectByzongji" resultType="com.accp.domain.zongjivo" parameterType="String">
   	SELECT SUM(stock) stock,SUM(salesprice) salesprice,SUM(costprice) costprice FROM `goods` g INNER JOIN
-  	 `shop` s ON g.shopid=s.shopid INNER JOIN `user` u ON s.userid=u.uid   INNER JOIN `goodstype` t ON g.typeid=t.typeid  
+  	 `shop` s ON g.shopid=s.shopid  INNER JOIN `goodstype` t ON g.typeid=t.typeid  
 	 <where>
-	 u.uid=#{uid}
+	  1=1
 	 	<if test="typeid!= '' ">
 	 			AND g.typeid =#{typeid}
 	 	</if>

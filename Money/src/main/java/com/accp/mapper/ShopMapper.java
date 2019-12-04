@@ -16,6 +16,14 @@ import com.accp.domain.ShopExample;
 import com.accp.domain.Viptype;
 
 public interface ShopMapper {
+	//修改商品明细表数量
+	@Update("UPDATE details SET `count` = `count`-#{count} WHERE detailsid = #{detailsid}")
+	int updateDetailsCount(@Param("count") Integer count,@Param("detailsid") Integer detailsid);
+	
+	//修改商品表库存列
+	@Update("UPDATE goods SET stock = stock-#{stock} WHERE goodsid = #{goodsid}")
+	int updateGoodsStock(@Param("stock") Integer stock,@Param("goodsid") Integer goodsid);
+	
 	@Select("SELECT t.vipType_id viptypeId,SUM(order_sfMoney) sumPrice,vipType_name tname  \r\n" + 
 			"FROM `order` o \r\n" + 
 			"INNER JOIN vip v ON v.user_id=o.user_id\r\n" + 

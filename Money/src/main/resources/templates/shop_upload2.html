@@ -172,7 +172,7 @@
                         <div class="magni">
                             <div class="tb-booth s310" >
                                 <a href="javascript:;">
-                                    <img src="images/storeindex/uploadImg150_150.jpg" lt=""  id="imagePre">
+                                    <img src="" lt=""  id="imagePre">
                                 </a>
                             </div>
                         </div>
@@ -238,7 +238,7 @@
     });
     $(function(){
     	var goodsid=$("#goodsid").text();
-    	alert(goodsid)
+    	//alert(goodsid)
     })
     
     $("#chicun a").click(function(){
@@ -338,7 +338,7 @@
 			processData:false,
 			contentType:false,
 			success:function(result){
-				alert(result);
+				//alert(result);
 				var list={
 		    			shopid:1,
 		    			bianhao:$("#shangpinhh").val(),
@@ -366,7 +366,7 @@
 		    		spxsaq.count=$(".shul").eq(i).val();
 		    		list.spx[i]=spxsaq
 		    	}
-		    	alert(JSON.stringify(list));
+		    	//alert(JSON.stringify(list));
 			    	$.ajax({
 			    		data:JSON.stringify(list),
 			    		type:"json",
@@ -375,7 +375,7 @@
 			    		contentType : "application/json;charset=utf-8",
 			    		success:function(res){
 			    			
-			    				alert("cg");
+			    				//alert("cg");
 			    				$.ajax({
 			    		        	type:"post",
 			    		        	url:"/money",
@@ -402,7 +402,7 @@
 			data:{goodsid:goodsid},
 			dataType:"json",
 			success:function(res){
-				alert(1);
+				//alert(1);
 				if(res!=null){
 					
 					$("#shangpinhh").val(res.bianhao);
@@ -441,7 +441,7 @@
     				$("#shangpinkc").val(res.stock);
     				editor.txt.text("");
     				editor.txt.text(res.miaoshu);
-    				 $("#imagePre").attr("src", "img/"+res.goodsphoto); 
+    				 $("#imagePre").attr("src", res.goodsphoto); 
     				 $("#shangpinlbss").val(res.typeid).trigger("change");
 				}else{
 					spsf();	
@@ -474,7 +474,7 @@
     	spsf();
     }
     function xqys(obj){
-    	alert(11);
+    	//alert(11);
     	for(var i=0;i<$(".yss:checked").length;i++){
     		if($(obj).prev().val()==$(".yss:checked").eq(i).val()){
     			$(".yss:checked").eq(i).prop("checked",false);
@@ -502,7 +502,7 @@
     		for(var i=0;i<$(".sysxz").length;i++){
         		if($(".sysxz").eq(i).val()==$(obj).val()){
         			//$(".yss:checked").eq(i).prop("checked",false);
-        			alert(11);
+        			//alert(11);
         			$(".sysxz").eq(i).parent().parent().remove();
     	        	if($("#ysxxx").html()==null){
     	        		$("#ysbiao").hide();

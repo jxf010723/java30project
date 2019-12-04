@@ -280,7 +280,7 @@
 		</where> 
   </select>
   <select id="selectshop" resultType="com.accp.domain.Shop">
-  	select * from shop where userid=#{userid}
+  	select * from shop 
   </select>
   <select id="selectPurchase" resultType="com.accp.domain.Purchase">
   	 SELECT shenghe,purchase.`Purchaseid`,purchase.`odd`,purchase.`deliverytime`,purchase.`supplierid`,purchase.`suppliername`,SUM(purchasedetails.`gooddetailscount`)AS goodscount,SUM(purchasedetails.`goodCostprice`)AS goodCostprice,purchase.`remarks`,uname FROM `purchase`

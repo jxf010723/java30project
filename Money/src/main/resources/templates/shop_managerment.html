@@ -151,7 +151,7 @@
                         </td>
                         <td class="nametd">
                             <div class="namediv">
-                                <img :src="'img/'+it.goodsphoto" alt="图片" style="width: 30px;height: 30px;">
+                                <img :src="it.goodsphoto" alt="图片" style="width: 30px;height: 30px;">
                                 <p>{{it.goodsname}}</p>
                             </div>
                         </td>
@@ -252,7 +252,7 @@
 				var that=this;
 				$.ajax({
 					url:"[[@{goods/selectgoodspage}]]",
-					data:{pageNum:dqy,uid:uid,typeid:typeid,numbers:numbers,shopid:shopid},
+					data:{pageNum:dqy,typeid:typeid,numbers:numbers,shopid:shopid},
 					type:"post",
 					dataType:"json",
 					success:function(res){
@@ -289,7 +289,7 @@
 				var leibie= $("#leibie").val();
 				var ming= $("#ming").val();
 				var dianpu= $("#dianpu").val();
-				alert(ming)
+				//alert(ming)
 				this.gopage(1,1,leibie,ming,dianpu);
 				this.queryheji(1,leibie,ming,dianpu);
 			},
@@ -302,7 +302,7 @@
 				var th=this;
 				$.ajax({
 					url:"[[@{goods/selectgoodsByzongji}]]",
-					data:{uid:uid,typeid:typeid,numbers:numbers,shopid:shopid},
+					data:{typeid:typeid,numbers:numbers,shopid:shopid},
 					type:"post",
 					dataType:"json",
 					success:function(res){
@@ -343,10 +343,10 @@
 			this.gopage(1,1,null,null,null);
 			this.queryheji(1,null,null,null);
 			 $.ajax({
-				 url:"[[@{/goods/selectshop?userid=1}]]",
+				 url:"[[@{/goods/selectshop}]]",
 				 dataType:"json",
 				 success:function(reulte){
-					 alert(reulte)
+					 //alert(reulte)
 					  managevue.dp=reulte;
 					 }
 				 })
@@ -368,10 +368,10 @@
 		}
 		 
 		 
-		alert(leibie);
-		alert(ming);
+		//alert(leibie);
+		//alert(ming);
 		
-		window.location.href="/goods/exportExcel?uid=1&typeid="+leibie+"&numbers="+ming;
+		window.location.href="/goods/exportExcel?typeid="+leibie+"&numbers="+ming;
 	}
 	$(function () {
         var $input =  $("#excelFile");
@@ -388,7 +388,7 @@
 					processData:false,
 					contentType:false,
 					success:function(result){
-						alert(result);
+						//alert(result);
 						
 					}
 				});

@@ -44,8 +44,13 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 		System.out.println("进来了MvcConfig");
 		registry.addInterceptor(new MyInterceptor()).addPathPatterns("/shop/**").addPathPatterns("/goods/**")
 		.addPathPatterns("/member/**").addPathPatterns("/user/**").excludePathPatterns("/shop/login")
-		.excludePathPatterns("/shop/uploadAjax")
+		.excludePathPatterns("/shop/uploadAjax").excludePathPatterns("/shop/queryIntegral")
+		.excludePathPatterns("/shop/updateDetailsCount").excludePathPatterns("/shop/updateGoodsStock")
+		.excludePathPatterns("/shop/queryHaveCart").excludePathPatterns("/shop/queryCartByvipid")
+		.excludePathPatterns("/shop/queryTenGoods").excludePathPatterns("/shop/queryGoodstype")
 		.excludePathPatterns("/shop/queryByTid").excludePathPatterns("/shop/queryCartByvipid")
+		.excludePathPatterns("/shop/queryVip").excludePathPatterns("/shop/queryCart")
+		.excludePathPatterns("/shop/queryCartByvipid").excludePathPatterns("/shop/updateCartCount")
 		.excludePathPatterns("/shop/selectBystaffid").excludePathPatterns("/shop/updateStoreById")
 		.excludePathPatterns("/shop/selectByShopid").excludePathPatterns("/shop/queryModule")
 		.excludePathPatterns("/shop/queryJurisdictiontype").excludePathPatterns("/shop/queryShop")
@@ -60,7 +65,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 		.excludePathPatterns("/member/queryVipByid").excludePathPatterns("/member/queryVipTypeByid")
 		.excludePathPatterns("/member/queryvip").excludePathPatterns("/hotcakes/querySpType")
 		.excludePathPatterns("/hotcakes/queryShop").excludePathPatterns("/hotcakes/queryGoods2Byid")
-		.excludePathPatterns("/index/**").excludePathPatterns("/user/getUser");
+		.excludePathPatterns("/index/**").excludePathPatterns("/user/getUser").excludePathPatterns("/user/updateUser").excludePathPatterns("/user/uploadFile");
 		//super.addInterceptors(registry);
 	}
 

@@ -274,7 +274,7 @@
 		        		  } 
 	        		  }
 	        		  
-	        		 console.log(this.order.details);
+	        		 //console.log(this.order.details);
 	        		 //console.log(this.order);
 	        		 var str = JSON.stringify(this.order);
 	        		 var uid = this.viptype[0].vlist[0].uid;
@@ -292,8 +292,46 @@
 	        				  console.log(result);
 	        				  //当新增订单成功后，修改会员减去用掉的积分并加上买商品送的积分(一元=1积分)，清空购物车买了的商品
 	        				  if(result>0){
-	        					  t.queryOftenGoods();
-	        					  //结算
+	        					  t.queryOftenGoods(t.tableData);
+	        					  console.log(data);
+	        					 
+	        					   //data = t.tableData;
+	        					  var goodsid = 0;
+	        					  for (let i=0; i<data.length; i++){
+	        						  var count = data[i].count;
+	        						  goodsid = data[i].goodsId;
+	        						  console.log("count==="+count+"goodsid==="+goodsid);
+		        					  //修改商品表库存列
+		        					  $.ajax({
+		        	        			  url:"[[@{shop/updateGoodsStock}]]",
+		        	        			  data:{stock:count,goodsid:goodsid},
+		        	        			  type:"post",
+		        	        			  success:function(result){
+		        	        				  console.log(result);
+		        	        			  }
+			        	        	   }); 
+		        					  
+	        					  }
+	        					  
+	        					  for (let i=0; i<data.length; i++){
+	        						  var count = data[i].count;
+	        						  var detailsid = data[i].detailsid;
+	        						  console.log("count==="+count+"detailsid==="+detailsid);
+	        						//修改商品明细表的数量
+	        						  $.ajax({
+		        	        			  url:"[[@{shop/updateDetailsCount}]]",
+		        	        			  data:{count:count,detailsid:detailsid},
+		        	        			  type:"post",
+		        	        			  success:function(result){
+		        	        				  console.log(result);
+		        	        			  }
+			        	        	   }); 
+	        					  }
+	        					 /*  var stock = t.totalCount;
+	        					  console.log("stock==="+stock+"goodsid==="+goodsid); */
+	        					 
+	        					  
+	        					  //结算积分
 	        	        		  t.checkout();
 	        					  $.ajax({
 	        	        			  url:"[[@{shop/updatePoint}]]",
@@ -360,12 +398,14 @@
 	        		  var t = this;
 	        		  var vipid = this.vipid;
 	        		  for (let i=0; i<this.danData.length; i++){
+	        			  console.log(this.danData[i]);
 	        			  var c = {vipid:vipid,gid:this.danData[i].goodsId,gdid:this.danData[i].detailsid,color:this.danData[i].color,goodssize:this.danData[i].goodssize,orderCount:this.danData[i].count,orderTotalmoney:this.danData[i].price,orderSfmoney:this.danData[i].price*this.zhe,status:1};
 	        			  //console.log(this.danData[i].goodsId+"---"+this.danData[i].detailsid+"---"+this.danData[i].count+"---"+this.danData[i].price+"---"+this.danData[i].price*this.zhe);
 		        		  //alert(c.vipid+"---"+this.viptype[i].vlist[i].vipId);
 		        		  if(c.vipid!=this.viptype[i].vlist[i].vipId){
 		        			  t.insertOrUpdate = 0;
 		        		  }
+		        		  console.log(c.gdid+"---"+c.vipid);
 	        			  //点击挂单时先判断购物车是否有该商品，有则修改，没有就进行新增
 		        		  $.ajax({
 		        			  url:"[[@{shop/queryHaveCart}]]",
@@ -380,7 +420,7 @@
 	    		        		  }
 		        			  }
 		        		  });
-		        		  console.log(c);
+		        		  //console.log(c);
 		        		  if(t.insertOrUpdate==0){
 		        			  //新增
 			        		  $.ajax({
@@ -413,13 +453,14 @@
 		        		  }
 		        		  
 		                } 
+	        		  alert("vipid==="+t.vipid);
 	        		  //不管是新增还是修改成功都要点击挂单显示的是当前会员的购物车
 	        		  $.ajax({
 	        			  url:"[[@{shop/queryCartByvipid}]]",
 	        			  data:{vipid:t.vipid},
 	        			  type:"post",
 	        			  success:function(result){
-	        				  //console.log(result);
+	        				  console.log(result);
 	        				  t.danData = result;
 	        				  console.log(t.danData);
 	        				  //重新计算价格
@@ -539,10 +580,11 @@
 	                  arr[0].count++;
 	                } else {
 	                  // 构造一个newGoods
-	                  let newGoods={goodsId:goods.goodsId,detailsid:goods.detailsid,goodsName:goods.goodsname,price:goods.salesprice,count:1,color:goods.color,goodssize:goods.goodssize};
+	                  let newGoods={goodsId:goods.goodsid,detailsid:goods.detailsid,goodsName:goods.goodsname,price:goods.salesprice,count:1,color:goods.color,goodssize:goods.goodssize};
 	                  console.log(newGoods);
 	                  this.tableData.push(newGoods);
 	                }
+	                //console.log(this.tableData);
 	                this.getAllMoney();
 	              },
 	              //点击挂单增加的时候
@@ -610,7 +652,7 @@
 		                // 进行数量和价格的汇总计算
 		                // element表示tableData中的单个元素
 		                  this.danData.forEach((element) => {
-		                  this.totalCount+=element.totalCount;
+		                  this.totalCount+=element.orderCount;
 		                  this.totalMoney=this.totalMoney+(element.orderTotalmoney*element.orderCount);
 		                  //alert(this.totalMoney);
 		                });

@@ -148,18 +148,18 @@ public class GoodsService {
 	/**
 	 * 根据店长查询商品
 	 */
-	public PageInfo<Goods> selectgoodspage(int pageNum,String uid,String typeid,String numbers,String shopid){
+	public PageInfo<Goods> selectgoodspage(int pageNum,String typeid,String numbers,String shopid){
 		PageHelper.startPage(pageNum, 5);
-		List<Goods> list=goods.selectgoodsAll(uid, typeid, numbers,shopid);
+		List<Goods> list=goods.selectgoodsAll( typeid, numbers,shopid);
 		PageInfo<Goods> page=new PageInfo<Goods>(list);
 		return page;
 	}
 	/*
 	 * 查询商品的总计
 	 */
-	public zongjivo selectByzongji(String uid,String typeid,String numbers,String shopid){
+	public zongjivo selectByzongji(String typeid,String numbers,String shopid){
 		System.out.println("asd"+numbers);
-		return goods.selectByzongji(uid, typeid, numbers,shopid);
+		return goods.selectByzongji( typeid, numbers,shopid);
 		
 	}
 	/**
@@ -169,8 +169,8 @@ public class GoodsService {
 	 * @param numbers
 	 * @return
 	 */
-	public List<Goods> selectgoodsAll(String uid,String typeid,String numbers) {
-		return goods.selectgoodsAlls(uid, typeid, numbers);
+	public List<Goods> selectgoodsAll(String typeid,String numbers) {
+		return goods.selectgoodsAlls( typeid, numbers);
 	}
 	
 	public Goodstype selectBytypename(String typename){
@@ -233,8 +233,8 @@ public class GoodsService {
 			 return purch.selectPurchase(purchasedate,purchasedatejie,shopid,odd);
 		}
 		//查询店铺
-	    public List<Shop> selectshop(String userid){
-	    	return purch.selectshop(userid);
+	    public List<Shop> selectshop(){
+	    	return purch.selectshop();
 	    }
 	  //修改采购状态
 		public  int upda(Integer purchaseid){

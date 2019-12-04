@@ -322,7 +322,7 @@
 			processData:false,
 			contentType:false,
 			success:function(result){
-				alert(result);
+				//alert(result);
 				var list={
 		    			shopid:1,
 		    			bianhao:$("#shangpinhh").val(),
@@ -349,7 +349,7 @@
 		    		spxsaq.count=$(".shul").eq(i).val();
 		    		list.spx[i]=spxsaq
 		    	}
-		    	alert(JSON.stringify(list));
+		    	//alert(JSON.stringify(list));
 			    	$.ajax({
 			    		data:JSON.stringify(list),
 			    		type:"json",
@@ -358,7 +358,7 @@
 			    		contentType : "application/json;charset=utf-8",
 			    		success:function(res){
 			    			if(res>0){
-			    				alert("cg");
+			    				//alert("cg");
 			    				$.ajax({
 			    		        	type:"post",
 			    		        	url:"/money",
@@ -429,7 +429,7 @@
     	spsf();
     }
     function xqys(obj){
-    	alert(11);
+    	//alert(11);
     	for(var i=0;i<$(".yss:checked").length;i++){
     		if($(obj).prev().val()==$(".yss:checked").eq(i).val()){
     			$(".yss:checked").eq(i).prop("checked",false);
@@ -457,7 +457,7 @@
     		for(var i=0;i<$(".sysxz").length;i++){
         		if($(".sysxz").eq(i).val()==$(obj).val()){
         			//$(".yss:checked").eq(i).prop("checked",false);
-        			alert(11);
+        			//alert(11);
         			$(".sysxz").eq(i).parent().parent().remove();
     	        	if($("#ysxxx").html()==null){
     	        		$("#ysbiao").hide();

@@ -197,9 +197,9 @@ public class GoodsController {
 	 */
 	@RequestMapping("/selectgoodspage")
 	@ResponseBody
-	public PageInfo<Goods> selectgoodspage(int pageNum,String uid,String typeid,String numbers,String shopid){
+	public PageInfo<Goods> selectgoodspage(int pageNum,String typeid,String numbers,String shopid){
 		
-		PageInfo<Goods> page=goods.selectgoodspage(pageNum, uid, typeid, "%"+numbers+"%",shopid);
+		PageInfo<Goods> page=goods.selectgoodspage(pageNum,typeid, "%"+numbers+"%",shopid);
 		for (Goods list : page.getList()) {
 			
 			
@@ -209,9 +209,9 @@ public class GoodsController {
 	
 	@RequestMapping("/selectgoodsByzongji")
 	@ResponseBody
-	public zongjivo selectgoodsByzongji(String uid,String typeid,String numbers,String shopid){
+	public zongjivo selectgoodsByzongji(String typeid,String numbers,String shopid){
 		
-		return goods.selectByzongji(uid, typeid, "%"+numbers+"%",shopid);
+		return goods.selectByzongji( typeid, "%"+numbers+"%",shopid);
 	}
 	
 	@RequestMapping("/downloadExcel")
@@ -267,9 +267,9 @@ public class GoodsController {
 		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
 	}
 	@RequestMapping("/exportExcel")
-	public ResponseEntity<byte []> exportExcel(String uid,String typeid,String numbers){
+	public ResponseEntity<byte []> exportExcel(String typeid,String numbers){
 		//查询出需要导出的学生
-				List<Goods> list = goods.selectgoodsAll(uid,typeid, numbers);
+				List<Goods> list = goods.selectgoodsAll(typeid, numbers);
 				//导出学生信息为excel
 				System.out.println("aqa"+list);
 				Workbook wb = new XSSFWorkbook();
@@ -386,7 +386,7 @@ public class GoodsController {
 	@RequestMapping("/upimgAjax")
 	@ResponseBody
 	public String upimgAjax(MultipartFile [] files) {
-		File directory = new File("//C:/Users/f'j/git/java30project/Money/src/main/resources/static/img");
+		File directory = new File("/E:/Y2/文件/项目资料/images");
 		String imgname="";
 		String ententionName="";
 		String newName="";
@@ -399,7 +399,7 @@ public class GoodsController {
 				
 				newName = UUID.randomUUID().toString().replaceAll("-", "");
 				 ententionName = l.getOriginalFilename().substring(l.getOriginalFilename().lastIndexOf("."));
-				String url = "//C:/Users/f'j/git/java30project/Money/src/main/resources/static/img";
+				String url = "/E:/Y2/文件/项目资料/images";
 				url = url+"/"+newName+ententionName;
 				System.out.println(url);
 				File f = new File(url);
@@ -459,8 +459,8 @@ public class GoodsController {
 		}
 		@RequestMapping("/selectshop")
 		@ResponseBody
-		public List<Shop> selectshop(String userid) {
-			return goods.selectshop(userid);
+		public List<Shop> selectshop() {
+			return goods.selectshop();
 		}
 		//修改状态
 		@RequestMapping("/upda")

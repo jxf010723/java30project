@@ -61,23 +61,23 @@
 				  <!-- <div class="cropped" style="margin-right: 65%;"></div> -->
 			</div>
 			<div class="users">
-				<input type="hidden" name="uid">
+				<input type="hidden" name="staffID">
 				<div class="form-group col-md-12" style="margin-left: 13%;margin-top: 2%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">行&nbsp&nbsp&nbsp业&nbsp&nbsp&nbsp&nbsp</label>
 				    <input type="text" class="form-control" disabled="disabled"   placeholder="请填写行业" style="width: 60%;" name="trade">
 			    </div>
 			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">账&nbsp&nbsp&nbsp号&nbsp&nbsp&nbsp&nbsp</label>
-				    <input type="text" class="form-control" disabled="disabled"   placeholder="请填写账号" style="width: 60%;" name="uname">
+				    <input type="text" class="form-control" disabled="disabled"   placeholder="请填写账号" style="width: 60%;" name="employeeName">
 			    </div>
 			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">手&nbsp&nbsp&nbsp机&nbsp&nbsp&nbsp&nbsp</label>
-				    <input type="text" class="form-control" disabled="disabled"   placeholder="请填写手机号码" style="width: 60%;" name="uphone">
+				    <input type="text" class="form-control" disabled="disabled"   placeholder="请填写手机号码" style="width: 60%;" name="jobNumber">
 				    <label for="exampleInputName2" style="font-size: 15px;color: grey;">&nbsp&nbsp&nbsp已绑定</label>
 			    </div>
 			    <div class="form-group col-md-12" style="margin-left: 13%;margin-top: 6%;">
 				    <label for="exampleInputName2" style="font-size: 18px;">密&nbsp&nbsp&nbsp码&nbsp&nbsp&nbsp&nbsp</label>
-				    <input type="password" class="form-control" disabled="disabled"   placeholder="请填写密码" style="width: 60%;" name="upwd">
+				    <input type="password" class="form-control" disabled="disabled"   placeholder="请填写密码" style="width: 60%;" name="passWord">
 			    </div>
 			    <button type="button" id="xg" class="btn btn-success col-md-3" style="margin-left: 45%;margin-top: 6%;">修改</button>
 		</div>
@@ -113,14 +113,14 @@
 						$(".tx").removeAttr("hidden");
 						$("#xg").html("保存");
 					}else{
-						var uid=$("[name=uid]").val()
+						var staffID=$("[name=staffID]").val()
 						var trade=$("[name=trade]").val()
-						var uname=$("[name=uname]").val()
-						var upwd=$("[name=upwd]").val()
-						var uphone=$("[name=uphone]").val()
+						var employeeName=$("[name=employeeName]").val()
+						var passWord=$("[name=passWord]").val()
+						var jobNumber=$("[name=jobNumber]").val()
 						$.ajax({
 							url:"[[@{user/updateUser}]]",
-							data:{uid:uid,trade:trade,uname:uname,upwd,uphone},
+							data:{staffid:staffID,trade:trade,employeename:employeeName,password:passWord,jobnumber:jobNumber},
 							success:function(result){
 								alert("保存成功！")
 							}
@@ -155,11 +155,11 @@
 				$.ajax({
 					url:"[[@{user/getUser}]]",
 					success:function(result){
-						$("[name=uid]").val(result.uid)
+						$("[name=staffID]").val(result.staffid)
 						$("[name=trade]").val(result.trade)
-						$("[name=uname]").val(result.uname)
-						$("[name=upwd]").val(result.upwd)
-						$("[name=uphone]").val(result.uphone)
+						$("[name=employeeName]").val(result.employeename)
+						$("[name=passWord]").val(result.password)
+						$("[name=jobNumber]").val(result.jobnumber)
 					}
 				});
 			}

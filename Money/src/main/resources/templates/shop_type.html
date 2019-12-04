@@ -129,18 +129,20 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 					  $('#exampleModal').find('.modal-body input').val(item.typename)
 					 $("#recipient-name").val(item.typename)
 					  bool=item.typeid;
+					  this.pages(1);
 			 },
 			dele:function(typeid){
+				var t = this;
 				if (confirm("您确认要删除改类别吗？")) {
-				$.ajax({
-					data:{typeid:typeid},
-					url:"[[@{goods/goodstypedelete}]]",
-					type:"post",
-					success:function(res){
-						
-					}
-				});
-				this.pages(1);
+					$.ajax({
+						data:{typeid:typeid},
+						url:"[[@{goods/goodstypedelete}]]",
+						type:"post",
+						success:function(res){
+							
+						}
+					});
+					t.pages(1);
 				 }
 				
 			 },

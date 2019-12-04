@@ -34,11 +34,11 @@ public interface GoodsMapper {
 
     int updateByPrimaryKey(Goods record);
     
-    List<Goods> selectgoodsAll(@Param("uid")String uid,@Param("typeid")String typeid,@Param("numbers")String numbers,@Param("shopid")String shopid);
+    List<Goods> selectgoodsAll(@Param("typeid")String typeid,@Param("numbers")String numbers,@Param("shopid")String shopid);
     
-    List<Goods> selectgoodsAlls(@Param("uid")String uid,@Param("typeid")String typeid,@Param("numbers")String numbers);
+    List<Goods> selectgoodsAlls(@Param("typeid")String typeid,@Param("numbers")String numbers);
     
-    zongjivo selectByzongji(@Param("uid")String uid,@Param("typeid")String typeid,@Param("numbers")String numbers,@Param("shopid")String shopid);
+    zongjivo selectByzongji(@Param("typeid")String typeid,@Param("numbers")String numbers,@Param("shopid")String shopid);
     
     int insertzhuxiang(Goods good);
     int insertzhuxiang2(Goods good);

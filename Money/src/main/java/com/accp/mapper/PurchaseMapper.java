@@ -44,7 +44,7 @@ public interface PurchaseMapper {
     List<Purchase> selectPurchase(@Param("purchasedate") String purchasedate,@Param("purchasedatejie") String purchasedatejie,@Param("shopid") String shopid,@Param("odd") String odd);
     
     //查询店铺
-    List<Shop> selectshop(@Param("userid") String userid);
+    List<Shop> selectshop();
   //通过审核
     @Update("UPDATE `purchase` SET`shenghe` = '0' WHERE purchaseid = #{purchaseid}")
     int upda(Integer Purchaseid);

@@ -35,7 +35,8 @@ public class UserController {
 	@RequestMapping("/updateUser")
 	@ResponseBody
 	public int updateUser(Staff staff,HttpServletRequest request) {
-		userService.updateUser(staff);
+		System.out.println(staff.getStaffid()+staff.getEmployeename()+staff.getPassword()+staff.getTrade()+staff.getJobnumber());
+		int i=userService.updateUser(staff);
 		//修改session的user
 		HttpSession session=request.getSession();//��ȡsession����userName����session����
 		session.setAttribute("user",userService.queryUserById(staff.getStaffid()));
@@ -55,15 +56,16 @@ public class UserController {
 	@RequestMapping("/uploadFile")
 	@ResponseBody
 	public String uploadFile(MultipartFile file,HttpServletRequest request) {
-		File directory = new File("/D:/Y2/文件/项目资料/images");
+		File directory = new File("/E:/Y2/文件/项目资料/images");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
-			String url = "/D:/Y2/文件/项目资料/images/";
+			String url = "/E:/Y2/文件/项目资料/images/";
 			url = url+"/"+file.getOriginalFilename();
 			Staff user=(Staff) request.getSession().getAttribute("user");
 			user.setHeadportrait(file.getOriginalFilename());
+			request.getSession().setAttribute("user",user);
 			userService.updateUser(user);
 			File f = new File(url);
 			file.transferTo(f);

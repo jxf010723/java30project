@@ -55,9 +55,10 @@
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>制表人</label>
-									<select class="form-control" id="uname" style="display:inline-block; width: 78%;">
+									<input id="uname" class="form-control" style="display: inline-block; width: 78%;" disabled="disabled">
+									<!-- <select class="form-control" id="uname" style="display:inline-block; width: 78%;">
 									  <option>18610249685</option>
-									</select>
+									</select> -->
 								</div>
 							</div>	
 							<div style="float: left;width: 100%;margin-left: 4px;">
@@ -319,6 +320,14 @@
 							 addpuchasevue.dp=reulte;
 						}
 					})
+					
+					//查询制表人
+					$.ajax({
+						url:"[[@{user/getUser}]]",
+						success:function(result){
+							$("#uname").val(result.employeename);
+						}
+					});
 	    	   }
 	       })
 		</script>

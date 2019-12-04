@@ -107,9 +107,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.Order" >
-    insert into order (order_id, user_id, order_name, 
+    insert into `order` (order_id, user_id, order_name, 
       order_phone, order_count, order_totalMoney, 
-      order_sfMoney, "Integral_ deductionMoney", order_payment, 
+      order_sfMoney, Integral_deductionMoney, order_payment, 
       order_date, integral)
     values (#{orderId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderName,jdbcType=VARCHAR}, 
       #{orderPhone,jdbcType=VARCHAR}, #{orderCount,jdbcType=INTEGER}, #{orderTotalmoney,jdbcType=DOUBLE}, 

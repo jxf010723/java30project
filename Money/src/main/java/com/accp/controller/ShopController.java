@@ -68,6 +68,22 @@ public class ShopController {
 		return service.queryByTid(tid);
 	}
 	
+	//修改商品明细表数量
+	@RequestMapping("/updateDetailsCount")
+	@ResponseBody
+	public int updateDetailsCount(Integer count,Integer detailsid) {
+		System.out.println("count==="+count+"detailsid==="+detailsid);
+		return service.updateDetailsCount(count, detailsid);
+	}
+	
+	//修改商品表库存列
+	@RequestMapping("/updateGoodsStock")
+	@ResponseBody
+	public int updateGoodsStock(Integer stock,Integer goodsid) {
+		System.out.println("stock==="+stock+"goodsid==="+goodsid);
+		return service.updateGoodsStock(stock, goodsid);
+	}
+	
 	//修改权限
 	@RequestMapping("/updateModule")
 	@ResponseBody
@@ -209,7 +225,11 @@ public class ShopController {
 	@RequestMapping("/queryCartByvipid")
 	@ResponseBody
 	public List<All> queryCartByvipid(Integer vipid){
-		return service.queryCartByvipid(vipid);
+		List<All> list = service.queryCartByvipid(vipid);
+		for (All all : list) {
+			all.setCount(all.getOrderCount());
+		}
+		return list;
 	}
 	
 	/**
@@ -496,7 +516,7 @@ public class ShopController {
 		if(staff!=null) {
 			HttpSession session=request.getSession();//��ȡsession����userName����session����
 			session.setAttribute("user", staff);
-			List<All> list = service.queryByUserId(staff.getUid());
+			List<All> list = service.queryByUserId(staff.getStaffid());
 			session.setAttribute("perm", list);
 			System.out.println("路径有"+list.get(0).getPath());
 		}

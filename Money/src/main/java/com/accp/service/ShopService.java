@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +77,16 @@ public class ShopService {
 	
 	@Autowired
 	ViptypeMapper vtMapper;
+	
+	//修改商品明细表数量
+	public int updateDetailsCount(Integer count,Integer detailsid) {
+		return sMapper.updateDetailsCount(count, detailsid);
+	}
+	
+	//修改商品表库存列
+	public int updateGoodsStock(Integer stock,Integer goodsid) {
+		return sMapper.updateGoodsStock(stock, goodsid);
+	}
 	
 	//统计(查出所有类型)
 	public List<Viptype> queryViptype(){

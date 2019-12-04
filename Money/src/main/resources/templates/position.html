@@ -353,7 +353,14 @@
 			});
     			
     	});
-    		
+    		function getAllType(){
+    			$.ajax({
+					url:"shop/queryTtype",
+					success:function(result){
+						positionVue.list = result;
+					}
+				});
+    		}
     		//新增权限
     		$("#addPosition").click(function(){
     			let arr = [];
@@ -375,6 +382,7 @@
 					success:function(result){
 						console.log(result);
 						$('#myModal').modal('hide');
+						getAllType();
 					}
 				})
     		})
