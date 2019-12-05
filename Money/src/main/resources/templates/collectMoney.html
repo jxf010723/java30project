@@ -152,7 +152,7 @@
 		                  <span class="foodName">{{v.vipName}}({{v.vipPhone}})</span>
 		                  <span class="foodPrice">积分{{v.integral}}</span>
 		                  <span class="foodPrice">余额{{v.balance}}</span>
-		                  <span class="foodPrice">成交{{v.orderSfmoney}}元</span>
+		                  <span class="foodPrice">成交{{v.transactionPrice}}元</span>
 		                </div> 
 		              </li>
 		            </ul>
@@ -201,7 +201,8 @@
     			  isBlock:0,	//是否显示
     			  isOrder:0,	//是否能结算	当商品和挂单都有数据时
     			  isClickPerson:0,	//是否能结算	当点击了会员或者普通买家时
-    			  insertOrUpdate:0	//点击挂单时新增或者修改
+    			  insertOrUpdate:0,	//点击挂单时新增或者修改
+    			  isReturn:0	//判断会员余额是否新增订单
 	            }
 	          },
 	          methods: {
@@ -228,7 +229,26 @@
 	        			  alert("Who are you?不能结算哦，请去选下你的信息好嘛亲~");
 	        			  return;
 	        		  }
-	        		  
+	        		  var t = this;
+	        		//判断当前这个会员的余额有多少，够不够结算订单
+	        		  $.ajax({
+ 	        			  url:"[[@{shop/queryVipBalance}]]",
+ 	        			  data:{vipid:t.vipid},
+ 	        			 async:false,
+ 	        			  type:"post",
+ 	        			  success:function(result){
+ 	        				  console.log(result.balance+"---"+t.shiMoney);
+ 	        				  if(result.balance<t.shiMoney){
+ 	        					  alert("亲，不好意思，你余额没有这么多，不能结算呢~");
+ 	        					 t.isReturn=1;
+ 	        					 
+ 	        				  }
+ 	        			  }
+     	        	   }); 
+	        		  //alert(t.isReturn);
+	   				  if(this.isReturn==1){
+	   					  return;
+	   				  }
 	        		  //console.log(this.viptype);
 	        		  this.order.userId = this.viptype[0].vlist[0].uid;
 	        		  this.order.orderName = this.viptype[0].vlist[0].vipName;
@@ -245,6 +265,7 @@
 	        		  var dataLength = 0;
 	        		  var data = [];
 	        		  var detail={};
+	        		  var balance=0;	//修改会员表余额要用到的变量
 	        		  if(this.tableData.length !=0 ){
 	        			  dataLength = this.tableData.length;
 	        			  data = this.tableData;
@@ -253,6 +274,7 @@
 		        			  detail.gdid = data[i].detailsid;
 		        			  detail.goodsName = data[i].goodsName;
 		        			  detail.goodsPrice = data[i].price;
+		        			  balance+=data[i].price;
 		        			  detail.goodsCount = data[i].count;
 		        			  detail.orderDetailsDiscount = this.zhe; 
 		        			  this.order.details.push(detail);
@@ -267,6 +289,7 @@
 		        			  detail.gdid = data[i].gdid;
 		        			  detail.goodsName = data[i].goodsname;
 		        			  detail.goodsPrice = data[i].orderTotalmoney;
+		        			  balance+=data[i].orderTotalmoney;
 		        			  detail.goodsCount = data[i].orderCount;
 		        			  detail.orderDetailsDiscount = this.zhe; 
 		        			  this.order.details.push(detail);
@@ -282,6 +305,9 @@
 	   				  var x = (this.shiMoney/100).toFixed(2);	//一元金额等于一个积分，要送的积分
 	   				  var now = this.havePoint-p+parseFloat(x);
 	   				  var t = this;
+	   				  //alert(t.vipid);
+	   				 //alert("实收价格为"+this.shiMoney);
+	        		  
 	        		  //新增订单
 	        		  $.ajax({
 	        			  url:"[[@{shop/insertOrder}]]",
@@ -341,7 +367,18 @@
 	        	        				  console.log(result);
 	        	        			  }
 	        	        		  }); 
-	        					  console.log("现在结算时购物车长度为"+t.danData.length);
+	        					  console.log("balance==="+balance+"transactionprice==="+balance+"vipid==="+t.vipid);
+	        					  //修改该会员的余额和成交金额
+	        					  $.ajax({
+	        	        			  url:"[[@{shop/updateVipprice}]]",
+	        	        			  data:{balance:balance,transactionprice:balance,vipid:t.vipid},
+	        	        			  type:"post",
+	        	        			  success:function(result){
+	        	        				  console.log(result);
+	        	        			  }
+	        	        		  }); 
+	        					  
+	        					  //console.log("现在结算时购物车长度为"+t.danData.length);
 	        					  console.log(t.danData);
 	        					  var cid = 0;
 	        					  for (let i=0; i<t.danData.length; i++){
@@ -453,7 +490,7 @@
 		        		  }
 		        		  
 		                } 
-	        		  alert("vipid==="+t.vipid);
+	        		  //alert("vipid==="+t.vipid);
 	        		  //不管是新增还是修改成功都要点击挂单显示的是当前会员的购物车
 	        		  $.ajax({
 	        			  url:"[[@{shop/queryCartByvipid}]]",

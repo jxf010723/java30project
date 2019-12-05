@@ -2,12 +2,9 @@ package com.accp.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +20,7 @@ import com.accp.domain.RolesModule;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
 import com.accp.domain.User;
+import com.accp.domain.Vip;
 import com.accp.domain.Viptype;
 import com.accp.mapper.CartMapper;
 import com.accp.mapper.IntegralMapper;
@@ -34,6 +32,7 @@ import com.accp.mapper.RolesModuleMapper;
 import com.accp.mapper.ShopMapper;
 import com.accp.mapper.StaffMapper;
 import com.accp.mapper.UserMapper;
+import com.accp.mapper.VipMapper;
 import com.accp.mapper.ViptypeMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -77,6 +76,9 @@ public class ShopService {
 	
 	@Autowired
 	ViptypeMapper vtMapper;
+	
+	@Autowired
+	VipMapper vMapper;
 	
 	//修改商品明细表数量
 	public int updateDetailsCount(Integer count,Integer detailsid) {
@@ -242,6 +244,20 @@ public class ShopService {
 	 */
 	public List<All> queryCartByvipid(Integer vipid){
 		return sMapper.queryCartByvipid(vipid);
+	}
+	
+	/**
+	 * 修改会员的余额和成交金额
+	 */
+	public int updateVipprice(Double balance,Double transactionprice,Integer vipid) {
+		return sMapper.updateVipprice(balance, transactionprice, vipid);
+	}
+	
+	/**
+	 * 查询会员的余额
+	 */
+	public Vip queryVipBalance(Integer vipid) {
+		return vMapper.selectByPrimaryKey(vipid);
 	}
 	
 	/**

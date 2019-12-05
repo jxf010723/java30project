@@ -154,9 +154,10 @@
 										<div class="row">
 											<div id="crop-avatar" class="col-md-6" data-toggle="modal" data-target="#storeUpdateModal" >
 												<div class="avatar-view" title="添加图片">
-													<label for="avatarInput">图片上传</label>
+													<!-- <label for="avatarInput">图片上传</label> -->
 													<div id="headupload">
-														<input name="insertFiles" class="avatar-input" id="avatarInput" type="file">
+														<input name="insertFiles" class="avatar-input"  id="file1" type="file" style="display: none;">
+														<button type="button" class="btn btn-primary" onclick="get_file1()">图片上传</button>
 													</div>
 												</div>
 											</div>
@@ -309,8 +310,8 @@
 					
 						<div id="crop-avatar" class="col-md-6">
 							<div class="avatar-view" title="添加图片">
-								<input name="updateFiles" class="avatar-input" id="avatarInput" type="file">
-								<img id="shopimg" alt="Logo" width="100px" height="220px">
+								<input name="updateFiles" class="avatar-input" id="avatarInput" type="file" style="display: none;">
+								<img id="shopimg" alt="Logo" width="100px" height="220px" onclick="get_file()">
 							</div>
 							
 						</div>
@@ -393,6 +394,13 @@
         </script>
     <script type="text/javascript" th:src="@{js/main.js}"></script>
         <script type="text/javascript">
+        	function get_file(){
+        		$("#avatarInput").click();
+        	}
+        	
+        	function get_file1(){
+        		$("#file1").click();
+        	}
         	$(function(){
         		//alert(555);
         		getPage(1);

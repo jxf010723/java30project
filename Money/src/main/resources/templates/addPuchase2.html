@@ -289,7 +289,7 @@
 	    			  addpuchasevue2.purchase=purchases;
 	    			  addpuchasevue2.purchase.purchasezi=addpuchasevue2.checkedNames;
 	    			  addpuchasevue2.checkedNames=[];
-	    			  alert(JSON.stringify(addpuchasevue2.purchase)) ;
+	    			  //alert(JSON.stringify(addpuchasevue2.purchase)) ;
 	    			   $.ajax({
 					   url:"[[@{/goods/xiou3}]]",
 					   data:JSON.stringify(addpuchasevue2.purchase),
@@ -327,7 +327,7 @@
 					   url:"[[@{/goods/xiou2?purchaseid=}]]"+id,
 						 dataType:"json",
 						 success:function(reulte){
-							 alert(reulte.supplierid)
+							 //alert(reulte.supplierid)
 							 console.log(reulte);
 							 $("#uname").val(reulte.uname);
 							  $("#remark").val(reulte.remarks);
@@ -340,12 +340,12 @@
 			    			 var gooddetailscount=0;
 			    			   $("[name=goodCostprice]").each(function(r,s){
 			    				   goodCostprice+=parseInt($(this).val())*parseInt($("[name=gooddetailscount]:eq("+r+")").val());
-			    				  alert(goodCostprice)
+			    				  //alert(goodCostprice)
 			    				  
 			    			   });
 			    			   $("[name=gooddetailscount]").each(function(){
 			    				   gooddetailscount+=parseInt($(this).val());
-				    			   alert(gooddetailscount)
+				    			   //alert(gooddetailscount)
 			    			
 			    			   }); 
 			    			   addpuchasevue2.ss=goodCostprice;

@@ -26,8 +26,8 @@ public interface ShopMapper {
 	
 	@Select("SELECT t.vipType_id viptypeId,SUM(order_sfMoney) sumPrice,vipType_name tname  \r\n" + 
 			"FROM `order` o \r\n" + 
-			"INNER JOIN vip v ON v.user_id=o.user_id\r\n" + 
-			"RIGHT JOIN viptype t ON v.vipType_id=t.vipType_id\r\n" + 
+			"INNER JOIN vip v ON v.vip_id=o.user_id\r\n" + 
+			"INNER JOIN viptype t ON v.vipType_id=t.vipType_id\r\n" + 
 			"WHERE t.vipType_id=#{typeid} and order_date=#{vipdate}\r\n" + 
 			"GROUP BY o.order_date")
 	All queryByTypeId(@Param("typeid")Integer typeid,@Param("vipdate")String vipdate);
@@ -35,8 +35,8 @@ public interface ShopMapper {
 	//统计(右边的折现柱形图)对应会员类型对应上个月哪天的销售额
 	@Select("SELECT t.vipType_id viptypeId,SUM(order_sfMoney) sumPrice,vipType_name tname  \r\n" + 
 			"FROM `order` o \r\n" + 
-			"INNER JOIN vip v ON v.user_id=o.user_id\r\n" + 
-			"RIGHT JOIN viptype t ON v.vipType_id=t.vipType_id\r\n" + 
+			"INNER JOIN vip v ON v.vip_id=o.user_id\r\n" + 
+			"INNER JOIN viptype t ON v.vipType_id=t.vipType_id\r\n" + 
 			"WHERE order_date=#{vipdate} AND t.vipType_id=#{viptypeId}\r\n" + 
 			"GROUP BY t.vipType_id")
 	All queryZheshan(@Param("vipdate")String vipdate,@Param("viptypeId")Integer viptypeId);
@@ -95,13 +95,17 @@ public interface ShopMapper {
 	@Select("SELECT cid,gid,gdid,order_count orderCount,order_totalMoney orderTotalmoney,g.goodsname goodsName FROM cart c INNER JOIN goods g ON(c.gid=g.goodsid) ")
 	List<All> queryAll();
 	
+	//修改会员的余额和成交金额
+	@Update("UPDATE vip SET balance = balance-#{balance},transaction_price = transaction_price+#{transactionprice} WHERE vip_id=#{vipid}")
+	int updateVipprice(@Param("balance") Double balance,@Param("transactionprice") Double transactionprice,@Param("vipid") Integer vipid);
+	
 	//修改会员的积分
 	@Update("UPDATE `vip` SET balance=#{point} WHERE user_id = #{uid}")
 	int updatePoint(@Param("point") Double point,@Param("uid")Integer uid);
 	
 	//查询类型对应的会员
 	@Select("SELECT v.vip_id vipId,SUM(CASE WHEN order_sfMoney IS NULL THEN 0 ELSE order_sfMoney END) orderSfmoney,\r\n" + 
-			"v.balance,v.vip_name vipName,v.vip_phone vipPhone,v.vipType_id viptypeId,v.user_id uid,v.integral FROM `order` o RIGHT JOIN vip v ON(o.user_id=v.user_id)\r\n" + 
+			"v.balance,v.vip_name vipName,v.vip_phone vipPhone,v.vipType_id viptypeId,v.user_id uid,v.integral,v.transaction_price transactionPrice FROM `order` o RIGHT JOIN vip v ON(o.user_id=v.user_id)\r\n" + 
 			" WHERE v.vipType_id = #{typeid}  GROUP BY v.user_id")
 	List<All> queryVip(Integer typeid);
 	

@@ -37,6 +37,7 @@
     </div>
     <script type="text/javascript">
         	$(function () {
+        		$(".accountcontent>div").remove();
                 var newDiv = $(`<div data-id="accountinfo"  class="tab-pane active">`);
                 $.ajax({
                 	type:"post",

@@ -31,6 +31,7 @@ import com.accp.domain.RolesModule;
 import com.accp.domain.Shop;
 import com.accp.domain.Staff;
 import com.accp.domain.User;
+import com.accp.domain.Vip;
 import com.accp.domain.Viptype;
 import com.accp.service.ShopService;
 import com.github.pagehelper.PageInfo;
@@ -239,6 +240,24 @@ public class ShopController {
 	@ResponseBody
 	public List<All> queryCart(){
 		return service.queryCart();
+	}
+	
+	/**
+	 * 修改会员的余额和成交金额
+	 */
+	@RequestMapping("/updateVipprice")
+	@ResponseBody
+	public int updateVipprice(Double balance,Double transactionprice,Integer vipid) {
+		return service.updateVipprice(balance, transactionprice, vipid);
+	}
+	
+	/**
+	 * 查询会员的余额
+	 */
+	@RequestMapping("/queryVipBalance")
+	@ResponseBody
+	public Vip queryVipBalance(Integer vipid) {
+		return service.queryVipBalance(vipid);
 	}
 	
 	/**

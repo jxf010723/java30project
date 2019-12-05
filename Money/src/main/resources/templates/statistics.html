@@ -106,14 +106,23 @@
 							var tlist = result[i].tlist;
 							//console.log(tlist);
 							var viptypeAllData=[];
+							var date = bottomDate[i];
+							var rdate = result[i].sdate;
 							$.each(tlist,function(j,now){
-								console.log(now.sumPrice);
+								//console.log(now.sumPrice);
+								console.log(date);
+								if(date==rdate){
+									if(now.sumPrice==null){
+										viptypeAllData.push(0);
+									}else{
+										viptypeAllData.push(now.sumPrice);
+									}
+								}
 								
-								viptypeAllData.push(now.sumPrice);
 								//viptypeAllData.push(now);
 								
 							}) 
-							console.log(viptypeAllData);
+							//console.log(viptypeAllData);
 							var data = {name:result[i].tname,type:'bar',stack:'总量',data:viptypeAllData};
 							zui.push(data);
 							//console.log(viptypeAllData);
@@ -135,7 +144,7 @@
 							var data = {name:result[i].tname,type:'bar',stack:'总量',data:viptypeAllData};
 							zui.push(data); */
 						})
-						console.log(zui);
+						//console.log(zui);
 						/*
 						[
 					        {
