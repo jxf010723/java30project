@@ -136,7 +136,7 @@
 									<!-- <template -->
 									<td>{{item.goodsid}}</td>
 									<td class="nameTD"><div class="nameDiv"><img height="30" width="30" :src="item.goodsphoto"><p><em>{{item.goodsname}}</em></p></div></td>
-									<td class="bhDiv">{{item.numbers}}</td><td class="colorTd">{{item.specification}}</td><td class="price">{{item.salesprice}}</td>
+									<td class="bhDiv">{{item.bianhao}}</td><td class="colorTd">-</td><td class="price">{{item.salesprice}}</td>
 									<td>{{item.count}}</td><td>{{item.salesprice*item.count}}</td><td><a class="btn seeBtn" href="javascript:void(0);" data-toggle="modal" data-target="#addUserDialog" @click="queryGoods2Byid(item.goodsid)">查看</a></td>
 								</tr>
 								<!-- <tr class="" guid="190326428216234849" colorid="-" sizeid="-">
@@ -293,6 +293,7 @@
 						url:"[[@{hotcakes/querySp}]]",
 						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name,shopid:shopid,typeid:typeid},
 						success:function(result){
+							console.log(result.list);
 							hotcakesvue.page=result;
 						}
 					});

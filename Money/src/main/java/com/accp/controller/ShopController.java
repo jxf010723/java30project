@@ -512,7 +512,6 @@ public class ShopController {
 	public Staff login(Staff staff,HttpServletRequest request) {
 		//System.out.println(user.getUname()+"---"+user.getUpwd());
 		staff = service.login(staff);
-		System.out.println(staff.getEmployeename()+staff.getPassword());
 		if(staff!=null) {
 			HttpSession session=request.getSession();//��ȡsession����userName����session����
 			session.setAttribute("user", staff);

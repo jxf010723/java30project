@@ -45,6 +45,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 		registry.addInterceptor(new MyInterceptor()).addPathPatterns("/shop/**").addPathPatterns("/goods/**")
 		.addPathPatterns("/member/**").addPathPatterns("/user/**").excludePathPatterns("/shop/login")
 		.excludePathPatterns("/shop/uploadAjax").excludePathPatterns("/shop/queryIntegral")
+		.excludePathPatterns("/user/tc")
 		.excludePathPatterns("/shop/updateDetailsCount").excludePathPatterns("/shop/updateGoodsStock")
 		.excludePathPatterns("/shop/queryHaveCart").excludePathPatterns("/shop/queryCartByvipid")
 		.excludePathPatterns("/shop/queryTenGoods").excludePathPatterns("/shop/queryGoodstype")

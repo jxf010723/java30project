@@ -201,10 +201,21 @@
 	    						  $(".li").each(function(){
 	    							   $(this).prop("checked",false);
 	    						  })
-							   addpuchasevue.checkedNames=[];
+							   //addpuchasevue.checkedNames=[];
+	    						  
 	    					  }
 	    		   },
 	    		   queren:function(){//确认添加
+	    			   /* var goodprice=0;
+	    			   var goodcount=0;
+					  $.each(addpuchasevue.checkedNames,function(i,obj){	//赋初始值给数量和价格
+						  obj.goodCostprice = 1;
+						  obj.gooddetailscount = 1;
+						  
+					  })
+					  $("[name=goodCostprice]").val(goodprice);
+					  $("[name=gooddetailscount]").val(goodcount); */
+	    			   addpuchasevue.ss=0;
 	    			   $('#addpuchaseModal').modal('hide');
 	    			   console.log(addpuchasevue.checkedNames)
 	    			   var goodCostprice=0;
@@ -224,7 +235,9 @@
 	    		   },
 	    		   del:function(index){//删除选中的
 	    			   //alert(index)
+	    			  
 	    			   addpuchasevue.checkedNames.splice(index,1); 
+	    			   
 	    		   },
 	    		   inputs:function(){
 	    			  // alert(1)

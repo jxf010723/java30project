@@ -365,7 +365,7 @@ public class GoodsController {
 					good.setSalesprice(Float.parseFloat(salespriceCell.getStringCellValue()) );
 					good.setAgio(1);
 					good.setShopid(1);
-					good.setGoodsphoto("abc.jpg");
+					good.setGoodsphoto("1.jpg");
 					System.out.println("qwer"+good.getGoodsname());
 					goods.insertSelective(good);
 					

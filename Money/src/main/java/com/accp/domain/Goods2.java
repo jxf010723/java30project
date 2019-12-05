@@ -28,8 +28,19 @@ public class Goods2 {
     private Integer agio;
     
     private Integer count;
+    
+    private Integer bianhao;
+    
 
-    public Integer getCount() {
+    public Integer getBianhao() {
+		return bianhao;
+	}
+
+	public void setBianhao(Integer bianhao) {
+		this.bianhao = bianhao;
+	}
+
+	public Integer getCount() {
 		return count;
 	}
 
