@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.accp.domain.All;
 import com.accp.domain.Cart;
+import com.accp.domain.Goods;
 import com.accp.domain.Integral;
 import com.accp.domain.Jurisdictiontype;
 import com.accp.domain.Module;
@@ -23,6 +24,7 @@ import com.accp.domain.User;
 import com.accp.domain.Vip;
 import com.accp.domain.Viptype;
 import com.accp.mapper.CartMapper;
+import com.accp.mapper.GoodsMapper;
 import com.accp.mapper.IntegralMapper;
 import com.accp.mapper.JurisdictiontypeMapper;
 import com.accp.mapper.OrderDetailsMapper;
@@ -79,6 +81,14 @@ public class ShopService {
 	
 	@Autowired
 	VipMapper vMapper;
+	
+	@Autowired
+	GoodsMapper gMapper;
+	
+	//查询商品库存
+	public Goods queryStock(Integer goodsid) {
+		return gMapper.selectByPrimaryKey(goodsid);
+	}
 	
 	//修改商品明细表数量
 	public int updateDetailsCount(Integer count,Integer detailsid) {

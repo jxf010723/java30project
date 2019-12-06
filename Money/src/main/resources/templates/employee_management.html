@@ -227,14 +227,14 @@
                                        <a @click="getPage(1,null,null,null)" href="javascript:;">首页</a>
                                    </li>
                                    <li>
-                                       <a @click="getPage(page.prePage,null,null,null)" href="javascript:;">&laquo;</a>
+                                       <a @click="shang()" href="javascript:;">&laquo;</a>
                                    </li>
                                    <li>
                                        <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
-                                       <span v-for="a in page.pages" @click="getPage(a,null,null,null)">{{a}}</span>
+                                       <!-- <span v-for="a in page.pages" @click="getPage(a,null,null,null)">{{a}}</span> -->
                                    </li>
                                    <li>
-                                       <a @click="getPage(page.nextPage,null,null,null)" href="javascript:;">&raquo;</a>
+                                       <a @click="xia()" href="javascript:;">&raquo;</a>
                                    </li>
                                    <li>
                                        <a @click="getPage(page.pages,null,null,null)" href="javascript:;">尾页</a>
@@ -369,7 +369,10 @@
         			},
         			tz:function(){
         				var pageNum = $("#inputPages").val();
-        				employeeVue.getPage(pageNum);
+        				if(this.page.pages>=pageNum&&pageNum>0){
+        					employeeVue.getPage(pageNum);
+        				}
+        				
         			},
         			updateStaff:function(staffid){
         				//点击编辑根据员工id修改店铺
@@ -413,6 +416,16 @@
         			changeshopname:function(){
         				var shopname = $("[name=shopname]").val();
         				employeeVue.getPage(1,shopname,null,null);
+        			},
+        			shang:function(){
+        				if(this.page.hasPreviousPage) {
+        					this.getPage(this.page.prePage,null,null,null);
+        				}
+        			},
+        			xia:function(){
+        				if(this.page.hasNextPage) {
+        					this.getPage(this.page.nextPage,null,null,null)
+        				}
         			},
         			getPage:function(pageNum,shopname,tname,employeename){
         				//alert(pageNum+"---"+shopname+"---"+tname+"---"+employeename);

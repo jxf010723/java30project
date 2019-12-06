@@ -72,27 +72,37 @@
                 </tbody>
                 
             </table>
-             <tr>
-									<td colspan="5">
-										<ul class="pager">
-											<li>
-												<a href="javascript:void(0)"  id="shou">首页</a>
-											</li>
-											<li class="abled" >
-												<a href="javascript:void(0)"  id="shang">上一页</a>
-											</li>
-											<li class="abled"  >
-												<a href="javascript:void(0)"  id="xia">下一页</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)"  id="wei">末页</a>
-											</li>
-											<li class="disabled">
-												<a href="javascript:void(0)" style="margin-left: 50px;">第<b id="num"></b>页/ 共<b id="pages"></b>页  &nbsp; &nbsp;  共<b id="size"></b>条记录</a>
-											</li>
-										</ul>
-									</td>
-				</tr>
+             
+				<!-- 分页按钮 -->
+                	<div class="pagebar" style="text-align: center">
+	                    <div class="pagetion">
+	                       <div class="page">
+                               <ul class="pagination">
+                                    <li>
+                                       <a id="shou" href="javascript:;">首页</a>
+                                   </li>
+                                   <li>
+                                       <a  id="shang" href="javascript:;">&laquo;</a>
+                                   </li>
+                                   <li id="pages">
+                                      <span style="font-size: 14px;" id="pagess"></span>
+                                   </li>
+                                   <li>
+                                       <a  id="xia" href="javascript:;">&raquo;</a>
+                                   </li>
+                                   <li>
+                                       <a id="wei" style=""  href="javascript:;">尾页</a>
+                                   </li>
+                                   <li style="margin-left: 20px; float:left;">
+                                       <input name="tz" type="text" class="form-control" style="width: 100px;" id="inputPages">
+                                   </li>
+                                   <li style="margin-left: 15px; float:left;">
+                                      <a  href="javascript:;" class="btn btn-default" id="tiao">跳转</a>
+                                   </li>
+                               </ul>
+	                       </div> 
+	                    </div>
+                	</div> 
                 
 				
         </div>
@@ -228,10 +238,11 @@ pages(1,null,null,null);
 						}
 						
 						$("#wei").attr("onclick","wei("+res.pages+")");
-						$("#num").text(res.pageNum);
-						$("#pages").text(res.pages);
-						$("#size").text(res.total);
 						
+						$("#pagess").text(res.pageNum+"/"+res.pages);
+						
+						
+						$("#tiao").attr("onclick","tz("+res.pages+")");
 					}
 				});
 			}
@@ -357,6 +368,15 @@ pages(1,null,null,null);
 		 
 		 }
 	 }
+	
+	function tz(pagesss){
+		var pageNum = $("#inputPages").val();
+		if(pagesss>=pageNum&&pageNum>0){
+			pages(pageNum,null,null,null);
+		
+		}
+		
+	}
  
  
  

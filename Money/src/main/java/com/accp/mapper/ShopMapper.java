@@ -114,7 +114,7 @@ public interface ShopMapper {
 	List<Viptype> queryViptype();
 	
 	//��ѯ��Ʒ����id��Ӧ����Ʒ
-	@Select("SELECT * FROM `goods` g inner JOIN `details` d ON(g.goodsid=d.goodsid) WHERE typeid = #{typeid}")
+	@Select("SELECT * FROM `goods` g inner JOIN `details` d ON(g.goodsid=d.goodsid) WHERE typeid = #{typeid} AND g.`stock`>0 AND d.`count`>0")
 	List<All> queryGoods(Integer typeid);
 	
 	//��ѯ����Ʒ����Ʒ����

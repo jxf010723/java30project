@@ -34,6 +34,8 @@
 	.orange{
 		color:orange;
 	}
+	
+	
   </style>
 </head>
 <body>
@@ -202,7 +204,8 @@
     			  isOrder:0,	//是否能结算	当商品和挂单都有数据时
     			  isClickPerson:0,	//是否能结算	当点击了会员或者普通买家时
     			  insertOrUpdate:0,	//点击挂单时新增或者修改
-    			  isReturn:0	//判断会员余额是否新增订单
+    			  isReturn:0,	//判断会员余额是否新增订单
+    			  stockIsDaZero:0
 	            }
 	          },
 	          methods: {
@@ -591,6 +594,24 @@
 	        		  console.log(v.integral);
 	        		  this.havePoint = v.integral;
 	        	  },
+	        	  isHaveStock(count,goodsid){
+	        		  //查询商品库存，如果不够则不让增加数量
+		        	  var stockIsDaZero=0;
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryStock}]]",
+	        			  async:false,
+	        			  data:{goodsid:goodsid},
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result.stock);
+	        				  stockIsDaZero = result.stock;
+	        			  }
+	        		  });
+	        		  if(stockIsDaZero<count){
+	        			  alert("库存不够，换个商品吧");
+	        			  return;
+	        		  }  
+	        	  },
 	        	// 点击右边商品，添加到左边
 	              addOrderList(goods){
 	        		 this.isOrder = 1;
@@ -614,7 +635,28 @@
 	                  // 改变列表中的商品数量
 	                  // 通过filter过滤tableData
 	                  let arr = this.tableData.filter(o=>o.detailsid == goods.detailsid);
-	                  arr[0].count++;
+	                  //this.isHaveStock(arr[0].count,goods.goodsid);
+	                  //var stockIsDaZero=0;
+	                  var t = this;
+	                  console.log(goods);
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryStock}]]",
+	        			  data:{goodsid:goods.goodsid},
+	        			  async:false,
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result.stock);
+	        				  t.stockIsDaZero = result.stock;
+	        			  }
+	        		  });
+	        		  if(t.stockIsDaZero<=arr[0].count){
+	        			  this.getAllMoney();
+	        			  alert("库存不够，换个商品吧");
+	        			  return;
+	        		  } else{
+	        			  arr[0].count++;
+	        		  }
+	                  
 	                } else {
 	                  // 构造一个newGoods
 	                  let newGoods={goodsId:goods.goodsid,detailsid:goods.detailsid,goodsName:goods.goodsname,price:goods.salesprice,count:1,color:goods.color,goodssize:goods.goodssize};
@@ -635,7 +677,25 @@
 	             	  // 改变列表中的商品数量
 	                  // 通过filter过滤tableData
 	                  let arr = this.danData.filter(o=>o.cid == goods.cid);
-	                  arr[0].orderCount++;
+	                  var t = this;
+	        		  $.ajax({
+	        			  url:"[[@{shop/queryStock}]]",
+	        			  data:{goodsid:goods.gid},
+	        			  async:false,
+	        			  type:"post",
+	        			  success:function(result){
+	        				  console.log(result.stock);
+	        				  t.stockIsDaZero = result.stock;
+	        			  }
+	        		  });
+	        		  if(t.stockIsDaZero<=arr[0].orderCount){
+	        			  this.getAllMoney();
+	        			  alert("库存不够，换个商品吧");
+	        			  return;
+	        		  } else{
+	        			  arr[0].orderCount++;
+	        		  }
+	                 
 	                  console.log(arr[0].orderCount+"---"+arr[0].cid);
 	                  //修改数量
 	                  $.ajax({

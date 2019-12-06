@@ -291,7 +291,7 @@
 					var typeid=$("[name=typeid]").val()
 					$.ajax({
 						url:"[[@{hotcakes/querySp}]]",
-						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name,shopid:shopid,typeid:typeid},
+						data:{pageNum:pageNum,pageSize:5,preDate:preDate,afterDate:afterDate,name:name,shopid:shopid,typeid:typeid},
 						success:function(result){
 							console.log(result.list);
 							hotcakesvue.page=result;
@@ -300,7 +300,9 @@
 				},
 				tz:function(){
 					var tz=$("[name=tz]").val()
-					hotcakesvue.querySp(tz)
+					if(this.page.pages>=tz&&tz>0){
+						hotcakesvue.querySp(tz);
+					}
 				}
 			},
 			created:function(){

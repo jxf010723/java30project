@@ -410,11 +410,12 @@
 			var searchname=$("[placeholder=查找]").val()
 			$.ajax({
 				url:"[[@{member/queryMember}]]",
-				data:{pageNum:pageNum,pageSize:2,viptypeid:viptypeid,searchname:searchname},
+				data:{pageNum:pageNum,pageSize:1,viptypeid:viptypeid,searchname:searchname},
 				success:function(result){
 					$("[name=s]").attr("prePage",result.prePage)
 					$("[name=x]").attr("nextPage",result.nextPage)
 					$("[name=w]").attr("lastPage",result.lastPage)
+					$("[name=tz]").attr("pages",result.pages);
 					$("[name=ye]").text(`${result.pageNum}/${result.pages}`)
 					$(result.list).each(function(i,obj){
 						$("tbody").append(`<tr>
@@ -451,7 +452,11 @@
 			queryMember($("[name=w]").attr("lastPage"))
 		}
 		function tz(){
-			queryMember($("[name=tz]").val())
+			var inputValue = $("[name=tz]").val();
+			var pages = $("[name=tz]").attr("pages");
+			if(pages>=inputValue&&pages>0){
+				queryMember(inputValue);
+			}
 		}
 		viptype()
 		function viptype(){

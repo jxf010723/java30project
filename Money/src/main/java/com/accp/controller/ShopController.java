@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.accp.domain.All;
 import com.accp.domain.Cart;
+import com.accp.domain.Goods;
 import com.accp.domain.Integral;
 import com.accp.domain.Jurisdictiontype;
 import com.accp.domain.Module;
@@ -41,6 +42,13 @@ import com.github.pagehelper.PageInfo;
 public class ShopController {
 	@Autowired
 	ShopService service;
+	
+	//查询商品库存
+	@RequestMapping("/queryStock")
+	@ResponseBody
+	public Goods queryStock(Integer goodsid) {
+		return service.queryStock(goodsid);
+	}
 	
 	//统计(查出所有类型)
 	@RequestMapping("/queryViptype")

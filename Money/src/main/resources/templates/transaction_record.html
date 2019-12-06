@@ -92,7 +92,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" @click="queryBydd(page.prePage)">
+                                <a href="javascript:;" @click="shang()">
                                     &laquo;
                                 </a>
                             </li>
@@ -100,7 +100,7 @@
                                 <span style="font-size: 14px;">{{page.pageNum}}/{{page.pages}}</span>
                             </li>
                             <li>
-                                <a href="javascript:;"  @click="queryBydd(page.nextPage)">
+                                <a href="javascript:;"  @click="xia()">
                                     &raquo;
                                 </a>
                             </li>
@@ -174,7 +174,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" @click="queryBysp(page2.prePage)">
+                                <a href="javascript:;" @click="shang2()">
                                     &laquo;
                                 </a>
                             </li>
@@ -182,7 +182,7 @@
                                 <span style="font-size: 14px;">{{page2.pageNum}}/{{page2.pages}}</span>
                             </li>
                             <li>
-                                <a href="javascript:;"  @click="queryBysp(page2.nextPage)">
+                                <a href="javascript:;"  @click="xia2()">
                                     &raquo;
                                 </a>
                             </li>
@@ -233,7 +233,7 @@
 					var name=$("[name=name]").val()
 					$.ajax({
 						url:"[[@{member/queryBydd}]]",
-						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name},
+						data:{pageNum:pageNum,pageSize:5,preDate:preDate,afterDate:afterDate,name:name},
 						success:function(result){
 							transaction_recordvue.page=result;
 							order_nums=0
@@ -256,7 +256,7 @@
 					var name=$("[name=name]").val()
 					$.ajax({
 						url:"[[@{member/queryBysp}]]",
-						data:{pageNum:pageNum,pageSize:2,preDate:preDate,afterDate:afterDate,name:name},
+						data:{pageNum:pageNum,pageSize:5,preDate:preDate,afterDate:afterDate,name:name},
 						success:function(result2){
 							transaction_recordvue.page2=result2;
 							order_nums2=0
@@ -270,13 +270,37 @@
 						}
 					});
 				},
+				shang:function(){
+					if(this.page.hasPreviousPage) {
+						this.queryBydd(this.page.prePage);
+					}
+				},
+				xia:function(){
+					if(this.page.hasNextPage) {
+						this.queryBydd(this.page.nextPage);
+					}
+				},
+				shang2:function(){
+					if(this.page2.hasPreviousPage) {
+						this.queryBysp(this.page2.prePage);
+					}
+				},
+				xia2:function(){
+					if(this.page2.hasNextPage) {
+						this.queryBysp(this.page2.nextPage);
+					}
+				},
 				tz:function(){
 					var tz=$("[name=tz]").val()
-					transaction_recordvue.queryBydd(tz)
+					if(this.page.pages>=tz&&tz>0){
+						transaction_recordvue.queryBydd(tz)
+					}
 				},
 				tz2:function(){
 					var tz=$("[name=tz2]").val()
-					transaction_recordvue.queryBysp(tz)
+					if(this.page.pages>=tz&&tz>0){
+						transaction_recordvue.queryBysp(tz)
+					}
 				},
 				cz:function(){
 					transaction_recordvue.queryBydd(1)

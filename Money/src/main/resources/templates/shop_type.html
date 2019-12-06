@@ -39,27 +39,38 @@
 								
                 </table>
                 <table>
-                <tr>
-									<td colspan="5">
-										<ul class="pager">
-											<li>
-												<a href="javascript:void(0)" @click="shou">首页</a>
-											</li>
-											<li class="abled" >
-												<a href="javascript:void(0)" @click="shang">上一页</a>
-											</li>
-											<li class="abled"  >
-												<a href="javascript:void(0)" @click="xia">下一页</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)" @click="wei">末页</a>
-											</li>
-											<li class="disabled">
-												<a href="javascript:void(0)" style="margin-left: 50px;">第<b id="num">{{page.pageNum}}</b>页/ 共<b id="pages">{{page.pages}}</b>页  &nbsp; &nbsp;  共<b id="size">{{page.total}}</b>条记录</a>
-											</li>
-										</ul>
-									</td>
-				</tr>
+                
+				<!-- 分页按钮 -->
+                	<div class="pagebar" style="text-align: center">
+	                    <div class="pagetion">
+	                       <div class="page">
+                               <ul class="pagination">
+                                  
+                                    <li>
+                                       <a @click="shou" href="javascript:;">首页</a>
+                                   </li>
+                                   <li>
+                                       <a @click="shang" id="prePage" href="javascript:;">&laquo;</a>
+                                   </li>
+                                   <li id="pages">
+                                       <span style="font-size: 14px;" id="pages">{{page.pageNum}}/{{page.pages}}</span>
+                                   </li>
+                                   <li>
+                                       <a  @click="xia" id="nextPage" href="javascript:;">&raquo;</a>
+                                   </li>
+                                   <li>
+                                       <a id="wei" style="" @click="wei" href="javascript:;">尾页</a>
+                                   </li>
+                                   <li style="margin-left: 20px; float:left;">
+                                       <input name="tz" type="text" class="form-control" style="width: 100px;" id="inputPages">
+                                   </li>
+                                   <li style="margin-left: 15px; float:left;">
+                                      <a @click="tz()" href="javascript:;" class="btn btn-default">跳转</a>
+                                   </li>
+                               </ul>
+	                       </div> 
+	                    </div>
+                	</div> 
 				</table>			
             </div>
         </div>
@@ -177,6 +188,14 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 			},
 			shou: function() {
 				this.pages(1);
+			},
+			tz:function(){
+				var pageNum = $("#inputPages").val();
+				if(this.page.pages>=pageNum&&pageNum>0){
+					this.pages(pageNum);
+				}
+				
+				
 			},
 			insert:function(){
 				if(bool==0){
