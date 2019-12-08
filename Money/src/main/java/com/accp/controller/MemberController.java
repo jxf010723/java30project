@@ -346,6 +346,12 @@ public class MemberController {
 		return service.queryvip();
 	}
 	
+	@RequestMapping("/queryvipByViptypeid")
+	@ResponseBody
+	public String queryvipByViptypeid(Integer viptypeId) {
+		return service.queryvipByViptypeid(viptypeId);
+	}
+	
 	@RequestMapping("/UpdateVip")
 	@ResponseBody
 	public int UpdateVip(Integer vipId,Integer cz,Integer jf) throws ParseException {

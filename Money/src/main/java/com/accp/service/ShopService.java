@@ -295,14 +295,18 @@ public class ShopService {
 	/**
 	 * 查询会员类型和对应的会员
 	 */
-	public List<All> queryVip(){
+	public List<All> queryVip(String vipName){
 		List<All> zlist = new ArrayList<>();
 		
 		List<Viptype> tlist = sMapper.queryViptype();
 		
 		for (Viptype type : tlist) {
-			List<All> glist = sMapper.queryVip(type.getViptypeId());
-			System.out.println(glist.get(0).getUid());
+			List<All> glist = null;
+			if(vipName!=null) {
+				glist = sMapper.queryVipByName(type.getViptypeId(), "%"+vipName+"%");
+			}else {
+				glist = sMapper.queryVip(type.getViptypeId());
+			}
 			All a = new All();
 			a.setVlist(glist);
 			a.setViptypeName(type.getViptypeName());
@@ -322,13 +326,13 @@ public class ShopService {
 	/**
 	 * ��ѯ����Ʒ����Ʒ���ͺͲ�ѯ��Ʒ����id��Ӧ����Ʒ
 	 */
-	public List<All> queryGoodstype(){
+	public List<All> queryGoodstype(String goodsname,String color,String goodssize){
 		List<All> zlist = new ArrayList<>();
 		
 		List<All> tlist = sMapper.queryGoodstype();
 		
 		for (All all : tlist) {
-			List<All> glist = sMapper.queryGoods(all.getTypeid());
+			List<All> glist = sMapper.queryGoodsByName(all.getTypeid(),goodsname, color, goodssize);
 			All a = new All();
 			a.setGlist(glist);
 			a.setTypename(all.getTypename());

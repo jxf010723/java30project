@@ -322,14 +322,37 @@
 					});
 				},
 				del:function(index,viptypeId){
+					
+					var flag=false;
 					$.ajax({
-						url:"[[@{member/delVipType}]]",
+						url:"[[@{member/queryvipByViptypeid}]]",
 						data:{viptypeId:viptypeId},
+						async:false,
 						success:function(result){
-							level_setvue.vipType.splice(index,1)
-							level_setvue.queryVipType()
+							if(result==0){
+								flag=true;
+							}else{
+								flag=false;
+							}
 						}
 					}); 
+					if(flag){
+						var a=confirm("是否确认删除？")
+						if(!a){
+							return;
+						}
+						$.ajax({
+							url:"[[@{member/delVipType}]]",
+							data:{viptypeId:viptypeId},
+							success:function(result){
+								level_setvue.vipType.splice(index,1)
+								level_setvue.queryVipType()
+							}
+						}); 
+					}else{
+						alert("该等级已经使用，请勿删除！")
+					}
+					
 				},
 				update:function(viptypeId){
 					$.ajax({

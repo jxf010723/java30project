@@ -109,6 +109,11 @@ public interface ShopMapper {
 			" WHERE v.vipType_id = #{typeid}  GROUP BY v.user_id")
 	List<All> queryVip(Integer typeid);
 	
+	@Select("SELECT v.vip_id vipId,SUM(CASE WHEN order_sfMoney IS NULL THEN 0 ELSE order_sfMoney END) orderSfmoney,\r\n" + 
+			"v.balance,v.vip_name vipName,v.vip_phone vipPhone,v.vipType_id viptypeId,v.user_id uid,v.integral,v.transaction_price transactionPrice FROM `order` o RIGHT JOIN vip v ON(o.user_id=v.user_id)\r\n" + 
+			" WHERE v.vipType_id = #{typeid} and v.vip_name like #{vipName}  GROUP BY v.user_id")
+	List<All> queryVipByName(@Param("typeid")Integer typeid,@Param("vipName")String vipName);
+	
 	//查询会员类型
 	@Select("SELECT vipType_id AS viptypeId,vipType_name AS viptypeName, vipType_discount AS viptypeDiscount FROM viptype")
 	List<Viptype> queryViptype();
@@ -116,6 +121,9 @@ public interface ShopMapper {
 	//��ѯ��Ʒ����id��Ӧ����Ʒ
 	@Select("SELECT * FROM `goods` g inner JOIN `details` d ON(g.goodsid=d.goodsid) WHERE typeid = #{typeid} AND g.`stock`>0 AND d.`count`>0")
 	List<All> queryGoods(Integer typeid);
+	
+	//@Select("SELECT * FROM `goods` g inner JOIN `details` d ON(g.goodsid=d.goodsid) WHERE typeid = #{typeid} AND g.`stock`>0 AND d.`count`>0 AND goodsname LIKE #{goodsname}")
+	List<All> queryGoodsByName(@Param("typeid")Integer typeid,@Param("goodsname")String goodsname,@Param("color")String color,@Param("goodssize")String goodssize);
 	
 	//��ѯ����Ʒ����Ʒ����
 	@Select("SELECT t.typeid,t.typename FROM goodstype t INNER JOIN goods g ON(t.typeid = g.typeid) GROUP BY t.typeid")

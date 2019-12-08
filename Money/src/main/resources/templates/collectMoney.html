@@ -114,8 +114,8 @@
 				<div class="often-goods">
 		        <div class="title">常买商品</div>
 		        <div class="often-goods-list">
-		          <ul>
-		            <li v-for="goods in ofterGoods">
+		          <ul id="leiben">
+		            <li v-for="goods in ofterGoods" >
 		              <span>{{goods.goodsname}}</span>
 		              <span class="o-price">￥{{goods.goodsPrice}}元</span>
 		            </li>
@@ -123,6 +123,20 @@
 		        </div>
 		      </div>
 		      <div class="goods-type">
+		      	<div class="list search">
+		      		<SELECT id="color" @change="queryBycolor">
+	                    <OPTION VALUE="全部颜色">全部颜色</OPTION>
+	                    <OPTION v-for="item in colorList" >{{item.color}}</OPTION>
+	                </SELECT>
+	                
+	                <SELECT id="goodssize" @change="queryBysize"  style="margin-left:20px;">
+	                    <OPTION VALUE="全部尺码">全部尺码</OPTION>
+	                    <OPTION  v-for="item in goodssizeList" >{{item.goodssize}}</OPTION>
+	                </SELECT>
+	                
+	                <span style="margin-left:20px;"><input class="inputtext" id="goodsname"  type="text" placeholder="查找(商品名称)">
+	                <img src="images/sousuo.png" width="20" height="20" @click="queryByName"></span>
+	            </div>
 		        <el-tabs >
 		          <el-tab-pane  v-for="(item,index) in goodstype" 
 				    :label="item.typename">
@@ -143,6 +157,10 @@
 			
 			<!-- 收银的会员模块 -->
 			<div id="collectMember" v-if="isBlock==1">
+				<div class="list search" style="width:250px;height:28px;line-height: 28px">
+	                <span><input class="inputtext" id="vipName"  type="text" placeholder="查找(会员名称)">
+	                <img src="images/sousuo.png" width="28px" height="28px" @click="queryByVipName"></span>
+	            </div>
 				<div class="goods-type">
 		        <el-tabs >
 		          <el-tab-pane  v-for="(item,index) in viptype" 
@@ -205,10 +223,28 @@
     			  isClickPerson:0,	//是否能结算	当点击了会员或者普通买家时
     			  insertOrUpdate:0,	//点击挂单时新增或者修改
     			  isReturn:0,	//判断会员余额是否新增订单
-    			  stockIsDaZero:0
+    			  stockIsDaZero:0,
+    			  colorList:[],	//颜色集合
+    			  goodssizeList:[]	//尺码集合
 	            }
 	          },
 	          methods: {
+	        	  queryByVipName:function(){
+	        		  var vipName = $("#vipName").val();
+	        		  this.queryViptype(vipName);
+	        	  },
+	        	  queryBycolor:function(){
+	        		  var color = $("#color").val();
+	        		  this.queryGoodstype(null,color,null);
+	        	  },
+	        	  queryBysize:function(){
+	        		  var goodssize = $("#goodssize").val();
+	        		  this.queryGoodstype(null,null,goodssize);
+	        	  },
+	        	  queryByName:function(){
+	        		  var goodsname = $("#goodsname").val();
+	        		  this.queryGoodstype(goodsname,null,null);
+	        	  },
 	        	  pointDiMoney:function(){
 	        		  console.log(collectVue.integral);
 	        		  console.log(collectVue.goodstype);
@@ -517,25 +553,61 @@
 	        			  success:function(result){
 	        				  console.log(result);
 	        				  t.ofterGoods = result;
-	        				  
+	        				  if(result.length<=0){
+	        					  $("#leiben").empty();
+	        					  var li = $("<li></li>")
+	        					  var img = $("<img src='images/leiben.jpg'/>");
+	        					  $(li).append(img);
+	        					  $("#leiben").append(li);
+	        				  }
 	        			  }
 	        		  });
 	        	  },
-	        	  queryGoodstype:function(){
+	        	  queryGoodstype:function(goodsname,color,goodssize){
+	        		  var param = "duo=不要的";
+	        		  if(goodsname!=undefined&&goodsname!=null){
+	        			  param+="&goodsname="+goodsname;
+	        		  }
+	        		  if(color!=undefined&&color!=null){
+	        			  param+="&color="+color;
+	        		  }
+	        		  if(goodssize!=undefined&&goodssize!=null){
+	        			  param+="&goodssize="+goodssize;
+	        		  }
+	        		  //alert(param);
 	        		  var t = this;
 	        		  $.ajax({
 	        			  url:"[[@{shop/queryGoodstype}]]",
+	        			  data:param,
 	        			  type:"post",
 	        			  success:function(result){
-	        				  console.log(result);
+	        				  //console.log(result);
 	        				  t.goodstype = result;
+	        				  var colorList = t.colorList;
+	        				  $.each(result,function(i,obj){
+	        					  $.each(obj.glist,function(j,item){
+		        					  colorList.push({color:item.color});
+		        				  });
+	        				  });
+	        				  
+	        				  var goodssize = t.goodssizeList;
+	        				  $.each(result,function(i,obj){
+	        					  $.each(obj.glist,function(j,item){
+		        					  goodssize.push({goodssize:item.goodssize});
+		        				  });
+	        				  });
 	        			  }
 	        		  });
 	        	  },
-	        	  queryViptype:function(){
+	        	  queryViptype:function(vipName){
+	        		  var param = "";
+	        		  if(vipName!=undefined&&vipName!=null){
+	        			  param+="&vipName="+vipName;
+	        		  }
 	        		  var t = this;
 	        		  $.ajax({
 	        			  url:"[[@{shop/queryVip}]]",
+	        			  data:param,
 	        			  type:"post",
 	        			  success:function(result){
 	        				  console.log(result);
@@ -779,13 +851,14 @@
 	          },
 	          created(){
 	        	  this.queryOftenGoods();
-	      		  this.queryGoodstype();
+	      		  this.queryGoodstype(null,null,null);
 	      		  this.queryViptype();
 	      		  this.queryIntegral();
-	      		  this.queryCartAll();
+	      		  //this.queryCartAll();
 	      		  
 	      		  //刚开始就计算价格
 	      		  this.getAllMoney();
+	      		  
 	          }
 	        })
       </script>

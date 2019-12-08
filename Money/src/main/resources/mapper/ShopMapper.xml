@@ -18,6 +18,20 @@
     <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="shopImg" property="shopimg" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <select id="queryGoodsByName" resultType="com.accp.domain.All">
+  	SELECT * FROM `goods` g inner JOIN `details` d ON(g.goodsid=d.goodsid) WHERE typeid = #{typeid} AND g.`stock`>0 AND d.`count`>0
+  	<if test="goodsname != null" >
+  		AND goodsname like concat('%',#{goodsname},'%')
+  	</if>
+  	<if test="color != null and color != '全部颜色'" >
+  		AND color like concat('%',#{color},'%')
+  	</if>
+  	<if test="goodssize != null and goodssize != '全部尺码'" >
+  		AND goodssize = #{goodssize}
+  	</if>
+  </select>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

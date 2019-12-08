@@ -65,6 +65,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 		.excludePathPatterns("/goods/xiou2").excludePathPatterns("/goods/selectBygoodsid")
 		.excludePathPatterns("/member/downloadExcel").excludePathPatterns("/member/queryVipType")
 		.excludePathPatterns("/member/queryVipByid").excludePathPatterns("/member/queryVipTypeByid")
+		.excludePathPatterns("/member/queryvipByViptypeid")
 		.excludePathPatterns("/member/queryvip").excludePathPatterns("/hotcakes/querySpType")
 		.excludePathPatterns("/hotcakes/queryShop").excludePathPatterns("/hotcakes/queryGoods2Byid")
 		.excludePathPatterns("/index/**").excludePathPatterns("/user/getUser").excludePathPatterns("/user/updateUser").excludePathPatterns("/user/uploadFile");

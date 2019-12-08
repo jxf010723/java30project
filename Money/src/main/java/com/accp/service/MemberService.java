@@ -25,6 +25,7 @@ import com.accp.domain.RechargeDeductionExample;
 import com.accp.domain.User;
 import com.accp.domain.UserExample;
 import com.accp.domain.Vip;
+import com.accp.domain.VipExample;
 import com.accp.domain.Viptype;
 import com.accp.domain.memberInfo;
 import com.accp.mapper.IntegralMapper;
@@ -267,5 +268,16 @@ public class MemberService {
 		vip.setIntegral(vip.getIntegral()+jf);
 		vipMapper.updateByPrimaryKey(vip);
 		return 0;
+	}
+	
+	public String queryvipByViptypeid(Integer viptypeId) {
+		VipExample example=new VipExample();
+		example.createCriteria().andViptypeIdEqualTo(viptypeId);
+		List<Vip>list=vipMapper.selectByExample(example);
+		if(list.size()>0) {
+			return "1";
+		}else {
+			return "0";
+		}
 	}
 }

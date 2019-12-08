@@ -312,8 +312,8 @@ public class ShopController {
 	 */
 	@RequestMapping("/queryVip")
 	@ResponseBody
-	public List<All> queryVip(){
-		return service.queryVip();
+	public List<All> queryVip(String vipName){
+		return service.queryVip(vipName);
 	}
 	
 	/**
@@ -332,8 +332,8 @@ public class ShopController {
 	 */
 	@RequestMapping("/queryGoodstype")
 	@ResponseBody
-	public List<All> queryGoodstype(){
-		return service.queryGoodstype();
+	public List<All> queryGoodstype(String duo,String goodsname,String color,String goodssize){
+		return service.queryGoodstype(goodsname, color, goodssize);
 	}
 	
 	/**
